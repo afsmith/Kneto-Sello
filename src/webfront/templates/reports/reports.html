@@ -1,0 +1,44 @@
+{% extends "base_template.html" %}
+{% load i18n %}
+{% block js_scripts %}
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.custom.file.input.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.ui.datepicker.clearDate.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/reports.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/files-manage.js"></script>
+
+{% endblock %}
+{% block title %}{% trans "My reports" %}{% endblock %}}
+{% block close_url %}administration{% endblock %}}
+{% block administrationclass %} class="active"{% endblock %}
+{% block content %}
+<div id="reports" class="columnContent">
+            <div class="boxGray">
+              <div class="inputWrapper shadow-gray">
+                <input id="reportFilter" type="text" value="{% trans "- search by name -" %}"/>
+                <a class="selectButton" href="#"><img class="searchIco" src="{{ MEDIA_URL }}img/blank.gif" alt="" /></a>
+              </div>
+              <a id="addNewReport" href="#" class="button-normal button-big">{% trans "Add new report" %}</a>
+              <div class="hr"></div>
+              <span class="resultHead reportName">{% trans "Report name" %}</span>
+              <span class="resultHead reportCron">&nbsp;</span>
+              <span class="resultHead reportTime">{% trans "Last execution time" %}</span>
+              <ul id="reportsList" class="result shadow-gray list"></ul>
+            </div>
+          </div>
+          <div id="reportDetails" class="columnContent">
+            <div id="reportDetailsWrapper"></div>
+            <div class="hr"></div>
+            <a id="editReport" href="#" class="button-normal button-big-no-width">{% trans "Edit" %}</a>
+            <a id="removeReport" href="#" class="button-normal button-big-no-width">
+            	<img alt="" src="{{ MEDIA_URL }}img/blank.gif" class="icon icoRemove"/>{% trans "Remove" %}</a>
+            <a id="runReport" href="#" class="button-normal button-big-no-width fright">{% trans "Run now!" %}</a>
+	            <a class="button-normal fright marginRight" id="refresh" href="#" onClick="window.location.reload();return false;">{% trans "Refresh" %}</a>
+            <div id="reportFilesWrapper">
+                <div id="reportFiles" class="boxGray">
+                  <ul id="reportFilesList" class="result shadow-gray list"></ul>
+              </div>
+            </div>
+          </div>
+{% endblock %}

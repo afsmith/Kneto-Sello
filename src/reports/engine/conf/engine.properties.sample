@@ -1,0 +1,5 @@
+DB_HOST=localhost
+DB_PORT=5432
+DB_DATABASE=plato_prod
+DB_USER=plato_prod
+DB_PASS=plato

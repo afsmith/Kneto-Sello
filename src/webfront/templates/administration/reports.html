@@ -1,0 +1,34 @@
+{% extends "base_template.html" %}
+{% load i18n %}
+{% block js_scripts %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.custom.file.input.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.ui.datepicker.clearDate.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/reports.js"></script>
+{% endblock %}
+{% block title %}{% trans "Report templates" %}{% endblock %}}
+{% block close_url %}administration{% endblock %}}
+{% block administrationclass %} class="active"{% endblock %}
+{% block content %}
+<div id="reports" class="columnContent">
+            <div class="boxGray">
+              <div class="inputWrapper shadow-gray">
+                <input id="reportFilter" type="text" value="{% trans "- search by name -" %}"/>
+                <a class="selectButton" href="#"><img class="searchIco" src="{{ MEDIA_URL }}img/blank.gif" alt="" /></a>
+              </div>
+              <a id="importNewReport" href="#" class="button-normal button-big">{% trans "Add new template" %}</a>
+              <div class="hr"></div>
+              <span class="resultHead reportName">{% trans "Template name" %}</span>
+              <span class="resultHead reportAuthor">{% trans "Author" %}</span>
+              <ul id="importedReportsList" class="result shadow-gray list"></ul>
+            </div>
+          </div>
+          <div id="importedReportDetails" class="columnContent">
+            <div id="importedReportDetailsWrapper"></div>
+            <div class="hr"></div>
+            <a id="editImportedReport" href="#" class="button-normal button-big-no-width">{% trans "Edit" %}</a>
+            <a id="removeImportedReport" href="#" class="button-normal button-big-no-width">
+            	<img alt="" src="{{ MEDIA_URL }}img/blank.gif" class="icon icoRemove"/>{% trans "Remove" %}</a>
+
+          </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+<project name="Support Jar Maker" default="run" basedir=".">
+  
+    <description>
+    	SCORM Player Support Jar Ant Build File.
+		This will create a Jar containing all the needed runtime files    
+    	and copy over to the bin working directory so it will be there while developing.
+    	
+    	Not needed for a final build.
+    	
+    	$Id: support-jar.xml,v 1.1 2005/03/14 19:17:40 phillipus Exp $
+    </description>
+
+    <!-- Default/Start Target -->
+    <target name="run" description="Generate the jar file" depends="buildit, init, makejar" />
+
+	<!--  Build the JSPs first by doing a build -->  
+	<target name="buildit">
+  		<ant antfile="build.xml" target="run" /> 
+  	</target>
+	
+	<target name="init">
+	    <property name="source.dir"     location=".."/>
+	    <property name="target.dir"     location="../bin"/>
+	    <property name="support.jar"    location="${target.dir}/reload-support.jar"/>
+	</target>
+
+    <target name="makejar">
+        <!-- Delete old stuff -->
+        <delete file="${support.jar}"/>
+
+        <!-- Create a jar using zip so that a manifest is not written -->
+        <zip destfile="${support.jar}" update="false">
+            <fileset dir="${source.dir}">
+                <include name="server/"/>
+                <include name="schema/"/>
+            </fileset>
+        </zip>
+    </target>
+
+</project>

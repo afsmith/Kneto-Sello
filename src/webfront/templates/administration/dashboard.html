@@ -1,0 +1,100 @@
+{% extends "base_template.html" %}
+{% load i18n %}
+{% block meta_title %}{% trans "Dashboard" %}{% endblock %}
+{% block title %}{% trans "Dashboard" %}{% endblock %}
+{% block js_scripts %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.custom.file.input.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/dashboard.js"></script>
+{% endblock %}
+{% block administrationclass %} class="active"{% endblock %}
+{% block content %}
+<div id="dashboardWrapper">
+    {% if 'my_content_stats' in widgets %}
+        <div id="my_content_stats" class="widget short">
+          <div class="header">
+            <h1>{% trans "My content" %}</h1>
+          </div>
+          <div class="separator"></div>
+          <div class="content">
+            <dl>
+            </dl>
+            <div class="clear"></div>
+            <a href="/content/manage/" class="button-gray button-big-no-width">{% trans "Manage content" %}</a>
+          </div>
+        </div>
+    {% endif %}
+
+    {% if 'my_groups_stats' in widgets %}
+        <div id="my_groups_stats" class="widget short">
+          <div class="header">
+            <h1>{% trans "My groups" %}</h1>
+          </div>
+          <div class="separator"></div>
+          <div class="content">
+            <dl>
+            </dl>
+            <div class="clear"></div>
+            <a href="/management/users/" class="button-gray button-big-no-width">{% trans "Manage groups & users" %}</a>
+          </div>
+        </div>
+    {% endif %}
+
+    {% if 'my_reports_stats' in widgets %}
+        <div id="my_reports_stats" class="widget short fright">
+          <div class="header">
+            <h1>{% trans "My reports" %}</h1>
+          </div>
+          <div class="separator"></div>
+          <div class="content">
+            <dl>
+            </dl>
+            <div class="clear"></div>
+            <a href="/reports/" class="button-gray button-big-no-width">{% trans "Manage reports" %}</a>
+          </div>
+        </div>
+    {% endif %}
+
+    {% if 'my_modules_stats' in widgets %}
+        <div id="my_modules_stats" class="widget short fright">
+          <div class="header">
+            <h1>{% trans "My modules" %}</h1>
+          </div>
+          <div class="separator"></div>
+          <div class="content">
+            <dl>
+            </dl>
+            <div class="clear"></div>
+            <a href="/content/" class="button-gray button-big-no-width">{% trans "Manage modules" %}</a>
+          </div>
+        </div>
+    {% endif %}
+
+    {% if 'administrative_tools' in widgets %}
+        <div id="administrative_tools" class="widget short">
+          <div class="header">
+            <h1>{% trans "Administrative tools" %}</h1>
+          </div>
+          <div class="separator"></div>
+          <div class="content">
+            <dl>
+                <dt>{% trans "Quality of video content" %}:</dt><dd id="qualityOfContent"></dd>
+                <dt>{% trans "Use DMS" %}:</dt><dd id="useDms"></dd>
+                <dt>{% trans "Use LDAP" %}:</dt><dd id="useLdap"></dd>
+                <dt>{% trans "Mapped groups" %}:</dt><dd id="mappedGroups"></dd>
+            </dl>
+            <div class="clear"></div>
+            <a href="/administration/content-settings/" class="nyroModal button-gray button-big-no-width">{% trans "Administer content" %}</a>
+            <a href="/administration/gui-settings/" class="nyroModal button-gray button-big-no-width">{% trans "Administer GUI" %}</a>
+            <a href="/administration/reports/" class="button-gray button-big-no-width">{% trans "Administer reports" %}</a>
+            <a href="/messages/templates/" class="nyroModal button-gray button-big-no-width">{% trans "Administer messages" %}</a>
+            {% if settings.REGISTRATION_OPEN %}
+            <a href="{% url administration-self-register-settings %}" class="nyroModal button-gray button-big-no-width">{% trans "Administer Self Registration" %}</a>
+            {% endif %}
+            <a href="/administration/ldap/" class="nyroModal button-gray button-big-no-width">{% trans "Configure LDAP" %}</a>
+            <a href="/administration/ldap-groups/" class="nyroModal button-gray button-big-no-width">{% trans "Map LDAP groups" %}</a>
+          </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

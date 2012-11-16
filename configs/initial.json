@@ -1,0 +1,29 @@
+[
+    {
+        "pk": 1, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "superadmin", 
+            "first_name": "", 
+            "last_name": "", 
+            "is_active": true, 
+            "is_superuser": true, 
+            "is_staff": true, 
+            "last_login": "2011-04-08 16:09:05", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$ee222$74532a2def528d53ea40a6b0d1a6b1bc7f038da8", 
+            "email": "", 
+            "date_joined": "2011-04-08 16:08:19"
+        }
+    },
+    {
+        "pk": 1, 
+        "model": "management.userprofile", 
+        "fields": {
+            "phone": "", 
+            "role": 10, 
+            "language": ""
+        }
+    }
+]

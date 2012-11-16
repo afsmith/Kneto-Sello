@@ -1,0 +1,45 @@
+{% extends "base_template.html" %}
+{% load i18n %}
+{% block js_scripts %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/messages.js"></script>
+{% endblock %}
+{% block bodyclass %}{% if user.get_profile.role == 30 %} class="userView"{% endif %}{% endblock %}
+{% block title %}Messages{% endblock %}
+{% block content %}
+<div id="messagesWrapper">
+  <div class="tabs">
+	<ul>
+	  <li class="first{% block inboxactive %}{% endblock %}">
+	    <span class="left"></span>
+	    <a href="/messages/inbox"><span>{% trans "Received" %}</span></a>
+	    <span class="right"></span>
+	  </li>
+	  <li{% block outboxactive %}{% endblock %}>
+	    <span class="left"></span>
+	    <a href="/messages/outbox"><span>{% trans "Sent" %}</span></a>
+	    <span class="right"></span>
+	  </li>
+	</ul>
+  </div>
+  <div class="messagesBox boxGray">
+    <ul id="messages" class="messagesList boxWhite">
+      {% if message_list %}
+        {% for message in message_list %}
+          <li id="{{ message.pk }}" class="{% cycle 'odd' 'even' %} {% if message.new %}unread{% endif %} {% if forloop.first %}first{% endif %}">
+            {% block row_content %}{% endblock %}
+              {% if message.new %}
+<!--                 <span class="icoNew"></span> -->
+              {% endif %}
+          </li>
+        {% endfor %}
+      {% else %}
+        <li><p>{% trans "No messages" %}</p></li>
+      {% endif %}
+    </ul>
+    <div id="selectedMessage">
+      <div class="messageView boxWhite"></div>
+      <div class="buttons">&nbsp;</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

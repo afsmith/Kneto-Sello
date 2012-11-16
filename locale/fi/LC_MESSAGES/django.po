@@ -1,0 +1,4147 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-10-24 13:16+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+
+#: src/administration/forms.py:30
+#: src/webfront/templates/administration/dashboard.html:83
+msgid "Use LDAP"
+msgstr "Käytä LDAP"
+
+#: src/administration/forms.py:31
+msgid "LDAP URL"
+msgstr "LDAP URL"
+
+#: src/administration/forms.py:32
+msgid "Users DN"
+msgstr "Käyttäjän DN"
+
+#: src/administration/forms.py:33
+msgid "Groups DN"
+msgstr "Ryhmän DN"
+
+#: src/administration/forms.py:34
+msgid "Group type"
+msgstr "Ryhmän nimi"
+
+#: src/administration/forms.py:35
+msgid "User distinguisher"
+msgstr "Käyttäjän tiedot"
+
+#: src/administration/forms.py:36 src/management/forms.py:50
+#: src/self_register/self_register_form.py:19
+#: src/webfront/templates/management/user_profile.html:23
+#: src/webfront/templates/registration/registration_form.html:47
+msgid "First name"
+msgstr "Etunimi"
+
+#: src/administration/forms.py:37 src/management/forms.py:51
+#: src/self_register/self_register_form.py:21
+#: src/webfront/templates/assignments/admin_status.html:65
+#: src/webfront/templates/management/user_profile.html:27
+#: src/webfront/templates/registration/registration_form.html:54
+msgid "Last name"
+msgstr "Sukunimi"
+
+#: src/administration/forms.py:38 src/management/forms.py:52
+#: src/self_register/self_register_form.py:18
+#: src/webfront/templates/management/user_profile.html:31
+#: src/webfront/templates/registration/password_reset_form.html:21
+#: src/webfront/templates/registration/registration_form.html:26
+msgid "Email"
+msgstr "Sähköposti"
+
+#: src/administration/forms.py:39 src/management/forms.py:53
+#: src/webfront/templates/assignments/admin_status.html:67
+#: src/webfront/templates/management/user_profile.html:35
+msgid "Phone"
+msgstr "Puhelin"
+
+#: src/administration/forms.py:78
+#: src/webfront/templates/administration/dashboard.html:81
+msgid "Quality of video content"
+msgstr "videosisälllön laatu"
+
+#: src/administration/forms.py:79
+#: src/webfront/templates/administration/dashboard.html:82
+msgid "Use DMS"
+msgstr "Käytä DMS"
+
+#: src/administration/forms.py:80
+msgid "DMS path"
+msgstr "DMS polku"
+
+#: src/administration/forms.py:88
+msgid "Form field dms_path is required"
+msgstr "Lomakekentän dms_polku on pakollinen"
+
+#: src/administration/forms.py:90
+msgid "Dms path is not valid UNIX path"
+msgstr "Dms polku ei ole voimassa oleva UNIX polku"
+
+#: src/administration/forms.py:99
+msgid "Default language"
+msgstr "Oletuskieli"
+
+#: src/administration/forms.py:100
+msgid "Custom web title"
+msgstr "Muokattu web otsikko"
+
+#: src/administration/forms.py:101
+msgid "Footer"
+msgstr "Ala tunniste"
+
+#: src/administration/forms.py:102
+msgid "Css file"
+msgstr "Css tiedosto"
+
+#: src/administration/forms.py:104
+msgid "Application icons"
+msgstr "Sovellus kuvakkeet"
+
+#: src/administration/forms.py:105
+msgid "Filetype icons"
+msgstr "Tiedostotyyppi kuvakkeet"
+
+#: src/administration/forms.py:106
+msgid "Progress icons"
+msgstr "Entenemis kuvakkeet"
+
+#: src/administration/forms.py:107
+msgid "Main menu bar"
+msgstr "Päävalikkopalkki"
+
+#: src/administration/forms.py:111 src/self_register/self_register_form.py:25
+#: src/webfront/templates/registration/registration_form.html:68
+msgid "Token"
+msgstr "Tunniste"
+
+#: src/administration/forms.py:117 src/content/forms.py:43
+#: src/content/models.py:145 src/content/models.py:674
+#: src/management/forms.py:107 src/reports/forms.py:34
+#: src/reports/models.py:46
+msgid "Name"
+msgstr "Nimi"
+
+#: src/administration/forms.py:118 src/reports/models.py:47
+msgid "Template"
+msgstr "Malli"
+
+#: src/administration/forms.py:120
+msgid "User required"
+msgstr "Vaaditaan Käyttäjä"
+
+#: src/administration/forms.py:121
+msgid "Group required"
+msgstr "Vaaditan ryhmä"
+
+#: src/administration/forms.py:122
+msgid "Course required"
+msgstr "Kurssi vaadittu"
+
+#: src/administration/forms.py:123
+msgid "Admin required"
+msgstr "Admin tarvitaan"
+
+#: src/administration/forms.py:125
+msgid "User visible"
+msgstr "Käyttäjä näkyvillä"
+
+#: src/administration/forms.py:126
+msgid "Group visible"
+msgstr "Ryhmä näkyvillä"
+
+#: src/administration/forms.py:127
+msgid "Course visible"
+msgstr "Kurssi näkyvillä"
+
+#: src/administration/forms.py:128
+msgid "Admin visible"
+msgstr "Admin näkyvillä"
+
+#: src/administration/forms.py:130
+msgid "Date from visible"
+msgstr "näkyvillä päivämäärästä"
+
+#: src/administration/forms.py:131
+msgid "Date to visible"
+msgstr "näkyvillä päivämäärään"
+
+#: src/administration/forms.py:133 src/content/forms.py:48
+#: src/content/models.py:171 src/reports/forms.py:43 src/reports/models.py:51
+msgid "Note"
+msgstr "Huomautus"
+
+#: src/administration/forms.py:143 src/reports/forms.py:63
+#: src/reports/forms.py:68 src/reports/forms.py:72 src/reports/forms.py:76
+#: src/reports/forms.py:80 src/reports/forms.py:84
+msgid "This field is required."
+msgstr "Pakollinen kenttä"
+
+#: src/administration/forms.py:144 src/reports/forms.py:88
+msgid "Please fill up all necessary fields"
+msgstr "Täytä kaikki tarvittavat kentät"
+
+#: src/administration/models.py:81
+msgid "high"
+msgstr "korkea"
+
+#: src/administration/models.py:82
+msgid "medium"
+msgstr "keskipitkät"
+
+#: src/administration/models.py:83
+msgid "low"
+msgstr "matala"
+
+#: src/administration/models.py:103
+msgid "Config entry name"
+msgstr "Config lähtö nimi"
+
+#: src/administration/models.py:104
+msgid "Config entry value"
+msgstr "Config lähtö arvo"
+
+#: src/administration/models.py:133
+msgid "Local group name"
+msgstr "Paikallinen ryhmä nimi"
+
+#: src/administration/models.py:134
+msgid "LDAP group DN"
+msgstr "LDAP-ryhmän DN"
+
+#: src/administration/views.py:123
+msgid "False"
+msgstr "Väärin"
+
+#: src/administration/views.py:125
+msgid "True"
+msgstr "Totta"
+
+#: src/content/course_states.py:34
+msgid "At least one segment is required."
+msgstr "Vaaditaan vähintään yksi segmentti"
+
+#: src/content/course_states.py:38
+#, python-format
+msgid "Segment \"%s\" is expired."
+msgstr "Segmentti \"%s\" on vanhentunut"
+
+#: src/content/course_states.py:40
+#, python-format
+msgid "Segment \"%s\" is removed."
+msgstr "Sisältö \"%s\" on poistettu"
+
+#: src/content/course_states.py:43
+msgid "'Expires to' date must be at least 1 week forward."
+msgstr "'voimassaolo' päivämäärä oltava vähintään 1 viikko tulevaisuuteen"
+
+#: src/content/course_states.py:46
+msgid "Module must have at least one group in \"Can be assigned to\" section."
+msgstr "Moduulilla oltav vähintään yksi ryhmä \"Can be assigned to\" sektiossa"
+
+#: src/content/forms.py:42 src/content/forms.py:107 src/content/forms.py:123
+#: src/content/models.py:173 src/content/models.py:367
+#: src/management/models.py:84 src/self_register/self_register_form.py:23
+#: src/webfront/templates/registration/login.html:73
+#: src/webfront/templates/registration/registration_form.html:61
+msgid "Language"
+msgstr "Kieli"
+
+#: src/content/forms.py:44 src/content/forms.py:108 src/content/models.py:167
+#: src/content/models.py:363
+msgid "Expire date"
+msgstr "Voimassaolopäivä"
+
+#: src/content/forms.py:45 src/content/models.py:168
+msgid "Delete content after expired"
+msgstr "hävitä Voimassaolopäivän päättyimisen jälkeen"
+
+#: src/content/forms.py:46 src/content/forms.py:109 src/content/models.py:169
+msgid "Allow downloading"
+msgstr "Salli lataaminen levylle"
+
+#: src/content/forms.py:47 src/content/models.py:170
+#: src/webfront/templates/assignments/user_modules.html:101
+#: src/webfront/templates/assignments/user_modules.html:212
+#: src/webfront/templates/assignments/user_progress.html:64
+#: src/webfront/templates/assignments/user_progress.html:86
+msgid "Duration"
+msgstr "Kesto"
+
+#: src/content/forms.py:51
+msgid "Owner"
+msgstr "Omistaja"
+
+#: src/content/forms.py:54 src/content/forms.py:113
+#: src/content/serializers.py:26
+msgid "Unspecified"
+msgstr "Määrittelemätön"
+
+#: src/content/forms.py:72
+msgid "Show only from my groups"
+msgstr "Näytä vain omat ryhmät"
+
+#: src/content/forms.py:74
+msgid "Show only my files"
+msgstr "Näytä vain omat tiedostot"
+
+#: src/content/forms.py:76
+msgid "Show inactive files"
+msgstr "Ei käytössä olevat tiedostot"
+
+#: src/content/forms.py:80
+msgid "All types"
+msgstr "Kaikki tyypit"
+
+#: src/content/forms.py:83 src/content/forms.py:130
+msgid "All languages"
+msgstr "Kaikki kielet"
+
+#: src/content/forms.py:105 src/content/models.py:358 src/notepad/models.py:8
+#: src/webfront/templates/assignments/admin_status.html:104
+#: src/webfront/templates/assignments/user_modules.html:93
+#: src/webfront/templates/assignments/user_modules.html:204
+msgid "Title"
+msgstr "Otsikko"
+
+#: src/content/forms.py:106
+#: src/webfront/templates/content/module_viewer.html:34
+msgid "Module objective"
+msgstr "Moduulin tavoite"
+
+#: src/content/forms.py:110 src/content/models.py:370
+#: src/webfront/templates/content/list_modules.html:65
+msgid "Allow skipping"
+msgstr "Salli ohitus"
+
+#: src/content/forms.py:127
+msgid "Add one click link"
+msgstr "Lisää yhden klikin linkki"
+
+#: src/content/models.py:123
+msgid "plain"
+msgstr "tavallinen"
+
+#: src/content/models.py:124
+msgid "image"
+msgstr "kuva"
+
+#: src/content/models.py:125
+msgid "audio"
+msgstr "ääni"
+
+#: src/content/models.py:126
+msgid "video"
+msgstr "video"
+
+#: src/content/models.py:127
+msgid "doc"
+msgstr "doc"
+
+#: src/content/models.py:128
+msgid "ppt"
+msgstr "ppt"
+
+#: src/content/models.py:129
+msgid "scorm"
+msgstr "scorm"
+
+#: src/content/models.py:130
+msgid "pdf"
+msgstr "pdf"
+
+#: src/content/models.py:131
+msgid "html"
+msgstr "html"
+
+#: src/content/models.py:140
+msgid "uploaded"
+msgstr "ladattu"
+
+#: src/content/models.py:141
+msgid "available"
+msgstr "saatavilla"
+
+#: src/content/models.py:142
+#, fuzzy
+msgid "removed"
+msgstr "Poista"
+
+#: src/content/models.py:146
+#: src/webfront/templates/assignments/user_progress.html:106
+msgid "Type"
+msgstr "Tyyppi"
+
+#: src/content/models.py:149
+msgid "Original File Name"
+msgstr "Alkuperäisen tiedoston nimi"
+
+#: src/content/models.py:150 src/reports/models.py:123
+#: src/webfront/templates/base_template.html:64
+#: src/webfront/templates/base_template.html:68
+#: src/webfront/templates/assignments/user_modules.html:3
+#: src/webfront/templates/assignments/user_modules.html:4
+#: src/webfront/templates/content/list_modules.html:35
+msgid "Status"
+msgstr "Tila"
+
+#: src/content/models.py:153
+msgid "Key"
+msgstr "Avain"
+
+#: src/content/models.py:156
+msgid "Original Sub Key"
+msgstr "Alkuperäinen Sub Avain"
+
+#: src/content/models.py:158
+msgid "Converted Sub Key"
+msgstr "Muunnettu Sub Avain"
+
+#: src/content/models.py:160
+msgid "Thumbnail Sub Key"
+msgstr "Thumbnail Sub Avain"
+
+#: src/content/models.py:162
+msgid "Preview Sub Key"
+msgstr "Alkuperäinen Sub Avain"
+
+#: src/content/models.py:165
+msgid "Created on"
+msgstr "Luotu"
+
+#: src/content/models.py:166
+msgid "Updated on"
+msgstr "Päivitetty"
+
+#: src/content/models.py:176
+msgid "Number of content pages"
+msgstr "Sisällön sivumäärä"
+
+#: src/content/models.py:178
+msgid "Content is removed"
+msgstr "Sisältö on poistettu"
+
+#: src/content/models.py:359
+msgid "Objective"
+msgstr "Tavoite"
+
+#: src/content/models.py:360
+msgid "State code"
+msgstr "Status"
+
+#: src/content/models.py:364
+msgid "Publish date"
+msgstr "Julkaisu päivämäärä"
+
+#: src/content/models.py:365
+msgid "Deactivated date"
+msgstr "Poista käytöstä"
+
+#: src/content/models.py:369
+msgid "Allow downloads"
+msgstr "Salli lataaminen levylle"
+
+#: src/content/models.py:439
+msgid "Track"
+msgstr "Kappale"
+
+#: src/content/models.py:440
+msgid "Start offset"
+msgstr "Aloita offset"
+
+#: src/content/models.py:441
+msgid "End offset"
+msgstr "Lopeta offset"
+
+#: src/content/models.py:442
+msgid "Playback mode"
+msgstr "Toistotila"
+
+#: src/content/models.py:684
+msgid "Position"
+msgstr "Kantaan"
+
+#: src/content/views.py:291 src/content/views.py:827
+msgid "Yes"
+msgstr "Kyllä"
+
+#: src/content/views.py:291 src/content/views.py:827
+msgid "No"
+msgstr "Ei"
+
+#: src/content/views.py:489
+msgid "Exceeded maximum file upload size."
+msgstr ""
+
+#: src/content/views.py:493 src/content/views.py:506
+#: src/management/forms.py:144
+msgid "Unsupported file type."
+msgstr "tiedostotyyppiä ei tueta"
+
+#: src/content/views.py:880
+#, python-format
+msgid "Modules assigned to %(group_name)s"
+msgstr ""
+
+#: src/management/forms.py:20 src/management/forms.py:49
+#: src/self_register/forms.py:35 src/self_register/self_register_form.py:16
+#: src/webfront/templates/assignments/admin_status.html:63
+#: src/webfront/templates/management/user_profile.html:19
+#: src/webfront/templates/registration/login.html:61
+#: src/webfront/templates/registration/registration_form.html:19
+msgid "Username"
+msgstr "Käyttäjätunnus"
+
+#: src/management/forms.py:21 src/self_register/forms.py:41
+#: src/webfront/templates/registration/login.html:67
+msgid "Password"
+msgstr "Salasana"
+
+#: src/management/forms.py:28
+msgid "Please enter a correct username and password."
+msgstr "Anna oikea käyttäjätunnus ja salasana."
+
+#: src/management/forms.py:30
+msgid "Please enter a correct username."
+msgstr "Anna oikea käyttäjätunnus."
+
+#: src/management/forms.py:32
+msgid "Please enter a correct password."
+msgstr "Anna oikea salasana."
+
+#: src/management/forms.py:40
+msgid "Group does not exist."
+msgstr "Ryhmä ei ole olemassa"
+
+#: src/management/forms.py:43
+msgid ""
+"Invalid phone number. Numer must consist of + (optional) and digits "
+"separated (or not) with single spaces."
+msgstr ""
+"Virheellinen puhelin numero. Numeron voi sisältää  + ja/tai numeroita "
+"yhteenkirjoitettu tai yksittäisillä välilyönneillä"
+
+#: src/management/forms.py:46
+msgid "You are not authorized to change roles of users."
+msgstr "Sinulla ei ole oikeuksia muuttaa käyttäjä rooleja"
+
+#: src/management/forms.py:57
+msgid "Role"
+msgstr "Rooli"
+
+#: src/management/forms.py:58
+msgid "One click link"
+msgstr "Yhden klikin linkki"
+
+#: src/management/forms.py:89
+msgid ""
+"User with such username already exists. Please enter different username."
+msgstr "Käyttäjä samalla nimellä on jo olemassa. vaihda käyttäjän nimi."
+
+#: src/management/forms.py:127
+msgid "Group with the same name already exists. Please choose different name."
+msgstr "Ryhmä samalla nimellä on jo olemassa. vaihda ryhmän nimi."
+
+#: src/management/forms.py:136 src/reports/models.py:120
+#: src/reports/models.py:121
+msgid "File"
+msgstr "Tiedosto"
+
+#: src/management/forms.py:149
+msgid "Send goodbye email"
+msgstr "Lähetä hyvästi viesti"
+
+#: src/management/forms.py:156
+msgid "Old password is invalid."
+msgstr "Vanha salasana on mitätön"
+
+#: src/management/forms.py:157
+msgid "New password must be repeated twice."
+msgstr "Uusi salasana kirjattava kaksi kertaa"
+
+#: src/management/forms.py:158
+msgid "New password must be different than previous"
+msgstr "Uusi salasana ei voi olla sama kun edellinen"
+
+#: src/management/forms.py:162
+msgid "Old password"
+msgstr "Vanha salasana"
+
+#: src/management/forms.py:165 src/self_register/self_register_form.py:30
+#: src/webfront/templates/registration/password_reset_confirm.html:30
+#: src/webfront/templates/registration/registration_form.html:33
+msgid "New password"
+msgstr "Valitse salasana"
+
+#: src/management/forms.py:174 src/self_register/self_register_form.py:39
+#: src/webfront/templates/registration/registration_form.html:40
+msgid "Repeat new password"
+msgstr "Uudestaan salasana"
+
+#: src/management/forms.py:185
+msgid "New password is required"
+msgstr "Tarvitaan uusi salasana"
+
+#: src/management/forms.py:187
+msgid "Repeat new password is required"
+msgstr "Toista uusi salasana"
+
+#: src/management/models.py:51
+msgid "Access level"
+msgstr "Pääsy tasolla"
+
+#: src/management/models.py:77
+msgid "admin"
+msgstr "admin"
+
+#: src/management/models.py:78 src/self_register/models.py:177
+msgid "user"
+msgstr "käyttäjä"
+
+#: src/management/models.py:82
+msgid "User role"
+msgstr "Käyttäjä rooli"
+
+#: src/management/models.py:83
+msgid "Phone number"
+msgstr "Puhelinnumero"
+
+#: src/management/models.py:85
+msgid "User from LDAP"
+msgstr "Käyttäjä LDAP:sta"
+
+#: src/management/models.py:294 src/management/views.py:358
+#, python-format
+msgid "Imported file has more than maximal number of lines (%d)"
+msgstr "Tuotu tiedosto ylittää max. rivimäärän (%d)"
+
+#: src/management/models.py:307
+#, python-format
+msgid "Missing required header fields: %s."
+msgstr "ylätunniste puuttuu kentät. %s."
+
+#: src/management/models.py:320
+#, python-format
+msgid "Missing username field in row %d."
+msgstr "Käyttäjänimi puuttuu rivillä %d."
+
+#: src/management/models.py:333 src/management/models.py:360
+#, python-format
+msgid "User %(username)s added to group %(groupname)s."
+msgstr "Käyttäjä %(username)s on lisättu ryhmään %(groupname)s"
+
+#: src/management/models.py:336 src/management/models.py:362
+#, python-format
+msgid ""
+"User %(username)s (row %(counter)d) already assigned to this group, skipping."
+msgstr ""
+"Käyttäjä %(username)s (row %(counter)d) on jo lisätty tähän ryhmään, ohita"
+
+#: src/management/models.py:343 src/management/models.py:369
+#, python-format
+msgid "Missing required field values for fields %(mising)s in row %(counter)d"
+msgstr "Kenttien arvot kentille %(mising)s rivissä %(counter)d puuttuu."
+
+#: src/management/models.py:349
+#, python-format
+msgid "User %s already exists with different personal information."
+msgstr "Käyttäjä %s on jo olemassa eri tiedoilla"
+
+#: src/management/models.py:384
+#, python-format
+msgid "Username %s is too long."
+msgstr "Käyttäjänimi %s on liian pitkä."
+
+#: src/management/models.py:387
+#, python-format
+msgid "First name %s is too long."
+msgstr "Etunimi %s on liian pitkä."
+
+#: src/management/models.py:390
+#, python-format
+msgid "Last name %s is too long."
+msgstr "Sukunimi %s on liian pitkä."
+
+#: src/management/models.py:393
+#, python-format
+msgid "Email %s is too long."
+msgstr "Sähköposti %s on liian pitkä."
+
+#: src/management/models.py:396
+#, python-format
+msgid "Email %s is not valid."
+msgstr "Sähköposti %s on väärin."
+
+#: src/management/models.py:399
+#, python-format
+msgid "Phone %s is not valid."
+msgstr "Puhelin %s on väärin."
+
+#: src/management/models.py:416
+#, python-format
+msgid "New user %(username)s was created and added to group %(groupname)s"
+msgstr "Uusi käyttäjä %(username)s on luotu ja lisätty ryhmään %(groupname)s"
+
+#: src/management/views.py:313
+msgid "User has groups not managed by this admin."
+msgstr "Käyttäjä kuuluu ryhmiin joita tämä admin ei hallinnoi"
+
+#: src/management/views.py:316
+msgid "User has started course."
+msgstr "Käyttäjä on aloittanut info paketin."
+
+#: src/management/views.py:326
+#, python-format
+msgid "User with ID %s is not eligable for deletion"
+msgstr "Käyttäjä tunnuksella %s ei ole oikeutettu poistaa"
+
+#: src/management/views.py:378
+#, python-format
+msgid "User successfully deleted %s"
+msgstr "Viesti poistettu %s"
+
+#: src/management/views.py:380
+#, python-format
+msgid "User %s not found"
+msgstr "Käyttäjä %s ei löytynyt"
+
+#: src/management/views.py:382
+#, python-format
+msgid "Unable to delete %s. You can't remove yourself."
+msgstr "Ei ole mahdollista poistaa %s. Et voi poistaa itseäsi."
+
+#: src/management/views.py:387
+msgid "Results of removed users"
+msgstr "Luettelo moduuleista"
+
+#: src/management/views.py:391
+msgid "Remove users listed in the selected file"
+msgstr "Poista valitun tiedoston käyttäjät"
+
+#: src/management/views.py:392
+msgid "remove users"
+msgstr "Poista käyttäjät"
+
+#: src/management/views.py:520 src/management/views.py:535
+#, python-format
+msgid "User with ID %d does not exist."
+msgstr "Käyttäjätunnus %d  ei ole olemassa"
+
+#: src/management/views.py:541 src/management/views.py:665
+msgid "Invalid action specified."
+msgstr "Virheellinen toiminto määritelty"
+
+#: src/management/views.py:637 src/management/views.py:654
+#, python-format
+msgid "Group with ID %d does not exist."
+msgstr "Käyttäjätunnus %d  ei ole olemassa"
+
+#: src/management/views.py:772
+msgid "Results of users import to group:"
+msgstr "Results of users import to group:"
+
+#: src/management/views.py:780
+msgid "Import users to group: "
+msgstr "Tuo käyttäjät ryhmään"
+
+#: src/management/views.py:781
+msgid "import users to group"
+msgstr "Tuo käyttäjät ryhmään"
+
+#: src/messages_custom/forms.py:6
+#: src/webfront/templates/messages/templates.html:28
+msgid "Subject"
+msgstr "Aihe"
+
+#: src/messages_custom/forms.py:7
+msgid "Body"
+msgstr "Sisältö"
+
+#: src/messages_custom/forms.py:11 src/notepad/models.py:9
+msgid "Content"
+msgstr "Sisältö"
+
+#: src/messages_custom/views.py:42
+#, python-format
+msgid ""
+"%(date)s, %(sender)s wrote:\n"
+"%(body)s\n"
+"\n"
+msgstr ""
+"%(date)s, %(sender)s kirjoitti:\n"
+"%(body)s\n"
+"\n"
+
+#: src/messages_custom/views.py:46
+#, python-format
+msgid "Re: %(subject)s"
+msgstr "VS: %(subject)s"
+
+#: src/messages_custom/views.py:78
+msgid "Message successfully deleted."
+msgstr "Viesti poistettu"
+
+#: src/reports/forms.py:19
+msgid "Show all"
+msgstr "Näytä kaikki"
+
+#: src/reports/forms.py:24
+msgid "Monday"
+msgstr "Maanantai"
+
+#: src/reports/forms.py:25
+msgid "Tuesday"
+msgstr "Tiistai"
+
+#: src/reports/forms.py:26
+msgid "Wednesday"
+msgstr "Keskiviikko"
+
+#: src/reports/forms.py:27
+msgid "Thursday"
+msgstr "Torstai"
+
+#: src/reports/forms.py:28
+msgid "Friday"
+msgstr "Perjantai"
+
+#: src/reports/forms.py:29
+msgid "Saturday"
+msgstr "Lauantai"
+
+#: src/reports/forms.py:30
+msgid "Sunday"
+msgstr "Sunnuntai"
+
+#: src/reports/forms.py:36
+msgid "Template report"
+msgstr "Pohja raportti"
+
+#: src/reports/forms.py:38
+msgid "Execution"
+msgstr "Täytäntöönpano"
+
+#: src/reports/forms.py:39 src/reports/forms.py:40
+msgid " "
+msgstr " "
+
+#: src/reports/forms.py:41
+msgid "Schedule hour"
+msgstr "Ajasta tunti"
+
+#: src/reports/forms.py:46
+msgid "User"
+msgstr "Käyttäjä"
+
+#: src/reports/forms.py:47
+#: src/webfront/templates/registration/registration_form.html:75
+msgid "Group"
+msgstr "Yritys"
+
+#: src/reports/forms.py:48
+msgid "Course"
+msgstr "Kurssi näkyvillä"
+
+#: src/reports/forms.py:50
+msgid "Admin"
+msgstr "Admin"
+
+#: src/reports/forms.py:52
+msgid "Date from"
+msgstr "Päviämäärästä"
+
+#: src/reports/forms.py:53
+msgid "Date to"
+msgstr "Päivämäärään"
+
+#: src/reports/models.py:18
+msgid "PDF"
+msgstr "PDF"
+
+#: src/reports/models.py:19
+msgid "HTML"
+msgstr "HTML"
+
+#: src/reports/models.py:27
+msgid "On demand"
+msgstr "Vaadittaessa"
+
+#: src/reports/models.py:28
+msgid "Once a day"
+msgstr "Kerran päivässä"
+
+#: src/reports/models.py:29
+msgid "Once a week"
+msgstr "Kerran viikossa"
+
+#: src/reports/models.py:30
+msgid "Once a month"
+msgstr "Kerran kuukaudessa"
+
+#: src/reports/models.py:48 src/reports/models.py:122
+msgid "Creation date"
+msgstr "Luontipäivämäärä"
+
+#: src/reports/models.py:49
+msgid "Modification date"
+msgstr "Muutos päiväys"
+
+#: src/reports/models.py:50
+msgid "Last run"
+msgstr "Edellinen ajo"
+
+#: src/reports/models.py:53
+msgid "Schedule"
+msgstr "Aikataulu"
+
+#: src/reports/models.py:54
+msgid "Run on"
+msgstr "Aja raportti pvm"
+
+#: src/reports/models.py:55
+msgid "Run hour"
+msgstr "Aja raportti klo"
+
+#: src/reports/models.py:115
+msgid "Report generated successfully"
+msgstr "Raportti luotu onnistuneesti"
+
+#: src/reports/models.py:116
+msgid "Report generation failed"
+msgstr "Raportin luonti epäonnistui"
+
+#: src/self_register/admin.py:23
+msgid "Activate users"
+msgstr "Aktivoi"
+
+#: src/self_register/admin.py:43
+msgid "Re-send activation emails"
+msgstr "Ota uudelleen käyttöön"
+
+#: src/self_register/forms.py:36
+msgid "This value may contain only letters, numbers and @/./+/-/_ characters."
+msgstr ""
+"Tämä kenttä voi sisältää vain kirjaimia, numeroita ja @/./+/-/_ merkkejä."
+
+#: src/self_register/forms.py:39 src/self_register/reset_password_form.py:13
+#: src/webfront/templates/assignments/admin_status.html:66
+msgid "E-mail"
+msgstr "Sähköposti"
+
+#: src/self_register/forms.py:43
+msgid "Password (again)"
+msgstr "Salasana"
+
+#: src/self_register/forms.py:53
+msgid "A user with that username already exists."
+msgstr "Käyttäjä samalla nimellä on jo olemassa. vaihda käyttäjän nimi."
+
+#: src/self_register/forms.py:67
+msgid "The two password fields didn't match."
+msgstr "Salasanat eivät täsmänneet."
+
+#: src/self_register/forms.py:78
+msgid "I have read and agree to the Terms of Service"
+msgstr "Olen lukenut ja hyväksyn käyttöehdot"
+
+#: src/self_register/forms.py:79
+msgid "You must agree to the terms to register"
+msgstr "Sinun on hyväksyttävä ehdot ennen rekisteröintiä"
+
+#: src/self_register/forms.py:95 src/self_register/self_register_form.py:45
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr "Tämä sähköpostiosoite on jo käytössä.Lisää toinen sähköpostiosoite."
+
+#: src/self_register/forms.py:121
+msgid ""
+"Registration using free email addresses is prohibited. Please supply a "
+"different email address."
+msgstr ""
+"Rekisteröinti käyttäen ilmaisia sähköpostiosoitteita ei ole sallittu. Lisää "
+"toinen sähköpostiosoite."
+
+#: src/self_register/models.py:178
+msgid "activation key"
+msgstr "Poista käytöstä"
+
+#: src/self_register/models.py:183
+msgid "registration profile"
+msgstr "Käyttäjä rooli"
+
+#: src/self_register/models.py:184
+msgid "registration profiles"
+msgstr "Käyttäjä rooli"
+
+#: src/self_register/reset_password_form.py:29
+msgid ""
+"That e-mail address doesn't have an associated user account. Are you sure "
+"you've registered?"
+msgstr ""
+"Tähän sähköpostiosoitteeseen ei ole liitetty käyttäjä tiliä. Oletko varma että"
+"olet rekisteröitynyt?"
+
+#: src/self_register/reset_password_form.py:35
+msgid ""
+"More than one user account use this e-mail. You should report it to an "
+"administrator."
+msgstr ""
+"Useammalla kun yhdellä käyttäjätilillä on sama sähköpostiosoite. "
+"Ystävällisesti ilmoita"
+
+#: src/self_register/reset_password_form.py:67
+#, fuzzy, python-format
+msgid "Password reset on %s"
+msgstr "Salasana"
+
+#: src/self_register/self_register_form.py:51
+msgid "Invalid Token."
+msgstr "Väära avain"
+
+#: src/tagging/models.py:9
+msgid "tag name"
+msgstr "tunnisteen nimi (tagi)"
+
+#: src/tagging/models.py:10
+msgid "is default"
+msgstr "on oletus"
+
+#: src/tracking/models.py:18
+msgid "event type"
+msgstr "tapahtuma tyyppi"
+
+#: src/tracking/models.py:19
+msgid "is scorm"
+msgstr "on SCORM"
+
+#: src/tracking/models.py:20
+msgid "scorm min score"
+msgstr "SCORM min. pisteet"
+
+#: src/tracking/models.py:21
+msgid "scorm raw score"
+msgstr "SCORM  pisteet (RAW)"
+
+#: src/tracking/models.py:22
+msgid "scorm max score"
+msgstr "SCORM max. pisteet"
+
+#: src/tracking/models.py:23
+msgid "lesson status"
+msgstr "Admin tila"
+
+#: src/tracking/models.py:25
+msgid "scorm status"
+msgstr "Admin tila"
+
+#: src/webfront/settings.py:35 src/webfront/settings.py:100
+msgid "English"
+msgstr "Englanti"
+
+#: src/webfront/settings.py:36 src/webfront/settings.py:101
+msgid "Finnish"
+msgstr "Suomi"
+
+#: src/webfront/settings.py:37 src/webfront/settings.py:102
+msgid "Swedish"
+msgstr "Ruotsi"
+
+#: src/webfront/settings.py:38
+msgid "Arabic"
+msgstr "Arabia"
+
+#: src/webfront/settings.py:39
+msgid "Bulgarian"
+msgstr "Bulgaria"
+
+#: src/webfront/settings.py:40
+msgid "Bengali"
+msgstr "Bengali"
+
+#: src/webfront/settings.py:41
+msgid "Bosnian"
+msgstr "Bosnia"
+
+#: src/webfront/settings.py:42
+msgid "Catalan"
+msgstr "Katalania"
+
+#: src/webfront/settings.py:43
+msgid "Czech"
+msgstr "Tsekki"
+
+#: src/webfront/settings.py:44
+msgid "Welsh"
+msgstr "Walesin"
+
+#: src/webfront/settings.py:45
+msgid "Danish"
+msgstr "Tanska"
+
+#: src/webfront/settings.py:46
+msgid "German"
+msgstr "Saksa"
+
+#: src/webfront/settings.py:47
+msgid "Greek"
+msgstr "Kreikka"
+
+#: src/webfront/settings.py:48
+msgid "British English"
+msgstr "Englanti"
+
+#: src/webfront/settings.py:49
+msgid "Spanish"
+msgstr "Espanja"
+
+#: src/webfront/settings.py:50
+msgid "Argentinian Spanish"
+msgstr "Argentiinan Espanja"
+
+#: src/webfront/settings.py:51
+msgid "Estonian"
+msgstr "Eesti"
+
+#: src/webfront/settings.py:52
+msgid "Basque"
+msgstr "Baski"
+
+#: src/webfront/settings.py:53
+msgid "Persian"
+msgstr "Persia"
+
+#: src/webfront/settings.py:54
+msgid "French"
+msgstr "Ranska"
+
+#: src/webfront/settings.py:55
+msgid "Frisian"
+msgstr "Friisin kieli"
+
+#: src/webfront/settings.py:56
+msgid "Irish"
+msgstr "Irlannin Englanti"
+
+#: src/webfront/settings.py:57
+msgid "Galician"
+msgstr ""
+
+#: src/webfront/settings.py:58
+msgid "Hebrew"
+msgstr "Heprea"
+
+#: src/webfront/settings.py:59
+msgid "Hindi"
+msgstr "Hindu"
+
+#: src/webfront/settings.py:60
+msgid "Croatian"
+msgstr "Kroatia"
+
+#: src/webfront/settings.py:61
+msgid "Hungarian"
+msgstr "Unkari"
+
+#: src/webfront/settings.py:62
+msgid "Indonesian"
+msgstr "Indonesia"
+
+#: src/webfront/settings.py:63
+msgid "Icelandic"
+msgstr "Islanti"
+
+#: src/webfront/settings.py:64
+msgid "Italian"
+msgstr "Italia"
+
+#: src/webfront/settings.py:65
+msgid "Japanese"
+msgstr "Japani"
+
+#: src/webfront/settings.py:66
+msgid "Georgian"
+msgstr "Georgia"
+
+#: src/webfront/settings.py:67
+msgid "Khmer"
+msgstr "Khmeeri"
+
+#: src/webfront/settings.py:68
+msgid "Kannada"
+msgstr "Kanadan Englanti"
+
+#: src/webfront/settings.py:69
+msgid "Korean"
+msgstr " Korea"
+
+#: src/webfront/settings.py:70
+msgid "Lithuanian"
+msgstr "Lituania"
+
+#: src/webfront/settings.py:71
+msgid "Latvian"
+msgstr "Latvia"
+
+#: src/webfront/settings.py:72
+msgid "Macedonian"
+msgstr "Makedonia"
+
+#: src/webfront/settings.py:73
+msgid "Malayalam"
+msgstr "Malai"
+
+#: src/webfront/settings.py:74
+msgid "Mongolian"
+msgstr "Mongolia"
+
+#: src/webfront/settings.py:75
+msgid "Dutch"
+msgstr "Hollanti"
+
+#: src/webfront/settings.py:76
+msgid "Norwegian"
+msgstr "Norja"
+
+#: src/webfront/settings.py:77
+msgid "Norwegian Bokmal"
+msgstr "Norja Kirjakieli"
+
+#: src/webfront/settings.py:78
+msgid "Norwegian Nynorsk"
+msgstr "Norja Uusi"
+
+#: src/webfront/settings.py:79
+msgid "Polish"
+msgstr "Puola"
+
+#: src/webfront/settings.py:80
+msgid "Portuguese"
+msgstr "Portugali"
+
+#: src/webfront/settings.py:81
+msgid "Brazilian Portuguese"
+msgstr "Brasilian Portugali"
+
+#: src/webfront/settings.py:82
+msgid "Romanian"
+msgstr "Romania"
+
+#: src/webfront/settings.py:83
+msgid "Russian"
+msgstr "Venäjä"
+
+#: src/webfront/settings.py:84
+msgid "Slovak"
+msgstr "Slovakia"
+
+#: src/webfront/settings.py:85
+msgid "Slovenian"
+msgstr "Slovenia"
+
+#: src/webfront/settings.py:86
+msgid "Albanian"
+msgstr "Albania"
+
+#: src/webfront/settings.py:87
+msgid "Serbian"
+msgstr "Serbia"
+
+#: src/webfront/settings.py:88
+msgid "Serbian Latin"
+msgstr "Serbian Latina"
+
+#: src/webfront/settings.py:89
+msgid "Tamil"
+msgstr "Tamili"
+
+#: src/webfront/settings.py:90
+msgid "Telugu"
+msgstr "Telugu"
+
+#: src/webfront/settings.py:91
+msgid "Thai"
+msgstr "Thai"
+
+#: src/webfront/settings.py:92
+msgid "Turkish"
+msgstr "Turkki"
+
+#: src/webfront/settings.py:93
+msgid "Ukrainian"
+msgstr "Ukraina"
+
+#: src/webfront/settings.py:94
+msgid "Vietnamese"
+msgstr "Vietnam"
+
+#: src/webfront/settings.py:95
+msgid "Simplified Chinese"
+msgstr "Kiina"
+
+#: src/webfront/settings.py:96
+msgid "Traditional Chinese"
+msgstr "Kiina Perinteinen"
+
+#: src/webfront/templates/403.html:30
+msgid "Sorry:"
+msgstr ""
+
+#: src/webfront/templates/base_template.html:57
+#: src/webfront/templates/messages/inbox.html:4
+#: src/webfront/templates/messages/outbox.html:4
+msgid "Messages"
+msgstr "Ei viestejä"
+
+#: src/webfront/templates/base_template.html:65
+msgid "Continue Module"
+msgstr "Jatka edellistä"
+
+#: src/webfront/templates/base_template.html:66
+#: src/webfront/templates/notepad/notepad.html:3
+#: src/webfront/templates/notepad/notepad.html:7
+msgid "Notepad"
+msgstr "Muistio"
+
+#: src/webfront/templates/base_template.html:69
+#: src/webfront/templates/administration/dashboard.html:23
+#: src/webfront/templates/content/files_manage.html:3
+#: src/webfront/templates/content/files_manage.html:4
+msgid "Manage content"
+msgstr "Muokkaa sisältöä"
+
+#: src/webfront/templates/base_template.html:70
+#: src/webfront/templates/administration/dashboard.html:68
+#: src/webfront/templates/content/list_modules.html:3
+#: src/webfront/templates/content/list_modules.html:4
+msgid "Manage modules"
+msgstr "Muokkaa moduulit"
+
+#: src/webfront/templates/base_template.html:71
+#: src/webfront/templates/content/list_modules.html:118
+#: src/webfront/templates/content/module_assignment.html:3
+#: src/webfront/templates/content/module_assignment.html:4
+msgid "Assignments"
+msgstr "Toimeksiannot"
+
+#: src/webfront/templates/base_template.html:72
+msgid "Administration"
+msgstr "Hallinto"
+
+#: src/webfront/templates/base_template.html:83
+msgid "Log out"
+msgstr "Kirjaudu ulos"
+
+#: src/webfront/templates/administration/content_settings.html:4
+#: src/webfront/templates/administration/dashboard.html:87
+msgid "Administer content"
+msgstr "Hallinnoi sisältöä"
+
+#: src/webfront/templates/administration/content_settings.html:9
+#: src/webfront/templates/administration/gui_settings.html:71
+#: src/webfront/templates/administration/ldap_settings.html:9
+#: src/webfront/templates/administration/reports_import.html:9
+#: src/webfront/templates/administration/self_register_settings.html:25
+#: src/webfront/templates/content/module_creator.html:107
+#: src/webfront/templates/messages/templates.html:61
+#: src/webfront/templates/notepad/notepad.html:32
+#: src/webfront/templates/reports/create.html:15
+msgid "Save"
+msgstr "Tallenna"
+
+#: src/webfront/templates/administration/dashboard.html:3
+#: src/webfront/templates/administration/dashboard.html:4
+msgid "Dashboard"
+msgstr "Kojelauta"
+
+#: src/webfront/templates/administration/dashboard.html:16
+msgid "My content"
+msgstr "Uusi Sisältö"
+
+#: src/webfront/templates/administration/dashboard.html:31
+#: src/webfront/templates/content/list_modules.html:108
+#: src/webfront/templates/content/module_assignment.html:99
+#: src/webfront/templates/management/users.html:33
+msgid "My groups"
+msgstr "Omat ryhmät"
+
+#: src/webfront/templates/administration/dashboard.html:38
+msgid "Manage groups & users"
+msgstr "Muokkaa ryhmät"
+
+#: src/webfront/templates/administration/dashboard.html:46
+#: src/webfront/templates/reports/reports.html:12
+msgid "My reports"
+msgstr "Omat raportit"
+
+#: src/webfront/templates/administration/dashboard.html:53
+msgid "Manage reports"
+msgstr "Omat raportit"
+
+#: src/webfront/templates/administration/dashboard.html:61
+#: src/webfront/templates/assignments/user_modules.html:16
+#: src/webfront/templates/content/module_assignment.html:17
+msgid "My modules"
+msgstr "Omat moduulit"
+
+#: src/webfront/templates/administration/dashboard.html:76
+msgid "Administrative tools"
+msgstr "Hallinnon työkalut"
+
+#: src/webfront/templates/administration/dashboard.html:84
+msgid "Mapped groups"
+msgstr "Kartoitetut ryhmät"
+
+#: src/webfront/templates/administration/dashboard.html:88
+#: src/webfront/templates/administration/gui_settings.html:4
+msgid "Administer GUI"
+msgstr "Hallinnoi GUI"
+
+#: src/webfront/templates/administration/dashboard.html:89
+msgid "Administer reports"
+msgstr "Hallinnoi raportteja"
+
+#: src/webfront/templates/administration/dashboard.html:90
+msgid "Administer messages"
+msgstr "Hallinnoi Viestit"
+
+#: src/webfront/templates/administration/dashboard.html:92
+#: src/webfront/templates/administration/self_register_settings.html:4
+msgid "Administer Self Registration"
+msgstr "Hallinnoi itse rekisteröinti käytöstä"
+
+#: src/webfront/templates/administration/dashboard.html:94
+#: src/webfront/templates/administration/ldap_settings.html:4
+msgid "Configure LDAP"
+msgstr "Konfiguroi LDAP"
+
+#: src/webfront/templates/administration/dashboard.html:95
+#: src/webfront/templates/administration/ldap_groups.html:4
+msgid "Map LDAP groups"
+msgstr "Mapita LDAP-ryhmät"
+
+#: src/webfront/templates/administration/gui_settings.html:38
+#: src/webfront/templates/administration/gui_settings.html:45
+#: src/webfront/templates/administration/gui_settings.html:52
+#: src/webfront/templates/administration/gui_settings.html:59
+#: src/webfront/templates/administration/gui_settings.html:66
+msgid "Upload new"
+msgstr "Lataa tiedosto"
+
+#: src/webfront/templates/administration/gui_settings.html:39
+#: src/webfront/templates/administration/gui_settings.html:46
+#: src/webfront/templates/administration/gui_settings.html:53
+#: src/webfront/templates/administration/gui_settings.html:60
+#: src/webfront/templates/administration/gui_settings.html:67
+#: src/webfront/templates/messages/templates.html:56
+msgid "Back to default"
+msgstr "Palaa oletus arvoon"
+
+#: src/webfront/templates/administration/ldap_groups.html:8
+msgid "Group name"
+msgstr "Ryhmän nimi"
+
+#: src/webfront/templates/administration/ldap_groups.html:9
+msgid "Group DN"
+msgstr "Ryhmän DN"
+
+#: src/webfront/templates/administration/ldap_groups.html:21
+#: src/webfront/templates/administration/reports.html:29
+#: src/webfront/templates/content/module_creator.html:98
+#: src/webfront/templates/management/users.html:47
+#: src/webfront/templates/reports/reports.html:33
+msgid "Edit"
+msgstr "Muokkaa"
+
+#: src/webfront/templates/administration/ldap_groups.html:22
+#: src/webfront/templates/administration/reports.html:31
+#: src/webfront/templates/content/list_modules.html:20
+#: src/webfront/templates/content/list_modules.html:21
+#: src/webfront/templates/content/module_creator.html:100
+#: src/webfront/templates/management/users.html:48
+#: src/webfront/templates/messages/view.html:19
+#: src/webfront/templates/notepad/notepad.html:34
+#: src/webfront/templates/reports/reports.html:35
+msgid "Remove"
+msgstr "Poista"
+
+#: src/webfront/templates/administration/ldap_groups.html:23
+msgid "Synchronize"
+msgstr "Synkronoi"
+
+#: src/webfront/templates/administration/ldap_groups.html:29
+msgid "Add new group mapping"
+msgstr "Lisää uusi ryhmä kartoitus"
+
+#: src/webfront/templates/administration/ldap_groups.html:39
+msgid "Add"
+msgstr "Lisää"
+
+#: src/webfront/templates/administration/ldap_groups.html:44
+msgid "Close"
+msgstr "Sulje"
+
+#: src/webfront/templates/administration/reports.html:9
+msgid "Report templates"
+msgstr "Raportoi nimi"
+
+#: src/webfront/templates/administration/reports.html:16
+#: src/webfront/templates/assignments/admin_status.html:32
+#: src/webfront/templates/content/files_manage.html:20
+#: src/webfront/templates/content/list_modules.html:23
+#: src/webfront/templates/content/module_assignment.html:63
+#: src/webfront/templates/content/module_creator.html:21
+#: src/webfront/templates/management/users.html:20
+#: src/webfront/templates/management/users.html:51
+#: src/webfront/templates/reports/reports.html:19
+msgid "- search by name -"
+msgstr "- Hae nimellä. -"
+
+#: src/webfront/templates/administration/reports.html:19
+msgid "Add new template"
+msgstr "Lisää uusi raportti"
+
+#: src/webfront/templates/administration/reports.html:21
+msgid "Template name"
+msgstr "Malli"
+
+#: src/webfront/templates/administration/reports.html:22
+#: src/webfront/templates/assignments/admin_status.html:103
+#: src/webfront/templates/assignments/user_modules.html:55
+#: src/webfront/templates/assignments/user_modules.html:134
+#: src/webfront/templates/assignments/user_modules.html:169
+#: src/webfront/templates/content/module_assignment.html:80
+msgid "Author"
+msgstr "Tekijä"
+
+#: src/webfront/templates/administration/reports_import.html:4
+msgid "Reports import"
+msgstr "Tuo raportit"
+
+#: src/webfront/templates/administration/reports_import.html:9
+#: src/webfront/templates/reports/create.html:15
+msgid "changes"
+msgstr "muutokset"
+
+#: src/webfront/templates/assignments/admin_status.html:3
+#: src/webfront/templates/assignments/admin_status.html:4
+msgid "Admin status"
+msgstr "Admin tila"
+
+#: src/webfront/templates/assignments/admin_status.html:14
+#: src/webfront/templates/assignments/admin_status.html:21
+#: src/webfront/templates/content/list_modules.html:111
+msgid "-- no group selected --"
+msgstr "-- ryhmää ei valittu --"
+
+#: src/webfront/templates/assignments/admin_status.html:29
+msgid "To group"
+msgstr "Ryhmään"
+
+#: src/webfront/templates/assignments/admin_status.html:37
+#: src/webfront/templates/management/users.html:41
+msgid "Show only my groups"
+msgstr "Näytä vain omat ryhmät"
+
+#: src/webfront/templates/assignments/admin_status.html:49
+#: src/webfront/templates/messages/compose.html:20
+#: src/webfront/templates/messages/outbox.html:8
+#: src/webfront/templates/messages/view.html:5
+msgid "To"
+msgstr "Kenelle"
+
+#: src/webfront/templates/assignments/admin_status.html:49
+msgid "people"
+msgstr "henkilöä"
+
+#: src/webfront/templates/assignments/admin_status.html:64
+msgid "First Name"
+msgstr "Etunimi"
+
+#: src/webfront/templates/assignments/admin_status.html:68
+msgid "Last login"
+msgstr "Edellinen kirjautuminen"
+
+#: src/webfront/templates/assignments/admin_status.html:69
+msgid "Groups"
+msgstr "Yritys"
+
+#: src/webfront/templates/assignments/admin_status.html:105
+#: src/webfront/templates/assignments/user_modules.html:63
+#: src/webfront/templates/assignments/user_modules.html:142
+#: src/webfront/templates/assignments/user_modules.html:177
+#: src/webfront/templates/content/list_modules.html:51
+msgid "Published"
+msgstr "Julkaistu"
+
+#: src/webfront/templates/assignments/admin_status.html:116
+msgid "No users in this group"
+msgstr "Tässä ryhmässä ei käyttäjiä"
+
+#: src/webfront/templates/assignments/admin_status.html:120
+msgid "No group selected"
+msgstr "Mikään ryhmä ei ole valittu"
+
+#: src/webfront/templates/assignments/user_modules.html:21
+msgid "Archive"
+msgstr "Arkisto"
+
+#: src/webfront/templates/assignments/user_modules.html:29
+msgid "-- All groups --"
+msgstr "- Kaikki ryhmät -"
+
+#: src/webfront/templates/assignments/user_modules.html:40
+#: src/webfront/templates/assignments/user_modules.html:126
+#: src/webfront/templates/assignments/user_modules.html:154
+msgid "New"
+msgstr "Uusi"
+
+#: src/webfront/templates/assignments/user_modules.html:43
+#: src/webfront/templates/assignments/user_modules.html:157
+msgid "View Content"
+msgstr "Sisältö"
+
+#: src/webfront/templates/assignments/user_modules.html:48
+#: src/webfront/templates/assignments/user_modules.html:162
+msgid "Send a message to the author"
+msgstr "Lähetä viesti"
+
+#: src/webfront/templates/assignments/user_progress.html:3
+#: src/webfront/templates/assignments/user_progress.html:4
+msgid "User progress"
+msgstr "Moduulin läpikäynti"
+
+#: src/webfront/templates/assignments/user_progress.html:16
+msgid "User Name"
+msgstr "Nimi"
+
+#: src/webfront/templates/assignments/user_progress.html:64
+msgid "min"
+msgstr "min"
+
+#: src/webfront/templates/assignments/user_progress.html:65
+msgid "Total time"
+msgstr "Kokonaisaika"
+
+#: src/webfront/templates/assignments/user_progress.html:66
+msgid "Download count"
+msgstr "Ladattu levylle"
+
+#: src/webfront/templates/assignments/user_progress.html:83
+msgid "User log"
+msgstr "Käyttäjä loki"
+
+#: src/webfront/templates/assignments/user_progress.html:85
+msgid "Date"
+msgstr "Päivämäärä"
+
+#: src/webfront/templates/assignments/user_progress.html:87
+#: src/webfront/templates/assignments/user_progress.html:108
+msgid "Result"
+msgstr "Tulos"
+
+#: src/webfront/templates/assignments/user_progress.html:103
+msgid "Results log"
+msgstr "Tulosloki"
+
+#: src/webfront/templates/assignments/user_progress.html:105
+msgid "Id"
+msgstr "käyttäjätunnus"
+
+#: src/webfront/templates/assignments/user_progress.html:107
+msgid "Student response"
+msgstr "käyttäjän vastaus"
+
+#: src/webfront/templates/content/files_manage.html:17
+#: src/webfront/templates/content/module_creator.html:18
+msgid "Search for"
+msgstr "Etsi"
+
+#: src/webfront/templates/content/files_manage.html:38
+#: src/webfront/templates/content/module_creator.html:39
+msgid "By tags"
+msgstr "Tunnisteen mukaan"
+
+#: src/webfront/templates/content/files_manage.html:41
+#: src/webfront/templates/content/module_content.html:138
+#: src/webfront/templates/content/module_creator.html:42
+msgid "Add tag"
+msgstr "Lisää tunniste"
+
+#: src/webfront/templates/content/files_manage.html:69
+#: src/webfront/templates/content/module_creator.html:72
+msgid "File search"
+msgstr "Haku"
+
+#: src/webfront/templates/content/files_manage.html:69
+#: src/webfront/templates/content/module_creator.html:72
+msgid "results"
+msgstr "Tiedostoa"
+
+#: src/webfront/templates/content/files_manage.html:85
+msgid "Import new file"
+msgstr "Tuo uusi tiedosto"
+
+#: src/webfront/templates/content/files_manage.html:86
+#: src/webfront/templates/reports/reports.html:37
+msgid "Refresh"
+msgstr "Päivitä"
+
+#: src/webfront/templates/content/list_modules.html:13
+#: src/webfront/templates/content/module_creator.html:101
+msgid "Create new"
+msgstr "Luo uusi"
+
+#: src/webfront/templates/content/list_modules.html:14
+msgid "New from a copy"
+msgstr "Uusi kopiosta"
+
+#: src/webfront/templates/content/list_modules.html:15
+msgid "Activate"
+msgstr "Aktivoi"
+
+#: src/webfront/templates/content/list_modules.html:16
+msgid "Re-activate"
+msgstr "Ota uudelleen käyttöön"
+
+#: src/webfront/templates/content/list_modules.html:17
+msgid "Deactivate"
+msgstr "Poista käytöstä"
+
+#: src/webfront/templates/content/list_modules.html:18
+msgid "To draft"
+msgstr "Laatia"
+
+#: src/webfront/templates/content/list_modules.html:33
+#: src/webfront/templates/content/module_assignment.html:79
+msgid "Module title"
+msgstr "Moduulin otsikko"
+
+#: src/webfront/templates/content/list_modules.html:34
+msgid "Assigned"
+msgstr "Osoitettu"
+
+#: src/webfront/templates/content/list_modules.html:38
+msgid "Continue editing"
+msgstr "Jatka muokkaamista"
+
+#: src/webfront/templates/content/list_modules.html:49
+msgid "Created"
+msgstr "Luotu"
+
+#: src/webfront/templates/content/list_modules.html:50
+msgid "Modified"
+msgstr "Muokattu"
+
+#: src/webfront/templates/content/list_modules.html:52
+msgid "Deactivated"
+msgstr "Poista köytöstä"
+
+#: src/webfront/templates/content/list_modules.html:94
+msgid "Can be assigned to"
+msgstr "Voidaan liittää"
+
+#: src/webfront/templates/content/list_modules.html:99
+msgid "- choose group -"
+msgstr "- Valitse ryhmä -"
+
+#: src/webfront/templates/content/list_modules.html:105
+#: src/webfront/templates/content/module_assignment.html:96
+msgid "Add group"
+msgstr "Lisää ryhmä"
+
+#: src/webfront/templates/content/list_modules.html:121
+msgid "Change assignments"
+msgstr "Muuta toimeksiannot"
+
+#: src/webfront/templates/content/list_modules.html:124
+#: src/webfront/templates/management/edit_group.html:14
+#: src/webfront/templates/management/user_pass_change.html:53
+#: src/webfront/templates/management/dialogs/edit_user.html:83
+msgid "Save changes"
+msgstr "Lähetä Moduuli"
+
+#: src/webfront/templates/content/module_assignment.html:22
+msgid "Other modules"
+msgstr "Muut moduulit"
+
+#: src/webfront/templates/content/module_assignment.html:36
+#: src/webfront/templates/content/module_assignment.html:44
+#: src/webfront/templates/management/users.html:13
+msgid "All groups"
+msgstr "Kaikki ryhmät"
+
+#: src/webfront/templates/content/module_assignment.html:114
+msgid "Publish"
+msgstr "Julkaise"
+
+#: src/webfront/templates/content/module_content.html:3
+#: src/webfront/templates/content/module_content.html:4
+msgid "Edit file"
+msgstr "Muokkaa tiedosto"
+
+#: src/webfront/templates/content/module_content.html:3
+#: src/webfront/templates/content/module_content.html:4
+msgid "Import file"
+msgstr "Tuo tiedosto"
+
+#: src/webfront/templates/content/module_content.html:23
+msgid "Select file"
+msgstr "Valitse tiedosto"
+
+#: src/webfront/templates/content/module_content.html:27
+msgid "Upload file"
+msgstr "Lataa tiedosto"
+
+#: src/webfront/templates/content/module_content.html:28
+msgid "Choose from dms"
+msgstr "Valitse DMS:sta"
+
+#: src/webfront/templates/content/module_content.html:29
+msgid "Supported file types"
+msgstr "tuetut tiedostotyypit"
+
+#: src/webfront/templates/content/module_content.html:99
+msgid "Cancel upload"
+msgstr "Peruuta lataus"
+
+#: src/webfront/templates/content/module_content.html:134
+msgid "Tags"
+msgstr "Tunnisteet (tagit)"
+
+#: src/webfront/templates/content/module_content.html:174
+msgid "minutes"
+msgstr "minuuttia"
+
+#: src/webfront/templates/content/module_content.html:196
+msgid "Group rights"
+msgstr "Ryhmän oikeudet"
+
+#: src/webfront/templates/content/module_content.html:199
+#: src/webfront/templates/management/users.html:80
+msgid "Available"
+msgstr "Saatavilla"
+
+#: src/webfront/templates/content/module_content.html:211
+#: src/webfront/templates/management/users.html:87
+msgid "Selected"
+msgstr "Valitut"
+
+#: src/webfront/templates/content/module_content.html:225
+#: src/webfront/templates/content/module_creator.html:159
+msgid "Done"
+msgstr "Tehty"
+
+#: src/webfront/templates/content/module_creator.html:3
+#: src/webfront/templates/content/module_creator.html:4
+msgid "Create module"
+msgstr "Luo moduuli"
+
+#: src/webfront/templates/content/module_creator.html:93
+msgid "Collection"
+msgstr "Kokoelma"
+
+#: src/webfront/templates/content/module_creator.html:108
+#: src/webfront/templates/messages/compose.html:33
+#: src/webfront/templates/registration/registration_form.html:86
+msgid "Cancel"
+msgstr "Peruuta"
+
+#: src/webfront/templates/content/module_creator.html:134
+msgid "Module"
+msgstr "Moduuli"
+
+#: src/webfront/templates/content/module_creator.html:136
+msgid "Enter module title"
+msgstr "Lisää Info paketin nimi "
+
+#: src/webfront/templates/content/rss.html:3
+#: src/webfront/templates/content/rss.html:4
+msgid "RSS Feeds"
+msgstr ""
+
+#: src/webfront/templates/content/dialogs/choose_file_from_dms.html:4
+msgid "Choose file from DMS"
+msgstr "Valitse DMS:sta"
+
+#: src/webfront/templates/management/edit_group.html:6
+msgid "Edit group name"
+msgstr "Muokkaa ryhmän nimet"
+
+#: src/webfront/templates/management/edit_group.html:8
+msgid "Create new group"
+msgstr "Luo uusi ryhmä"
+
+#: src/webfront/templates/management/edit_group.html:14
+msgid "Add new group"
+msgstr "Lisää uusi ryhmä"
+
+#: src/webfront/templates/management/import_csv.html:8
+msgid "No changes have been made in the database because of following errors:"
+msgstr "Muutoksia ei ole tehty tietokantaan johtuen seuraavista virheistä:"
+
+#: src/webfront/templates/management/import_csv.html:13
+#: src/webfront/templates/management/import_csv.html:30
+msgid "Close window"
+msgstr "Sulje ikkuna"
+
+#: src/webfront/templates/management/import_csv.html:20
+#: src/webfront/templates/management/import_csv_result.html:26
+msgid "Processed"
+msgstr "Käsitelty"
+
+#: src/webfront/templates/management/import_csv.html:20
+#: src/webfront/templates/management/import_csv_result.html:26
+msgid "rows"
+msgstr "rivit"
+
+#: src/webfront/templates/management/import_csv.html:34
+#: src/webfront/templates/management/user_profile.html:46
+msgid "Upload CSV file"
+msgstr "lataa CSV-tiedosto"
+
+#: src/webfront/templates/management/user_pass_change.html:5
+#: src/webfront/templates/management/user_profile.html:41
+msgid "Change password"
+msgstr "Muuta salasana"
+
+#: src/webfront/templates/management/user_profile.html:3
+#: src/webfront/templates/management/user_profile.html:4
+msgid "User profile"
+msgstr "Käyttäjä rooli"
+
+#: src/webfront/templates/management/users.html:3
+#: src/webfront/templates/management/users.html:4
+msgid "Groups &amp; users management"
+msgstr "Ryhmien &amp; käyttäjä hallinta"
+
+#: src/webfront/templates/management/users.html:17
+#: src/webfront/templates/management/users.html:37
+#: src/webfront/templates/management/users.html:82
+#: src/webfront/templates/management/users.html:90
+msgid "Loading groups"
+msgstr "ladataan  ryhmät"
+
+#: src/webfront/templates/management/users.html:24
+#: src/webfront/templates/management/users.html:55
+msgid "Loading users"
+msgstr "Ladataan käyttäjiä"
+
+#: src/webfront/templates/management/users.html:27
+msgid "Add selected to group"
+msgstr "Lisää valitut ryhmään"
+
+#: src/webfront/templates/management/users.html:29
+msgid "CSV remove"
+msgstr "CSV poistaa"
+
+#: src/webfront/templates/management/users.html:32
+msgid "Remove selected from group"
+msgstr "Poista valittu ryhmästä"
+
+#: src/webfront/templates/management/users.html:46
+#: src/webfront/templates/notepad/notepad.html:31
+msgid "Add new"
+msgstr "Lisää uusi"
+
+#: src/webfront/templates/management/users.html:58
+#: src/webfront/templates/management/dialogs/edit_user.html:83
+msgid "Add new user"
+msgstr "Lisää uusi käyttäjä"
+
+#: src/webfront/templates/management/users.html:59
+msgid "Export to CSV"
+msgstr "Vie CSV-muotoon"
+
+#: src/webfront/templates/management/users.html:60
+msgid "Import from CSV"
+msgstr "Tuo CSV-muodosta "
+
+#: src/webfront/templates/management/users.html:64
+msgid "User details"
+msgstr "Käyttäjän tiedot"
+
+#: src/webfront/templates/management/users.html:77
+msgid "Manage group self registration option"
+msgstr "Hallitse ryhmän itse rekisteröintiä"
+
+#: src/webfront/templates/management/users.html:84
+msgid "Enable self-registration"
+msgstr "Ota itse rekisteröinti käyttöön"
+
+#: src/webfront/templates/management/users.html:88
+msgid "Disable self-registration"
+msgstr "Poista itse rekisteröinti käytöstä"
+
+#: src/webfront/templates/management/dialogs/edit_user.html:7
+msgid "Edit user's details"
+msgstr "Muokkaa käyttäjän tiedot"
+
+#: src/webfront/templates/management/dialogs/edit_user.html:9
+msgid "New user in"
+msgstr "Uusi käyttäjä"
+
+#: src/webfront/templates/management/dialogs/edit_user.html:69
+#: src/webfront/templates/management/dialogs/edit_user.html:76
+msgid "Reset password"
+msgstr "Palauta salasana"
+
+#: src/webfront/templates/messages/box.html:14
+msgid "Received"
+msgstr "Vastaanotetut"
+
+#: src/webfront/templates/messages/box.html:19
+msgid "Sent"
+msgstr "Lähetetyt"
+
+#: src/webfront/templates/messages/box.html:36
+msgid "No messages"
+msgstr "Ei viestejä"
+
+#: src/webfront/templates/messages/compose.html:3
+msgid "Messages - New message"
+msgstr "Viestit - Uusi viesti"
+
+#: src/webfront/templates/messages/compose.html:4
+msgid "New message"
+msgstr "Uusi viesti"
+
+#: src/webfront/templates/messages/compose.html:34
+msgid "Send"
+msgstr "Lähetä"
+
+#: src/webfront/templates/messages/inbox.html:3
+msgid "Messages - Inbox"
+msgstr "Viesteit - Inbox"
+
+#: src/webfront/templates/messages/inbox.html:8
+#: src/webfront/templates/messages/view.html:4
+msgid "From"
+msgstr "Lähettäjä"
+
+#: src/webfront/templates/messages/new_message.html:1
+#, python-format
+msgid ""
+"Hello %(recipient)s,\n"
+"\n"
+"you received a private message from %(sender)s with\n"
+"the following contents:"
+msgstr ""
+"Hello %(recipient)s,\n"
+"\n"
+"%(sender)s on lähettänyt sinulle viestin. Alla olevalla sisällöllä:"
+
+#: src/webfront/templates/messages/outbox.html:3
+msgid "Messages - Sent"
+msgstr "Viestiyt - Lähetetyt"
+
+#: src/webfront/templates/messages/templates.html:4
+msgid "Manage templates"
+msgstr "Hallinnoi pohjia"
+
+#: src/webfront/templates/messages/templates.html:9
+msgid "Select template"
+msgstr "Valitse tiedosto"
+
+#: src/webfront/templates/messages/templates.html:37
+msgid "Message"
+msgstr "Ei viestejä"
+
+#: src/webfront/templates/messages/templates.html:43
+msgid "Parameters"
+msgstr "Parametrit"
+
+#: src/webfront/templates/messages/view.html:15
+msgid "Reply"
+msgstr "Vastaa"
+
+#: src/webfront/templates/notepad/notepad.html:22
+msgid "No notes"
+msgstr "Ei merkintöjä"
+
+#: src/webfront/templates/registration/activate.html:3
+msgid "Activation complete"
+msgstr "Aktivointi valmis"
+
+#: src/webfront/templates/registration/activate.html:3
+msgid "Activation problem"
+msgstr "Aktivointi ongelma"
+
+#: src/webfront/templates/registration/activate.html:6
+#, fuzzy
+msgid "Thanks {{ account }}, activation complete!  You may now"
+msgstr "Kiitos,  aktivointi onnistui"
+
+#: src/webfront/templates/registration/activate.html:6
+#, fuzzy
+msgid "using the username and password you set at registration."
+msgstr "Voit nyt kirjautua käyttämällä asettamasi käyttäjätunnus ja salasana."
+
+#: src/webfront/templates/registration/activate.html:8
+msgid ""
+"Oops &ndash; it seems that your activation key is invalid.  Please check the "
+"url again."
+msgstr ""
+"Woups! &ndash; näyttää siltä, että tilisi aktivointi avain on virheellinen."
+"Klikkaa alkuperäinen linkki uudelleen."
+
+#: src/webfront/templates/registration/activation_complete.html:7
+msgid "Thanks, activation complete!"
+msgstr "Kiitos,  aktivointi onnistui"
+
+#: src/webfront/templates/registration/activation_complete.html:8
+msgid ""
+"You may now login using the username and password you set at registration."
+msgstr "Voit nyt kirjautua käyttämällä asettamasi käyttäjätunnus ja salasana."
+
+#: src/webfront/templates/registration/activation_complete.html:11
+#: src/webfront/templates/registration/password_reset_complete.html:10
+msgid "Login"
+msgstr "Kirjaudu sisään"
+
+#: src/webfront/templates/registration/activation_email.txt:5
+#, python-format
+msgid ""
+"\n"
+"Dear %(username)s,\n"
+"\n"
+"You have created an account for %(site_name)s, which has to\n"
+"be activated. To do this, please follow the following link:\n"
+"http://%(site_name)s%(activate_url)s\n"
+"\n"
+"Please do take note that if your activation does not succeed\n"
+"within %(expiration_days)s days, you will have to restart\n"
+"the activation process.\n"
+"\n"
+"Best regards,\n"
+"The Kneto\n"
+msgstr ""
+"\n"
+"Arvoisa %(username)s,\n"
+"\n"
+"Voit aktivoida tilin seuraamalla oheista linkkiä:\n"
+"http://%(site_name)s%(activate_url)s\n"
+"\n"
+"Huomaa että, että jos aktivointi"
+"ei onnistu %(expiration_days)s päivään mennessä, sinun on \n" 
+"käynnistettävä rekisteröinti prosessi uudelleen.\n"
+"\n"
+"Ystävällisin terveisin\n"
+"Kneto\n"
+
+#: src/webfront/templates/registration/activation_email_subject.txt:29
+#, python-format
+msgid "Account activation for %(site_name)s"
+msgstr "Aktivoi i %(site_name)s in tiliä"
+
+#: src/webfront/templates/registration/login.html:46
+msgid "Please log-in"
+msgstr "Ole hyvä kirjaudu sisään"
+
+#: src/webfront/templates/registration/login.html:84
+msgid "Log-in"
+msgstr "Sisäänkirjautuminen"
+
+#: src/webfront/templates/registration/login.html:88
+#: src/webfront/templates/registration/registration_base.html:52
+#: src/webfront/templates/registration/registration_form.html:83
+msgid "Register"
+msgstr "Rekisteröidy"
+
+#: src/webfront/templates/registration/login.html:92
+msgid "Lost password"
+msgstr "Palauta salasana"
+
+#: src/webfront/templates/registration/password_reset_complete.html:5
+#: src/webfront/templates/registration/password_reset_complete.html:6
+msgid "Password reset complete"
+msgstr "Salasanan vaihtaminen onnistui"
+
+#: src/webfront/templates/registration/password_reset_complete.html:8
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr "Uusi salasanasi on voimassa. Voit jatkaa ja kirjautumista nyt."
+
+#: src/webfront/templates/registration/password_reset_confirm.html:5
+#: src/webfront/templates/registration/password_reset_confirm.html:9
+#: src/webfront/templates/registration/password_reset_form.html:5
+#: src/webfront/templates/registration/password_reset_form.html:6
+msgid "Password reset"
+msgstr "Salasana"
+
+#: src/webfront/templates/registration/password_reset_confirm.html:11
+msgid "Password reset unsuccessful"
+msgstr "Raportti luotu onnistuneesti"
+
+#: src/webfront/templates/registration/password_reset_confirm.html:18
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+"Kirjoita uusi salasana kahdesti, jotta voimme tarkistaa että kirjoitit "
+"senoikein."
+
+#: src/webfront/templates/registration/password_reset_confirm.html:37
+msgid "Confirm password"
+msgstr "Muuta salasana"
+
+#: src/webfront/templates/registration/password_reset_confirm.html:46
+msgid "Change my passowrd"
+msgstr "Muuta salasana"
+
+#: src/webfront/templates/registration/password_reset_confirm.html:49
+#: src/webfront/templates/registration/password_reset_confirm.html:60
+#: src/webfront/templates/registration/password_reset_done.html:11
+#: src/webfront/templates/registration/password_reset_form.html:32
+#: src/webfront/templates/registration/registration_closed.html:9
+#: src/webfront/templates/registration/registration_complete.html:9
+msgid "Home"
+msgstr "Takaisin"
+
+#: src/webfront/templates/registration/password_reset_confirm.html:55
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+"Uuden salasanan vaihto oli virheellinen, mahdollisesti koska se on jo ollut "
+"käytössäPyydä uutta salasanaa"
+
+#: src/webfront/templates/registration/password_reset_confirm.html:57
+msgid "Reset passowrd again"
+msgstr "Palauta salasana"
+
+#: src/webfront/templates/registration/password_reset_done.html:5
+#: src/webfront/templates/registration/password_reset_done.html:6
+msgid "Password reset successful"
+msgstr "Raportti luotu onnistuneesti"
+
+#: src/webfront/templates/registration/password_reset_done.html:9
+msgid ""
+"We've emailed you instructions for setting your password to the email "
+"address you submitted. You should be receiving it shortly."
+msgstr ""
+"Olemme sähköpostitse lähettäneet sinulle ohjeet jolla voit asettaa "
+"salasanasi Ohje saapuu ilmoittamaasi osoitteeseen tuota pikaa."
+
+#: src/webfront/templates/registration/password_reset_email.html:2
+msgid "You're receiving this e-mail because you requested a password reset"
+msgstr "Saat tämän sähköpostin, koska olet pyytänyt uuden salasanan"
+
+#: src/webfront/templates/registration/password_reset_email.html:3
+#, python-format
+msgid "for your user account at %(site_name)s"
+msgstr "käyttäjätilillesi osoitteessa %(site_name)s"
+
+#: src/webfront/templates/registration/password_reset_email.html:5
+msgid "Please go to the following page and choose a new password:"
+msgstr "Siirry seuraavalle sivulle ja valitse uusi salasana:"
+
+#: src/webfront/templates/registration/password_reset_email.html:9
+msgid "Your username, in case you've forgotten:"
+msgstr "Käyttäjätunnuksesi, mikäli olet unohtanut:"
+
+#: src/webfront/templates/registration/password_reset_email.html:11
+msgid "Thanks for using our site!"
+msgstr "Kiitos, että käytät webbi palveluamme!"
+
+#: src/webfront/templates/registration/password_reset_email.html:13
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "%(site_name)s in henkilökunta"
+
+#: src/webfront/templates/registration/password_reset_form.html:9
+msgid ""
+"Forgotten your password? Enter your email address below, and we'll email "
+"instructions for setting a new one."
+msgstr ""
+"Unohtuiko salasana? Kirjoita sähköpostiosoitteesi alla olevaan kenttään niin "
+"lähetämme sinulle sähköpostitse uudenohjeet  uuden salasanan asennukseen."
+
+#: src/webfront/templates/registration/password_reset_form.html:29
+msgid "Reset my password"
+msgstr "Palauta salasana"
+
+#: src/webfront/templates/registration/registration_closed.html:4
+msgid "Registration is closed"
+msgstr "Itse rekisteröinti on suljettu"
+
+#: src/webfront/templates/registration/registration_closed.html:7
+msgid "Registration has been closed"
+msgstr "Itse rekisteröinti on suljettu"
+
+#: src/webfront/templates/registration/registration_complete.html:4
+msgid "Activation email sent"
+msgstr "Tilisi aktivointi sähköposti on lähetetty"
+
+#: src/webfront/templates/registration/registration_complete.html:7
+msgid ""
+"An activation email has been sent.  Please check your email and click on the "
+"link to activate your account."
+msgstr ""
+"Tilisi aktivointi sähköposti on lähetetty. Tarkista sähköpostisi ja klikkaa "
+"linkkiä aktivoidaksesi tilisi."
+
+#: src/webfront/templates/registration/registration_form.html:8
+msgid "Please start the registration by entering your username"
+msgstr "Aloita rekisteröiminen antamalla käyttäjänimesi"
+
+#: src/webfront/templates/reports/create.html:6
+msgid "Create new report"
+msgstr "Luo uusi raportti"
+
+#: src/webfront/templates/reports/create.html:8
+msgid "Edit report"
+msgstr "Muokkaa raporttia"
+
+#: src/webfront/templates/reports/reports.html:22
+msgid "Add new report"
+msgstr "Lisää uusi raportti"
+
+#: src/webfront/templates/reports/reports.html:24
+msgid "Report name"
+msgstr "Raportin nimi"
+
+#: src/webfront/templates/reports/reports.html:26
+msgid "Last execution time"
+msgstr "Edellinen suorituskerta"
+
+#: src/webfront/templates/reports/reports.html:36
+msgid "Run now!"
+msgstr "Aja raportti"
+
+#, fuzzy
+#~ msgid "Successfully deleted %(count)d %(items)s."
+#~ msgstr "Viesti poistettu %s"
+
+#, fuzzy
+#~ msgid "Any date"
+#~ msgstr "Kaikki tyypit"
+
+#, fuzzy
+#~ msgid "This month"
+#~ msgstr ""
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+
+#, fuzzy
+#~ msgid "This year"
+#~ msgstr ""
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+
+#, fuzzy
+#~ msgid "Unknown"
+#~ msgstr "Uusi Sisältö"
+
+#, fuzzy
+#~ msgid "Action:"
+#~ msgstr "Täytäntöönpano"
+
+#, fuzzy
+#~ msgid "action time"
+#~ msgstr "Edellinen suorituskerta"
+
+#, fuzzy
+#~ msgid "object id"
+#~ msgstr "Tavoite"
+
+#, fuzzy
+#~ msgid "object repr"
+#~ msgstr "Tavoite"
+
+#, fuzzy
+#~ msgid "action flag"
+#~ msgstr "Edellinen suorituskerta"
+
+#, fuzzy
+#~ msgid "change message"
+#~ msgstr "Uusi viesti"
+
+#, fuzzy
+#~ msgid "log entry"
+#~ msgstr "Config lähtö nimi"
+
+#, fuzzy
+#~ msgid "log entries"
+#~ msgstr "Config lähtö nimi"
+
+#, fuzzy
+#~ msgid "Changed %s."
+#~ msgstr "muutokset"
+
+#, fuzzy
+#~ msgid "and"
+#~ msgstr "Kanadan Englanti"
+
+#, fuzzy
+#~ msgid "Added %(name)s \"%(object)s\"."
+#~ msgstr "Lisää uusi"
+
+#, fuzzy
+#~ msgid "Changed %(list)s for %(name)s \"%(object)s\"."
+#~ msgstr "Lisää uusi"
+
+#, fuzzy
+#~ msgid "Deleted %(name)s \"%(object)s\"."
+#~ msgstr "Lisää uusi"
+
+#, fuzzy
+#~ msgid "No fields changed."
+#~ msgstr "Lähetä Moduuli"
+
+#, fuzzy
+#~ msgid "The %(name)s \"%(obj)s\" was added successfully."
+#~ msgstr "Raportti luotu onnistuneesti"
+
+#, fuzzy
+#~ msgid "The %(name)s \"%(obj)s\" was changed successfully."
+#~ msgstr "Raportti luotu onnistuneesti"
+
+#, fuzzy
+#~ msgid ""
+#~ "The %(name)s \"%(obj)s\" was added successfully. You may edit it again "
+#~ "below."
+#~ msgstr "Raportti luotu onnistuneesti"
+
+#, fuzzy
+#~ msgid "No action selected."
+#~ msgstr "Mikään ryhmä ei ole valittu"
+
+#, fuzzy
+#~ msgid "Add %s"
+#~ msgstr "Lisää tunniste"
+
+#, fuzzy
+#~ msgid "%(name)s object with primary key %(key)r does not exist."
+#~ msgstr "Käyttäjätunnus %d  ei ole olemassa"
+
+#, fuzzy
+#~ msgid "Change %s"
+#~ msgstr "muutokset"
+
+#, fuzzy
+#~ msgid "%(count)s %(name)s was changed successfully."
+#~ msgid_plural "%(count)s %(name)s were changed successfully."
+#~ msgstr[0] "Raportti luotu onnistuneesti"
+#~ msgstr[1] "Raportti luotu onnistuneesti"
+
+#, fuzzy
+#~ msgid "%(total_count)s selected"
+#~ msgid_plural "All %(total_count)s selected"
+#~ msgstr[0] "Mikään ryhmä ei ole valittu"
+#~ msgstr[1] "Mikään ryhmä ei ole valittu"
+
+#, fuzzy
+#~ msgid "0 of %(cnt)s selected"
+#~ msgstr "Mikään ryhmä ei ole valittu"
+
+#, fuzzy
+#~ msgid "The %(name)s \"%(obj)s\" was deleted successfully."
+#~ msgstr "Raportti luotu onnistuneesti"
+
+#, fuzzy
+#~ msgid "Change history: %s"
+#~ msgstr "Muuta salasana"
+
+#, fuzzy
+#~ msgid ""
+#~ "Please enter a correct username and password. Note that both fields are "
+#~ "case-sensitive."
+#~ msgstr "Anna oikea käyttäjätunnus ja salasana."
+
+#, fuzzy
+#~ msgid "Site administration"
+#~ msgstr "Hallinto"
+
+#, fuzzy
+#~ msgid "Log in"
+#~ msgstr "Kirjaudu ulos"
+
+#, fuzzy
+#~ msgid "%s administration"
+#~ msgstr "Hallinto"
+
+#, fuzzy
+#~ msgid "Date:"
+#~ msgstr "Päivämäärä"
+
+#, fuzzy
+#~ msgid "Currently:"
+#~ msgstr "Nykyinen käyttö"
+
+#, fuzzy
+#~ msgid "Change:"
+#~ msgstr "muutokset"
+
+#, fuzzy
+#~ msgid "Add Another"
+#~ msgstr "Lisää uusi"
+
+#, fuzzy
+#~ msgid "Page not found"
+#~ msgstr "Käyttäjä %s ei löytynyt"
+
+#, fuzzy
+#~ msgid "Run the selected action"
+#~ msgstr "Poista valittu ryhmästä"
+
+#, fuzzy
+#~ msgid "Clear selection"
+#~ msgstr "Kokoelma"
+
+#, fuzzy
+#~ msgid "%(name)s"
+#~ msgstr "nimi"
+
+#, fuzzy
+#~ msgid "Documentation"
+#~ msgstr "Kesto"
+
+#, fuzzy
+#~ msgid "Django site admin"
+#~ msgstr "Hallinto"
+
+#, fuzzy
+#~ msgid "Django administration"
+#~ msgstr "Hallinto"
+
+#, fuzzy
+#~ msgid "View on site"
+#~ msgstr "Sisältö"
+
+#, fuzzy
+#~ msgid "Please correct the error below."
+#~ msgid_plural "Please correct the errors below."
+#~ msgstr[0] "Anna oikea käyttäjätunnus."
+#~ msgstr[1] "Anna oikea käyttäjätunnus."
+
+#, fuzzy
+#~ msgid "Add %(name)s"
+#~ msgstr "Lisää uusi"
+
+#~ msgid "Delete"
+#~ msgstr "Poista"
+
+#, fuzzy
+#~ msgid "Change"
+#~ msgstr "muutokset"
+
+#, fuzzy
+#~ msgid "Recent Actions"
+#~ msgstr "Täytäntöönpano"
+
+#, fuzzy
+#~ msgid "My Actions"
+#~ msgstr "Täytäntöönpano"
+
+#, fuzzy
+#~ msgid "None available"
+#~ msgstr "saatavilla"
+
+#, fuzzy
+#~ msgid "Unknown content"
+#~ msgstr "Uusi Sisältö"
+
+#, fuzzy
+#~ msgid "Username:"
+#~ msgstr "Käyttäjätunnus"
+
+#, fuzzy
+#~ msgid "Password:"
+#~ msgstr "Salasana"
+
+#, fuzzy
+#~ msgid "Date/time"
+#~ msgstr "Päivämäärään"
+
+#, fuzzy
+#~ msgid "Action"
+#~ msgstr "Täytäntöönpano"
+
+#, fuzzy
+#~ msgid "Search"
+#~ msgstr "Etsi"
+
+#, fuzzy
+#~ msgid "1 result"
+#~ msgid_plural "%(counter)s results"
+#~ msgstr[0] "Tiedostoa"
+#~ msgstr[1] "Tiedostoa"
+
+#, fuzzy
+#~ msgid "Save as new"
+#~ msgstr "Lähetä Moduuli"
+
+#, fuzzy
+#~ msgid "Save and continue editing"
+#~ msgstr "Jatka muokkaamista"
+
+#, fuzzy
+#~ msgid ""
+#~ "First, enter a username and password. Then, you'll be able to edit more "
+#~ "user options."
+#~ msgstr ""
+#~ "Voit nyt kirjautua käyttämällä asettamasi käyttäjätunnus ja salasana."
+
+#, fuzzy
+#~ msgid "Enter a username and password."
+#~ msgstr "Anna oikea käyttäjätunnus ja salasana."
+
+#, fuzzy
+#~ msgid "Enter the same password as above, for verification."
+#~ msgstr ""
+#~ "Voit nyt kirjautua käyttämällä asettamasi käyttäjätunnus ja salasana."
+
+#, fuzzy
+#~ msgid "Add another %(verbose_name)s"
+#~ msgstr "Lisää uusi"
+
+#, fuzzy
+#~ msgid "Delete?"
+#~ msgstr "Poista"
+
+#, fuzzy
+#~ msgid "Log in again"
+#~ msgstr "Kirjaudu ulos"
+
+#, fuzzy
+#~ msgid "Password change"
+#~ msgstr "Salasana"
+
+#, fuzzy
+#~ msgid "Password change successful"
+#~ msgstr "Raportti luotu onnistuneesti"
+
+#, fuzzy
+#~ msgid "Your password was changed."
+#~ msgstr "Vanha salasana on mitätön"
+
+#, fuzzy
+#~ msgid ""
+#~ "Please enter your old password, for security's sake, and then enter your "
+#~ "new password twice so we can verify you typed it in correctly."
+#~ msgstr ""
+#~ "Kirjoita uusi salasana kahdesti, jotta voimme tarkistaa että kirjoitit "
+#~ "senoikein."
+
+#, fuzzy
+#~ msgid "Change my password"
+#~ msgstr "Muuta salasana"
+
+#, fuzzy
+#~ msgid "Password reset confirmation"
+#~ msgstr "LDAP-asetukset"
+
+#, fuzzy
+#~ msgid "Enter new password"
+#~ msgstr "Toista uusi salasana"
+
+#~ msgid "New password:"
+#~ msgstr "Valitse salasana"
+
+#, fuzzy
+#~ msgid "Confirm password:"
+#~ msgstr "Muuta salasana"
+
+#, fuzzy
+#~ msgid ""
+#~ "We've e-mailed you instructions for setting your password to the e-mail "
+#~ "address you submitted. You should be receiving it shortly."
+#~ msgstr ""
+#~ "Olemme sähköpostitse lähettäneet sinulle ohjeet jolla voit asettaa "
+#~ "salasanasi Ohje saapuu ilmoittamaasi osoitteeseen tuota pikaa."
+
+#, fuzzy
+#~ msgid ""
+#~ "Forgotten your password? Enter your e-mail address below, and we'll e-"
+#~ "mail instructions for setting a new one."
+#~ msgstr ""
+#~ "Unohtuiko salasana? Kirjoita sähköpostiosoitteesi alla olevaan kenttään "
+#~ "niin lähetämme sinulle sähköpostitse uudenohjeet  uuden salasanan "
+#~ "asennukseen."
+
+#, fuzzy
+#~ msgid "E-mail address:"
+#~ msgstr "Sähköposti"
+
+#, fuzzy
+#~ msgid "All dates"
+#~ msgstr "Kaikki tyypit"
+
+#, fuzzy
+#~ msgid "Select %s"
+#~ msgstr "Valitut"
+
+#, fuzzy
+#~ msgid "Select %s to change"
+#~ msgstr "Valitut"
+
+#, fuzzy
+#~ msgid "view:"
+#~ msgstr "Alkuperäinen Sub Avain"
+
+#, fuzzy
+#~ msgid "App %r not found"
+#~ msgstr "Käyttäjä %s ei löytynyt"
+
+#, fuzzy
+#~ msgid "number of %s"
+#~ msgstr "Sisällön sivumäärä"
+
+#, fuzzy
+#~ msgid "Documentation bookmarklets"
+#~ msgstr "Kesto"
+
+#, fuzzy
+#~ msgid "Documentation for this page"
+#~ msgstr "Kesto"
+
+#, fuzzy
+#~ msgid "Show object ID"
+#~ msgstr "Aihe"
+
+#, fuzzy
+#~ msgid "Personal info"
+#~ msgstr "Persia"
+
+#, fuzzy
+#~ msgid "Permissions"
+#~ msgstr "Luontipäivämäärä"
+
+#, fuzzy
+#~ msgid "Important dates"
+#~ msgstr "Tuo tiedosto"
+
+#, fuzzy
+#~ msgid "Password changed successfully."
+#~ msgstr "Raportti luotu onnistuneesti"
+
+#, fuzzy
+#~ msgid "Change password: %s"
+#~ msgstr "Muuta salasana"
+
+#, fuzzy
+#~ msgid ""
+#~ "Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only."
+#~ msgstr ""
+#~ "Tämä kenttä voi sisältää vain kirjaimia, numeroita ja @/./+/-/_ merkkejä."
+
+#, fuzzy
+#~ msgid "Password confirmation"
+#~ msgstr "LDAP-asetukset"
+
+#, fuzzy
+#~ msgid "New password confirmation"
+#~ msgstr "Tarvitaan uusi salasana"
+
+#~ msgid "name"
+#~ msgstr "nimi"
+
+#, fuzzy
+#~ msgid "codename"
+#~ msgstr "Moduulin nimi"
+
+#, fuzzy
+#~ msgid "permission"
+#~ msgstr "Luontipäivämäärä"
+
+#, fuzzy
+#~ msgid "permissions"
+#~ msgstr "Luontipäivämäärä"
+
+#~ msgid "group"
+#~ msgstr "Yritys"
+
+#~ msgid "groups"
+#~ msgstr "Yritys"
+
+#, fuzzy
+#~ msgid "username"
+#~ msgstr "Käyttäjätunnus"
+
+#, fuzzy
+#~ msgid ""
+#~ "Required. 30 characters or fewer. Letters, numbers and @/./+/-/_ "
+#~ "characters"
+#~ msgstr ""
+#~ "Tämä kenttä voi sisältää vain kirjaimia, numeroita ja @/./+/-/_ merkkejä."
+
+#, fuzzy
+#~ msgid "first name"
+#~ msgstr "Etunimi"
+
+#, fuzzy
+#~ msgid "last name"
+#~ msgstr "Sukunimi"
+
+#, fuzzy
+#~ msgid "e-mail address"
+#~ msgstr "Sähköposti"
+
+#, fuzzy
+#~ msgid "password"
+#~ msgstr "Salasana"
+
+#, fuzzy
+#~ msgid "staff status"
+#~ msgstr "Admin tila"
+
+#, fuzzy
+#~ msgid "active"
+#~ msgstr "Poista käytöstä"
+
+#, fuzzy
+#~ msgid "superuser status"
+#~ msgstr "Admin tila"
+
+#, fuzzy
+#~ msgid "last login"
+#~ msgstr "Edellinen kirjautuminen"
+
+#, fuzzy
+#~ msgid "date joined"
+#~ msgstr "Päivitetty"
+
+#, fuzzy
+#~ msgid "user permissions"
+#~ msgstr "Luontipäivämäärä"
+
+#, fuzzy
+#~ msgid "users"
+#~ msgstr "käyttäjä"
+
+#, fuzzy
+#~ msgid "message"
+#~ msgstr "Ei viestejä"
+
+#, fuzzy
+#~ msgid "Logged out"
+#~ msgstr "Kirjaudu ulos"
+
+#, fuzzy
+#~ msgid "Enter a valid e-mail address."
+#~ msgstr "Muokkaa käyttäjän tiedot"
+
+#, fuzzy
+#~ msgid "Flag selected comments"
+#~ msgstr "Valitun sisällön nimi"
+
+#, fuzzy
+#~ msgid "approved"
+#~ msgid_plural "approved"
+#~ msgstr[0] "Poista"
+#~ msgstr[1] "Poista"
+
+#, fuzzy
+#~ msgid "Approve selected comments"
+#~ msgstr "Poista valittu ryhmästä"
+
+#, fuzzy
+#~ msgid "Remove selected comments"
+#~ msgstr "Poista valittu ryhmästä"
+
+#, fuzzy
+#~ msgid "%(site_name)s comments"
+#~ msgstr "Muokkaa sisältöä"
+
+#, fuzzy
+#~ msgid "Latest comments on %(site_name)s"
+#~ msgstr "Aktivoi i %(site_name)s in tiliä"
+
+#, fuzzy
+#~ msgid "Email address"
+#~ msgstr "Sähköposti"
+
+#, fuzzy
+#~ msgid "Comment"
+#~ msgstr "Muokkaa sisältöä"
+
+#, fuzzy
+#~ msgid "content type"
+#~ msgstr "tapahtuma tyyppi"
+
+#, fuzzy
+#~ msgid "object ID"
+#~ msgstr "Aihe"
+
+#, fuzzy
+#~ msgid "user's name"
+#~ msgstr "Käyttäjätunnus"
+
+#, fuzzy
+#~ msgid "user's email address"
+#~ msgstr "Muokkaa käyttäjän tiedot"
+
+#, fuzzy
+#~ msgid "user's URL"
+#~ msgstr "Käyttäjätunnus"
+
+#, fuzzy
+#~ msgid "comment"
+#~ msgstr "Muokkaa sisältöä"
+
+#, fuzzy
+#~ msgid "IP address"
+#~ msgstr "Sähköposti"
+
+#, fuzzy
+#~ msgid "is removed"
+#~ msgstr "Poista"
+
+#, fuzzy
+#~ msgid "comments"
+#~ msgstr "Muokkaa sisältöä"
+
+#, fuzzy
+#~ msgid "date"
+#~ msgstr "Päivitetty"
+
+#, fuzzy
+#~ msgid "comment flag"
+#~ msgstr "Muokkaa sisältöä"
+
+#, fuzzy
+#~ msgid "comment flags"
+#~ msgstr "Muokkaa sisältöä"
+
+#, fuzzy
+#~ msgid "Approve a comment"
+#~ msgstr "Alkuperäinen Sub Avain"
+
+#, fuzzy
+#~ msgid "Really make this comment public?"
+#~ msgstr "Poista valittu ryhmästä"
+
+#, fuzzy
+#~ msgid "Approve"
+#~ msgstr "Poista"
+
+#, fuzzy
+#~ msgid "Thanks for approving"
+#~ msgstr "Kiitos, että käytät webbi palveluamme!"
+
+#, fuzzy
+#~ msgid "Remove a comment"
+#~ msgstr "Poista valittu ryhmästä"
+
+#, fuzzy
+#~ msgid "Really remove this comment?"
+#~ msgstr "Poista valittu ryhmästä"
+
+#, fuzzy
+#~ msgid "Thanks for removing"
+#~ msgstr "Kiitos, että käytät webbi palveluamme!"
+
+#, fuzzy
+#~ msgid "Flag this comment"
+#~ msgstr "Valitun sisällön nimi"
+
+#, fuzzy
+#~ msgid "Really flag this comment?"
+#~ msgstr "Poista valittu ryhmästä"
+
+#, fuzzy
+#~ msgid "Thanks for flagging"
+#~ msgstr "Kiitos, että käytät webbi palveluamme!"
+
+#, fuzzy
+#~ msgid "Preview"
+#~ msgstr "Alkuperäinen Sub Avain"
+
+#, fuzzy
+#~ msgid "Thanks for commenting"
+#~ msgstr "Kiitos, että käytät webbi palveluamme!"
+
+#, fuzzy
+#~ msgid "Thank you for your comment"
+#~ msgstr "Alkuperäinen Sub Avain"
+
+#, fuzzy
+#~ msgid "Preview your comment"
+#~ msgstr "Alkuperäinen Sub Avain"
+
+#, fuzzy
+#~ msgid "Please correct the error below"
+#~ msgid_plural "Please correct the errors below"
+#~ msgstr[0] "Anna oikea käyttäjätunnus."
+#~ msgstr[1] "Anna oikea käyttäjätunnus."
+
+#, fuzzy
+#~ msgid "Post your comment"
+#~ msgstr "Alkuperäinen Sub Avain"
+
+#, fuzzy
+#~ msgid "or make changes"
+#~ msgstr "Lähetä Moduuli"
+
+#, fuzzy
+#~ msgid "content types"
+#~ msgstr "tapahtuma tyyppi"
+
+#, fuzzy
+#~ msgid ""
+#~ "This value must contain only letters, numbers, underscores, dashes or "
+#~ "slashes."
+#~ msgstr ""
+#~ "Tämä kenttä voi sisältää vain kirjaimia, numeroita ja @/./+/-/_ merkkejä."
+
+#, fuzzy
+#~ msgid "title"
+#~ msgstr "Otsikko"
+
+#, fuzzy
+#~ msgid "content"
+#~ msgstr "Sisältö"
+
+#, fuzzy
+#~ msgid "enable comments"
+#~ msgstr "Muokkaa sisältöä"
+
+#, fuzzy
+#~ msgid "template name"
+#~ msgstr "Malli"
+
+#, fuzzy
+#~ msgid "registration required"
+#~ msgstr "Käyttäjä rooli"
+
+#, fuzzy
+#~ msgid "Geometry collection"
+#~ msgstr "Kokoelma"
+
+#, fuzzy
+#~ msgid "No geometry value provided."
+#~ msgstr "Config lähtö arvo"
+
+#, fuzzy
+#~ msgid "Invalid geometry value."
+#~ msgstr "Config lähtö arvo"
+
+#, fuzzy
+#~ msgid "nd"
+#~ msgstr "Lähetä"
+
+#, fuzzy
+#~ msgid "one"
+#~ msgstr "Tehty"
+
+#, fuzzy
+#~ msgid "This field requires only numbers."
+#~ msgstr "Pakollinen kenttä"
+
+#, fuzzy
+#~ msgid "This field requires 7 or 8 digits."
+#~ msgstr "Pakollinen kenttä"
+
+#, fuzzy
+#~ msgid "Burgenland"
+#~ msgstr "Islanti"
+
+#, fuzzy
+#~ msgid "Enter a valid Austrian Social Security Number in XXXX XXXXXX format."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a 4 digit post code."
+#~ msgstr "Anna oikea käyttäjätunnus ja salasana."
+
+#, fuzzy
+#~ msgid "Invalid CPF number."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "This field requires at most 11 digits or 14 characters."
+#~ msgstr "Pakollinen kenttä"
+
+#, fuzzy
+#~ msgid "Invalid CNPJ number."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "This field requires at least 14 digits"
+#~ msgstr "Pakollinen kenttä"
+
+#, fuzzy
+#~ msgid "Aargau"
+#~ msgstr "Torstai"
+
+#, fuzzy
+#~ msgid "Thurgau"
+#~ msgstr "Torstai"
+
+#, fuzzy
+#~ msgid "Uri"
+#~ msgstr "Perjantai"
+
+#, fuzzy
+#~ msgid "Enter a valid Chilean RUT."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "The Chilean RUT is not valid."
+#~ msgstr "Sähköposti %s on väärin."
+
+#, fuzzy
+#~ msgid "Liberec Region"
+#~ msgstr "Ranska"
+
+#, fuzzy
+#~ msgid "Hradec Region"
+#~ msgstr "Ranska"
+
+#, fuzzy
+#~ msgid "Vysocina Region"
+#~ msgstr "Ranska"
+
+#, fuzzy
+#~ msgid "Zlin Region"
+#~ msgstr "Ranska"
+
+#, fuzzy
+#~ msgid "Enter a valid birth number."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid IC number."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Bavaria"
+#~ msgstr "Bulgaria"
+
+#, fuzzy
+#~ msgid "Mecklenburg-Western Pomerania"
+#~ msgstr "Romania"
+
+#, fuzzy
+#~ msgid "Thuringia"
+#~ msgstr "Torstai"
+
+#, fuzzy
+#~ msgid "Granada"
+#~ msgstr "Kanadan Englanti"
+
+#, fuzzy
+#~ msgid "Malaga"
+#~ msgstr "Malai"
+
+#, fuzzy
+#~ msgid "Basque Country"
+#~ msgstr "Baski"
+
+#, fuzzy
+#~ msgid "Catalonia"
+#~ msgstr "Katalania"
+
+#, fuzzy
+#~ msgid "Please enter a valid NIF or NIE."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Invalid checksum for bank account number."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid Finnish social security number."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid post code"
+#~ msgstr "Anna oikea käyttäjätunnus ja salasana."
+
+#, fuzzy
+#~ msgid "Enter a valid phone number"
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid vehicle license plate number"
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid NIK/KTP number"
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Banten"
+#~ msgstr "Sisältö"
+
+#, fuzzy
+#~ msgid "Bengkulu"
+#~ msgstr "Bengali"
+
+#, fuzzy
+#~ msgid "Magelang"
+#~ msgstr "Katalania"
+
+#, fuzzy
+#~ msgid "Malang"
+#~ msgstr "Katalania"
+
+#, fuzzy
+#~ msgid "Jember"
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Donegal"
+#~ msgstr "Tehty"
+
+#, fuzzy
+#~ msgid "Dublin"
+#~ msgstr "Julkaise"
+
+#, fuzzy
+#~ msgid "Fermanagh"
+#~ msgstr "Saksa"
+
+#, fuzzy
+#~ msgid "Roscommon"
+#~ msgstr "Muokkaa sisältöä"
+
+#, fuzzy
+#~ msgid "Westmeath"
+#~ msgstr "Romania"
+
+#, fuzzy
+#~ msgid "Enter a valid zip code."
+#~ msgstr "Anna oikea käyttäjätunnus ja salasana."
+
+#, fuzzy
+#~ msgid "Enter a valid Social Security number."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid VAT number."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Mie"
+#~ msgstr "minuuttia"
+
+#, fuzzy
+#~ msgid "Enter a valid Kuwaiti Civil ID number"
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Durango"
+#~ msgstr "Kesto"
+
+#, fuzzy
+#~ msgid "Enter a valid postal code"
+#~ msgstr "Anna oikea käyttäjätunnus ja salasana."
+
+#, fuzzy
+#~ msgid "Enter a valid SoFi number"
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Flevoland"
+#~ msgstr "Islanti"
+
+#, fuzzy
+#~ msgid "Friesland"
+#~ msgstr "Islanti"
+
+#, fuzzy
+#~ msgid "Gelderland"
+#~ msgstr "Islanti"
+
+#, fuzzy
+#~ msgid "Zeeland"
+#~ msgstr "Islanti"
+
+#, fuzzy
+#~ msgid "Enter a valid Norwegian social security number."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "This field requires 8 digits."
+#~ msgstr "Pakollinen kenttä"
+
+#, fuzzy
+#~ msgid "This field requires 11 digits."
+#~ msgstr "Pakollinen kenttä"
+
+#, fuzzy
+#~ msgid "Kuyavia-Pomerania"
+#~ msgstr "Romania"
+
+#, fuzzy
+#~ msgid "Lublin"
+#~ msgstr "Julkaise"
+
+#, fuzzy
+#~ msgid "Lesser Poland"
+#~ msgstr "Luotu"
+
+#, fuzzy
+#~ msgid "Pomerania"
+#~ msgstr "Romania"
+
+#, fuzzy
+#~ msgid "Greater Poland"
+#~ msgstr "Luotu"
+
+#, fuzzy
+#~ msgid "West Pomerania"
+#~ msgstr "Romania"
+
+#, fuzzy
+#~ msgid "Enter a valid CIF."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid CNP."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid postal code in the format XXXXXX"
+#~ msgstr "Anna oikea käyttäjätunnus ja salasana."
+
+#, fuzzy
+#~ msgid "Enter a valid Swedish organisation number."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid Swedish personal identity number."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Södermanland"
+#~ msgstr "Islanti"
+
+#, fuzzy
+#~ msgid "Gotland"
+#~ msgstr "Islanti"
+
+#, fuzzy
+#~ msgid "Halland"
+#~ msgstr "Islanti"
+
+#, fuzzy
+#~ msgid "Galanta"
+#~ msgstr "Katalania"
+
+#, fuzzy
+#~ msgid "Malacky"
+#~ msgstr "Malai"
+
+#, fuzzy
+#~ msgid "Namestovo"
+#~ msgstr "Nimi"
+
+#, fuzzy
+#~ msgid "Trencin"
+#~ msgstr "Ranska"
+
+#, fuzzy
+#~ msgid "Nitra region"
+#~ msgstr "Ranska"
+
+#, fuzzy
+#~ msgid "Presov region"
+#~ msgstr "Ranska"
+
+#, fuzzy
+#~ msgid "Trencin region"
+#~ msgstr "Ranska"
+
+#, fuzzy
+#~ msgid "Trnava region"
+#~ msgstr "Ranska"
+
+#, fuzzy
+#~ msgid "Zilina region"
+#~ msgstr "Ranska"
+
+#, fuzzy
+#~ msgid "Enter a valid postcode."
+#~ msgstr "Anna oikea käyttäjätunnus ja salasana."
+
+#, fuzzy
+#~ msgid "Greater London"
+#~ msgstr "Luotu"
+
+#, fuzzy
+#~ msgid "Greater Manchester"
+#~ msgstr "Luo päivämäärä"
+
+#, fuzzy
+#~ msgid "Northumberland"
+#~ msgstr "Luotu"
+
+#, fuzzy
+#~ msgid "Surrey"
+#~ msgstr "Nykyinen käyttö"
+
+#, fuzzy
+#~ msgid "County Antrim"
+#~ msgstr "Saksa"
+
+#, fuzzy
+#~ msgid "County Armagh"
+#~ msgstr "Saksa"
+
+#, fuzzy
+#~ msgid "County Fermanagh"
+#~ msgstr "Saksa"
+
+#, fuzzy
+#~ msgid "County Tyrone"
+#~ msgstr "Saksa"
+
+#, fuzzy
+#~ msgid "West Glamorgan"
+#~ msgstr "Romania"
+
+#, fuzzy
+#~ msgid "Central Scotland"
+#~ msgstr "Luotu"
+
+#, fuzzy
+#~ msgid "Orkney Islands"
+#~ msgstr "Islanti"
+
+#, fuzzy
+#~ msgid "Northern Ireland"
+#~ msgstr "Luotu"
+
+#, fuzzy
+#~ msgid "Scotland"
+#~ msgstr "Luotu"
+
+#, fuzzy
+#~ msgid "Enter a valid U.S. Social Security number in XXX-XX-XXXX format."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid CI number."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid South African ID number"
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid South African postal code"
+#~ msgstr "Anna oikea käyttäjätunnus ja salasana."
+
+#, fuzzy
+#~ msgid "Mpumalanga"
+#~ msgstr "Katalania"
+
+#, fuzzy
+#~ msgid "Northern Cape"
+#~ msgstr "Luotu"
+
+#, fuzzy
+#~ msgid "Western Cape"
+#~ msgstr "Romania"
+
+#, fuzzy
+#~ msgid "lazy message"
+#~ msgstr "Ei viestejä"
+
+#, fuzzy
+#~ msgid "session key"
+#~ msgstr "Luontipäivämäärä"
+
+#, fuzzy
+#~ msgid "session data"
+#~ msgstr "Luontipäivämäärä"
+
+#, fuzzy
+#~ msgid "expire date"
+#~ msgstr "Voimassaolopäivä"
+
+#, fuzzy
+#~ msgid "session"
+#~ msgstr "Luontipäivämäärä"
+
+#, fuzzy
+#~ msgid "sessions"
+#~ msgstr "Luontipäivämäärä"
+
+#, fuzzy
+#~ msgid "domain name"
+#~ msgstr "tunnisteen nimi (tagi)"
+
+#, fuzzy
+#~ msgid "display name"
+#~ msgstr "Malli"
+
+#, fuzzy
+#~ msgid "Enter a valid value."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid URL."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid ""
+#~ "Enter a valid 'slug' consisting of letters, numbers, underscores or "
+#~ "hyphens."
+#~ msgstr ""
+#~ "Tämä kenttä voi sisältää vain kirjaimia, numeroita ja @/./+/-/_ merkkejä."
+
+#, fuzzy
+#~ msgid "Enter a valid IPv4 address."
+#~ msgstr "Muokkaa käyttäjän tiedot"
+
+#, fuzzy
+#~ msgid "Value %r is not a valid choice."
+#~ msgstr "Sähköposti %s on väärin."
+
+#, fuzzy
+#~ msgid "This field cannot be null."
+#~ msgstr "Pakollinen kenttä"
+
+#, fuzzy
+#~ msgid "This field cannot be blank."
+#~ msgstr "Pakollinen kenttä"
+
+#, fuzzy
+#~ msgid "Date (without time)"
+#~ msgstr "Edellinen suorituskerta"
+
+#, fuzzy
+#~ msgid "Enter a valid date in YYYY-MM-DD format."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Invalid date: %s"
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Date (with time)"
+#~ msgstr "Päivämäärään"
+
+#, fuzzy
+#~ msgid "Decimal number"
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "E-mail address"
+#~ msgstr "Sähköposti"
+
+#, fuzzy
+#~ msgid "File path"
+#~ msgstr "Haku"
+
+#, fuzzy
+#~ msgid "Model %(model)s with pk %(pk)r does not exist."
+#~ msgstr "Käyttäjätunnus %d  ei ole olemassa"
+
+#, fuzzy
+#~ msgid "Enter a whole number."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a number."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid date."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid time."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a valid date/time."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Enter a list of values."
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "Please correct the duplicate data for %(field)s."
+#~ msgstr "Anna oikea käyttäjätunnus."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please correct the duplicate data for %(field)s, which must be unique."
+#~ msgstr "Anna oikea käyttäjätunnus."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please correct the duplicate data for %(field_name)s which must be unique "
+#~ "for the %(lookup)s in %(date_field)s."
+#~ msgstr "Anna oikea käyttäjätunnus."
+
+#, fuzzy
+#~ msgid "Please correct the duplicate values below."
+#~ msgstr "Anna oikea käyttäjätunnus."
+
+#, fuzzy
+#~ msgid "Mon"
+#~ msgstr "Maanantai"
+
+#, fuzzy
+#~ msgid "Tue"
+#~ msgstr "Totta"
+
+#, fuzzy
+#~ msgid "Thu"
+#~ msgstr "Totta"
+
+#, fuzzy
+#~ msgid "Fri"
+#~ msgstr "Perjantai"
+
+#, fuzzy
+#~ msgid "Sat"
+#~ msgstr "Tila"
+
+#, fuzzy
+#~ msgid "Sun"
+#~ msgstr "Sunnuntai"
+
+#, fuzzy
+#~ msgid "March"
+#~ msgstr "Etsi"
+
+#, fuzzy
+#~ msgid "May"
+#~ msgstr "Maanantai"
+
+#, fuzzy
+#~ msgid "September"
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "November"
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "December"
+#~ msgstr "Puhelinnumero"
+
+#, fuzzy
+#~ msgid "jan"
+#~ msgstr "Kanadan Englanti"
+
+#, fuzzy
+#~ msgid "mar"
+#~ msgstr "Maanantai"
+
+#, fuzzy
+#~ msgid "may"
+#~ msgstr "Maanantai"
+
+#, fuzzy
+#~ msgid "jun"
+#~ msgstr "Sunnuntai"
+
+#, fuzzy
+#~ msgid "jul"
+#~ msgstr "Sunnuntai"
+
+#, fuzzy
+#~ msgid "oct"
+#~ msgstr "doc"
+
+#, fuzzy
+#~ msgid "nov"
+#~ msgstr "nyt"
+
+#, fuzzy
+#~ msgid "dec"
+#~ msgstr "doc"
+
+#, fuzzy
+#~ msgid "or"
+#~ msgstr "Aja raportti klo"
+
+#, fuzzy
+#~ msgid "year"
+#~ msgid_plural "years"
+#~ msgstr[0] ""
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ msgstr[1] ""
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+
+#, fuzzy
+#~ msgid "month"
+#~ msgid_plural "months"
+#~ msgstr[0] ""
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ msgstr[1] ""
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+
+#, fuzzy
+#~ msgid "week"
+#~ msgid_plural "weeks"
+#~ msgstr[0] ""
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ msgstr[1] ""
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+
+#, fuzzy
+#~ msgid "day"
+#~ msgid_plural "days"
+#~ msgstr[0] "Maanantai"
+#~ msgstr[1] "Maanantai"
+
+#, fuzzy
+#~ msgid "hour"
+#~ msgid_plural "hours"
+#~ msgstr[0] "Aja raportti klo"
+#~ msgstr[1] "Aja raportti klo"
+
+#, fuzzy
+#~ msgid "minute"
+#~ msgid_plural "minutes"
+#~ msgstr[0] "minuuttia"
+#~ msgstr[1] "minuuttia"
+
+#, fuzzy
+#~ msgid "The %(verbose_name)s was created successfully."
+#~ msgstr "Raportti luotu onnistuneesti"
+
+#, fuzzy
+#~ msgid "The %(verbose_name)s was updated successfully."
+#~ msgstr "Raportti luotu onnistuneesti"
+
+#, fuzzy
+#~ msgid "The %(verbose_name)s was deleted."
+#~ msgstr "Raportti luotu onnistuneesti"
+
+#, fuzzy
+#~ msgid "created"
+#~ msgstr "Luotu"
+
+#, fuzzy
+#~ msgid "modified"
+#~ msgstr "Muokattu"
+
+#, fuzzy
+#~ msgid "description"
+#~ msgstr "Kantaan"
+
+#, fuzzy
+#~ msgid "Inactive"
+#~ msgstr "Poista käytöstä"
+
+#, fuzzy
+#~ msgid "Active"
+#~ msgstr "Aktivoi"
+
+#, fuzzy
+#~ msgid "status"
+#~ msgstr "Tila"
+
+#, fuzzy
+#~ msgid "state"
+#~ msgstr "Tila"
+
+#, fuzzy
+#~ msgid "Task detail"
+#~ msgstr "Käyttäjän tiedot"
+
+#, fuzzy
+#~ msgid "Tasks"
+#~ msgstr "Admin tila"
+
+#, fuzzy
+#~ msgid "Revoke selected tasks"
+#~ msgstr "Poista valittu ryhmästä"
+
+#, fuzzy
+#~ msgid "Terminate selected tasks"
+#~ msgstr "Poista valittu ryhmästä"
+
+#, fuzzy
+#~ msgid "Kill selected tasks"
+#~ msgstr "Valitun sisällön nimi"
+
+#, fuzzy
+#~ msgid "Rate limit selected tasks"
+#~ msgstr "Poista valittu ryhmästä"
+
+#, fuzzy
+#~ msgid "Rate limit selection"
+#~ msgstr "Kokoelma"
+
+#, fuzzy
+#~ msgid "Node detail"
+#~ msgstr "Käyttäjän tiedot"
+
+#, fuzzy
+#~ msgid "task id"
+#~ msgstr "tunnisteen nimi (tagi)"
+
+#, fuzzy
+#~ msgid "task status"
+#~ msgstr "Admin tila"
+
+#, fuzzy
+#~ msgid "task meta"
+#~ msgstr "tunnisteen nimi (tagi)"
+
+#, fuzzy
+#~ msgid "taskset meta"
+#~ msgstr "tunnisteen nimi (tagi)"
+
+#, fuzzy
+#~ msgid "Hours"
+#~ msgstr "Kurssi näkyvillä"
+
+#, fuzzy
+#~ msgid "Minutes"
+#~ msgstr "minuuttia"
+
+#~ msgid "every"
+#~ msgstr "joka"
+
+#, fuzzy
+#~ msgid "Useful description"
+#~ msgstr "Kantaan"
+
+#, fuzzy
+#~ msgid "task name"
+#~ msgstr "tunnisteen nimi (tagi)"
+
+#, fuzzy
+#~ msgid "Arguments"
+#~ msgstr "Toimeksiannot"
+
+#, fuzzy
+#~ msgid "Keyword arguments"
+#~ msgstr "Toimeksiannot"
+
+#, fuzzy
+#~ msgid "JSON encoded keyword arguments"
+#~ msgstr "Toimeksiannot"
+
+#, fuzzy
+#~ msgid "exchange"
+#~ msgstr "muutokset"
+
+#, fuzzy
+#~ msgid "expires"
+#~ msgstr "Voimassaolopäivä"
+
+#, fuzzy
+#~ msgid "hostname"
+#~ msgstr "Sukunimi"
+
+#, fuzzy
+#~ msgid "last heartbeat"
+#~ msgstr "Sukunimi"
+
+#, fuzzy
+#~ msgid "event received at"
+#~ msgstr "Vastaanotetut"
+
+#, fuzzy
+#~ msgid "result"
+#~ msgstr "Tiedostoa"
+
+#, fuzzy
+#~ msgid "execution time"
+#~ msgstr "Edellinen suorituskerta"
+
+#, fuzzy
+#~ msgid "number of retries"
+#~ msgstr "Sisällön sivumäärä"
+
+#, fuzzy
+#~ msgid "task"
+#~ msgstr "tunnisteen nimi (tagi)"
+
+#, fuzzy
+#~ msgid "tasks"
+#~ msgstr "Admin tila"
+
+#, fuzzy
+#~ msgid "just now"
+#~ msgstr "Aja raportti"
+
+#, fuzzy
+#~ msgid "years"
+#~ msgstr ""
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+
+#, fuzzy
+#~ msgid "months"
+#~ msgstr ""
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+
+#, fuzzy
+#~ msgid "weeks"
+#~ msgstr ""
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+
+#, fuzzy
+#~ msgid "Rate limit"
+#~ msgstr "Kokoelma"
+
+#, fuzzy
+#~ msgid "All users"
+#~ msgstr "Kaikki moduulit"
+
+#, fuzzy
+#~ msgid "Message Received"
+#~ msgstr "Vastaanotetut"
+
+#, fuzzy
+#~ msgid "you have received a message"
+#~ msgstr "Vastaanotetut viestit"
+
+#, fuzzy
+#~ msgid "Message Sent"
+#~ msgstr "Viestiyt - Lähetetyt"
+
+#, fuzzy
+#~ msgid "you have sent a message"
+#~ msgstr "Ei viestejä"
+
+#, fuzzy
+#~ msgid "Message Replied"
+#~ msgstr "Ei viestejä"
+
+#, fuzzy
+#~ msgid "you have replied to a message"
+#~ msgstr "Vastaanotetut viestit"
+
+#, fuzzy
+#~ msgid "Reply Received"
+#~ msgstr "Vastaanotetut"
+
+#, fuzzy
+#~ msgid "you have received a reply to a message"
+#~ msgstr "Vastaanotetut viestit"
+
+#, fuzzy
+#~ msgid "Message Deleted"
+#~ msgstr "Viestiyt - Lähetetyt"
+
+#, fuzzy
+#~ msgid "you have deleted a message"
+#~ msgstr "Vastaanotetut viestit"
+
+#, fuzzy
+#~ msgid "Message Recovered"
+#~ msgstr "Vastaanotetut"
+
+#, fuzzy
+#~ msgid "you have undeleted a message"
+#~ msgstr "Vastaanotetut viestit"
+
+#, fuzzy
+#~ msgid "Sender"
+#~ msgstr "Lähetä"
+
+#, fuzzy
+#~ msgid "Parent message"
+#~ msgstr "Ei viestejä"
+
+#, fuzzy
+#~ msgid "Sender deleted at"
+#~ msgstr "Poista valittu ryhmästä"
+
+#, fuzzy
+#~ msgid "Recipient deleted at"
+#~ msgstr "Vastaanotetut"
+
+#, fuzzy
+#~ msgid "New Message: %(subject)s"
+#~ msgstr "VS: %(subject)s"
+
+#, fuzzy
+#~ msgid "Message successfully sent."
+#~ msgstr "Viesti poistettu"
+
+#, fuzzy
+#~ msgid ""
+#~ "%(sender)s wrote:\n"
+#~ "%(body)s"
+#~ msgstr ""
+#~ "%(date)s, %(sender)s kirjoitti:\n"
+#~ "%(body)s\n"
+#~ "\n"
+
+#, fuzzy
+#~ msgid "Message successfully recovered."
+#~ msgstr "Viesti poistettu"
+
+#, fuzzy
+#~ msgid "Sent Messages"
+#~ msgstr "Ei viestejä"
+
+#, fuzzy
+#~ msgid "New Message"
+#~ msgstr "Uusi viesti"
+
+#, fuzzy
+#~ msgid "Compose Message"
+#~ msgstr "Ei viestejä"
+
+#, fuzzy
+#~ msgid "delete"
+#~ msgstr "Poista"
+
+#, fuzzy
+#~ msgid "No messages."
+#~ msgstr "Ei viestejä"
+
+#, fuzzy
+#~ msgid "Deleted Messages"
+#~ msgstr "Vastaanotetut viestit"
+
+#, fuzzy
+#~ msgid "undelete"
+#~ msgstr "Poista"
+
+#, fuzzy
+#~ msgid "View Message"
+#~ msgstr "Uusi viesti"
+
+#, fuzzy
+#~ msgid "You have deleted the message '%(message)s'."
+#~ msgstr "Vastaanotetut viestit"
+
+#, fuzzy
+#~ msgid ""
+#~ "You have deleted the message <a href=\"%(message_url)s\">%(message)s</a>."
+#~ msgstr "Vastaanotetut viestit"
+
+#, fuzzy
+#~ msgid "You have recovered the message '%(message)s'."
+#~ msgstr "Vastaanotetut viestit"
+
+#, fuzzy
+#~ msgid ""
+#~ "You have recovered the message <a href=\"%(message_url)s\">%(message)s</"
+#~ "a>."
+#~ msgstr "Vastaanotetut viestit"
+
+#, fuzzy
+#~ msgid ""
+#~ "You have replied to '%(message_parent_msg)s' from %(message_recipient)s."
+#~ msgstr "Vastaanotetut viestit"
+
+#, fuzzy
+#~ msgid "You have sent the message '%(message)s' to %(message_recipient)s."
+#~ msgstr "Vastaanotetut viestit"
+
+#~ msgid "Convert as text"
+#~ msgstr "Muunnettu Sub Avain"
+
+#~ msgid "collection created"
+#~ msgstr "Luotu keräyksessä"
+
+#~ msgid "choose time"
+#~ msgstr "valitse aika"
+
+#~ msgid "Module must have objectives."
+#~ msgstr "Kurssin tavoite"
+
+#~ msgid "Continue info package"
+#~ msgstr "Jatka info pakettia"
+
+#~ msgid "My info packages"
+#~ msgstr "Omat info paketit"
+
+#~ msgid "activeDirectoryGroup"
+#~ msgstr "activeDirectory-ryhmä"
+
+#~ msgid "groupOfNames"
+#~ msgstr "ryhmä nimiä"
+
+#~ msgid "groupOfUniqueNames"
+#~ msgstr "ryhmä uniikkia nimiä"
+
+#~ msgid "posixGroup"
+#~ msgstr "PosixRyhmä"
+
+#~ msgid "Continue Info Pkg."
+#~ msgstr "Jatka info paketti"
+
+#~ msgid "Last modified date"
+#~ msgstr "Viimeksi muokattu päivämäärä"
+
+#~ msgid "Published date"
+#~ msgstr "Julkaistu päivämäärä"
+
+#~ msgid "All rights reserved"
+#~ msgstr "Kaikki oikeudet pidätetään"
+
+#~ msgid "Group is administrative group"
+#~ msgstr "Ryhmä on hallinnollinen ryhm."
+
+#~ msgid "Datepicker!"
+#~ msgstr "Päivämäärävalitsin!"
+
+#~ msgid "info packet status"
+#~ msgstr "info paketin tila"
+
+#~ msgid "Is admin group"
+#~ msgstr "On admin ryhmä"
+
+#~ msgid "Expiration date"
+#~ msgstr "Viimeinen käyttäpäivä"
+
+#~ msgid "author"
+#~ msgstr "tekijä"

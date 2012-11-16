@@ -1,0 +1,52 @@
+{% extends "modal_template.html" %}
+{% load i18n %}
+{% block style %} style="width: 680px;"{% endblock %}
+{% block title %}{% trans "Map LDAP groups" %}{% endblock %}
+{% block content %}
+<div id="ldapGroupWrapper" class="boxGray">
+    {% spaceless %}
+        <span class="resultHead">{% trans "Group name" %}</span>    
+        <span class="resultHead">{% trans "Group DN" %}</span>
+        <span class="narrow"></span>
+    {% endspaceless %}
+    <ul id="ldapGroupList">        
+        {% for group in groups %}
+        <li class="{% cycle 'odd' 'even' %}">
+            <input type="hidden" name="group_id" value="{{ group.id }}" />
+            {% spaceless %}
+            <span title="{{ group.name }}">{{ group.name }}</span>
+            <span title="{{ group.group_dn }}">{{ group.group_dn }}</span>
+            <span class="narrow">
+                {% endspaceless %}
+                <a class="editLDAP button-normal" href="#">{% trans "Edit" %}</a>
+                <a class="removeLDAP button-normal" href="#">{% trans "Remove" %}</a>
+                <a class="synchronizeLDAP button-normal" href="#">{% trans "Synchronize" %}</a>
+            </span>            
+        </li>
+      {% endfor %}
+    </ul>
+    <div id="newGroupFormWrapper">
+        <strong>{% trans "Add new group mapping" %}:</strong>
+        {% for field in groupForm.hidden_fields %}
+            {{ field }}
+        {% endfor %}
+        {% spaceless %}
+        {% for field in groupForm %}
+            {% if not field.is_hidden %}
+                <span>{{ field }}</span>
+            {% endif %}
+        {% endfor %}          
+        <span class="narrow"><a class="createLDAP button-normal" href="#">{% trans "Add" %}</a></span>
+        {% endspaceless %}
+    </div>
+    
+    <div style="width: 200px; margin: 0px auto;">
+	    <a class="button-gray button-big button-close" href="#" style="margin-top: 10px;">{% trans "Close" %}</a>
+	</div>
+	
+</div>
+
+
+    
+
+{% endblock %}

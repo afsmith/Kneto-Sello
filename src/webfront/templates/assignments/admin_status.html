@@ -1,0 +1,124 @@
+{% extends "base_template.html" %}
+{% load i18n %}
+{% block meta_title %}{% trans "Admin status" %}{% endblock %}
+{% block title %}{% trans "Admin status" %}{% endblock %}
+{% block js_scripts %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/admin-status.js"></script>
+{% endblock %}
+{% block statusclass %} class="active"{% endblock %}
+{% block content %}
+<div id="adminStatus" class="boxGray">
+	<form id="adminStatusFilter">
+	  <div class="inputWrapper shadow-gray">
+	    <select id="groupFilter" class="selectBoxJs">
+	        <option value="-1">{% trans "-- no group selected --" %}</option>
+	    	{% for group in my_groups %}
+				<option class="" value="{{ group.id }}" my_group="{{ group.is_my_group }}">{{ group.name }}</option>
+			{% endfor %}
+	    </select>
+	    {% if user.get_profile.is_superadmin %}
+            <select id="myGroupFilter">
+                <option value="-1">{% trans "-- no group selected --" %}</option>
+                {% for group in groups %}
+                    <option class="" value="{{ group.id }}">{{ group.name }}</option>
+                {% endfor %}
+            </select>
+        {% endif %}
+	  </div>
+	  <a href="#" id="sendMessageToGroup" class="button-normal button-big-no-width fleft">
+	    <img src="{{ MEDIA_URL }}img/blank.gif" class="postIco icon" alt="" style="display: inline;" />{% trans "To group" %}
+	  </a>
+	  <div class="inputWrapper shadow-gray">
+	    <input id="nameFilter" type="text" value="{% trans "- search by name -" %}"/>
+	    <a class="selectButton" href="#"><img class="searchIco" src="{{ MEDIA_URL }}img/blank.gif" alt="" /></a>
+	  </div>
+	  {% if user.get_profile.is_superadmin %}
+	       <div class="superadmin">
+	           <input id="showMy" type="checkbox" checked="yes" /><label for="showMy"> {% trans "Show only my groups" %} </label>
+	       </div>
+	  {% endif %}
+	</form>
+	<div class="hr"></div>
+	{% for group, dict in data.items %}
+	    <div id="rdw_{{ group.id }}" class="rowDescriptionWrapper">
+	        {% if dict.users_data|length > 0 %}
+	    	<table>
+	            <tr>
+	              <th id="sendButtonHeader">
+	                <a id="sendMessageToUsers" href="#" class="button-normal button-big-no-width">
+	                  <img src="{{ MEDIA_URL }}img/blank.gif" class="postIco icon" alt="" style="display: inline;" />{% trans "To" %} <span class="noMails">0</span> {% trans "people" %}
+	                </a>
+	              </th>
+	            </tr>
+	            <tr class="sortingHeader">
+	                <td><a class="sortUsers active asc" href="#">&nbsp;</a></td>
+	            </tr>
+	            {% for row in dict.users_data %}
+	            	<tr id="row_{{ group.id }}_{{ row.0.id }}" class="{% cycle 'odd' 'even' %} user_row" filter="{{ row.0.last_name }} {{row.0.first_name }}">
+	            		<td>
+	            			<input type="checkbox" id="check_{{ group.id }}_{{ row.0.id }}" />
+	            			<label for="check_{{ group.id }}_{{ row.0.id }}"><strong>{{ row.0.last_name }}</strong> {{row.0.first_name }}</label>
+		            		<div class="tooltip">
+		                		<table>
+		                			<tr><th>{% trans "Username" %}:</th><td>{{ row.0.username }}</td></tr>
+		                			<tr><th>{% trans "First Name" %}:</th><td>{{ row.0.first_name }}</td></tr>
+		                			<tr><th>{% trans "Last name" %}:</th><td>{{ row.0.last_name }}</td></tr>
+		                			<tr><th>{% trans "E-mail" %}:</th><td>{{ row.0.email }}</td></tr>
+		                			<tr><th>{% trans "Phone" %}:</th><td>{{ row.0.phone }}</td></tr>
+		                			<tr><th>{% trans "Last login" %}:</th><td>{{ row.0.last_login|date:"Y-m-d H:i" }}</td></tr>
+		                			<tr><th>{% trans "Groups" %}:</th><td>
+		                			    {% for group in row.0.groups.all %}
+		                			     {{ group.name }}
+		                			     {% if not forloop.last %}, {% endif %}
+		                			    {% endfor %}
+		                			</td></tr>
+		                		</table>
+		                	</div>
+	            		</td>
+	            	</tr>
+	    		{% endfor %}
+	    	</table>
+	    	{% endif %}
+	    </div>
+	    <div id="tw_{{ group.id }}" class="tableWrapper">
+	        {% if dict.users_data|length > 0 %}
+	          <table>
+	            <tr>
+	            {% for course in dict.courses %}
+	            	<th><span class="headerWrapper" title="{{ course.title }}">{{ course.title }}</span></th>
+	    		{% endfor %}
+	    		</tr>
+	    		<tr class="sortingHeader">
+                    <td colspan="{{ dict.courses.count }}"><a class="sortCourses inactive asc" href="#">&nbsp;</a></td>
+                </tr>
+	    		{% for row in dict.users_data %}
+	            <tr id="det_row_{{ group.id }}_{{ row.0.id }}" class="{% cycle 'odd' 'even' %}">
+	                {% for event in row.1 %}
+                	    {% for course in dict.courses %}
+	                			{% if course.id == event.id %}
+                                    <td class="progress">
+                                        <a href="{% url assignments-user_progress %}?user_id={{ row.0.id }}&amp;course_id={{ event.id }}" class="progress{{event.ratio}}"></a>
+                                        <div class="tooltip">
+                                            <table>
+                                                <tr><th>{% trans "Author" %}</th><td>{{ course.owner.first_name }} {{ course.owner.last_name }}</td></tr>
+                                                <tr><th>{% trans "Title" %}</th><td>{{ course.title }}</td></tr>
+                                                <tr><th>{% trans "Published" %}</th><td>{{ course.published_on|date:"Y-m-d H:i" }}</td></tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                            {% endif %}
+			            {% endfor %}
+	                {% endfor %}
+	            </tr>
+				{% endfor %}
+	          </table>
+	          {% else %}
+	          <div class="defaultMessage">{% trans "No users in this group" %}</div>
+	          {% endif %}
+	        </div>
+	{% endfor %}
+	<div id="defaultMessage" class="defaultMessage">{% trans "No group selected" %}</div>
+	<div class="hr"></div>
+</div>
+<div class="hr"></div>
+{% endblock %}

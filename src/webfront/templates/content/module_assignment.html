@@ -1,0 +1,118 @@
+{% extends "base_template.html" %}
+{% load i18n %}
+{% block meta_title %}{% trans "Assignments" %}{% endblock %}
+{% block title %}{% trans "Assignments" %}{% endblock %}
+{% block js_scripts %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/module-assignment.js"></script>
+{% endblock %}
+{% block assignmentsclass %} class="active"{% endblock %}
+{% block content %}
+          <div id="moduleAssignments">
+            <div id="moduleAssignmentsWrapper">
+			  <div id="modulesWrapper">
+			    <div class="tabs">
+			      <ul>
+			        <li class="first">
+			          <span class="left"></span>
+			          <a href="#myModules"><span>{% trans "My modules" %}</span></a>
+			          <span class="right"></span>
+			        </li>
+			        <li class="">
+			          <span class="left"></span>
+			          <a href="#allModules"><span>{% trans "Other modules" %}</span></a>
+			          <span class="right"></span>
+			        </li>
+			      </ul>
+			    </div>
+			    <div class="modules {% if user.get_profile.is_superadmin %}modulesHigher{% endif %} boxGray">
+<!-- @todo: search form -->
+				<div class="search">
+			      	<form>
+			      		<ul>
+			      			<li>
+		
+			                    <div class="inputWrapper fleft inputMedium shadow-gray">
+			                      <select class="selectBoxJs" id="id_groups">
+			                        <option value="0">{% trans "All groups" %}</option>
+			                        {% for group in groups %}
+			                        <option value="{{ group.id }}">{{ group.name }}</option>
+			                        {% endfor %}
+			                      </select>
+
+                                  {% if user.get_profile.is_superadmin %}
+                                      <select style="display:none;" id="id_groups_all">
+                                        <option value="0">{% trans "All groups" %}</option>
+                                        {% for group in groups %}
+                                        <option value="{{ group.id }}">{{ group.name }}</option>
+                                        {% endfor %}
+                                      </select>
+                                  {% endif %}
+			                    </div>
+			                    
+			                   </li>
+			                   
+			                   <li>
+		
+			                    <div class="inputWrapper fleft inputMedium shadow-gray">
+			                      {{ form.language }}
+			                    </div>
+			                    
+			                    </li>
+			                <li>
+						        <div class="inputWrapper fleft inputLong shadow-gray fleft">
+						          <input id="search" type="text" value="{% trans "- search by name -" %}"/>
+						          <a class="selectButton" href="#"><img class="searchIco" src="{{ MEDIA_URL }}img/blank.gif" alt="" /></a>
+						        </div>
+					        </li>
+
+                            {% if user.get_profile.is_superadmin %}
+                                <li>
+                                    <div class="inputWrapper fleft inputMedium shadow-gray">
+                                      {{ form.owner }}
+                                    </div>
+                                </li>
+                            {% endif %}
+			       		</ul>
+		              </form>
+				</div>
+				<div class="clear"></div>
+			      <span class="resultHead headModuleName">{% trans "Module title" %}</span>
+			      <span class="resultHead headModuleAuthor">{% trans "Author" %}</span>
+			      <ul id="" class="allModules result shadow-gray list hidden">
+			      </ul>
+			      <ul id="" class="myModules result shadow-gray list hidden">			        
+			      </ul>
+			    </div>
+			  </div>
+			  <div id="moduleDetailsWrapper"></div>
+			  <div class="spacer clear"></div>
+			  <div id="groupsWrapper">
+			    <div class="groups boxGray">
+			      <ul class="formList fleft">
+                    <li class="fleft">
+                      <div class="inputWrapper shadow-gray fleft">
+                        <select name="groups" id="groups" class="selectBoxJs"></select>
+                        </div>
+                      <a id="addGroup" class="button-normal button-big-no-width">{% trans "Add group" %}</a>
+                        {% if user.get_profile.is_superadmin %}
+                            <div class="superadmin">
+                                <input id="showMy" type="checkbox"/><label for="showMy">{% trans "My groups" %}</label>
+                            </div>
+                            <select name="groups" id="my_groups" style="display:none;"></select>
+                        {% endif %}
+                  </ul>
+                  <ul id="group_list" class="list">
+			        
+			      </ul>
+			    </div>
+			    <div class="spacer"></div>
+			  </div>
+              <div class="separator"></div>
+              <div class="fleft inputMedium shadow-gray">
+			        {{ form.ocl }}{{ form.ocl.label }}
+			  </div>
+              <a id="as_save" class="button-blue done" href="#">{% trans "Publish" %}</a>
+              <div class="spacer"></div>
+		    </div>
+          </div>    
+{% endblock %}

@@ -1,0 +1,12 @@
+#height {height: 500px; margin: 10px 0px; padding: 0px 100px;}
+#video {
+  font-size: 12px;
+  font-weight: bold;
+  height: 500px;
+  line-height: 500px;
+  margin: 0px auto;
+  text-align: center;
+  width: 700px;
+}
+.sound span {color: #fff;}
+

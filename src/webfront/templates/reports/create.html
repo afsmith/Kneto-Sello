@@ -1,0 +1,29 @@
+{% extends "modal_template.html" %}
+{% load i18n %}
+{% block style %} style="width: 550px;"{% endblock %}
+{% block title %}
+    {% if not report.id %}
+        {% trans "Create new report" %}
+    {% else %}
+        {% trans "Edit report" %}: {{ report.name }}
+    {% endif %}
+{% endblock %}
+{% block content %}
+<form id="newReportForm" action="/reports/create/{% if report.id %}{{ report.id }}/{% endif %}" method="post" enctype="multipart/form-data">
+    {% include "form_template.html" %}
+    <div style="width: 200px; margin: 0px auto;">
+    <a class="button-gray button-big button-submit" href="#" style="margin-top: 10px;">{% trans "Save" %}{% if report.id %} {% trans "changes" %}{% endif %}</a>
+</div>
+{% if user.get_profile.is_superadmin %}
+    <div style="display:none;">
+        {{ superadmin_form.all_users }}
+        {{ superadmin_form.all_admins }}
+        {{ superadmin_form.all_groups }}
+        {{ superadmin_form.all_courses }}
+    </div>
+    <div class="superadmin">{{ superadmin_form.show_all }}&nbsp;{{ superadmin_form.show_all.label }}</div>
+{% endif %}
+</form>
+
+
+{% endblock %}

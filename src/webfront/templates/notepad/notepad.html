@@ -1,0 +1,39 @@
+{% extends "base_template.html" %}
+{% load i18n %}
+{% block meta_title %}{% trans "Notepad" %}{% endblock %}
+{% block js_scripts %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/notepad.js"></script>
+{% endblock %}
+{% block title %}{% trans "Notepad" %}{% endblock %}
+{% block bodyclass %}{% if user.get_profile.role == 30 %} class="userView"{% endif %}{% endblock %}
+{% block usernotepadclass %} class="active"{% endblock %}
+{% block content %}
+<div id="notepadWrapper">
+  <div class="boxGray">
+    <ul id="noteList" class="boxWhite">
+      {% if notes_list %}
+        {% for note in notes_list %}
+          <li id="note_{{ note.pk }}" noteid="{{ note.pk }}" class="{% cycle 'odd' 'even' %}{% if forloop.first %} first{% endif %}">
+            <span id="title">{{ note.title }}</span> <br />
+            <span id="updatedOn">{{ note.updated_on|date:"Y-m-d H:i" }}</span>
+          </li>
+        {% endfor %}
+      {% else %}
+        <li id="note_dummy" class="first"><span id="title">{% trans "No notes" %}</span><br /><span id="updatedOn"></span></li>
+      {% endif %}
+    </ul>
+    <div id="selectedNote" {% with notes_list|first as first_note %} noteid="{{ first_note.id }}" {% endwith %}>
+      <div class="boxWhite">
+          <input id="noteTitle" type="text" maxlength="120" />
+          <textarea id="noteText" rows="13" cols="80"></textarea>
+      </div>
+      <div class="buttons">
+        <a id="addNewNote" href="#" class="button-normal">{% trans "Add new" %}</a>
+        <a id="saveNewNote" href="#" class="button-normal">{% trans "Save" %}</a>
+        <a id="removeNote" href="#" class="button-normal">
+            <img alt="" src="{{ MEDIA_URL }}img/blank.gif" class="icon icoRemove"/>{% trans "Remove" %}</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

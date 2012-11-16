@@ -1,0 +1,248 @@
+[
+    {
+        "pk": 1, 
+        "model": "messages_custom.mailtemplateparam", 
+        "fields": {
+            "pattern": "[password]"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "messages_custom.mailtemplateparam", 
+        "fields": {
+            "pattern": "[username]"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "messages_custom.mailtemplateparam",
+        "fields": {
+            "pattern": "[groupname]"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "messages_custom.mailtemplateparam",
+        "fields": {
+            "pattern": "[moduletitle]"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "messages_custom.mailtemplateparam",
+        "fields": {
+            "pattern": "[oneclicklink]"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "messages_custom.mailtemplateparam",
+        "fields": {
+            "pattern": "[reportname]"
+        }
+    },
+ 
+    {
+        "pk": 1, 
+        "model": "messages_custom.mailtemplate", 
+        "fields": {
+            "name": "Welcome message", 
+            "default": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>Welcome to the Kneto!</i></b><br></font>\n</p>\n<p>\n<b>Your login:</b> [username]<br>\n<b>Your password:</b> [password]<br>\n\n<p>\n<a href=\"http://sales.kneto.fi\">Log in now!</a> \n</p>\n\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
+            "content": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>Welcome to the Kneto!</i></b><br></font>\n</p>\n<p>\n<b>Your login:</b> [username]<br>\n<b>Your password:</b> [password]<br>\n\n<p>\n<a href=\"http://sales.kneto.fi\">Log in now!</a> \n</p>\n\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
+            "subject": "Welcome!",
+            "default_subject": "Welcome!",
+            "params": [
+                1, 
+                2
+            ], 
+            "type": "EMAIL", 
+            "description": "This message is sent to the users when they have been added to the system.",
+            "identifier": "WELCOME"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "messages_custom.mailtemplate", 
+        "fields": {
+            "name": "Welcome to the group", 
+            "default": "You are now a member of the group: [groupname]",
+            "content": "You are now a member of the group: [groupname]",
+            "subject": "You become a member [groupname]\n\n",
+            "default_subject": "Welcome to the group [groupname]",
+            "params": [
+                3
+            ], 
+            "type": "INT", 
+            "description": "This message is sent to the users when they have been added to the group.",
+            "identifier": "WELCOME_GROUP"
+        }
+    },
+        {
+        "pk": 3, 
+        "model": "messages_custom.mailtemplate", 
+        "fields": {
+            "name": "Goodbye message", 
+            "default": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>Your account has been removed</i></b><br></font>\n</p>\n<p>\nYour account in the Kneto system has been removed.\n\nPlease contact you local administrator if you believe this to be an error.\n\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B<br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
+            "content": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>Your account has been removed</i></b><br></font>\n</p>\n<p>\nYour account in the Kneto system has been removed.\n\nPlease contact you local administrator if you believe this to be an error.\n\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B<br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
+            "subject": "Account Removed",
+            "default_subject": "Account Removed",
+            "params": [],
+            "type": "EMAIL", 
+            "description": "This message is sent to the users when they have been removed from the system.",
+            "identifier": "GOODBYE"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "messages_custom.mailtemplate",
+        "fields": {
+            "name": "Reset passwords message",
+            "default": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>Your password has been reset.</i></b><br></font>\n</p>\n<p>\n<b>Your new password:</b> [password]<br>\n\n<p>\n<a href=\"http://sales.kneto.fi\">Log in now!</a> \n</p>\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
+            "content": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>Your password has been reset.</i></b><br></font>\n</p>\n<p>\n<b>Your new password:</b> [password]<br>\n\n<p>\n<a href=\"http://sales.kneto.fi\">Log in now!</a> \n</p>\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
+            "subject": "Your password has been reset",
+            "default_subject": "Your password has been reset",
+            "params": [
+                1
+            ],
+            "type": "EMAIL",
+            "description": "This message is sent to the users when their password has been reset.",
+            "identifier": "PASSWORD"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "messages_custom.mailtemplate",
+        "fields": {
+            "name": "Edit user's data",
+            "default": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>You account information has changed</i></b><br></font>\n</p>\n<p>\n\nIf you are not expecting a change to your account. Please contact your local administrator.\n\n<br>\n\n<p>\n<a href=\"http://sales.kneto.fi\">Go to the Kneto!</a> \n</p>\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
+            "content": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>You account information has changed</i></b><br></font>\n</p>\n<p>\n\nIf you are not expecting a change to your account. Please contact your local administrator.\n\n<br>\n\n<p>\n<a href=\"http://sales.kneto.fi\">Go to the Kneto!</a> \n</p>\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
+            "subject": "You account information has changed",
+            "default_subject": "You account information has changed",
+            "params": [],
+            "type": "EMAIL",
+            "description": "This message is sent to the users when their data has been changed.",
+            "identifier": "EDIT_DATA"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "messages_custom.mailtemplate",
+        "fields": {
+            "name": "Receive the ‘Group manager’ right",
+            "default": "You received the right to manage the group: [groupname]\n\nhttp://kneto.lusikka.net/",
+            "content": "You received the right to manage the group: [groupname]\n\nhttp://kneto.lusikka.net/",
+            "subject": "You become a manager of the group [groupname]",
+            "default_subject": "You become a manager of the group [groupname]",
+            "params": [
+                3
+            ],
+            "type": "INT",
+            "description": "This message is sent to the admins when they become a manager of a group.",
+            "identifier": "ADD_RIGHT"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "messages_custom.mailtemplate",
+        "fields": {
+            "name": "Assign a new lesson",
+            "default": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>You have new content to view!</i></b><br></font>\n</p>\n<p>\nModule: [moduletitle] has been assigned to your group: [groupname].\n<br>\n\n<p>\n<a href=\"http://sales.kneto.fi\">View it now!</a> \n</p>\n\n<hr>\n\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>\n",
+            "content": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>You have new content to view!</i></b><br></font>\n</p>\n<p>\nModule: [moduletitle] has been assigned to your group: [groupname].\n<br>\n\n<p>\n<a href=\"http://sales.kneto.fi\">View it now!</a> \n</p>\n\n<hr>\n\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>\n",
+            "subject": "You have new content: [moduletitle]",
+            "default_subject": "You have new content: [moduletitle]",
+            "params": [
+                3,4
+            ],
+            "type": "EMAIL",
+            "description": "This message is sent to members of a group when the new assignment has been made.",
+            "identifier": "ADD_ASSIGNMENT"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "messages_custom.mailtemplate",
+        "fields": {
+            "name": "Goodbye message",
+            "default": "You are no longer a member of the group: [groupname]\nIf you believe this to be an error, please contact your local administrator.",
+            "content": "You are no longer a member of the group: [groupname]\nIf you believe this to be an error, please contact your local administrator.",
+            "subject": "You have been removed from the group:  [groupname] ",
+            "default_subject": "You have been removed from the group:  [groupname] ",
+            "params": [
+                3
+            ],
+            "type": "INT", 
+            "description": "This message is sent to the users when they have been removed from the group.",
+            "identifier": "GOODBYE"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "messages_custom.mailtemplate",
+        "fields": {
+            "name": "Welcome message with ocl",
+            "default": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>Welcome to the Kneto!</i></b><br></font>\n</p>\n<p>\n<b>Your login:</b> [username]<br>\n<b>Your password:</b> [password]<br>\n\n<p>\nOne click link: [oneclicklink]\n</p>\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
+            "content": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>Welcome to the Kneto!</i></b><br></font>\n</p>\n<p>\n<b>Your login:</b> [username]<br>\n<b>Your password:</b> [password]<br>\n\n<p>\nOne click link: [oneclicklink]\n</p>\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
+            "subject": "Welcome!",
+            "default_subject": "Welcome!",
+            "params": [
+                1,
+                2,
+                5
+            ],
+            "type": "EMAIL",
+            "description": "This message is sent to the users when they have been added to the system.",
+            "identifier": "WELCOME_OCL"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "messages_custom.mailtemplate",
+        "fields": {
+            "name": "Report generation",
+            "default": "Your report '[reportname]' has been generated.\n\nhttp://kneto.lusikka.net",
+            "content": "Your report '[reportname]' has been generated.\n\nhttp://kneto.lusikka.net",
+            "subject": "Report generation",
+            "default_subject": "Report generation.",
+            "params": [6],
+            "type": "INT",
+            "description": "This message is sent to user whose report is generated.",
+            "identifier": "REPORT_GENERATION"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "messages_custom.mailtemplate",
+        "fields": {
+            "name": "Assign a new lesson with OCL",
+            "default": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>You have new content to view!</i></b><br></font>\n</p>\n<p>\nModule: [moduletitle] has been assigned to your group: [groupname].\n<br>\n\n<p>\n<a href=\"[oneclicklink]\">View it now with One Click Link!</a> \n</p>\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
+            "content": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>You have new content to view!</i></b><br></font>\n</p>\n<p>\nModule: [moduletitle] has been assigned to your group: [groupname].\n<br>\n\n<p>\n<a href=\"[oneclicklink]\">View it now with One Click Link!</a> \n</p>\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
+            "subject": "You have new content [moduletitle]",
+            "default_subject": "You have new content [moduletitle] ",
+            "params": [
+                3,4,5
+            ],
+            "type": "EMAIL",
+            "description": "This message is sent to members of a group when the new assignment has been made.",
+            "identifier": "ADD_ASSIGNMENT_OCL"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "messages_custom.mailtemplate",
+        "fields": {
+            "name": "Welcome message",
+            "default": "Welcome to the Kneto!\nYour login: [username]\nYour password: [password]\n\nhttp://kneto.lusikka.net",
+            "content": "Welcome to the Kneto!\nYour login: [username]\nYour password: [password]\n\nhttp://kneto.lusikka.net",
+            "subject": "Welcome!",
+            "default_subject": "Welcome!",
+            "params": [
+                1,
+                2
+            ],
+            "type": "INT",
+            "description": "This message is sent to the users when they have been added to the system.",
+            "identifier": "WELCOME"
+        }
+    }
+
+]

@@ -1,0 +1,65 @@
+{% extends "modal_template.html" %}
+{% load i18n %}
+{% block style %} style="width: 580px;"{% endblock %}
+{% block title %}{% trans "Manage templates" %}{% endblock %}
+{% block content %}
+<form id="MessagesTemplateForm" action="{% url messages-save_templates %}" method="post" class="nyroModal">
+	<ul class="formList">
+ 		<li>
+			<label>{% trans "Select template" %}</label>
+			<div class="inputWrapper shadow-gray selectWrapper">
+				<select id="selectMessageTemplate">
+			
+				{% for template in templates %}
+				<option value="{{ template.id }}">{{ template.name_with_type }}</option>
+				{% endfor %}
+				</select>
+			</div>
+		</li>
+		
+		{% for template in templates %}
+ 			<li id="messageDescription-{{ template.id }}" style="display: none" class='messageDescription'>
+				<label> &nbsp; </label>
+				<div class='descriptionWrapper'>
+					<span class="description">{{ template.description }}</span>
+				</div>
+			</li> 
+ 			<li id="messageTemplateSubject-{{ template.id}}" style="display: none;" class="messageTitle">
+				<label>{% trans "Subject" %}</label>
+				<div class="inputWrapper shadow-gray">
+					<input type="text" value="{{ template.subject }}" />
+                    <input type="hidden" class="default" value="{{ template.default_subject }}" />
+				</div>
+				
+			</li> 
+ 
+			<li id="messageTemplate-{{ template.id }}" style="display: none;" class='messageContent'>
+				<label>{% trans "Message" %}</label>
+				<div class='descriptionWrapper'>
+					<div class="inputWrapper shadow-gray">
+						<textarea>{{ template.content }}</textarea>
+						<input type="hidden" class="default" value="{{ template.default }}" />
+					</div>
+					<span class="description">{% trans "Parameters" %}: 
+						<strong> 
+						{% for param in template.params.all %}
+		                	{{ param.pattern }}{% if not forloop.last %},{% endif %}
+		                {% endfor %}
+	               		</strong>
+					</span>				
+				</div>
+			</li>
+		
+		{% endfor %}
+		<li>
+			<label> &nbsp; </label>
+			<a class="button-gray button-big button-default" href="#" style="width: 150px; margin-top: 10px; ">{% trans "Back to default" %}</a>
+		</li>
+	</ul>
+
+<div style="width: 200px; margin: 0px auto; display: block; clear: both;;">
+    <a class="button-gray button-big button-submit" href="#" style="">{% trans "Save" %}</a>
+</div>
+</form>
+<div class="separator"></div>
+{% endblock %}

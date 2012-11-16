@@ -1,0 +1,87 @@
+{% extends "modal_template.html" %}
+{% load i18n %}
+{% block style %} style="width: 640px;"{% endblock %}
+{% block title %}{% trans "Administer GUI" %}{% endblock %}
+{% block content %}
+
+<form id="GUISettingsForm" action="/administration/gui-settings/" method="post" class="nyroModal" enctype="multipart/form-data">
+    {% load extras %}
+    {% if form.non_field_errors %}
+      <div class="error">
+        {%for error in form.non_field_errors %}
+          {{error}}
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% csrf_token %}
+    <ul class="formList">
+      {% for field in form.hidden_fields %}
+        {{ field }}
+      {% endfor %}
+      <li>
+        <label>{{ form.default_language.label }}</label>
+        <div class="inputWrapper shadow-gray selectWrapper">{{ form.default_language }}</div>
+      </li>
+      <li>
+        <label>{{ form.custom_web_title.label }}</label>
+        <div class="inputWrapper shadow-gray">{{ form.custom_web_title }}</div>
+      </li>
+      <li>
+        <label>{{ form.footer.label }}</label>
+        <div class="inputWrapper shadow-gray">{{ form.footer }}</div>
+      </li>
+      <li>
+        <label>{{ form.css_file.label }}</label>
+        <a id='css_file_span' filename="{{ css_file_name }}" href='{{ MEDIA_URL }}custom/{% if css_file_name != "default.less" %}custom.less{% else %}{{ css_file_name }}{% endif %}
+				'>{{ css_file_name }}</a>
+        {{ form.css_file }}
+        <a id="css_file-upload" class="button-normal button-big-no-width leftAlignment file-upload" href="#">{% trans "Upload new" %}</a>
+        <a id="css_file-back_to_default" class="button-normal button-big-no-width leftAlignment back_to_default" href="#">{% trans "Back to default" %}</a>
+      </li>
+      <li>
+        <label>{{ form.application_icons.label }}</label>
+        <a id='application_icons_span' filename="{{ application_icons_name }}" href='{{ application_icons_url }}'>{{ application_icons_name }}</a>
+        {{ form.application_icons }}
+        <a id="application_icons-upload" class="button-normal button-big-no-width leftAlignment file-upload" href="#">{% trans "Upload new" %}</a>
+        <a id="application_icons-back_to_default" class="button-normal button-big-no-width leftAlignment back_to_default" href="#">{% trans "Back to default" %}</a>
+      </li>
+      <li>
+      	<label>{{ form.filetype_icons.label }}</label>
+        <a id='filetype_icons_span' filename="{{ filetype_icons_name }}" href='{{ filetype_icons_url }}'>{{ filetype_icons_name }}</a>
+        {{ form.filetype_icons }}
+        <a id="filetype_icons-upload" class="button-normal button-big-no-width leftAlignment file-upload" href="#">{% trans "Upload new" %}</a>
+        <a id="filetype_icons-back_to_default" class="button-normal button-big-no-width leftAlignment back_to_default" href="#">{% trans "Back to default" %}</a>
+      </li>
+      <li>
+      	<label>{{ form.progress_icons.label }}</label>
+        <a id='progress_icons_span' filename="{{ progress_icons_name }}" href='{{ progress_icons_url }}'>{{ progress_icons_name }}</a>
+        {{ form.progress_icons }}
+        <a id="progress_icons-upload" class="button-normal button-big-no-width leftAlignment file-upload" href="#">{% trans "Upload new" %}</a>
+        <a id="progress_icons-back_to_default" class="button-normal button-big-no-width leftAlignment back_to_default" href="#">{% trans "Back to default" %}</a>
+      </li>
+      <li>
+      	<label>{{ form.main_menu_bar.label }}</label>
+        <a id='main_menu_bar_span' filename="{{ main_menu_bar_name }}" href='{{ main_menu_bar_url }}'>{{ main_menu_bar_name }}</a>
+        {{ form.main_menu_bar }}
+        <a id="main_menu_bar-upload" class="button-normal button-big-no-width leftAlignment file-upload" href="#">{% trans "Upload new" %}</a>
+        <a id="main_menu_bar-back_to_default" class="button-normal button-big-no-width leftAlignment back_to_default" href="#">{% trans "Back to default" %}</a>
+      </li>
+    </ul>
+<div style="width: 200px; margin: 0px auto;">
+    <a id="submit" class="button-gray button-big button-submit" href="#" style="margin-top: 10px;">{% trans "Save" %}</a>
+</div>
+</form>
+<script type="text/javascript">
+    $('#GUISettingsForm ul a.file-upload').each(function() {
+        var name = $(this).attr("id").split("-")[0];
+        $(this).file().choose(function(e, input) {
+            input.attr("style", "display: none;");
+            input.attr("id", name);
+            input.attr("class", "file");
+            input.attr("name", name);
+            $("#" + name).replaceWith(input);
+        });
+    });
+</script>
+<div class="separator"></div>
+{% endblock %}

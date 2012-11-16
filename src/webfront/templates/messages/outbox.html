@@ -1,0 +1,10 @@
+{% extends "messages/box.html" %}
+{% load i18n %}
+{% block meta_title %}{% trans "Messages - Sent" %}{% endblock %}
+{% block title %}{% trans "Messages" %}{% endblock %}
+{% block outboxactive %} class="active"{% endblock %}
+{% block row_content %}
+  <p>{{ message.subject }}</p>
+  <p>{% trans "To" %}: {{ message.recipient.first_name }} {{ message.recipient.last_name }}</p>
+  <p class="date">{{ message.sent_at|date:'Y-m-d H:i' }}</p>
+{% endblock %}

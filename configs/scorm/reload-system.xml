@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+<!-- Path to the root folder of scorm resources. -->
+<entry key="root.dir">/opt/bls/scorm</entry>
+
+<!-- Name of the course packages folder inside the root path specified in entry 'root.dir'.
+This directory should mapped as static pages in webapp server under context /reload/course-packages. --> 
+<entry key="coursepackage.dir">courses</entry>
+
+
+<!-- Name of the temporary course packages directory inside the root path specified in entry 'root.dir'. -->
+<entry key="tmp.dir">tmp</entry>
+
+
+<!-- Name of the directory containing schemas located inside the root path specified in entry 'root.dir'. -->
+<entry key="schemas.dir">schemas</entry>
+
+<!-- Address of the host with django application running -->
+<entry key="django.host">10.4.7.241</entry>
+
+<!-- Port number of the django application -->
+<entry key="django.port">80</entry>
+
+<!-- Context to which send Scorm tracking data for saving new records -->
+<entry key="scorm.stat.save">/tracking/events/create/</entry>
+
+<!-- Context to which send Scorm tracking data for updating existing records -->
+<entry key="scorm.stat.update">/tracking/events/update/</entry>
+
+<!-- Path to scorm importer log file -->
+<entry key="scorm.importer.log">/var/log/bls/plato/scorm-importer.log</entry>
+
+</properties>
