@@ -104,7 +104,7 @@ class UserProfileForm(forms.Form):
 
     
 class GroupEditForm(forms.Form):
-    name = forms.CharField(label=_('Name'), min_length=5, max_length=30)
+    name = forms.CharField(label=_('Name'), min_length=3, max_length=30)
 
     def __init__(self, *args, **kwargs):
         self._group = kwargs.pop('group', None)
