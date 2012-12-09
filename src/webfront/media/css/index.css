@@ -546,7 +546,7 @@ input:disabled {
   font-family: @font-header;
   font-size: @font-size-top;
   font-weight: normal;
-  text-transform: uppercase;
+  text-transform: none;
   .left;
   .top-vertical;
 }
