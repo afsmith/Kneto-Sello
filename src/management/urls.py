@@ -11,6 +11,7 @@
 """
 
 from django.conf.urls.defaults import *
+from django.conf import settings
 
 from management import views
 
@@ -40,6 +41,9 @@ urlpatterns = patterns('',
         views.groups_self_register, name='management-self_register_groups'),
     url(r'^admin_modules/$', views.admin_modules, name='management-admin_modules')
 )
+
+if settings.STATUS_CHECKBOX:
+    urlpatterns += patterns('', url(r'^users/(?P<id>\d+)/has_card/$', views.toggle_has_card, name='management-toggle_has_card'))
 
 
 # vim: set et sw=4 ts=4 sts=4 tw=78:

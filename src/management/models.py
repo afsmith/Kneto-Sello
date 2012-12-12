@@ -83,6 +83,7 @@ class UserProfile(models.Model):
     phone = models.CharField(_('Phone number'), max_length=20, blank=True)
     language = models.CharField(_('Language'), choices=settings.LANGUAGES, max_length=7)
     ldap_user = models.BooleanField(_('User from LDAP'), default=False)
+    has_card = models.BooleanField(_('Has card'), default=False)
 
     @property
     def is_superadmin(self):
@@ -131,23 +132,31 @@ def serialize_group(group):
 
 def _user_to_dict(user):
     if user is None:
-        return {
+        d = {
             'first_name': 'first_name',
             'last_name': 'last_name',
             'email': 'email',
             'username': 'username',
             'password': 'password',
             'phone': 'phone',
+            'has_card': 'has_card',
         }
+        if settings.STATUS_CHECKBOX:
+            d['has_card'] = 'has_card'
+        return d
 
-    return {
+    profile = user.get_profile()
+    d = {
         'first_name': user.first_name.encode('utf8'),
         'last_name': user.last_name.encode('utf8'),
         'email': user.email.encode('utf8'),
         'username': user.username.encode('utf8'),
         'password': user.password,
-        'phone': user.get_profile().phone,
+        'phone': profile.phone,
     }
+    if settings.STATUS_CHECKBOX:
+        d['has_card'] = profile.has_card
+    return d
 
 class UnknownFormatError(Exception):
     def __init__(self, format):
@@ -374,6 +383,7 @@ class UserImporter(object):
                 last_name = row['last_name']
                 email = row['email']
                 phone = row['phone'] if 'phone' in row else None
+                has_card = row.get('has_card')
 
                 if 'password' in row and row['password']:
                     password = row['password']
@@ -405,7 +415,7 @@ class UserImporter(object):
                 user.groups.add(self.group)
                 user.save()
 
-                userProfile = UserProfile(role=UserProfile.ROLE_USER, user=user, phone=phone)
+                userProfile = UserProfile(role=UserProfile.ROLE_USER, user=user, phone=phone, has_card=(has_card == 'True'))
                 userProfile.save()
 
 # Not helpful to recive two emails                self._send_add_to_group_internal_message(user)

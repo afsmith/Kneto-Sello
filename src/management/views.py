@@ -238,6 +238,20 @@ def toggle_group_manager(request, user_id, group_id):
     return bls_django.HttpJsonResponse({'status': 'OK'})
 
 
+@decorators.is_admin_or_superadmin
+@http_decorators.require_POST
+def toggle_has_card(request, id):
+    user = get_object_or_404(User, pk=id)
+    profile = user.get_profile()
+    try:
+        data = json.loads(request.raw_post_data)
+    except ValueError:
+        return http.HttpResponseBadRequest('Invalid JSON content.')
+    profile.has_card = data['has_card']
+    profile.save()
+    return bls_django.HttpJsonResponse({'status': 'OK'})
+
+
 @http_decorators.require_POST
 def set_users_is_active_flag(request, id, is_active):
     user = get_object_or_404(User, pk=id)

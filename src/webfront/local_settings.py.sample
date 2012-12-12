@@ -35,3 +35,6 @@ DATABASES = {
 }
 
 REPORTS_CONFIG = '/some/path/to/engine.properties'
+
+# RFID card status checkbox feature (defaults to false)
+# STATUS_CHECKBOX = False

@@ -240,6 +240,9 @@ NGINX_CONFIG_MAKE_BACKUPS=False
 #
 OO_CONVERTER_PORT = 8100
 
+# RFID card status checkbox feature
+STATUS_CHECKBOX = False
+
 #
 # Report files paths
 #

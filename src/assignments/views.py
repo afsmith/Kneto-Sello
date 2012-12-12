@@ -272,7 +272,8 @@ def admin_status(request):
     ctx = {
         'data': group_data,
         'groups': groups,
-        'my_groups': my_groups
+        'my_groups': my_groups,
+        'status_checkbox_enabled': settings.STATUS_CHECKBOX,
     }
 
     return direct_to_template(request, 'assignments/admin_status.html', ctx)

@@ -2904,6 +2904,10 @@ li.ui-draggable a span {
 #sendButtonHeader {
     background: @sprite-assets -12px -328px  no-repeat;
 }
+.hasCard {
+    text-align: right;
+    font-size: @font-size-assets-tiny;
+}
 
 /**
  *   Messages

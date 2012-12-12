@@ -56,7 +56,7 @@
 	            {% for row in dict.users_data %}
 	            	<tr id="row_{{ group.id }}_{{ row.0.id }}" class="{% cycle 'odd' 'even' %} user_row" filter="{{ row.0.last_name }} {{row.0.first_name }}">
 	            		<td>
-	            			<input type="checkbox" id="check_{{ group.id }}_{{ row.0.id }}" />
+					<input type="checkbox" id="check_{{ group.id }}_{{ row.0.id }}" class="userSelect" />
 	            			<label for="check_{{ group.id }}_{{ row.0.id }}"><strong>{{ row.0.last_name }}</strong> {{row.0.first_name }}</label>
 		            		<div class="tooltip">
 		                		<table>
@@ -74,6 +74,12 @@
 		                			</td></tr>
 		                		</table>
 		                	</div>
+                                        {% if status_checkbox_enabled %}
+                                        <div class="hasCard">
+                                          <label for="check_card_{{ group.id }}_{{ row.0.id }}">Has card</label>
+					  <input type="checkbox" id="check_card_{{ group.id }}_{{ row.0.id }}" {% if row.0.get_profile.has_card %}checked="yes"{% endif %}/>
+                                        </div>
+                                        {% endif %}
 	            		</td>
 	            	</tr>
 	    		{% endfor %}

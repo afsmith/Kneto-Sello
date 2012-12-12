@@ -19,7 +19,7 @@ $(document).ready(function() {
 		}
 	});
 	$('.rowDescriptionWrapper input').change(function(){
-		$(this).parents('table').find('.noMails').html($(this).parents('table').find(':checked').length);
+		$(this).parents('table').find('.noMails').html($(this).parents('table').find('.userSelect:checked').length);
 	});
 	$('#nameFilter').keyup(function(){
 		$('.rowDescriptionWrapper:visible tr.user_row').each(function(){
@@ -171,6 +171,21 @@ $(document).ready(function() {
     	if($('#nameFilter').val() == '') {
     		$('#nameFilter').val(searchDefault);
     	}
+    });
+    $('.hasCard input[type=checkbox]').live('click', function() {
+        var input = this;
+        var enable = this.checked;
+        var userId = $(this).attr('id').split('_')[3];
+        $.post('/management/users/' + userId + '/has_card/',
+               JSON.stringify({'has_card': enable}),
+               function(data, status, xmlHttpRequest) {
+                   if (data.status == 'OK') {
+                       input.checked = enable;
+                   } else {
+                       // console.log(JSON.stringify(data));
+                   }
+               });
+        return false;
     });
 });
 
