@@ -76,7 +76,7 @@
 		                	</div>
                                         {% if status_checkbox_enabled %}
                                         <div class="hasCard">
-                                          <label for="check_card_{{ group.id }}_{{ row.0.id }}">Has card</label>
+                                          <label for="check_card_{{ group.id }}_{{ row.0.id }}">{% trans "Has card" %}</label>
 					  <input type="checkbox" id="check_card_{{ group.id }}_{{ row.0.id }}" {% if row.0.get_profile.has_card %}checked="yes"{% endif %}/>
                                         </div>
                                         {% endif %}

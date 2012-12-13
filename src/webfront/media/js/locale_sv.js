@@ -11,7 +11,7 @@ var t = {
 	'ALL_GROUPS': '- Alla grupper -',
 	'ALL_USERS': '- Alla användare -',
 	'ASSIGNMENTS': 'Tilldelning',
-    'ASSIGNMENTS_SAVED'   : 'Modulen är skickad',
+    'ASSIGNMENTS_SAVED'   : 'Modulen har publicerats',
 	'AT_LEAST_ONE_TAG_IS_REQUIRED': "Minst en tag behövs.",
 	'AUDIO': 'Audio',
 	'AUTHOR': 'Upphovsman',

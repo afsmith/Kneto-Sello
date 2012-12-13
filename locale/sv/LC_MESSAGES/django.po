@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-24 13:16+0300\n"
+"POT-Creation-Date: 2012-12-13 11:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -257,7 +257,7 @@ msgstr "Modulen måste ha minst en grupp i \" Kan hänföras till\"delen."
 #: src/content/forms.py:42 src/content/forms.py:107 src/content/forms.py:123
 #: src/content/models.py:173 src/content/models.py:367
 #: src/management/models.py:84 src/self_register/self_register_form.py:23
-#: src/webfront/templates/registration/login.html:73
+#: src/webfront/templates/registration/login.html:87
 #: src/webfront/templates/registration/registration_form.html:61
 msgid "Language"
 msgstr "Språk"
@@ -313,7 +313,7 @@ msgid "All languages"
 msgstr "Alla språk"
 
 #: src/content/forms.py:105 src/content/models.py:358 src/notepad/models.py:8
-#: src/webfront/templates/assignments/admin_status.html:104
+#: src/webfront/templates/assignments/admin_status.html:110
 #: src/webfront/templates/assignments/user_modules.html:93
 #: src/webfront/templates/assignments/user_modules.html:204
 msgid "Title"
@@ -392,8 +392,8 @@ msgid "Original File Name"
 msgstr "Ursprungliga filnamnet"
 
 #: src/content/models.py:150 src/reports/models.py:123
-#: src/webfront/templates/base_template.html:64
-#: src/webfront/templates/base_template.html:68
+#: src/webfront/templates/base_template.html:77
+#: src/webfront/templates/base_template.html:81
 #: src/webfront/templates/assignments/user_modules.html:3
 #: src/webfront/templates/assignments/user_modules.html:4
 #: src/webfront/templates/content/list_modules.html:35
@@ -502,13 +502,13 @@ msgstr ""
 #: src/self_register/forms.py:35 src/self_register/self_register_form.py:16
 #: src/webfront/templates/assignments/admin_status.html:63
 #: src/webfront/templates/management/user_profile.html:19
-#: src/webfront/templates/registration/login.html:61
+#: src/webfront/templates/registration/login.html:75
 #: src/webfront/templates/registration/registration_form.html:19
 msgid "Username"
 msgstr "Användarnamn"
 
 #: src/management/forms.py:21 src/self_register/forms.py:41
-#: src/webfront/templates/registration/login.html:67
+#: src/webfront/templates/registration/login.html:81
 msgid "Password"
 msgstr "Lösenord"
 
@@ -626,27 +626,32 @@ msgstr "Telefon nummer"
 msgid "User from LDAP"
 msgstr "Användare från LDAP"
 
-#: src/management/models.py:294 src/management/views.py:358
+#: src/management/models.py:86
+#: src/webfront/templates/assignments/admin_status.html:79
+msgid "Has card"
+msgstr "Har kort"
+
+#: src/management/models.py:303 src/management/views.py:372
 #, python-format
 msgid "Imported file has more than maximal number of lines (%d)"
 msgstr "Importerade filen har mera än tillåtna antal rader (%d)"
 
-#: src/management/models.py:307
+#: src/management/models.py:316
 #, python-format
 msgid "Missing required header fields: %s."
 msgstr "Rubrik fälten saknas: %s."
 
-#: src/management/models.py:320
+#: src/management/models.py:329
 #, python-format
 msgid "Missing username field in row %d."
 msgstr "Användarnamn fält på rad %d.saknas"
 
-#: src/management/models.py:333 src/management/models.py:360
+#: src/management/models.py:342 src/management/models.py:369
 #, python-format
 msgid "User %(username)s added to group %(groupname)s."
 msgstr "Användare %(username)s har lagts till gruppen %(groupname)s"
 
-#: src/management/models.py:336 src/management/models.py:362
+#: src/management/models.py:345 src/management/models.py:371
 #, python-format
 msgid ""
 "User %(username)s (row %(counter)d) already assigned to this group, skipping."
@@ -654,115 +659,115 @@ msgstr ""
 "Användare %(username)s (row %(counter)d) är redan tilldelad den här gruppen, "
 "hoppa över "
 
-#: src/management/models.py:343 src/management/models.py:369
+#: src/management/models.py:352 src/management/models.py:378
 #, python-format
 msgid "Missing required field values for fields %(mising)s in row %(counter)d"
 msgstr "Värden saknas i fälten %(mising)s i rad %(counter)d"
 
-#: src/management/models.py:349
+#: src/management/models.py:358
 #, python-format
 msgid "User %s already exists with different personal information."
 msgstr "Användare %s existerar med annat person data"
 
-#: src/management/models.py:384
+#: src/management/models.py:394
 #, python-format
 msgid "Username %s is too long."
 msgstr "Användarnamnet %s är för långt."
 
-#: src/management/models.py:387
+#: src/management/models.py:397
 #, python-format
 msgid "First name %s is too long."
 msgstr "Förnamnet %s är för långt."
 
-#: src/management/models.py:390
+#: src/management/models.py:400
 #, python-format
 msgid "Last name %s is too long."
 msgstr "Efternamnet %s är för långt."
 
-#: src/management/models.py:393
+#: src/management/models.py:403
 #, python-format
 msgid "Email %s is too long."
 msgstr "E-post %s är för långt."
 
-#: src/management/models.py:396
+#: src/management/models.py:406
 #, python-format
 msgid "Email %s is not valid."
 msgstr "E-post %s är fel."
 
-#: src/management/models.py:399
+#: src/management/models.py:409
 #, python-format
 msgid "Phone %s is not valid."
 msgstr "Telefon %s är fel."
 
-#: src/management/models.py:416
+#: src/management/models.py:426
 #, python-format
 msgid "New user %(username)s was created and added to group %(groupname)s"
 msgstr ""
 "Ny användare %(username)s är skapad och tillag till gruppen %(groupname)s"
 
-#: src/management/views.py:313
+#: src/management/views.py:327
 msgid "User has groups not managed by this admin."
 msgstr "Användaren har grupper som inte kontroleras av den här admin"
 
-#: src/management/views.py:316
+#: src/management/views.py:330
 msgid "User has started course."
 msgstr "Användaren har påbörjat info paketet."
 
-#: src/management/views.py:326
+#: src/management/views.py:340
 #, python-format
 msgid "User with ID %s is not eligable for deletion"
 msgstr "Användare med ID %s går inte att ta bort"
 
-#: src/management/views.py:378
+#: src/management/views.py:392
 #, python-format
 msgid "User successfully deleted %s"
 msgstr "Meddelande har tagits bort %s."
 
-#: src/management/views.py:380
+#: src/management/views.py:394
 #, python-format
 msgid "User %s not found"
 msgstr "Användare %s hittas inte"
 
-#: src/management/views.py:382
+#: src/management/views.py:396
 #, python-format
 msgid "Unable to delete %s. You can't remove yourself."
 msgstr "Kan inte ta bort %s. Du kan inte ta bort dig själv."
 
-#: src/management/views.py:387
+#: src/management/views.py:401
 msgid "Results of removed users"
 msgstr "Lista över moduler"
 
-#: src/management/views.py:391
+#: src/management/views.py:405
 msgid "Remove users listed in the selected file"
 msgstr "Ta bort användare i den valda filen"
 
-#: src/management/views.py:392
+#: src/management/views.py:406
 msgid "remove users"
 msgstr "Ta bort användare"
 
-#: src/management/views.py:520 src/management/views.py:535
+#: src/management/views.py:534 src/management/views.py:549
 #, python-format
 msgid "User with ID %d does not exist."
 msgstr "Användare med ID %d finns inte."
 
-#: src/management/views.py:541 src/management/views.py:665
+#: src/management/views.py:555 src/management/views.py:679
 msgid "Invalid action specified."
 msgstr "Ogiltig åtgärd"
 
-#: src/management/views.py:637 src/management/views.py:654
+#: src/management/views.py:651 src/management/views.py:668
 #, python-format
 msgid "Group with ID %d does not exist."
 msgstr "Användare med ID %d finns inte."
 
-#: src/management/views.py:772
+#: src/management/views.py:786
 msgid "Results of users import to group:"
 msgstr "Inga användare i den här gruppen:"
 
-#: src/management/views.py:780
+#: src/management/views.py:794
 msgid "Import users to group: "
 msgstr "Inga användare i den här gruppen"
 
-#: src/management/views.py:781
+#: src/management/views.py:795
 msgid "import users to group"
 msgstr "Inga användare i den här gruppen"
 
@@ -1002,8 +1007,8 @@ msgid ""
 "That e-mail address doesn't have an associated user account. Are you sure "
 "you've registered?"
 msgstr ""
-"e-postadressen har inte ett tillhörande användarkonto. Är du säker på att du har registrerat"
-" dig?"
+"e-postadressen har inte ett tillhörande användarkonto. Är du säker på att du "
+"har registrerat dig?"
 
 #: src/self_register/reset_password_form.py:35
 msgid ""
@@ -1310,48 +1315,48 @@ msgstr "Traditionell kinesiska"
 msgid "Sorry:"
 msgstr ""
 
-#: src/webfront/templates/base_template.html:57
+#: src/webfront/templates/base_template.html:70
 #: src/webfront/templates/messages/inbox.html:4
 #: src/webfront/templates/messages/outbox.html:4
 msgid "Messages"
 msgstr "meddelande"
 
-#: src/webfront/templates/base_template.html:65
+#: src/webfront/templates/base_template.html:78
 msgid "Continue Module"
 msgstr "Fortsätt senaste"
 
-#: src/webfront/templates/base_template.html:66
+#: src/webfront/templates/base_template.html:79
 #: src/webfront/templates/notepad/notepad.html:3
 #: src/webfront/templates/notepad/notepad.html:7
 msgid "Notepad"
 msgstr "Anteckningar"
 
-#: src/webfront/templates/base_template.html:69
+#: src/webfront/templates/base_template.html:82
 #: src/webfront/templates/administration/dashboard.html:23
 #: src/webfront/templates/content/files_manage.html:3
 #: src/webfront/templates/content/files_manage.html:4
 msgid "Manage content"
 msgstr "Hantera innehåll"
 
-#: src/webfront/templates/base_template.html:70
+#: src/webfront/templates/base_template.html:83
 #: src/webfront/templates/administration/dashboard.html:68
 #: src/webfront/templates/content/list_modules.html:3
 #: src/webfront/templates/content/list_modules.html:4
 msgid "Manage modules"
 msgstr "Hantera moduler"
 
-#: src/webfront/templates/base_template.html:71
+#: src/webfront/templates/base_template.html:84
 #: src/webfront/templates/content/list_modules.html:118
 #: src/webfront/templates/content/module_assignment.html:3
 #: src/webfront/templates/content/module_assignment.html:4
 msgid "Assignments"
 msgstr "Uppdrag"
 
-#: src/webfront/templates/base_template.html:72
+#: src/webfront/templates/base_template.html:85
 msgid "Administration"
 msgstr "Administration"
 
-#: src/webfront/templates/base_template.html:83
+#: src/webfront/templates/base_template.html:96
 msgid "Log out"
 msgstr "Logga ut"
 
@@ -1529,7 +1534,7 @@ msgid "Template name"
 msgstr "Mall"
 
 #: src/webfront/templates/administration/reports.html:22
-#: src/webfront/templates/assignments/admin_status.html:103
+#: src/webfront/templates/assignments/admin_status.html:109
 #: src/webfront/templates/assignments/user_modules.html:55
 #: src/webfront/templates/assignments/user_modules.html:134
 #: src/webfront/templates/assignments/user_modules.html:169
@@ -1589,7 +1594,7 @@ msgstr "Senaste inloggning"
 msgid "Groups"
 msgstr "Grupper"
 
-#: src/webfront/templates/assignments/admin_status.html:105
+#: src/webfront/templates/assignments/admin_status.html:111
 #: src/webfront/templates/assignments/user_modules.html:63
 #: src/webfront/templates/assignments/user_modules.html:142
 #: src/webfront/templates/assignments/user_modules.html:177
@@ -1597,11 +1602,11 @@ msgstr "Grupper"
 msgid "Published"
 msgstr "Publiserad"
 
-#: src/webfront/templates/assignments/admin_status.html:116
+#: src/webfront/templates/assignments/admin_status.html:122
 msgid "No users in this group"
 msgstr "Inga användare i den här gruppen"
 
-#: src/webfront/templates/assignments/admin_status.html:120
+#: src/webfront/templates/assignments/admin_status.html:126
 msgid "No group selected"
 msgstr "Ingen grupp är  utvald"
 
@@ -2170,21 +2175,21 @@ msgstr ""
 msgid "Account activation for %(site_name)s"
 msgstr "Aktivera kontot för %(site_name)s"
 
-#: src/webfront/templates/registration/login.html:46
+#: src/webfront/templates/registration/login.html:60
 msgid "Please log-in"
 msgstr "Vänligen logga in"
 
-#: src/webfront/templates/registration/login.html:84
+#: src/webfront/templates/registration/login.html:98
 msgid "Log-in"
 msgstr "Logga in"
 
-#: src/webfront/templates/registration/login.html:88
-#: src/webfront/templates/registration/registration_base.html:52
+#: src/webfront/templates/registration/login.html:102
+#: src/webfront/templates/registration/registration_base.html:66
 #: src/webfront/templates/registration/registration_form.html:83
 msgid "Register"
 msgstr "Registrera Dig"
 
-#: src/webfront/templates/registration/login.html:92
+#: src/webfront/templates/registration/login.html:106
 msgid "Lost password"
 msgstr "Återställ lösenorde"
 

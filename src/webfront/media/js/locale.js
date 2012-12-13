@@ -9,7 +9,7 @@ var t = {
     'ALLOW_DOWNLOADING'   : 'Allow downloading',
     'ALLOW_SKIPPING'	  : 'Allow skipping',
     'ASSIGNMENTS'		  : 'Assignments',
-    'ASSIGNMENTS_SAVED'   : 'Assignments saved',
+    'ASSIGNMENTS_SAVED'   : 'The module has been published',
     'CAN_BE_ASSIGNED_TO'  : 'Can be assigned to',
     'CURRENT_USAGE'		  : 'Current usage',
     'ACTIVE'			  : 'Active',

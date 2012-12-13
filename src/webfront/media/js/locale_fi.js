@@ -11,7 +11,7 @@ var t = {
 	'ALL_GROUPS': '- kaikki ryhmät -',
 	'ALL_USERS': '- kaikki käyttäjät -',
 	'ASSIGNMENTS': 'toimeksiannot',
-    'ASSIGNMENTS_SAVED'   : 'Moduuli on lähetetty',
+    'ASSIGNMENTS_SAVED'   : 'Moduuli on julkaistu',
 	'AT_LEAST_ONE_TAG_IS_REQUIRED': "Vähintään yksi tagi vaadittu",
 	'AUDIO': 'Audio',
 	'AUTHOR': 'Tekijä',

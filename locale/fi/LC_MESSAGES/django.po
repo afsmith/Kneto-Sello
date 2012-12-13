@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-24 13:16+0300\n"
+"POT-Creation-Date: 2012-12-13 11:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -257,7 +257,7 @@ msgstr "Moduulilla oltav vähintään yksi ryhmä \"Can be assigned to\" sektios
 #: src/content/forms.py:42 src/content/forms.py:107 src/content/forms.py:123
 #: src/content/models.py:173 src/content/models.py:367
 #: src/management/models.py:84 src/self_register/self_register_form.py:23
-#: src/webfront/templates/registration/login.html:73
+#: src/webfront/templates/registration/login.html:87
 #: src/webfront/templates/registration/registration_form.html:61
 msgid "Language"
 msgstr "Kieli"
@@ -313,7 +313,7 @@ msgid "All languages"
 msgstr "Kaikki kielet"
 
 #: src/content/forms.py:105 src/content/models.py:358 src/notepad/models.py:8
-#: src/webfront/templates/assignments/admin_status.html:104
+#: src/webfront/templates/assignments/admin_status.html:110
 #: src/webfront/templates/assignments/user_modules.html:93
 #: src/webfront/templates/assignments/user_modules.html:204
 msgid "Title"
@@ -392,8 +392,8 @@ msgid "Original File Name"
 msgstr "Alkuperäisen tiedoston nimi"
 
 #: src/content/models.py:150 src/reports/models.py:123
-#: src/webfront/templates/base_template.html:64
-#: src/webfront/templates/base_template.html:68
+#: src/webfront/templates/base_template.html:77
+#: src/webfront/templates/base_template.html:81
 #: src/webfront/templates/assignments/user_modules.html:3
 #: src/webfront/templates/assignments/user_modules.html:4
 #: src/webfront/templates/content/list_modules.html:35
@@ -502,13 +502,13 @@ msgstr ""
 #: src/self_register/forms.py:35 src/self_register/self_register_form.py:16
 #: src/webfront/templates/assignments/admin_status.html:63
 #: src/webfront/templates/management/user_profile.html:19
-#: src/webfront/templates/registration/login.html:61
+#: src/webfront/templates/registration/login.html:75
 #: src/webfront/templates/registration/registration_form.html:19
 msgid "Username"
 msgstr "Käyttäjätunnus"
 
 #: src/management/forms.py:21 src/self_register/forms.py:41
-#: src/webfront/templates/registration/login.html:67
+#: src/webfront/templates/registration/login.html:81
 msgid "Password"
 msgstr "Salasana"
 
@@ -625,141 +625,146 @@ msgstr "Puhelinnumero"
 msgid "User from LDAP"
 msgstr "Käyttäjä LDAP:sta"
 
-#: src/management/models.py:294 src/management/views.py:358
+#: src/management/models.py:86
+#: src/webfront/templates/assignments/admin_status.html:79
+msgid "Has card"
+msgstr "Kortti annettu"
+
+#: src/management/models.py:303 src/management/views.py:372
 #, python-format
 msgid "Imported file has more than maximal number of lines (%d)"
 msgstr "Tuotu tiedosto ylittää max. rivimäärän (%d)"
 
-#: src/management/models.py:307
+#: src/management/models.py:316
 #, python-format
 msgid "Missing required header fields: %s."
 msgstr "ylätunniste puuttuu kentät. %s."
 
-#: src/management/models.py:320
+#: src/management/models.py:329
 #, python-format
 msgid "Missing username field in row %d."
 msgstr "Käyttäjänimi puuttuu rivillä %d."
 
-#: src/management/models.py:333 src/management/models.py:360
+#: src/management/models.py:342 src/management/models.py:369
 #, python-format
 msgid "User %(username)s added to group %(groupname)s."
 msgstr "Käyttäjä %(username)s on lisättu ryhmään %(groupname)s"
 
-#: src/management/models.py:336 src/management/models.py:362
+#: src/management/models.py:345 src/management/models.py:371
 #, python-format
 msgid ""
 "User %(username)s (row %(counter)d) already assigned to this group, skipping."
 msgstr ""
 "Käyttäjä %(username)s (row %(counter)d) on jo lisätty tähän ryhmään, ohita"
 
-#: src/management/models.py:343 src/management/models.py:369
+#: src/management/models.py:352 src/management/models.py:378
 #, python-format
 msgid "Missing required field values for fields %(mising)s in row %(counter)d"
 msgstr "Kenttien arvot kentille %(mising)s rivissä %(counter)d puuttuu."
 
-#: src/management/models.py:349
+#: src/management/models.py:358
 #, python-format
 msgid "User %s already exists with different personal information."
 msgstr "Käyttäjä %s on jo olemassa eri tiedoilla"
 
-#: src/management/models.py:384
+#: src/management/models.py:394
 #, python-format
 msgid "Username %s is too long."
 msgstr "Käyttäjänimi %s on liian pitkä."
 
-#: src/management/models.py:387
+#: src/management/models.py:397
 #, python-format
 msgid "First name %s is too long."
 msgstr "Etunimi %s on liian pitkä."
 
-#: src/management/models.py:390
+#: src/management/models.py:400
 #, python-format
 msgid "Last name %s is too long."
 msgstr "Sukunimi %s on liian pitkä."
 
-#: src/management/models.py:393
+#: src/management/models.py:403
 #, python-format
 msgid "Email %s is too long."
 msgstr "Sähköposti %s on liian pitkä."
 
-#: src/management/models.py:396
+#: src/management/models.py:406
 #, python-format
 msgid "Email %s is not valid."
 msgstr "Sähköposti %s on väärin."
 
-#: src/management/models.py:399
+#: src/management/models.py:409
 #, python-format
 msgid "Phone %s is not valid."
 msgstr "Puhelin %s on väärin."
 
-#: src/management/models.py:416
+#: src/management/models.py:426
 #, python-format
 msgid "New user %(username)s was created and added to group %(groupname)s"
 msgstr "Uusi käyttäjä %(username)s on luotu ja lisätty ryhmään %(groupname)s"
 
-#: src/management/views.py:313
+#: src/management/views.py:327
 msgid "User has groups not managed by this admin."
 msgstr "Käyttäjä kuuluu ryhmiin joita tämä admin ei hallinnoi"
 
-#: src/management/views.py:316
+#: src/management/views.py:330
 msgid "User has started course."
 msgstr "Käyttäjä on aloittanut info paketin."
 
-#: src/management/views.py:326
+#: src/management/views.py:340
 #, python-format
 msgid "User with ID %s is not eligable for deletion"
 msgstr "Käyttäjä tunnuksella %s ei ole oikeutettu poistaa"
 
-#: src/management/views.py:378
+#: src/management/views.py:392
 #, python-format
 msgid "User successfully deleted %s"
 msgstr "Viesti poistettu %s"
 
-#: src/management/views.py:380
+#: src/management/views.py:394
 #, python-format
 msgid "User %s not found"
 msgstr "Käyttäjä %s ei löytynyt"
 
-#: src/management/views.py:382
+#: src/management/views.py:396
 #, python-format
 msgid "Unable to delete %s. You can't remove yourself."
 msgstr "Ei ole mahdollista poistaa %s. Et voi poistaa itseäsi."
 
-#: src/management/views.py:387
+#: src/management/views.py:401
 msgid "Results of removed users"
 msgstr "Luettelo moduuleista"
 
-#: src/management/views.py:391
+#: src/management/views.py:405
 msgid "Remove users listed in the selected file"
 msgstr "Poista valitun tiedoston käyttäjät"
 
-#: src/management/views.py:392
+#: src/management/views.py:406
 msgid "remove users"
 msgstr "Poista käyttäjät"
 
-#: src/management/views.py:520 src/management/views.py:535
+#: src/management/views.py:534 src/management/views.py:549
 #, python-format
 msgid "User with ID %d does not exist."
 msgstr "Käyttäjätunnus %d  ei ole olemassa"
 
-#: src/management/views.py:541 src/management/views.py:665
+#: src/management/views.py:555 src/management/views.py:679
 msgid "Invalid action specified."
 msgstr "Virheellinen toiminto määritelty"
 
-#: src/management/views.py:637 src/management/views.py:654
+#: src/management/views.py:651 src/management/views.py:668
 #, python-format
 msgid "Group with ID %d does not exist."
 msgstr "Käyttäjätunnus %d  ei ole olemassa"
 
-#: src/management/views.py:772
+#: src/management/views.py:786
 msgid "Results of users import to group:"
 msgstr "Results of users import to group:"
 
-#: src/management/views.py:780
+#: src/management/views.py:794
 msgid "Import users to group: "
 msgstr "Tuo käyttäjät ryhmään"
 
-#: src/management/views.py:781
+#: src/management/views.py:795
 msgid "import users to group"
 msgstr "Tuo käyttäjät ryhmään"
 
@@ -994,8 +999,8 @@ msgid ""
 "That e-mail address doesn't have an associated user account. Are you sure "
 "you've registered?"
 msgstr ""
-"Tähän sähköpostiosoitteeseen ei ole liitetty käyttäjä tiliä. Oletko varma että"
-"olet rekisteröitynyt?"
+"Tähän sähköpostiosoitteeseen ei ole liitetty käyttäjä tiliä. Oletko varma "
+"ettäolet rekisteröitynyt?"
 
 #: src/self_register/reset_password_form.py:35
 msgid ""
@@ -1302,48 +1307,48 @@ msgstr "Kiina Perinteinen"
 msgid "Sorry:"
 msgstr ""
 
-#: src/webfront/templates/base_template.html:57
+#: src/webfront/templates/base_template.html:70
 #: src/webfront/templates/messages/inbox.html:4
 #: src/webfront/templates/messages/outbox.html:4
 msgid "Messages"
 msgstr "Ei viestejä"
 
-#: src/webfront/templates/base_template.html:65
+#: src/webfront/templates/base_template.html:78
 msgid "Continue Module"
 msgstr "Jatka edellistä"
 
-#: src/webfront/templates/base_template.html:66
+#: src/webfront/templates/base_template.html:79
 #: src/webfront/templates/notepad/notepad.html:3
 #: src/webfront/templates/notepad/notepad.html:7
 msgid "Notepad"
 msgstr "Muistio"
 
-#: src/webfront/templates/base_template.html:69
+#: src/webfront/templates/base_template.html:82
 #: src/webfront/templates/administration/dashboard.html:23
 #: src/webfront/templates/content/files_manage.html:3
 #: src/webfront/templates/content/files_manage.html:4
 msgid "Manage content"
 msgstr "Muokkaa sisältöä"
 
-#: src/webfront/templates/base_template.html:70
+#: src/webfront/templates/base_template.html:83
 #: src/webfront/templates/administration/dashboard.html:68
 #: src/webfront/templates/content/list_modules.html:3
 #: src/webfront/templates/content/list_modules.html:4
 msgid "Manage modules"
 msgstr "Muokkaa moduulit"
 
-#: src/webfront/templates/base_template.html:71
+#: src/webfront/templates/base_template.html:84
 #: src/webfront/templates/content/list_modules.html:118
 #: src/webfront/templates/content/module_assignment.html:3
 #: src/webfront/templates/content/module_assignment.html:4
 msgid "Assignments"
 msgstr "Toimeksiannot"
 
-#: src/webfront/templates/base_template.html:72
+#: src/webfront/templates/base_template.html:85
 msgid "Administration"
 msgstr "Hallinto"
 
-#: src/webfront/templates/base_template.html:83
+#: src/webfront/templates/base_template.html:96
 msgid "Log out"
 msgstr "Kirjaudu ulos"
 
@@ -1521,7 +1526,7 @@ msgid "Template name"
 msgstr "Malli"
 
 #: src/webfront/templates/administration/reports.html:22
-#: src/webfront/templates/assignments/admin_status.html:103
+#: src/webfront/templates/assignments/admin_status.html:109
 #: src/webfront/templates/assignments/user_modules.html:55
 #: src/webfront/templates/assignments/user_modules.html:134
 #: src/webfront/templates/assignments/user_modules.html:169
@@ -1581,7 +1586,7 @@ msgstr "Edellinen kirjautuminen"
 msgid "Groups"
 msgstr "Yritys"
 
-#: src/webfront/templates/assignments/admin_status.html:105
+#: src/webfront/templates/assignments/admin_status.html:111
 #: src/webfront/templates/assignments/user_modules.html:63
 #: src/webfront/templates/assignments/user_modules.html:142
 #: src/webfront/templates/assignments/user_modules.html:177
@@ -1589,11 +1594,11 @@ msgstr "Yritys"
 msgid "Published"
 msgstr "Julkaistu"
 
-#: src/webfront/templates/assignments/admin_status.html:116
+#: src/webfront/templates/assignments/admin_status.html:122
 msgid "No users in this group"
 msgstr "Tässä ryhmässä ei käyttäjiä"
 
-#: src/webfront/templates/assignments/admin_status.html:120
+#: src/webfront/templates/assignments/admin_status.html:126
 msgid "No group selected"
 msgstr "Mikään ryhmä ei ole valittu"
 
@@ -2137,8 +2142,8 @@ msgstr ""
 "Voit aktivoida tilin seuraamalla oheista linkkiä:\n"
 "http://%(site_name)s%(activate_url)s\n"
 "\n"
-"Huomaa että, että jos aktivointi"
-"ei onnistu %(expiration_days)s päivään mennessä, sinun on \n" 
+"Huomaa että, että jos aktivointiei onnistu %(expiration_days)s päivään "
+"mennessä, sinun on \n"
 "käynnistettävä rekisteröinti prosessi uudelleen.\n"
 "\n"
 "Ystävällisin terveisin\n"
@@ -2149,21 +2154,21 @@ msgstr ""
 msgid "Account activation for %(site_name)s"
 msgstr "Aktivoi i %(site_name)s in tiliä"
 
-#: src/webfront/templates/registration/login.html:46
+#: src/webfront/templates/registration/login.html:60
 msgid "Please log-in"
 msgstr "Ole hyvä kirjaudu sisään"
 
-#: src/webfront/templates/registration/login.html:84
+#: src/webfront/templates/registration/login.html:98
 msgid "Log-in"
 msgstr "Sisäänkirjautuminen"
 
-#: src/webfront/templates/registration/login.html:88
-#: src/webfront/templates/registration/registration_base.html:52
+#: src/webfront/templates/registration/login.html:102
+#: src/webfront/templates/registration/registration_base.html:66
 #: src/webfront/templates/registration/registration_form.html:83
 msgid "Register"
 msgstr "Rekisteröidy"
 
-#: src/webfront/templates/registration/login.html:92
+#: src/webfront/templates/registration/login.html:106
 msgid "Lost password"
 msgstr "Palauta salasana"
 
