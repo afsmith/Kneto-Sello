@@ -275,6 +275,20 @@ h3 {
   text-align:center;
   width:auto;
 }
+
+.errorlist {
+  color: @color-error !important;
+  background:#ffc9bd;
+  border:solid 1px @color-error;
+  font-size: @font-size-default;
+  margin:5px 27px;
+  padding:3px 10px;
+  text-align:center;
+  width:auto;
+
+
+}
+
 .export {
   .icon(-120px, 13px, 8px);
 }
