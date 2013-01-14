@@ -1779,7 +1779,7 @@ msgstr "Muuta toimeksiannot"
 #: src/webfront/templates/management/user_pass_change.html:53
 #: src/webfront/templates/management/dialogs/edit_user.html:83
 msgid "Save changes"
-msgstr "Lähetä Moduuli"
+msgstr "Tallenna"
 
 #: src/webfront/templates/content/module_assignment.html:22
 msgid "Other modules"
