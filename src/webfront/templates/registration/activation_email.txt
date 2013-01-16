@@ -3,16 +3,26 @@
 {% load i18n %}
 {% url registration_activate activation_key as activate_url %}
 {% blocktrans with site.name as site_name and site.domain as site_domain %}
-Dear {{username}},
+Tervetuloa eSelloon
 
-You have created an account for {{ site_name }}, which has to
-be activated. To do this, please follow the following link:
+Hei {{username}},
+
+Kauppakeskus Sello on kuin sinfoniaorkesteri, jossa yhteistoiminnan tulee olla saumatonta, jotta määrätyt tavoitteet voidaan saavuttaa.
+Sellossa haluamme, että jokainen sellolainen on tietoinen Sellon yhtenäisistä käytännöistä ja toimintatavoista.
+
+Kauppakeskus Sello käyttää eSelloa jakaakseen sisäistä koulutusmateriaalia sellolaisille.
+
+Aktivoi tilisi seuraamalla oheista linkkiä:
 http://{{ site_name }}{{ activate_url }}
 
-Please do take note that if your activation does not succeed
-within {{ expiration_days }} days, you will have to restart
-the activation process.
+Huomaa että, että jos aktivointi ei onnistu {{ expiration_days }} päivään
+mennessä, sinun on
+käynnistettävä rekisteröinti prosessi uudelleen.
 
-Best regards,
-The Kneto
+Terveisin Sellon Toimisto
+
+
+Tämä on automaattisesti lähetetty sähköpostiviesti, älä vastaa tähän sähköpostiviestiin
+
+
 {% endblocktrans %}
