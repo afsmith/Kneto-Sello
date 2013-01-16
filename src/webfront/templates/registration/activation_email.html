@@ -1,3 +1,8 @@
+{% load i18n %}
+{% load admin_custom_tags %}
+{% load i18n %}
+{% url registration_activate activation_key as activate_url %}
+{% blocktrans with site.name as site_name and site.domain as site_domain %}
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,7 +25,7 @@ eSelloon pääset: www.info.sello.fi –osoitteesta.<br />
 
 <p><br>
 Aktivoi tilisi seuraamalla oheista linkkiä:<br>
-http://{{ site_name}}{{ activate_url }} 
+http://{{ site_name }}{{ activate_url }} 
 <p>
 Huomaa että, että jos aktivointi ei onnistu {{ expiration_days }} päivään<br>
 mennessä, sinun on <br>
@@ -46,3 +51,4 @@ Tämä on automaattisesti lähetetty sähköpostiviesti, älä vastaa tähän s�
 <br />
 
 </html>
+{% endblocktrans %}
