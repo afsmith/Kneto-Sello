@@ -57,12 +57,15 @@
                 </div>
                 {{ form.last_name.errors }}
             </li>
-            <li>
+           <li>
                 <label>{% trans 'Language' %}</label>
                 <div class="inputWrapper shadow-gray selectWrapper">
-                    {{ form.language }}
+                    <select id='id_language' name='language'>
+                        {% for lang_id, lang_name in request.session.languages %}
+                        <option value="{{ lang_id }}" {% if lang_id == request.session.django_language %} selected="selected" {% endif %}>{{ lang_name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-                {{ form.language.errors }}
             </li>
             <li>
                 <label>{% trans 'Token' %}</label>
