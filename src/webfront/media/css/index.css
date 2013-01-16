@@ -103,6 +103,7 @@
 body {
   /*background: #7a7b82;*/
 	background: @color-bg;
+	background-image:url('/media/img/Sello_video_bg_2.jpg');	
   font-family: @font-default;
   font-size: @font-size-body;
 }
@@ -275,7 +276,6 @@ h3 {
   text-align:center;
   width:auto;
 }
-
 .errorlist {
   color: @color-error !important;
   background:#ffc9bd;
@@ -285,8 +285,6 @@ h3 {
   padding:3px 10px;
   text-align:center;
   width:auto;
-
-
 }
 
 .export {
