@@ -7,20 +7,25 @@ Tervetuloa eSelloon
 
 Hei {{username}},
 
-Kauppakeskus Sello on kuin sinfoniaorkesteri, jossa yhteistoiminnan tulee olla saumatonta, jotta määrätyt tavoitteet voidaan saavuttaa.
-Sellossa haluamme, että jokainen sellolainen on tietoinen Sellon yhtenäisistä käytännöistä ja toimintatavoista.
+Kauppakeskus Sellossa työskentelee yli 2000 työntekijää. Sello käyttää eSelloa jakaakseen sisäistä koulutusmateriaalia Sellossa työskenteleville.
 
-Kauppakeskus Sello käyttää eSelloa jakaakseen sisäistä koulutusmateriaalia sellolaisille.
-
-Aktivoi tilisi seuraamalla oheista linkkiä:
+Aktivoi tilisi eSelloon seuraamalla oheista linkkiä: 
 http://{{ site_name }}{{ activate_url }}
 
-Huomaa että, että jos aktivointi ei onnistu {{ expiration_days }} päivään
-mennessä, sinun on
-käynnistettävä rekisteröinti prosessi uudelleen.
+Huomaa että, että jos aktivointi ei onnistu 7 päivään mennessä, sinun on  käynnistettävä rekisteröinti prosessi uudelleen. 
 
-Terveisin Sellon Toimisto
+Kun olet kirjautunut eSelloon, klikkaa vihreätä Play-nappia niin näet sinulle lähetetyn materiaalin.
+Katso myös alta kuvaohje.
 
+----------------------------------------------------------------------------
+Sellon kauppakeskustoimisto
+Kauppakeskus Sello - Enemmän kuin ostoksilla
+
+Puh. 010 424 6700
+kauppakeskustoimisto@sello.fi
+
+Leppävaarankatu 3-9
+02600 Espoo
 
 Tämä on automaattisesti lähetetty sähköpostiviesti, älä vastaa tähän sähköpostiviestiin
 
