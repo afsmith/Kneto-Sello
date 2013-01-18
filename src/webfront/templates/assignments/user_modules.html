@@ -40,7 +40,7 @@
     	           {% if course.is_new %}<span class="newFlag">{% trans "New" %}</span>{% endif %}
     	           <a href="{% url content-view_module id=course.id %}" class="playLesson">&nbsp;</a>
 								 <div class="tooltip">
-									{% trans "View Content" %}
+									{% trans "Click here to view content" %}
 								</div>
 	           </span>
 	           <a id="sendMessageToLessonOwner" ownerid="{{ course.owner.id }}" ownername="{{ course.owner.first_name }} {{ course.owner.last_name }}" href="#" class="sendMessageIco"></a>
@@ -154,7 +154,7 @@
     	           {% if course.is_new %}<span class="newFlag">{% trans "New" %}</span>{% endif %}
     	           <a href="{% url content-view_module id=course.id %}" class="playLesson">&nbsp;</a>
 								 <div class="tooltip">
-									{% trans "View Content" %}
+									{% trans "Click here to view content" %}
 								</div>
 	           </span>
 	           <a id="sendMessageToLessonOwner" ownerid="{{ course.owner.id }}" ownername="{{ course.owner.first_name }} {{ course.owner.last_name }}" href="#" class="sendMessageIco"></a>

@@ -21,8 +21,8 @@ logger.setLevel(logging.DEBUG)
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-DEBUG = False
-TEMPLATE_DEBUG = False
+DEBUG =  True
+TEMPLATE_DEBUG = True 
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html

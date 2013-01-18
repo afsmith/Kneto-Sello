@@ -1618,8 +1618,8 @@ msgstr "Uusi"
 
 #: src/webfront/templates/assignments/user_modules.html:43
 #: src/webfront/templates/assignments/user_modules.html:157
-msgid "View Content"
-msgstr "Sisältö"
+msgid "Click here to view content"
+msgstr "Paina tästä katsoaksesi sisältöä"
 
 #: src/webfront/templates/assignments/user_modules.html:48
 #: src/webfront/templates/assignments/user_modules.html:162
