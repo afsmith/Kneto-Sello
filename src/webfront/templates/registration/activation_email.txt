@@ -5,17 +5,21 @@
 {% blocktrans with site.name as site_name and site.domain as site_domain %}
 Tervetuloa eSelloon
 
-Hei {{username}},
+Käyttäjätunnuksesi on: {{username}},
 
 Kauppakeskus Sellossa työskentelee yli 2000 työntekijää. Sello käyttää eSelloa jakaakseen sisäistä koulutusmateriaalia Sellossa työskenteleville.
 
 Aktivoi tilisi eSelloon seuraamalla oheista linkkiä: 
 http://{{ site_name }}{{ activate_url }}
 
-Huomaa että, että jos aktivointi ei onnistu 7 päivään mennessä, sinun on  käynnistettävä rekisteröinti prosessi uudelleen. 
+Mikäli yllä oleva linkki ei toimi: kopioi linkki  ja liitä se suoraan selaimen osoiteriville.
 
-Kun olet kirjautunut eSelloon, klikkaa vihreätä Play-nappia niin näet sinulle lähetetyn materiaalin.
-Katso myös alta kuvaohje.
+Huomaa: jos aktivointia ei tehdä 7 päivän sisällä, sinun on tehtävä rekisteröinti uudestaan. 
+
+Kun olet kirjautunut eSelloon, klikkaa vihreätä Play-nappia niin näet sinulle jaetun materiaalin.
+
+Unohditko salasanasi? Jos olet unohtanut salasanasi, saat uuden info.sello.fi –osoitteesta
+kohdasta PALAUTA SALASANA ja seuraamalla ohjeita.
 
 ----------------------------------------------------------------------------
 Sellon kauppakeskustoimisto
