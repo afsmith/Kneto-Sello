@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-13 11:33+0200\n"
+"POT-Creation-Date: 2013-01-25 11:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,17 +43,17 @@ msgid "User distinguisher"
 msgstr "Användarinformation"
 
 #: src/administration/forms.py:36 src/management/forms.py:50
-#: src/self_register/self_register_form.py:19
+#: src/self_register/self_register_form.py:20
 #: src/webfront/templates/management/user_profile.html:23
-#: src/webfront/templates/registration/registration_form.html:47
+#: src/webfront/templates/registration/registration_form.html:53
 msgid "First name"
 msgstr "Förnamn"
 
 #: src/administration/forms.py:37 src/management/forms.py:51
-#: src/self_register/self_register_form.py:21
+#: src/self_register/self_register_form.py:22
 #: src/webfront/templates/assignments/admin_status.html:65
 #: src/webfront/templates/management/user_profile.html:27
-#: src/webfront/templates/registration/registration_form.html:54
+#: src/webfront/templates/registration/registration_form.html:60
 msgid "Last name"
 msgstr "Efternamn"
 
@@ -125,8 +125,8 @@ msgstr "Framfart ikoner"
 msgid "Main menu bar"
 msgstr "Huvudmenyraden"
 
-#: src/administration/forms.py:111 src/self_register/self_register_form.py:25
-#: src/webfront/templates/registration/registration_form.html:68
+#: src/administration/forms.py:111 src/self_register/self_register_form.py:26
+#: src/webfront/templates/registration/registration_form.html:77
 msgid "Token"
 msgstr "Aktiverings kod"
 
@@ -256,9 +256,9 @@ msgstr "Modulen måste ha minst en grupp i \" Kan hänföras till\"delen."
 
 #: src/content/forms.py:42 src/content/forms.py:107 src/content/forms.py:123
 #: src/content/models.py:173 src/content/models.py:367
-#: src/management/models.py:84 src/self_register/self_register_form.py:23
+#: src/management/models.py:84 src/self_register/self_register_form.py:24
 #: src/webfront/templates/registration/login.html:87
-#: src/webfront/templates/registration/registration_form.html:61
+#: src/webfront/templates/registration/registration_form.html:67
 msgid "Language"
 msgstr "Språk"
 
@@ -583,14 +583,14 @@ msgstr "NNya lösenordet kan inte vara samma som tidigare"
 msgid "Old password"
 msgstr "Gamla lösenord"
 
-#: src/management/forms.py:165 src/self_register/self_register_form.py:30
+#: src/management/forms.py:165 src/self_register/self_register_form.py:31
 #: src/webfront/templates/registration/password_reset_confirm.html:30
-#: src/webfront/templates/registration/registration_form.html:33
+#: src/webfront/templates/registration/registration_form.html:39
 msgid "New password"
 msgstr "Lösenorde"
 
-#: src/management/forms.py:174 src/self_register/self_register_form.py:39
-#: src/webfront/templates/registration/registration_form.html:40
+#: src/management/forms.py:174 src/self_register/self_register_form.py:40
+#: src/webfront/templates/registration/registration_form.html:46
 msgid "Repeat new password"
 msgstr "Upprepa lösenorde"
 
@@ -610,7 +610,7 @@ msgstr "Tillträde nivå"
 msgid "admin"
 msgstr "admin"
 
-#: src/management/models.py:78 src/self_register/models.py:177
+#: src/management/models.py:78 src/self_register/models.py:178
 msgid "user"
 msgstr ""
 
@@ -857,7 +857,7 @@ msgid "User"
 msgstr "Användar namn"
 
 #: src/reports/forms.py:47
-#: src/webfront/templates/registration/registration_form.html:75
+#: src/webfront/templates/registration/registration_form.html:84
 msgid "Group"
 msgstr "Grupper"
 
@@ -972,7 +972,7 @@ msgstr "Jag har läst och godkänner användarvillkoren"
 msgid "You must agree to the terms to register"
 msgstr "Du måste godkänna användarvillkoren för att registrera dig"
 
-#: src/self_register/forms.py:95 src/self_register/self_register_form.py:45
+#: src/self_register/forms.py:95 src/self_register/self_register_form.py:46
 msgid ""
 "This email address is already in use. Please supply a different email "
 "address."
@@ -990,15 +990,15 @@ msgstr ""
 # "Registration using free email addresses is prohibited. Please supply a "
 # "different email address."
 # msgstr ""
-#: src/self_register/models.py:178
+#: src/self_register/models.py:179
 msgid "activation key"
 msgstr "Avaktivera"
 
-#: src/self_register/models.py:183
+#: src/self_register/models.py:184
 msgid "registration profile"
 msgstr "Användar roll"
 
-#: src/self_register/models.py:184
+#: src/self_register/models.py:185
 msgid "registration profiles"
 msgstr "Användar roll"
 
@@ -1023,9 +1023,19 @@ msgstr ""
 msgid "Password reset on %s"
 msgstr "Lösenord"
 
-#: src/self_register/self_register_form.py:51
+#: src/self_register/self_register_form.py:19
+#: src/webfront/templates/registration/registration_form.html:32
+msgid "Repeat email"
+msgstr ""
+
+#: src/self_register/self_register_form.py:52
 msgid "Invalid Token."
 msgstr "Fel kod"
+
+#: src/self_register/self_register_form.py:63
+#, fuzzy
+msgid "The two email fields didn't match."
+msgstr "Lösenordsfälten stämde inte överens."
 
 #: src/tagging/models.py:9
 msgid "tag name"
@@ -1872,7 +1882,7 @@ msgstr "Insamling"
 
 #: src/webfront/templates/content/module_creator.html:108
 #: src/webfront/templates/messages/compose.html:33
-#: src/webfront/templates/registration/registration_form.html:86
+#: src/webfront/templates/registration/registration_form.html:95
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -2140,40 +2150,76 @@ msgstr ""
 msgid "Login"
 msgstr "Senaste inloggning"
 
-#: src/webfront/templates/registration/activation_email.txt:5
-#, fuzzy, python-format
+#: src/webfront/templates/registration/activation_email.html:5
+#, python-format
 msgid ""
 "\n"
-"Dear %(username)s,\n"
+"<html>\n"
+"<head>\n"
+"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n"
+"</head>\n"
+"<body bgcolor=\"#ffffff\">\n"
+"<img  align=\"top\" src=\"http://info.sello.fi/media/img/SELLO_2_RGB.jpeg\" "
+"alt=\"Home\">\n"
+"<hr>\n"
+"<p></p>\n"
+"<font face=\"Helvetica, Arial\">\n"
+"<p>\n"
+"<font size=\"5\"><b><i>Tervetuloa eSelloon</i></b><br></font>\n"
+"</p>\n"
+"Käyttäjätunnuksesi on:   %(username)s,<br />\n"
+"<p></p>\n"
+"<b><br /></b>\n"
+"Kauppakeskus Sellossa työskentelee yli 2000 työntekijää. Sello käyttää "
+"eSelloa jakaakseen<br> sisäistä koulutusmateriaalia Sellossa "
+"työskenteleville.<br />\n"
 "\n"
-"You have created an account for %(site_name)s, which has to\n"
-"be activated. To do this, please follow the following link:\n"
+"<p>\n"
+"Aktivoi tilisi eSelloon seuraamalla oheista linkkiä: <br>\n"
 "http://%(site_name)s%(activate_url)s\n"
+"<br><p></p><br>\n"
+"Huomaa: jos aktivointia ei tehdä 7 päivän sisällä, sinun on tehtävä "
+"rekisteröinti uudestaan. \n"
+"<br>\n"
+"<br>Mikäli yllä oleva linkki ei toimi: kopioi linkki  ja liitä se suoraan "
+"selaimen osoiteriville. <br> <br>\n"
+"Kun olet kirjautunut eSelloon, klikkaa vihreätä Play-nappia niin näet "
+"sinulle jaetun materiaalin. <br>\n"
+"Katso myös alta kuvaohje.<br>\n"
+"<img  align=\"top\" src=\"http://info.sello.fi/media/img/kneto_storyboard."
+"jpeg\" alt=\"Home\">\n"
+"</p>\n"
+"Unohditko salasanasi? Jos olet unohtanut salasanasi, saat uuden info.sello."
+"fi –osoitteesta<br>\n"
+"kohdasta PALAUTA SALASANA ja seuraamalla ohjeita.\n"
 "\n"
-"Please do take note that if your activation does not succeed\n"
-"within %(expiration_days)s days, you will have to restart\n"
-"the activation process.\n"
 "\n"
-"Best regards,\n"
-"The Kneto\n"
+"<hr>\n"
+"\n"
+"\n"
+"Sellon kauppakeskustoimisto<br>\n"
+"Kauppakeskus Sello - Enemmän kuin ostoksilla\n"
+"<br>\n"
+"<br>\n"
+"Puh. 010 424 6700<br>\n"
+"kauppakeskustoimisto@sello.fi\n"
+"<br>\n"
+"<br>\n"
+"Leppävaarankatu 3-9<br>\n"
+"02600 Espoo\n"
+"<br>\n"
+"<br>\n"
+"Tämä on automaattisesti lähetetty sähköpostiviesti, älä vastaa tähän "
+"sähköpostiviestiin <br />\n"
+"\n"
+"\n"
+"</body>\n"
+"\n"
+"<br />\n"
+"<br />\n"
+"\n"
+"</html>\n"
 msgstr ""
-"Bästa %(username)s,\n"
-"Du har skapat ett konto för %(site_name)s, som nu måste\n"
-"aktiveras. \n"
-"För att göra detta, följ länken nedan:\n"
-"http://%(site_name)s%(activate_url)s\n"
-"\n"
-"Vänligen notera att om din aktivering som inte lyckas inom "
-"%(expiration_days)s dagar, måste du\n"
-"starta om registrerings.\n"
-"\n"
-"Med Vänlig Hälsning,\n"
-"Kneto\n"
-
-#: src/webfront/templates/registration/activation_email_subject.txt:29
-#, python-format
-msgid "Account activation for %(site_name)s"
-msgstr "Aktivera kontot för %(site_name)s"
 
 #: src/webfront/templates/registration/login.html:60
 msgid "Please log-in"
@@ -2185,7 +2231,7 @@ msgstr "Logga in"
 
 #: src/webfront/templates/registration/login.html:102
 #: src/webfront/templates/registration/registration_base.html:66
-#: src/webfront/templates/registration/registration_form.html:83
+#: src/webfront/templates/registration/registration_form.html:92
 msgid "Register"
 msgstr "Registrera Dig"
 
@@ -2350,6 +2396,38 @@ msgstr "Senaste utföring"
 #: src/webfront/templates/reports/reports.html:36
 msgid "Run now!"
 msgstr "Kör rapport!"
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "Dear %(username)s,\n"
+#~ "\n"
+#~ "You have created an account for %(site_name)s, which has to\n"
+#~ "be activated. To do this, please follow the following link:\n"
+#~ "http://%(site_name)s%(activate_url)s\n"
+#~ "\n"
+#~ "Please do take note that if your activation does not succeed\n"
+#~ "within %(expiration_days)s days, you will have to restart\n"
+#~ "the activation process.\n"
+#~ "\n"
+#~ "Best regards,\n"
+#~ "The Kneto\n"
+#~ msgstr ""
+#~ "Bästa %(username)s,\n"
+#~ "Du har skapat ett konto för %(site_name)s, som nu måste\n"
+#~ "aktiveras. \n"
+#~ "För att göra detta, följ länken nedan:\n"
+#~ "http://%(site_name)s%(activate_url)s\n"
+#~ "\n"
+#~ "Vänligen notera att om din aktivering som inte lyckas inom "
+#~ "%(expiration_days)s dagar, måste du\n"
+#~ "starta om registrerings.\n"
+#~ "\n"
+#~ "Med Vänlig Hälsning,\n"
+#~ "Kneto\n"
+
+#~ msgid "Account activation for %(site_name)s"
+#~ msgstr "Aktivera kontot för %(site_name)s"
 
 #, fuzzy
 #~ msgid "Successfully deleted %(count)d %(items)s."
