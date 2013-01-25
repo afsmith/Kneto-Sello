@@ -28,6 +28,12 @@
                     {{ form.email }}
                 </div>
                 {{ form.email.errors }}
+            </li><li>
+                <label>{% trans 'Repeat email' %}</label>
+                <div class="inputWrapper shadow-gray">
+                    {{ form.email_repeat }}
+                </div>
+                {{ form.email_repeat.errors }}
             </li>
             <li>
                 <label>{% trans 'New password' %}</label>

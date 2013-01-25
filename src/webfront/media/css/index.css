@@ -703,6 +703,7 @@ background: #d2e9fe;
   margin: 100px auto;
   width: 400px;
 }
+#registration { width: 460px; }
 #registration p {margin: 20px 20px 20px 20px;} 
 #submitWrapper {
   margin: 10px auto;
@@ -3527,9 +3528,11 @@ li.ui-draggable a span {
     width: 174px;
     height: 24px;
 }
-#loginForm .formList, #registration .formList { padding-left:40px; padding-right:50px; }
+#loginForm .formList { padding-left:40px; padding-right:50px; }
+#registration .formList { padding-left:10px; padding-right:30px; }
 #loginForm .formList li, #registration .formList li { padding-left:0; }
-#loginForm .formList label, #registration .formList label { width:110px; }
+#loginForm .formList label { width:110px; }
+#registration .formList label { width:200px; }
 .modalContent .inputWrapper textarea {
     height: 75px;
 }
@@ -4048,3 +4051,5 @@ span#LDAPstatus {
 
 .marginRight { margin-right:10px; }
 .required { color: @color-error; padding-left:2px; font-size:16px; }
+
+

@@ -16,6 +16,7 @@ class SelfRegisterForm(RegistrationForm):
     username = forms.CharField(label=_('Username'),
             max_length=UserProfile.USERNAME_LENGTH)
     email = forms.EmailField(label=_('Email'))
+    email_repeat = forms.EmailField(label=_('Repeat email'))
     first_name = forms.CharField(label=_('First name'),
             max_length=UserProfile.FIRST_NAME_LENGTH)
     last_name = forms.CharField(label=_('Last name'),
@@ -50,3 +51,15 @@ class SelfRegisterForm(RegistrationForm):
         if (self.cleaned_data.get('token') != reg_token):
             raise forms.ValidationError(_("Invalid Token."))
         return self.cleaned_data.get('token')
+    
+    def clean_email_repeat(self):
+        """
+        Verifiy that the values entered into the two email fields
+        match.
+        
+        """
+        if 'email' in self.cleaned_data and 'email_repeat' in self.cleaned_data:
+            if self.cleaned_data['email'] != self.cleaned_data['email_repeat']:
+                raise forms.ValidationError(_("The two email fields didn't match."))
+        return self.cleaned_data['email_repeat']
+    
