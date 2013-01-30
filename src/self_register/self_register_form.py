@@ -24,7 +24,7 @@ class SelfRegisterForm(RegistrationForm):
     language = forms.ChoiceField(label=_('Language'),
             choices=settings.AVAILABLE_LANGUAGES)
     token = forms.CharField(label=_('Token'))
-    group = forms.ModelChoiceField(queryset=Group.objects.filter(\
+    group = forms.ModelChoiceField(queryset=Group.objects.order_by('name').filter(\
             id__in=models.GroupProfile.objects.filter(
                 self_register_enabled=True)))
 
