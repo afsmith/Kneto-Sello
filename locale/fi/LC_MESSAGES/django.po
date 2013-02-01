@@ -1361,6 +1361,10 @@ msgstr "Hallinto"
 msgid "Log out"
 msgstr "Kirjaudu ulos"
 
+#: src/webfront/templates/base_template.html:142
+msgid "Support"
+msgstr "Tukipyyntö"
+
 #: src/webfront/templates/administration/content_settings.html:4
 #: src/webfront/templates/administration/dashboard.html:87
 msgid "Administer content"

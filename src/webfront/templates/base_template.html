@@ -110,5 +110,41 @@
     	{% admin_tag footer %}
       &copy;
     </div>
+                {% if user.get_profile.role == 10 or user.get_profile.role == 20 %}
+<script type="text/javascript" src="//assets.zendesk.com/external/zenbox/v2.5/zenbox.js"></script>
+<style type="text/css" media="screen, projection">
+@import url(//assets.zendesk.com/external/zenbox/v2.5/zenbox.css);
+#zenbox_tab.ZenboxTabRight {
+    right: 0px;
+    background-position: left 0px;
+    -webkit-transform: rotate(00deg) !important;
+    -moz-transform: rotate(00deg) !important;
+    -o-transform: rotate(00deg) !important;
+    -ms-transform: rotate(00deg) !important;
+    transform: rotate(00deg) !important;
+    position: fixed !important;
+    top: 90% !important;
+    right: +10px !important;
+    font-family: Tahoma,Verdana,Arial !important;
+    border: 1px solid #000000;
+    font-size: 10px !important;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+}
+</style>
+<script type="text/javascript">
+  if (typeof(Zenbox) !== "undefined") {
+    Zenbox.init({
+      dropboxID:   "20135247",
+      url:         "https://kneto.zendesk.com",
+      tabID:       "{% trans "Support" %}",
+      tabColor:    "#6E7D37",
+      tabPosition: "Right"
+    });
+  }
+</script>
+                {% endif %}
 </body>
 </html>

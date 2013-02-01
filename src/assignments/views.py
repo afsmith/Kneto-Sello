@@ -239,12 +239,12 @@ def admin_status(request):
     groups = []
 
     if request.user.get_profile().role == manage_models.UserProfile.ROLE_ADMIN:
-        my_groups = request.user.groups.all()
-        groups = request.user.groups.all()
+        my_groups = request.user.groups.all().order_by('name')
+        groups = request.user.groups.all().order_by('name')
 
     elif request.user.get_profile().role == manage_models.UserProfile.ROLE_SUPERADMIN:
-        my_groups = request.user.groups.all()
-        groups = auth_models.Group.objects.all()
+        my_groups = request.user.groups.all().order_by('name')
+        groups = auth_models.Group.objects.all().order_by('name')
 
 
     group_data = {}

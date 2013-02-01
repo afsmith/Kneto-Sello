@@ -8,6 +8,7 @@
 {% block statusclass %} class="active"{% endblock %}
 {% block content %}
 <div id="adminStatus" class="boxGray">
+<a class="button-blue fright marginRight" id="refresh" href="javascript:location.reload(true)">{% trans "Refresh" %}</a>
 	<form id="adminStatusFilter">
 	  <div class="inputWrapper shadow-gray">
 	    <select id="groupFilter" class="selectBoxJs">

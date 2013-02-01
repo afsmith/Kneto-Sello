@@ -112,9 +112,9 @@ def manage_modules(request):
 @decorators.is_admin_or_superadmin
 def assign_module(request):
     if request.user.get_profile().is_admin:
-        groups = request.user.groups.all()
+        groups = request.user.groups.all().order_by('name')
     else:
-        groups = auth_models.Group.objects.all()
+        groups = auth_models.Group.objects.all().order_by('name')
 
     return direct_to_template(request, 'content/module_assignment.html', {
         'form': forms.SearchAssignmentsForm(initial={'owner': request.user}),
