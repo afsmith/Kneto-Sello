@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-25 11:57+0200\n"
+"POT-Creation-Date: 2013-02-21 10:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,7 +51,7 @@ msgstr "Förnamn"
 
 #: src/administration/forms.py:37 src/management/forms.py:51
 #: src/self_register/self_register_form.py:22
-#: src/webfront/templates/assignments/admin_status.html:65
+#: src/webfront/templates/assignments/admin_status.html:66
 #: src/webfront/templates/management/user_profile.html:27
 #: src/webfront/templates/registration/registration_form.html:60
 msgid "Last name"
@@ -66,7 +66,7 @@ msgid "Email"
 msgstr "E-post"
 
 #: src/administration/forms.py:39 src/management/forms.py:53
-#: src/webfront/templates/assignments/admin_status.html:67
+#: src/webfront/templates/assignments/admin_status.html:68
 #: src/webfront/templates/management/user_profile.html:35
 msgid "Phone"
 msgstr "Telefon"
@@ -313,7 +313,7 @@ msgid "All languages"
 msgstr "Alla språk"
 
 #: src/content/forms.py:105 src/content/models.py:358 src/notepad/models.py:8
-#: src/webfront/templates/assignments/admin_status.html:110
+#: src/webfront/templates/assignments/admin_status.html:111
 #: src/webfront/templates/assignments/user_modules.html:93
 #: src/webfront/templates/assignments/user_modules.html:204
 msgid "Title"
@@ -500,7 +500,7 @@ msgstr ""
 
 #: src/management/forms.py:20 src/management/forms.py:49
 #: src/self_register/forms.py:35 src/self_register/self_register_form.py:16
-#: src/webfront/templates/assignments/admin_status.html:63
+#: src/webfront/templates/assignments/admin_status.html:64
 #: src/webfront/templates/management/user_profile.html:19
 #: src/webfront/templates/registration/login.html:75
 #: src/webfront/templates/registration/registration_form.html:19
@@ -627,7 +627,7 @@ msgid "User from LDAP"
 msgstr "Användare från LDAP"
 
 #: src/management/models.py:86
-#: src/webfront/templates/assignments/admin_status.html:79
+#: src/webfront/templates/assignments/admin_status.html:80
 msgid "Has card"
 msgstr "Har kort"
 
@@ -947,7 +947,7 @@ msgstr ""
 "Detta fält kan endast innehålla bokstäver, siffror och @/./+/-/_ tecken."
 
 #: src/self_register/forms.py:39 src/self_register/reset_password_form.py:13
-#: src/webfront/templates/assignments/admin_status.html:66
+#: src/webfront/templates/assignments/admin_status.html:67
 msgid "E-mail"
 msgstr "E-post"
 
@@ -1528,7 +1528,7 @@ msgid "Report templates"
 msgstr "Rapport namn"
 
 #: src/webfront/templates/administration/reports.html:16
-#: src/webfront/templates/assignments/admin_status.html:32
+#: src/webfront/templates/assignments/admin_status.html:33
 #: src/webfront/templates/content/files_manage.html:20
 #: src/webfront/templates/content/list_modules.html:23
 #: src/webfront/templates/content/module_assignment.html:63
@@ -1548,7 +1548,7 @@ msgid "Template name"
 msgstr "Mall"
 
 #: src/webfront/templates/administration/reports.html:22
-#: src/webfront/templates/assignments/admin_status.html:109
+#: src/webfront/templates/assignments/admin_status.html:110
 #: src/webfront/templates/assignments/user_modules.html:55
 #: src/webfront/templates/assignments/user_modules.html:134
 #: src/webfront/templates/assignments/user_modules.html:169
@@ -1570,45 +1570,51 @@ msgstr "förändringar"
 msgid "Admin status"
 msgstr "Admin status"
 
-#: src/webfront/templates/assignments/admin_status.html:14
-#: src/webfront/templates/assignments/admin_status.html:21
+#: src/webfront/templates/assignments/admin_status.html:11
+#: src/webfront/templates/content/files_manage.html:86
+#: src/webfront/templates/reports/reports.html:37
+msgid "Refresh"
+msgstr "Uppdatera"
+
+#: src/webfront/templates/assignments/admin_status.html:15
+#: src/webfront/templates/assignments/admin_status.html:22
 #: src/webfront/templates/content/list_modules.html:111
 msgid "-- no group selected --"
 msgstr "- Ingen utvald grupp - "
 
-#: src/webfront/templates/assignments/admin_status.html:29
+#: src/webfront/templates/assignments/admin_status.html:30
 msgid "To group"
 msgstr "Till gruppen "
 
-#: src/webfront/templates/assignments/admin_status.html:37
+#: src/webfront/templates/assignments/admin_status.html:38
 #: src/webfront/templates/management/users.html:41
 msgid "Show only my groups"
 msgstr "Visa endast mina grupper"
 
-#: src/webfront/templates/assignments/admin_status.html:49
+#: src/webfront/templates/assignments/admin_status.html:50
 #: src/webfront/templates/messages/compose.html:20
 #: src/webfront/templates/messages/outbox.html:8
 #: src/webfront/templates/messages/view.html:5
 msgid "To"
 msgstr "Åt"
 
-#: src/webfront/templates/assignments/admin_status.html:49
+#: src/webfront/templates/assignments/admin_status.html:50
 msgid "people"
 msgstr "personer"
 
-#: src/webfront/templates/assignments/admin_status.html:64
+#: src/webfront/templates/assignments/admin_status.html:65
 msgid "First Name"
 msgstr "Förnamn"
 
-#: src/webfront/templates/assignments/admin_status.html:68
+#: src/webfront/templates/assignments/admin_status.html:69
 msgid "Last login"
 msgstr "Senaste inloggning"
 
-#: src/webfront/templates/assignments/admin_status.html:69
+#: src/webfront/templates/assignments/admin_status.html:70
 msgid "Groups"
 msgstr "Grupper"
 
-#: src/webfront/templates/assignments/admin_status.html:111
+#: src/webfront/templates/assignments/admin_status.html:112
 #: src/webfront/templates/assignments/user_modules.html:63
 #: src/webfront/templates/assignments/user_modules.html:142
 #: src/webfront/templates/assignments/user_modules.html:177
@@ -1616,11 +1622,11 @@ msgstr "Grupper"
 msgid "Published"
 msgstr "Publiserad"
 
-#: src/webfront/templates/assignments/admin_status.html:122
+#: src/webfront/templates/assignments/admin_status.html:123
 msgid "No users in this group"
 msgstr "Inga användare i den här gruppen"
 
-#: src/webfront/templates/assignments/admin_status.html:126
+#: src/webfront/templates/assignments/admin_status.html:127
 msgid "No group selected"
 msgstr "Ingen grupp är  utvald"
 
@@ -1724,11 +1730,6 @@ msgstr "resultat"
 #: src/webfront/templates/content/files_manage.html:85
 msgid "Import new file"
 msgstr "Importera ny fil"
-
-#: src/webfront/templates/content/files_manage.html:86
-#: src/webfront/templates/reports/reports.html:37
-msgid "Refresh"
-msgstr "Uppdatera"
 
 #: src/webfront/templates/content/list_modules.html:13
 #: src/webfront/templates/content/module_creator.html:101
@@ -2106,7 +2107,7 @@ msgstr "Inga anteckningar"
 # "Registration using free email addresses is prohibited. Please supply a "
 # "different email address."
 # msgstr ""
-#: src/webfront/templates/registration/activate.html:3
+#: src/webfront/templates/registration/activate.html:4
 msgid "Activation complete"
 msgstr "Aktiveringen är färdig"
 
@@ -2114,29 +2115,39 @@ msgstr "Aktiveringen är färdig"
 # "Registration using free email addresses is prohibited. Please supply a "
 # "different email address."
 # msgstr ""
-#: src/webfront/templates/registration/activate.html:3
+#: src/webfront/templates/registration/activate.html:4
 msgid "Activation problem"
 msgstr "Problem med aktiveringen"
 
-#: src/webfront/templates/registration/activate.html:6
+#: src/webfront/templates/registration/activate.html:7
 #, fuzzy
 msgid "Thanks {{ account }}, activation complete!  You may now"
 msgstr "Tack, aktiveringen är färdig!"
 
-#: src/webfront/templates/registration/activate.html:6
+#: src/webfront/templates/registration/activate.html:7
 #, fuzzy
 msgid "using the username and password you set at registration."
 msgstr ""
 "Tack aktiveringen lyckades Du kan nu Logga in med detanvändarnamn och "
 "lösenord du angav vid registreringen. "
 
-#: src/webfront/templates/registration/activate.html:8
+#: src/webfront/templates/registration/activate.html:9
 msgid ""
-"Oops &ndash; it seems that your activation key is invalid.  Please check the "
-"url again."
+" \n"
+"<p>\n"
+"Oops &ndash; it seems that your activation key is invalid. <br> \n"
+"Perhaps you have already activated this account by clicking on the link we "
+"sent you?<br> \n"
+"<a href=\"http://info.sello.fi\">Click here to log in</a><br>\n"
+"If that doesn't work contact kauppakeskustoimisto@sello.fi \n"
 msgstr ""
-"Oops &ndash; det verkar som din aktiveringsnyckel är ogiltig. Klicka på "
-"original nyckel på nytt."
+" \n"
+"<p>\n"
+"Woups! Det verkar som om din aktiveringsnyckel är ogiltig. <br> \n"
+"Det är möjligt att du redan aktiverat detta konto med ett "
+"tidigare klick.<br> \n"
+"<a href=\"http://info.sello.fi\">Klicka här för att logga in i eSello</a><br>\n"
+"Om det inte fungerar kontakta kauppakeskustoimisto@sello.fi\n"
 
 #: src/webfront/templates/registration/activation_complete.html:7
 msgid "Thanks, activation complete!"
@@ -2224,6 +2235,54 @@ msgid ""
 "\n"
 "</html>\n"
 msgstr ""
+
+#: src/webfront/templates/registration/activation_email.txt:5
+#, python-format
+msgid ""
+"\n"
+"Tervetuloa eSelloon\n"
+"\n"
+"Käyttäjätunnuksesi on: %(username)s,\n"
+"\n"
+"Kauppakeskus Sellossa työskentelee yli 2000 työntekijää. Sello käyttää "
+"eSelloa jakaakseen sisäistä koulutusmateriaalia Sellossa työskenteleville.\n"
+"\n"
+"Aktivoi tilisi eSelloon seuraamalla oheista linkkiä: \n"
+"http://%(site_name)s%(activate_url)s\n"
+"\n"
+"Mikäli yllä oleva linkki ei toimi: kopioi linkki  ja liitä se suoraan "
+"selaimen osoiteriville.\n"
+"\n"
+"Huomaa: jos aktivointia ei tehdä 7 päivän sisällä, sinun on tehtävä "
+"rekisteröinti uudestaan. \n"
+"\n"
+"Kun olet kirjautunut eSelloon, klikkaa vihreätä Play-nappia niin näet "
+"sinulle jaetun materiaalin.\n"
+"\n"
+"Unohditko salasanasi? Jos olet unohtanut salasanasi, saat uuden info.sello."
+"fi –osoitteesta\n"
+"kohdasta PALAUTA SALASANA ja seuraamalla ohjeita.\n"
+"\n"
+"----------------------------------------------------------------------------\n"
+"Sellon kauppakeskustoimisto\n"
+"Kauppakeskus Sello - Enemmän kuin ostoksilla\n"
+"\n"
+"Puh. 010 424 6700\n"
+"kauppakeskustoimisto@sello.fi\n"
+"\n"
+"Leppävaarankatu 3-9\n"
+"02600 Espoo\n"
+"\n"
+"Tämä on automaattisesti lähetetty sähköpostiviesti, älä vastaa tähän "
+"sähköpostiviestiin\n"
+"\n"
+"\n"
+msgstr ""
+
+#: src/webfront/templates/registration/activation_email_subject.txt:30
+#, python-format
+msgid "Account activation for %(site_name)s"
+msgstr "Aktivera kontot för %(site_name)s"
 
 #: src/webfront/templates/registration/login.html:60
 msgid "Please log-in"
@@ -2401,6 +2460,13 @@ msgstr "Senaste utföring"
 msgid "Run now!"
 msgstr "Kör rapport!"
 
+#~ msgid ""
+#~ "Oops &ndash; it seems that your activation key is invalid.  Please check "
+#~ "the url again."
+#~ msgstr ""
+#~ "Oops &ndash; det verkar som din aktiveringsnyckel är ogiltig. Klicka på "
+#~ "original nyckel på nytt."
+
 #, fuzzy
 #~ msgid ""
 #~ "\n"
@@ -2429,9 +2495,6 @@ msgstr "Kör rapport!"
 #~ "\n"
 #~ "Med Vänlig Hälsning,\n"
 #~ "Kneto\n"
-
-#~ msgid "Account activation for %(site_name)s"
-#~ msgstr "Aktivera kontot för %(site_name)s"
 
 #, fuzzy
 #~ msgid "Successfully deleted %(count)d %(items)s."

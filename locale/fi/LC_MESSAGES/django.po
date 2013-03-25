@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-25 12:06+0200\n"
+"POT-Creation-Date: 2013-02-21 10:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,7 +51,7 @@ msgstr "Etunimi"
 
 #: src/administration/forms.py:37 src/management/forms.py:51
 #: src/self_register/self_register_form.py:22
-#: src/webfront/templates/assignments/admin_status.html:65
+#: src/webfront/templates/assignments/admin_status.html:66
 #: src/webfront/templates/management/user_profile.html:27
 #: src/webfront/templates/registration/registration_form.html:60
 msgid "Last name"
@@ -66,7 +66,7 @@ msgid "Email"
 msgstr "Sähköposti"
 
 #: src/administration/forms.py:39 src/management/forms.py:53
-#: src/webfront/templates/assignments/admin_status.html:67
+#: src/webfront/templates/assignments/admin_status.html:68
 #: src/webfront/templates/management/user_profile.html:35
 msgid "Phone"
 msgstr "Puhelin"
@@ -313,7 +313,7 @@ msgid "All languages"
 msgstr "Kaikki kielet"
 
 #: src/content/forms.py:105 src/content/models.py:358 src/notepad/models.py:8
-#: src/webfront/templates/assignments/admin_status.html:110
+#: src/webfront/templates/assignments/admin_status.html:111
 #: src/webfront/templates/assignments/user_modules.html:93
 #: src/webfront/templates/assignments/user_modules.html:204
 msgid "Title"
@@ -500,7 +500,7 @@ msgstr ""
 
 #: src/management/forms.py:20 src/management/forms.py:49
 #: src/self_register/forms.py:35 src/self_register/self_register_form.py:16
-#: src/webfront/templates/assignments/admin_status.html:63
+#: src/webfront/templates/assignments/admin_status.html:64
 #: src/webfront/templates/management/user_profile.html:19
 #: src/webfront/templates/registration/login.html:75
 #: src/webfront/templates/registration/registration_form.html:19
@@ -626,7 +626,7 @@ msgid "User from LDAP"
 msgstr "Käyttäjä LDAP:sta"
 
 #: src/management/models.py:86
-#: src/webfront/templates/assignments/admin_status.html:79
+#: src/webfront/templates/assignments/admin_status.html:80
 msgid "Has card"
 msgstr "Kortti annettu"
 
@@ -944,7 +944,7 @@ msgstr ""
 "Tämä kenttä voi sisältää vain kirjaimia, numeroita ja @/./+/-/_ merkkejä."
 
 #: src/self_register/forms.py:39 src/self_register/reset_password_form.py:13
-#: src/webfront/templates/assignments/admin_status.html:66
+#: src/webfront/templates/assignments/admin_status.html:67
 msgid "E-mail"
 msgstr "Sähköposti"
 
@@ -1022,7 +1022,7 @@ msgstr "Sähköposti uudestaan"
 
 #: src/self_register/self_register_form.py:52
 msgid "Invalid Token."
-msgstr "Väära avain"
+msgstr "Väära tunniste"
 
 #: src/self_register/self_register_form.py:63
 msgid "The two email fields didn't match."
@@ -1519,7 +1519,7 @@ msgid "Report templates"
 msgstr "Raportoi nimi"
 
 #: src/webfront/templates/administration/reports.html:16
-#: src/webfront/templates/assignments/admin_status.html:32
+#: src/webfront/templates/assignments/admin_status.html:33
 #: src/webfront/templates/content/files_manage.html:20
 #: src/webfront/templates/content/list_modules.html:23
 #: src/webfront/templates/content/module_assignment.html:63
@@ -1539,7 +1539,7 @@ msgid "Template name"
 msgstr "Malli"
 
 #: src/webfront/templates/administration/reports.html:22
-#: src/webfront/templates/assignments/admin_status.html:109
+#: src/webfront/templates/assignments/admin_status.html:110
 #: src/webfront/templates/assignments/user_modules.html:55
 #: src/webfront/templates/assignments/user_modules.html:134
 #: src/webfront/templates/assignments/user_modules.html:169
@@ -1561,45 +1561,51 @@ msgstr "muutokset"
 msgid "Admin status"
 msgstr "Admin tila"
 
-#: src/webfront/templates/assignments/admin_status.html:14
-#: src/webfront/templates/assignments/admin_status.html:21
+#: src/webfront/templates/assignments/admin_status.html:11
+#: src/webfront/templates/content/files_manage.html:86
+#: src/webfront/templates/reports/reports.html:37
+msgid "Refresh"
+msgstr "Päivitä"
+
+#: src/webfront/templates/assignments/admin_status.html:15
+#: src/webfront/templates/assignments/admin_status.html:22
 #: src/webfront/templates/content/list_modules.html:111
 msgid "-- no group selected --"
 msgstr "-- ryhmää ei valittu --"
 
-#: src/webfront/templates/assignments/admin_status.html:29
+#: src/webfront/templates/assignments/admin_status.html:30
 msgid "To group"
 msgstr "Ryhmään"
 
-#: src/webfront/templates/assignments/admin_status.html:37
+#: src/webfront/templates/assignments/admin_status.html:38
 #: src/webfront/templates/management/users.html:41
 msgid "Show only my groups"
 msgstr "Näytä vain omat ryhmät"
 
-#: src/webfront/templates/assignments/admin_status.html:49
+#: src/webfront/templates/assignments/admin_status.html:50
 #: src/webfront/templates/messages/compose.html:20
 #: src/webfront/templates/messages/outbox.html:8
 #: src/webfront/templates/messages/view.html:5
 msgid "To"
 msgstr "Kenelle"
 
-#: src/webfront/templates/assignments/admin_status.html:49
+#: src/webfront/templates/assignments/admin_status.html:50
 msgid "people"
 msgstr "henkilöä"
 
-#: src/webfront/templates/assignments/admin_status.html:64
+#: src/webfront/templates/assignments/admin_status.html:65
 msgid "First Name"
 msgstr "Etunimi"
 
-#: src/webfront/templates/assignments/admin_status.html:68
+#: src/webfront/templates/assignments/admin_status.html:69
 msgid "Last login"
 msgstr "Edellinen kirjautuminen"
 
-#: src/webfront/templates/assignments/admin_status.html:69
+#: src/webfront/templates/assignments/admin_status.html:70
 msgid "Groups"
 msgstr "Yritys"
 
-#: src/webfront/templates/assignments/admin_status.html:111
+#: src/webfront/templates/assignments/admin_status.html:112
 #: src/webfront/templates/assignments/user_modules.html:63
 #: src/webfront/templates/assignments/user_modules.html:142
 #: src/webfront/templates/assignments/user_modules.html:177
@@ -1607,11 +1613,11 @@ msgstr "Yritys"
 msgid "Published"
 msgstr "Julkaistu"
 
-#: src/webfront/templates/assignments/admin_status.html:122
+#: src/webfront/templates/assignments/admin_status.html:123
 msgid "No users in this group"
 msgstr "Tässä ryhmässä ei käyttäjiä"
 
-#: src/webfront/templates/assignments/admin_status.html:126
+#: src/webfront/templates/assignments/admin_status.html:127
 msgid "No group selected"
 msgstr "Mikään ryhmä ei ole valittu"
 
@@ -1714,11 +1720,6 @@ msgstr "Tiedostoa"
 #: src/webfront/templates/content/files_manage.html:85
 msgid "Import new file"
 msgstr "Tuo uusi tiedosto"
-
-#: src/webfront/templates/content/files_manage.html:86
-#: src/webfront/templates/reports/reports.html:37
-msgid "Refresh"
-msgstr "Päivitä"
 
 #: src/webfront/templates/content/list_modules.html:13
 #: src/webfront/templates/content/module_creator.html:101
@@ -2092,31 +2093,41 @@ msgstr "Vastaa"
 msgid "No notes"
 msgstr "Ei merkintöjä"
 
-#: src/webfront/templates/registration/activate.html:3
+#: src/webfront/templates/registration/activate.html:4
 msgid "Activation complete"
 msgstr "Aktivointi valmis"
 
-#: src/webfront/templates/registration/activate.html:3
+#: src/webfront/templates/registration/activate.html:4
 msgid "Activation problem"
 msgstr "Aktivointi ongelma"
 
-#: src/webfront/templates/registration/activate.html:6
+#: src/webfront/templates/registration/activate.html:7
 #, fuzzy
 msgid "Thanks {{ account }}, activation complete!  You may now"
 msgstr "Kiitos,  aktivointi onnistui"
 
-#: src/webfront/templates/registration/activate.html:6
+#: src/webfront/templates/registration/activate.html:7
 #, fuzzy
 msgid "using the username and password you set at registration."
 msgstr "Voit nyt kirjautua käyttämällä asettamasi käyttäjätunnus ja salasana."
 
-#: src/webfront/templates/registration/activate.html:8
+#: src/webfront/templates/registration/activate.html:9
 msgid ""
-"Oops &ndash; it seems that your activation key is invalid.  Please check the "
-"url again."
+" \n"
+"<p>\n"
+"Oops &ndash; it seems that your activation key is invalid. <br> \n"
+"Perhaps you have already activated this account by clicking on the link we "
+"sent you?<br> \n"
+"<a href=\"http://info.sello.fi\">Click here to log in</a><br>\n"
+"If that doesn't work contact kauppakeskustoimisto@sello.fi \n"
 msgstr ""
-"Woups! &ndash; näyttää siltä, että tilisi aktivointi avain on virheellinen."
-"Klikkaa alkuperäinen linkki uudelleen."
+" \n"
+"<p>\n"
+"Woups!  Näyttää siltä, että aktivointi avain on virheellinen. <br> \n"
+"On myös mahdollista että tilisi jo on aktivoitunut jos"
+"klikkasit aikaisemmin. <br> \n"
+"<a href=\"http://info.sello.fi\">Klikkaa linkkiä tästä kirjautuaksesi eSelloon </a><br>\n"
+"Olethan yhteydessä kauppakeskustoimisto@sello.fi Jos tämä ei toimi.\n"
 
 #: src/webfront/templates/registration/activation_complete.html:7
 msgid "Thanks, activation complete!"
@@ -2287,7 +2298,7 @@ msgstr "Salasana"
 
 #: src/webfront/templates/registration/password_reset_confirm.html:11
 msgid "Password reset unsuccessful"
-msgstr "Raportti luotu onnistuneesti"
+msgstr "Salasanan vaihto ei onnistunut"
 
 #: src/webfront/templates/registration/password_reset_confirm.html:18
 msgid ""
@@ -2319,8 +2330,8 @@ msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
 msgstr ""
-"Uuden salasanan vaihto oli virheellinen, mahdollisesti koska se on jo ollut "
-"käytössäPyydä uutta salasanaa"
+"Uuden salasanan vaihto oli ei onnistunut, mahdollisesti koska linkki jota klikkasit"
+" jo on ollut käytössä. Yritä asettaa salasana uudestaan painamalla PALAUTA SALASANA"
 
 #: src/webfront/templates/registration/password_reset_confirm.html:57
 msgid "Reset passowrd again"
@@ -2424,6 +2435,13 @@ msgstr "Edellinen suorituskerta"
 #: src/webfront/templates/reports/reports.html:36
 msgid "Run now!"
 msgstr "Aja raportti"
+
+#~ msgid ""
+#~ "Oops &ndash; it seems that your activation key is invalid.  Please check "
+#~ "the url again."
+#~ msgstr ""
+#~ "Woups! &ndash; näyttää siltä, että tilisi aktivointi avain on "
+#~ "virheellinen.Klikkaa alkuperäinen linkki uudelleen."
 
 #~ msgid ""
 #~ "\n"

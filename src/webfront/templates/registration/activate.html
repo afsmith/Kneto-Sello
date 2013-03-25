@@ -1,11 +1,18 @@
 {% extends "registration/registration_base.html" %}
+
 {% load i18n %}
 {% block title %}{% if account %}{% trans "Activation complete" %}{% else %}{% trans "Activation problem" %}{% endif %}{% endblock %}
 {% block content %}
 {% if account %}
 {% trans "Thanks {{ account }}, activation complete!  You may now" %}  <a href='{% url auth_login %}'>login</a> {% trans "using the username and password you set at registration." %}
 {% else %}
-{% trans "Oops &ndash; it seems that your activation key is invalid.  Please check the url again." %}
+{% blocktrans %} 
+<p>
+Oops &ndash; it seems that your activation key is invalid. <br> 
+Perhaps you have already activated this account by clicking on the link we sent you?<br> 
+<a href="http://info.sello.fi">Click here to log in</a><br>
+If that doesn't work contact kauppakeskustoimisto@sello.fi 
+{% endblocktrans %}
 {% endif %}
 {% endblock %}
 

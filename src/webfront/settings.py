@@ -280,8 +280,8 @@ SCORM_IMPORTER_CONF = os.path.join(
 #
 # Base URL to Scorm Player which should be used to start a course.
 #
-SCORM_PLAYER_START_URL_PATTERN = 'http://192.168.0.130:8080/reload/ScormLaunch'
-SCORM_PLAYER_READER_URL = 'http://192.168.0.130:8080/reload/ScormReader'
+SCORM_PLAYER_START_URL_PATTERN = 'http://192.168.0.130/reload/ScormLaunch'
+SCORM_PLAYER_READER_URL = 'http://192.168.0.130/reload/ScormReader'
 
 #
 # URL with the login form, here users log into the system.
