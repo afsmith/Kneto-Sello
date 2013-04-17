@@ -1,0 +1,43 @@
+{% load i18n %}
+<div class="tabs admTabs" style="position: relative">
+    <ul>
+        <li class="first{% if tabname = 'start' %} active{% endif %}">
+        <span class="left"></span>
+            <a href="/administration">
+            <span>{% trans "Home" %}</span>
+            </a>
+        <span class="right"></span>
+        </li>
+        <li class="{% if tabname = 'groups_users' %} active{% endif %}">
+        <span class="left"></span>
+            <a href="/management/users">
+            <span>{% trans "Groups & Users" %}</span>
+            </a>
+        <span class="right"></span>
+        </li>
+        <li class="{% if tabname = 'reports' %} active{% endif %}">
+        <span class="left"></span>
+            <a href="/reports">
+            <span>{% trans "Reports" %}</span>
+            </a>
+        <span class="right"></span>
+        </li>
+        <li class="{% if tabname = 'my_templates' %} active{% endif %}">
+        <span class="left"></span>
+            <a href="{% url messages-list_my_templates %}">
+            <span>{% trans "My messages" %}</span>
+            </a>
+        <span class="right"></span>
+        </li>
+        {% if user.get_profile.is_superadmin %}
+            <li class="{% if tabname = 'administration_tools' %} active{% endif %}">
+            <span class="left"></span>
+                <a href="/administration/adm_tools">
+                <span>{% trans "Administrative tools" %}</span>
+                </a>
+            <span class="right"></span>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+

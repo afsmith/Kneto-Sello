@@ -1,0 +1,52 @@
+#! /usr/bin/env bash
+
+## CONFIGS {{{
+MEDIA_DIR="./src/webfront/media/"
+### }}}
+
+# fix for files with spaces {{{
+SAVED_IFS=$IFS
+IFS=$(echo -en "\n\b")
+# }}}
+
+ABS_DIR=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
+MEDIA_DIR="`readlink -f "$ABS_DIR/../$MEDIA_DIR"`"
+
+
+#FLV files
+for f in $(find $MEDIA_DIR -name *flv);
+do
+    f_name="$(basename $f)";
+    f_ext="${f##*.}";
+    f_basename="${f%.*}";
+
+    #check if mp4 version is present
+    if [ ! -f "$f_basename.mp4" ];
+    then
+        ffmpeg -i $f -r 25 -mbd 1 -vf scale='trunc(oh*a/2)*2:480' -vcodec libx264 -acodec libfaac -g 30 -ar 22050 -b:v 640k -ab 64000 -preset slow -y "$f_basename.mp4";
+    fi
+    if [ ! -f "$f_basename.webm" ];
+    then
+        ffmpeg -i $f -r 25 -mbd 1 -vf scale='trunc(oh*a/2)*2:480' -vcodec libvpx -acodec libvorbis -f webm -g 30 -ar 22050 -b:v 640k -ab 64000 -preset slow -y "$f_basename.webm";
+    fi
+    if [ ! -f "$f_basename.ogv" ];
+    then
+        ffmpeg -i $f -r 25 -mbd 1 -vf scale='trunc(oh*a/2)*2:480' -vcodec libtheora -acodec libvorbis -g 30 -ar 22050 -b:v 640k -ab 64000 -preset slow -y "$f_basename.ogv";
+    fi
+done
+
+#MP3 files
+for f in $(find $MEDIA_DIR -name *mp3);
+do
+    f_name="$(basename $f)";
+    f_ext="${f##*.}";
+    f_basename="${f%.*}";
+
+    #check if mp4 version is present
+    if [ ! -f "$f_basename.ogg" ];
+    then
+        ffmpeg -i $f -acodec libvorbis -ar 22050 -ab 64000 -y "$f_basename.ogg";
+    fi
+done
+
+IFS=$SAVED_IFS

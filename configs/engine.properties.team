@@ -1,0 +1,5 @@
+DB_DATABASE=plato_dev
+DB_USER=plato_dev
+DB_PASS=plato_dev
+DB_HOST=localhost
+DB_PORT=5432

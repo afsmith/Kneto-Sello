@@ -1,0 +1,35 @@
+{% extends "base_template.html" %}
+{% load i18n %}
+{% block meta_title %}{% trans "Administration" %}{% endblock %}
+{% block title %}{% trans "Administration" %}{% endblock %}
+{% block js_scripts %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.custom.file.input.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.ui.datepicker.clearDate.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/dashboard.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/reports.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}ckeditor/ckeditor.js"></script>
+{% endblock %}
+{% block administrationclass %} class="active"{% endblock %}
+{% block content %}
+<div id="dashboardWrapper" style="position: relative;">
+    <div class="clear"></div>
+    {% include "administration/admin_tabs.html" %}
+    <div id="adm_toolsTab" class="boxGray" style="float: left;">
+        <ul id="adm_categories" class="messagesList categoriesList boxWhite">
+            <li id="adm_content" class="odd">{% trans "Administer Content" %}</li>
+            <li id="adm_gui" class="even">{% trans "Administer GUI" %}</li>
+            <li id="adm_reports" class="odd">{% trans "Administer Reports" %}</li>
+            <li id="adm_messages" class="even">{% trans "Administer Messages" %}</li>
+            {% if REGISTRATION_OPEN %}
+                <li id="adm_registration" class="odd">{% trans "Administer Self Registration" %}</li>
+            {% endif %}
+            <li id="adm_ldap" class="even">{% trans "Configure LDAP" %}</li>
+            <li id="adm_ldap_groups" class="odd">{% trans "Map LDAP groups" %}</li>
+        </ul>
+        <div id="selectedMessage" style="width: 696px">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
