@@ -24,7 +24,7 @@ class SelfRegisterForm(RegistrationForm):
     language = forms.ChoiceField(label=_('Language'),
             choices=settings.AVAILABLE_LANGUAGES)
     token = forms.CharField(label=_('Token'))
-    group = forms.ModelChoiceField(queryset=Group.objects.order_by('name').filter(\
+    group = forms.ModelChoiceField(queryset=Group.objects.filter(\
             id__in=models.GroupProfile.objects.filter(
                 self_register_enabled=True)))
 
@@ -51,7 +51,7 @@ class SelfRegisterForm(RegistrationForm):
         if (self.cleaned_data.get('token') != reg_token):
             raise forms.ValidationError(_("Invalid Token."))
         return self.cleaned_data.get('token')
-    
+
     def clean_email_repeat(self):
         """
         Verifiy that the values entered into the two email fields
@@ -62,4 +62,3 @@ class SelfRegisterForm(RegistrationForm):
             if self.cleaned_data['email'] != self.cleaned_data['email_repeat']:
                 raise forms.ValidationError(_("The two email fields didn't match."))
         return self.cleaned_data['email_repeat']
-    

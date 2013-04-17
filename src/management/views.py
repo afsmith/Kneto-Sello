@@ -15,6 +15,8 @@ import codecs
 import csv
 import cStringIO as StringIO
 import json
+import os
+
 from django.contrib.auth import authenticate
 from django.forms.fields import CharField
 from django.views.decorators.csrf import csrf_exempt
@@ -44,11 +46,12 @@ from django.views.decorators import http as http_decorators
 from django.views.generic.simple import direct_to_template
 
 from administration import models as admin_models
+from administration.models import ConfigEntry
 from bls_common import bls_django
 from messages.models import Message
 from management.models import OneClickLinkToken
 from messages_custom.models import MailTemplate
-from messages_custom.utils import send_goodbye_email, send_email, send_message
+from messages_custom.utils import send_email, send_message
 from plato_common import decorators
 from management import forms, models
 from reports.models import Report
@@ -67,8 +70,26 @@ def users(request):
             "REGISTRATION_OPEN": settings.REGISTRATION_OPEN
         }
     }
+    ctx["tabname"] = 'groups_users'
     return direct_to_template(request, 'management/users.html', ctx)
 
+
+@decorators.is_admin_or_superadmin
+def user_form_validator(request):
+    """ validate user form """
+    if request.method == 'POST':
+        form = forms.UserProfileForm(request.POST, admin=request.user)
+    if not form.is_valid():
+        if len(form.errors)==1 and 'group' in form.errors.keys():
+            ctx = {'id': -1}
+            response = bls_django.HttpJsonResponse(ctx)
+            response.status_code = 201
+            return response
+    ctx = {
+        'form': form,
+        'type' : 'pending',
+        }
+    return direct_to_template(request, 'management/dialogs/edit_user.html', ctx)
 
 @decorators.is_admin_or_superadmin
 def create_user(request):
@@ -113,13 +134,16 @@ def create_user(request):
 
             if form.cleaned_data['ocl']:
                 ocl = OneClickLinkToken.objects.create(user=user)
-                send_email(recipient=user,
+                send_email(recipient=user, user=request.user,
                            msg_ident=MailTemplate.MSG_IDENT_WELCOME_OCL,
                            msg_data={"[username]": user.username,
                                      "[password]": password,
-                                     "[oneclicklink]": MailTemplate.ONE_CLICK_LINK % (request.get_host(), ocl.token)})
+                                     "[oneclicklink]":
+                                     MailTemplate.ONE_CLICK_LINK %
+                                     (request.get_host(), ocl.token)},
+                           ocl=ocl)
             else:
-                send_email(recipient=user,
+                send_email(recipient=user, user=request.user,
                            msg_ident=MailTemplate.MSG_IDENT_WELCOME,
                            msg_data={"[username]":user.username,
                                      "[password]":password})
@@ -138,6 +162,7 @@ def create_user(request):
         form = forms.UserProfileForm(initial=initial, admin=request.user)
     ctx = {
         'form': form,
+        'type' : request.GET.get('type', 'now'),
         }
     return direct_to_template(request, 'management/dialogs/edit_user.html', ctx)
 
@@ -185,8 +210,9 @@ def edit_user(request, id):
                 group_profile, created = models.UserGroupProfile.objects.get_or_create(
                     user=user, group=form.cleaned_data['group'])
 
-            send_email(recipient=user,
-                       msg_ident=MailTemplate.MSG_IDENT_DATA_EDIT)
+            if form.cleaned_data['send_email']:
+                send_email(recipient=user, user=request.user,
+                        msg_ident=MailTemplate.MSG_IDENT_DATA_EDIT)
 
             return bls_django.HttpResponseCreated()
     else:
@@ -202,9 +228,9 @@ def edit_user(request, id):
 def reset_password(request, id):
     user = get_object_or_404(User, pk=id)
     new_password = User.objects.make_random_password()
-    send_email(recipient=user,
-               msg_ident=MailTemplate.MSG_IDENT_PASSWORD,
-               msg_data={"[password]":new_password})
+    send_email(recipient=user, user=request.user,
+            msg_ident=MailTemplate.MSG_IDENT_PASSWORD,
+            msg_data={"[password]":new_password})
     user.set_password(raw_password=new_password)
     user.save()
     return bls_django.HttpJsonResponse({'status': 'OK'})
@@ -221,13 +247,14 @@ def toggle_group_manager(request, user_id, group_id):
             group_profile.access_level=models.UserGroupProfile.LEVEL_HALF_ADMIN
         else:
             group_profile.access_level=models.UserGroupProfile.LEVEL_FULL_ADMIN
-            template = MailTemplate.objects.get(type=MailTemplate.TYPE_INTERNAL,
-                                                identifier=MailTemplate.MSG_IDENT_RECEIVE_RIGHT)
+            template = MailTemplate.for_user(request.user, type=MailTemplate.TYPE_INTERNAL,
+                                             identifier=MailTemplate.MSG_IDENT_RECEIVE_RIGHT)[0]
             params_dict={'[groupname]':group.name}
-            send_message(sender=request.user,
-                        recipients_ids=[user.id],
-                        subject=template.populate_params_to_text(template.subject, params_dict),
-                        body=template.populate_params(params_dict))
+            if (template.send_msg != 'F'):
+                send_message(sender=request.user,
+                            recipients_ids=[user.id],
+                            subject=template.populate_params_to_text(template.subject, params_dict),
+                            body=template.populate_params(params_dict))
     except models.UserGroupProfile.DoesNotExist, e:
         group_profile = models.UserGroupProfile(user=user,
                                                 group=group,
@@ -250,7 +277,6 @@ def toggle_has_card(request, id):
     profile.has_card = data['has_card']
     profile.save()
     return bls_django.HttpJsonResponse({'status': 'OK'})
-
 
 @http_decorators.require_POST
 def set_users_is_active_flag(request, id, is_active):
@@ -294,7 +320,6 @@ def _set_courses_to_assign_state_if_no_users_use_it(courses):
             course.get_state().act("remove_user")
 
 
-@http_decorators.require_POST
 @decorators.is_admin_or_superadmin
 def delete_user(request, id):
     """Removes user by id and all associated objects.
@@ -308,40 +333,46 @@ def delete_user(request, id):
     - 405 if request is not POST request.
     """
 
-    send_goodbye = False
-    if request.GET.get('send_goodbye_email') != 'false':
-        send_goodbye = True
+    if request.method == 'POST':
+        send_goodbye = False
+        if request.GET.get('send_goodbye_email') != 'false':
+            send_goodbye = True
 
-    if request.user.get_profile().role == models.UserProfile.ROLE_SUPERADMIN:
-        user = get_object_or_404(User, pk=id)
+        if request.user.get_profile().role == models.UserProfile.ROLE_SUPERADMIN:
+            user = get_object_or_404(User, pk=id)
 
-        _delete_user_by_superadmin(user, request.user, send_goodbye)
+            _delete_user_by_superadmin(user, request.user, send_goodbye)
 
-        return bls_django.HttpJsonOkResponse()
-    else:
-        try:
-            user = User.objects.get(id=id, userprofile__role=models.UserProfile.ROLE_USER)
+            return bls_django.HttpJsonOkResponse()
+        else:
+            try:
+                user = User.objects.get(id=id, userprofile__role=models.UserProfile.ROLE_USER)
 
-            if not set(user.groups.all()).issubset(set(request.user.groups.all())):
+                if not set(user.groups.all()).issubset(set(request.user.groups.all())):
+                    return bls_django.HttpJsonResponse({'status': 'ERROR',
+                                                        'messages': _('User has groups not managed by this admin.')})
+
+                if TrackingEvent.objects.filter(participant=id).count():
+                    return bls_django.HttpJsonResponse({'status': 'ERROR', 'messages': _('User has started course.')})
+                else:
+                    if send_goodbye:
+                        send_email(recipient=user, user=request.user,
+                                msg_ident=MailTemplate.MSG_IDENT_GOODBYE)
+                    Report.objects.filter(user=user).update(is_deleted=True, user=None)
+                    user.delete()
+                    return bls_django.HttpJsonOkResponse()
+            except User.DoesNotExist:
                 return bls_django.HttpJsonResponse({'status': 'ERROR',
-                                                    'messages': _('User has groups not managed by this admin.')})
+                                                'messages': _('User with ID %s is not eligable for deletion') % id})
+    else:
+        return direct_to_template(request
+                    ,'management/dialogs/remove_user.html',
+                    {'user_id': id})
 
-            if TrackingEvent.objects.filter(participant=id).count():
-                return bls_django.HttpJsonResponse({'status': 'ERROR', 'messages': _('User has started course.')})
-            else:
-                if send_goodbye:
-                    send_email(recipient=user,
-                               msg_ident=MailTemplate.MSG_IDENT_GOODBYE)
-                Report.objects.filter(user=user).update(is_deleted=True, user=None)
-                user.delete()
-                return bls_django.HttpJsonOkResponse()
-        except User.DoesNotExist:
-            return bls_django.HttpJsonResponse({'status': 'ERROR',
-                                            'messages': _('User with ID %s is not eligable for deletion') % id})
 
 def _delete_user_by_superadmin(user_to_delete, user_who_removes, send_goodbye):
     if send_goodbye:
-        send_email(recipient=user_to_delete,
+        send_email(recipient=user_to_delete, user=user_who_removes,
                    msg_ident=MailTemplate.MSG_IDENT_GOODBYE)
 
     Course.objects.filter(groups__user=user_to_delete).update(owner=user_who_removes)
@@ -465,6 +496,7 @@ def list_users(request):
             'user_type': user.get_profile().get_user_type(),
             'user_type_translated': _(user.get_profile().get_user_type()),
             'ldap_user': user.get_profile().get_ldap_marker(),
+            'plus_user': user.get_profile().get_sales_plus_marker(),
             'manages': []
             }
         for group_attrs in models.UserGroupProfile.objects\
@@ -534,8 +566,8 @@ def memberships(request, group_id):
                     'messages': [_('User with ID %d does not exist.') % (id,)],
                     }
                 return bls_django.HttpJsonResponse(response)
-        template = MailTemplate.objects.get(type=MailTemplate.TYPE_INTERNAL,
-                                            identifier=MailTemplate.MSG_IDENT_WELCOME)
+        template = MailTemplate.for_user(request.user, type=MailTemplate.TYPE_INTERNAL,
+                                            identifier=MailTemplate.MSG_IDENT_WELCOME_GROUP)[0]
 
     elif action == 'remove':
         for id in data.get('members', []):
@@ -549,16 +581,17 @@ def memberships(request, group_id):
                     'messages': [_('User with ID %d does not exist.') % (id,)],
                     }
                 return bls_django.HttpJsonResponse(response)
-        template = MailTemplate.objects.get(type=MailTemplate.TYPE_INTERNAL,
-                                            identifier=MailTemplate.MSG_IDENT_GOODBYE)
+        template = MailTemplate.for_user(request.user, type=MailTemplate.TYPE_INTERNAL,
+                                         identifier=MailTemplate.MSG_IDENT_GOODBYE)[0]
     else:
         return http.HttpResponseBadRequest(_('Invalid action specified.'))
 
     params_dict={'[groupname]':group.name}
-#    send_message(sender=request.user,
-#                 recipients_ids=data['members'],
-#                 subject=template.populate_params_to_text(template.subject, params_dict),
-#                 body=template.populate_params(params_dict))
+    if (template.send_msg != 'F'):
+        send_message(sender=request.user,
+                    recipients_ids=data['members'],
+                    subject=template.populate_params_to_text(template.subject, params_dict),
+                    body=template.populate_params(params_dict))
 
     transaction.commit()
 
@@ -684,6 +717,29 @@ def groups_self_register(request):
 
 @decorators.is_superadmin
 @http_decorators.require_GET
+def group_users(request, id):
+    """
+        gets users assigned to given group
+    """
+    users_dict = {}
+    for user in User.objects.filter(groups__id=id,
+        userprofile__role__in=[r[0] for r in models.UserProfile.ROLES_CUTED]):
+
+        users_dict[user.id] = models.serialize_user(user)
+    
+    # assign to all
+    print id
+    if id=='-2':
+        return bls_django.HttpJsonResponse(
+                    {0: {'role': 0,
+                         'id': 0, 
+                         'name': u'Everyone'}
+                    })
+        
+    return bls_django.HttpJsonResponse(users_dict)
+
+@decorators.is_superadmin
+@http_decorators.require_GET
 def user_groups(request, id):
     groups_dict = {}
     for group in get_object_or_404(User, id=id).groups.all():
@@ -782,7 +838,9 @@ def import_users(request, group_id):
             importer = models.UserImporter(group=group, format=file.name.lower().rpartition('.')[2], importer=request.user)
 
             result = {
-                'result': importer.import_users(users_data),
+                'result': importer.import_users(users_data, request.user,
+                                          form.cleaned_data['send_email']
+                        ),
                 'title': _("Results of users import to group:") + group.name
             }
             return direct_to_template(request, 'management/import_csv.html', result)
@@ -838,10 +896,10 @@ def user_password_change(request):
             request.user.set_password(form.cleaned_data['new_password'])
             request.user.save()
 
-            send_email(recipient=request.user,
-                       msg_ident=MailTemplate.MSG_IDENT_WELCOME,
-                       msg_data={"[username]":request.user.username,
-                                 "[password]":form.cleaned_data['new_password']})
+            send_email(recipient=request.user, user=request.user,
+                    msg_ident=MailTemplate.MSG_IDENT_PASSWORD,
+                    msg_data={"[username]":request.user.username,
+                        "[password]":form.cleaned_data['new_password']})
 
             return http.HttpResponse(status=200)
     else:
@@ -861,10 +919,47 @@ def login_screen(request):
         default_lang = admin_models.get_entry_val(admin_models.ConfigEntry.GUI_DEFAULT_LANGUAGE)
         request.session['django_language'] = default_lang or settings.LANGUAGE_CODE
         translation.activate(request.session['django_language'])
-        return direct_to_template(request,
-                'registration/login.html',
-                {"REGISTRATION_OPEN": settings.REGISTRATION_OPEN})
 
+        gui_logo_filename = admin_models.get_entry_val(ConfigEntry.GUI_LOGO_FILE) or ''
+        gui_logo_filename_parts = os.path.splitext(gui_logo_filename)
+        gui_logo_file_ext = gui_logo_filename_parts[1] or ''
+        logo_file_url = ''
+        if gui_logo_filename:
+            logo_file_url = settings.CSS_TEMPLATES_URL +'/'+ settings.CUSTOM_LOGO_FILE_NAME + gui_logo_file_ext
+        return direct_to_template(request, 'registration/login.html',
+        {
+            "REGISTRATION_OPEN": settings.REGISTRATION_OPEN,
+            "logo_file_url": logo_file_url,
+        })
+
+
+@http_decorators.require_GET
+def one_click_link_smm(request):
+    token = request.GET.get('token')
+
+    if token:
+        try:
+            one_click_link_token = OneClickLinkToken.objects.get(token=token)
+        except OneClickLinkToken.DoesNotExist, e:
+            return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+        
+        if one_click_link_token.expired:
+            return direct_to_template(request,
+                    'registration/login.html', {"ocl_expired": True})
+
+        from django.contrib.auth import login as auth_login
+        one_click_link_token.user.backend = "django.contrib.auth.backends.ModelBackend"
+
+        if not one_click_link_token.user.is_active:
+            return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+
+        auth_login(request, one_click_link_token.user)
+
+        if request.session.test_cookie_worked():
+            request.session.delete_test_cookie()
+        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+    else:
+        return redirect_to_login("/")
 
 @http_decorators.require_GET
 def one_click_link(request):
@@ -875,6 +970,10 @@ def one_click_link(request):
             one_click_link_token = OneClickLinkToken.objects.get(token=token)
         except OneClickLinkToken.DoesNotExist, e:
             return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+        
+        if one_click_link_token.expired:
+            return direct_to_template(request,
+                    'registration/login.html', {"ocl_expired": True})
 
         from django.contrib.auth import login as auth_login
         one_click_link_token.user.backend = "django.contrib.auth.backends.ModelBackend"
@@ -911,6 +1010,30 @@ def web_service_login(request):
         return HttpJsonResponse({'status': 'OK'})
 
 
+@decorators.is_admin_or_superadmin
+@http_decorators.require_POST
+def ocl_expire(request, id):
+    try:
+        ocl = OneClickLinkToken.objects.get(pk=id)
+    except OneClickLinkToken.DoesNotExist:
+        return HttpJsonResponse({'status': 'ERROR',
+            'message': unicode(_('Token does not exist'))})
+    
+    form = forms.OCLExpirationForm(request.POST)
+    if form.is_valid():
+        from datetime import date
+        if form.cleaned_data['expires_on']:
+            ocl.expires_on = form.cleaned_data['expires_on']
+            if form.cleaned_data['expires_on'] < date.today():
+                ocl.expired = True
+        else:
+            ocl.expires_on = date.today()
+            ocl.expired = True
+    else:
+        return HttpJsonResponse({'status': 'ERROR',
+            'message': unicode(_('Date is invalid'))})
 
+    ocl.save()
+    return HttpJsonResponse({'status': 'OK', "expired": ocl.expired})
 
 # vim: set et sw=4 ts=4 sts=4 tw=78:

@@ -1,10 +1,9 @@
-{% extends "modal_template.html" %}
+{% extends "administration/widget_admtool_template.html" %}
 {% load i18n %}
-{% block style %} style="width: 640px;"{% endblock %}
-{% block title %}{% trans "Administer Self Registration" %}{% endblock %}
+{% block style %} style="width: 100%;"{% endblock %}
 {% block content %}
 
-<form id="SelfRegisterSettingsForm" action="{% url administration-self-register-settings %}" method="post" class="nyroModal">
+<form id="SelfRegisterSettingsForm" action="{% url administration-self-register-settings %}" method="post" class="nyroModal clear">
     {% load extras %}
     {% if form.non_field_errors %}
       <div class="error">
@@ -21,9 +20,8 @@
         {{form.token.errors}}
       </li>
     </ul>
-<div style="width: 200px; margin: 0px auto;">
-    <a id="submit" class="button-gray button-big button-submit" href="#" style="margin-top: 10px;">{% trans "Save" %}</a>
+<div class="control-button" style="width: 200px; margin: 0px auto;">
+    <a id="submit" class="button-blue button-big button-submit" href="#" style="margin-top: 10px;">{% trans "Save" %}</a>
 </div>
 </form>
-<div class="separator"></div>
 {% endblock %}

@@ -2,7 +2,7 @@ var app = new Ing();
 $(document).ready(function(){
     app.config.mediaURL = mediaURL;
     app.run();
-    app.reports.loadReports();
+    app.reports.loadReports(this.location.hash.replace(/#/, ''));
     app.listeners.reportsChangeListener();
     $("#id_owner").sb();
     $('#reportDetails').hide();
@@ -14,6 +14,7 @@ $(document).ready(function(){
               callbacks: {
                   beforeShowCont: function(){
                       $('#id_schedule_type').change();
+                      $('#id_send_to').change();
                       initDisplayedForm();
                   }
               }
@@ -21,13 +22,53 @@ $(document).ready(function(){
         );
         return false;
     });
-    $('#importNewReport').click(function(){
+    $('#add_receiver').live('click', function(e){
+        app.config.searchForm = false;
+        e.preventDefault();
+/*        var addTag = function(elem){
+            var cnf = app.config;
+            var els = app.elements;
+            var tag = $.trim($(elem + ' option:selected').text());
+            console.log(Ing.elements);
+            
+            var el = new els.tag(tag);
+            els.attach(el, cnf.tagList);
+        };*/
+        var send_to = $('#id_send_to');
+        var users = $('#id_send_users');
+        var admins = $('#id_send_admins');
+        var groups = $('#id_send_groups');
+        var receivers = $('#receiversList');
+        var selected = '';
+        switch(send_to.val()){
+            case '0':
+                return false
+                break;
+            case '1':
+                selected = $('option:selected', users).text();
+                //addTag('#id_send_users');
+                app.callbacks.handleTags('#id_send_users', '#tagListUsers');
+                break;
+            case '2':
+                selected = $('option:selected', admins).text();
+                app.callbacks.handleTags('#id_send_admins', '#tagListAdmins');
+                break;
+            case '3':
+                selected = $('option:selected', groups).text();
+                app.callbacks.handleTags('#id_send_groups', '#tagListGroups');
+                break;
+        }
+        return false;
+
+    });
+    $('#importNewReport').live('click', function(){
         $.nmManual(
           '/administration/reports/create/',
           {
               callbacks: {
                   beforeShowCont: function(){
                       $('#id_schedule_type').change();
+                      $('#id_send_to').change();
                       initDisplayedForm();
                   }
               }
@@ -134,6 +175,7 @@ $(document).ready(function(){
                   callbacks: {
                       beforeShowCont: function(){
                           $('#id_schedule_type').change();
+                          $('#id_send_to').change();
                           initDisplayedForm();
                           $('#chooseTemplate').before('<span class="fileName">' + app.data.activeReport.template_path + '</span>');
                           $('#chooseTemplate').text(t.CHANGE);
@@ -145,7 +187,7 @@ $(document).ready(function(){
         return false;
     });
 
-    $('#editImportedReport').click(function(){
+    $(document).on('click','#editImportedReport', function(){
        if(app.data.activeReport){
            $.nmManual(
               '/administration/reports/create/' + app.data.activeReport.id + '/',
@@ -179,6 +221,47 @@ $(document).ready(function(){
         }
         return false;
     });
+    $('#id_send_to').live('change', function(){
+        var send_users = $('#id_send_users');
+        var send_users_par = send_users.parents('li');
+        var send_admins = $('#id_send_admins');
+        var send_admins_par = send_admins.parents('li');
+        var send_groups = $('#id_send_groups');
+        var send_groups_par = send_groups.parents('li');
+
+        send_users.attr('disabled', 'disabled');
+        send_users_par.hide();
+        send_admins.attr('disabled', 'disabled');
+        send_admins_par.hide();
+        send_groups.attr('disabled', 'disabled');
+        send_groups_par.hide();
+        switch($(this).val()){
+            case '0':
+                send_users.attr('disabled', 'disabled');
+                send_users_par.hide();
+                send_admins.attr('disabled', 'disabled');
+                send_admins_par.hide();
+                send_groups.attr('disabled', 'disabled');
+                send_groups_par.hide();
+                break;
+            case '1':
+                send_users_par.show();
+                send_users.removeAttr('disabled')
+                    .sb('refresh');
+                break;
+            case '2':
+                send_admins_par.show();
+                send_admins.removeAttr('disabled')
+                    .sb('refresh');
+                break;
+            case '3':
+                send_groups_par.show();
+                send_groups.removeAttr('disabled')
+                    .sb('refresh');
+                break;
+                
+        }
+    });
     $('#id_schedule_type').live('change', function(){
         $('#id_schedule_day_month').parents('li').hide();
         $('#id_schedule_day_month').attr('disabled', 'disabled');
@@ -209,8 +292,37 @@ $(document).ready(function(){
         $('ul.selectbox').css("width","auto");
     });
     $('#newReportForm a.button-submit').live('click', function(){
-				$(this).parents('form').find('input:disabled.hasDatepicker').removeAttr('disabled');
-				$(this).parents('form').submit();
+                var form = $(this).parents('form');
+				form.find('input:disabled.hasDatepicker').removeAttr('disabled');
+                var formExtend = form.children('.formExtend');
+                var rcvListUsers = formExtend.find('ul#tagListUsers');
+                var rcvListAdmins = formExtend.find('ul#tagListAdmins');
+                var rcvListGroups = formExtend.find('ul#tagListGroups');
+                var send_report = $('#id_send_report').attr('checked');
+                var usersList = [];
+                var adminsList = [];
+                var groupsList = [];
+                rcvListUsers.children('li').each(function(){
+                    usersList.push($.trim($(this).text()));
+                });
+                rcvListAdmins.children('li').each(function(){
+                    adminsList.push($.trim($(this).text()));
+
+                });
+                rcvListGroups.children('li').each(function(){
+                    groupsList.push($.trim($(this).text()));
+
+                });
+                $('<input type="text" id="norifyUsers" name="notifyUsers" style="display: none" value="'+usersList.join(',')+'" />').appendTo(form);
+                $('<input type="text" id="norifyAdmins" name="notifyAdmins" style="display: none" value="'+adminsList.join(',')+'" />').appendTo(form);
+                $('<input type="text" id="norifyGroups" name="notifyGroups" style="display: none" value="'+groupsList.join(',')+'" />').appendTo(form);
+
+                if ((!usersList.length && !adminsList.length && !groupsList.length) &&
+                    send_report) {
+                    $('#id_send_report').parents('li').append('<div class="formError">You haven\'t specified any receivers.</div>')
+                    return false;
+                }
+				form.submit();
 				return false;
     });
     $('#newReportForm').live('submit', function(e){
@@ -229,21 +341,22 @@ $(document).ready(function(){
 
                    }
                }catch(e){
-
                    $('.nyroModalLink').html(data);
                    initDisplayedForm();
-									 $('.nyroModalLink a.close').click(function(){
-												$.nmTop().close();
-										});
+                   $('#id_send_users').closest('li').hide();
+                   $('#id_send_admins').closest('li').hide();
+                   $('#id_send_groups').closest('li').hide();
+                   $('.nyroModalLink a.close').click(function(){
+                	   $.nmTop().close();
+                   });
                }
-
            }
         });
         return false;
     });
     $('#reportFilter').keyup(function(){
         $('.reportName').each(function(){
-            if($(this).html().toLowerCase().indexOf($('#reportFilter').val().toLowerCase().trim()) == -1){
+            if($(this).html().toLowerCase().indexOf($.trim($('#reportFilter').val().toLowerCase())) == -1){
                 $(this).parents('li').hide();
             }else{
                 $(this).parents('li').show();
@@ -372,6 +485,37 @@ var initDisplayedForm = function(){
   $("#id_schedule_hour").attr("readonly","readonly");
 
   $('#id_name, #id_template_report').parents(".inputWrapper").siblings("label").append('<span class="required">*</span>');
+  update_ntf_tags();
+
+  function update_ntf_tags() {
+    // -- adding tags to internal data sotrage
+    app.config.searchForm = false;
+    if(!app.data.tags){
+        app.data.tags = [];
+    }
+    $('#tagListUsers').children('li').each(function(){
+       app.data.tags.push({id: $(this).attr('id').replace('tag_', ''), name: $.trim($(this).text())});
+    });
+    $('#tagListAdmins').children('li').each(function(){
+       app.data.tags.push({id: $(this).attr('id').replace('tag_', ''), name: $.trim($(this).text())});
+    });
+    $('#tagListGroups').children('li').each(function(){
+       app.data.tags.push({id: $(this).attr('id').replace('tag_', ''), name: $.trim($(this).text())});
+    });
+    // -- applying default tag behavior to tags read from server-side
+    var helper = new app.elements.tag('dummy tag');
+    $('#tagListUsers').children('li').click(function(){
+        helper.events[0].handler.apply(this, arguments);
+    });
+    var helper = new app.elements.tag('dummy tag');
+    $('#tagListAdmins').children('li').click(function(){
+        helper.events[0].handler.apply(this, arguments);
+    });
+    var helper = new app.elements.tag('dummy tag');
+    $('#tagListGroups').children('li').click(function(){
+        helper.events[0].handler.apply(this, arguments);
+    });
+  }
 
   function set_report_details(id) {
     //console.log('id = '+id);

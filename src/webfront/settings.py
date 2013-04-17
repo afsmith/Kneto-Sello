@@ -17,12 +17,22 @@ logger.setLevel(logging.DEBUG)
 logger = logging.getLogger('assignments')
 logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)
+
+logger = logging.getLogger('messages_custom')
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
+
+logger = logging.getLogger('management')
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
+
 ##################
 
+NAME = ''
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-DEBUG =  True
-TEMPLATE_DEBUG = True 
+DEBUG = False
+TEMPLATE_DEBUG = False
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -185,8 +195,13 @@ INSTALLED_APPS = (
     'messages_custom',
     'notepad',
     'reports',
-    'self_register'
+    'self_register',
+    'longerusername',
 )
+
+REGISTRATION_OPEN = True
+SALES_PLUS = True
+ENABLE_MODULES_SIGNOFF = True
 
 TEST_RUNNER = 'bls_common.bls_django.CeleryTestRunner'
 
@@ -280,7 +295,7 @@ SCORM_IMPORTER_CONF = os.path.join(
 #
 # Base URL to Scorm Player which should be used to start a course.
 #
-SCORM_PLAYER_START_URL_PATTERN = 'http://192.168.0.130/reload/ScormLaunch'
+SCORM_PLAYER_ENDPOINT = '/reload/ScormLaunch'
 SCORM_PLAYER_READER_URL = 'http://192.168.0.130/reload/ScormReader'
 
 #
@@ -342,7 +357,14 @@ CELERYBEAT_SCHEDULE = {
         'task': 'reports.tasks.generate_reports',
         'schedule': crontab(minute='*', hour='*', day_of_week='*'),
     },
-
+    'check_mailbox': {
+        'task': 'messages_custom.tasks.check_mailbox',
+        'schedule': crontab(minute='*'),
+    },
+    'check_ocl_expiration': {
+        'task': 'management.tasks.check_ocl_expiration',
+        'schedule': crontab(minute='*'),
+    }
 }
 
 ##############################################################################
@@ -350,6 +372,7 @@ CELERYBEAT_SCHEDULE = {
 ##############################################################################
 
 EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+CELERY_EMAIL_TASK_CONFIG = {'default_retry_delay': 60, 'max_retries': 3}
 
 EMAIL_HOST='localhost'
 EMAIL_PORT=1025
@@ -357,10 +380,23 @@ EMAIL_PORT=1025
 #EMAIL_HOST='email-smtp.us-east-1.amazonaws.com'
 #EMAIL_HOST_USER='AKIAJJKB7ALYUPX5WMCA'
 #EMAIL_HOST_PASSWORD='Ai3vBfuFTRVA/bhYniE4bT6lGDEvaz+1/1xRF3q7w7hn'
-DEFAULT_FROM_EMAIL='sales@kneto.fi'
+#DEFAULT_FROM_EMAIL='sales@kneto.fi'
 #EMAIL_USE_TLS=True
 EMAIL_CONTENT_SUBTYPE='html'
 
+###################################################
+# setting required by messages_custom.tasks.check_mailbox() task
+#EMAIL_BOX_TYPE = 'pop3'
+#EMAIL_BOX_HOST = 'pop3.kneto.fi'
+#EMAIL_BOX_PORT = 995
+#EMAIL_BOX_USER = 'sales@kneto.fi'
+#EMAIL_BOX_PASSWORD = 'password'
+#EMAIL_BOX_SSL = True
+#EMAIL_BOX_REMOVE_MESSAGES = True
+#EMAIL_BOX_IMAP_FOLDER = 'INBOX'
+
+
+#CKEDITOR_UPLOAD_WWW_PATH = 'http://your_domain/media/uploaded-images/'
 
 try:
     from webfront.local_settings import *
@@ -375,12 +411,16 @@ DEFAULT_GUI_WEB_TITLE = 'CUSTOM WEB TITLE'
 DEFAULT_GUI_FOOTER = 'Company name | All rights reserved'
 CSS_TEMPLATES_DIR = os.path.join(MEDIA_ROOT, 'custom')
 CSS_TEMPLATES_URL = os.path.join(MEDIA_URL, 'custom')
+CUSTOM_LOGO_FILE_NAME = 'custom_logo'
+CUSTOM_BG_FILE_NAME = 'custom_bg.png'
 CUSTOM_CSS_FILE_NAME = 'custom.less'
 CUSTOM_APPLICATION_ICONS_NAME = 'custom_icons.png'
 CUSTOM_FILETYPE_ICONS_NAME = 'custom_file_type.png'
 CUSTOM_PROGRESS_ICONS_NAME = 'custom_progress.png'
 CUSTOM_MAIN_MENU_BAR_NAME = 'custom_wide.png'
 
+DEFAULT_LOGO_FILE_NAME = 'default_logo'
+DEFAULT_BG_FILE_NAME = 'kneto-bg.png'
 DEFAULT_CSS_FILE_NAME = 'default.less'
 DEFAULT_APPLICATION_ICONS_NAME = 'sprite_icons.png'
 DEFAULT_FILETYPE_ICONS_NAME = 'sprite_file_type.png'
@@ -389,6 +429,9 @@ DEFAULT_MAIN_MENU_BAR_NAME = 'sprite_wide.png'
 
 #GOODBYE_EMAIL_SUBJECT = "Goodbye!"
 #GOODBYE_EMAIL_MESSAGE = "Bye!"
+
+CKEDITOR_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'uploaded-images')
+CKEDITOR_UPLOAD_URL = '/media/uploaded-images/'
 
 ##############################################################################
 # LDAP

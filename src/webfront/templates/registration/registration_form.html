@@ -35,7 +35,7 @@
                 </div>
                 {{ form.email_repeat.errors }}
             </li>
-            <li>
+	    <li>
                 <label>{% trans 'New password' %}</label>
                 <div class="inputWrapper shadow-gray">
                     {{ form.password1 }}
@@ -63,15 +63,12 @@
                 </div>
                 {{ form.last_name.errors }}
             </li>
-           <li>
+            <li>
                 <label>{% trans 'Language' %}</label>
                 <div class="inputWrapper shadow-gray selectWrapper">
-                    <select id='id_language' name='language'>
-                        {% for lang_id, lang_name in request.session.languages %}
-                        <option value="{{ lang_id }}" {% if lang_id == request.session.django_language %} selected="selected" {% endif %}>{{ lang_name }}</option>
-                        {% endfor %}
-                    </select>
+                    {{ form.language }}
                 </div>
+                {{ form.language.errors }}
             </li>
             <li>
                 <label>{% trans 'Token' %}</label>

@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignParameter;
 import net.sf.jasperreports.engine.design.JRDesignSubreport;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.util.JRElementsVisitor;
@@ -288,9 +289,16 @@ public class DynamicReportGenerator {
 						getJRDataSource(mainReport, ownerAndReportIds));
 			}
 			boolean isHtml = outputFile.toLowerCase().endsWith(".html");
+			boolean isCsv = outputFile.toLowerCase().endsWith(".csv");
 			if (isHtml) {
 				JRHtmlExporter exporter = new JRHtmlExporter();
 				jasperPrint.setProperty(JRHtmlExporterParameter.PROPERTY_USING_IMAGES_TO_ALIGN, "false");
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outputFile);
+				exporter.exportReport();
+			} else if (isCsv) {
+				JRCsvExporter exporter = new JRCsvExporter();
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 				exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
 				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outputFile);

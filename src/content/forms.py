@@ -41,8 +41,8 @@ class ManageContentForm(forms.Form):
     tags_ids = forms.CharField(max_length=200, widget=forms.HiddenInput)
     language = forms.ChoiceField(label=_('Language'), choices=settings.LANGUAGES)
     title = forms.CharField(label=_('Name'), max_length=150, widget=forms.TextInput(attrs={'id': 'mct', 'style': 'width: 205px;'}))
-    expires_on = forms.CharField(label=_('Expire date'), required=False, initial='', widget=forms.TextInput(attrs={'id': 'datepicker', 'disabled': 'true'}))
-    delete_expired = forms.BooleanField(label=_('Delete content after expired'), required=False, initial=False)
+    expires_on = forms.CharField(label=_('Expiration date'), required=False, initial='', widget=forms.TextInput(attrs={'id': 'datepicker', 'disabled': 'true'}))
+    delete_expired = forms.BooleanField(label=_('Delete file after expiration'), required=False, initial=False)
     is_downloadable = forms.BooleanField(label=_('Allow downloading'), required=False, initial=True)
     duration = forms.IntegerField(label=_('Duration'), widget=forms.TextInput(attrs={}))
     note = forms.CharField(label=_('Note'), widget=forms.Textarea(attrs={'rows':'5', 'cols': '42'}))
@@ -60,6 +60,9 @@ class ManageContentForm(forms.Form):
         lang_choices.extend([(x, unicode(y)) for x, y in settings.LANGUAGES])
         self.fields['language'].choices = lang_choices
 
+    def clean_title(self):
+        return self.cleaned_data['title'].strip()
+
 
 class FileFindForm(forms.Form):
 
@@ -69,11 +72,11 @@ class FileFindForm(forms.Form):
     tag = forms.CharField(max_length=100)
     tags_ids = forms.CharField(max_length=200, widget=forms.HiddenInput)
     page = forms.IntegerField(widget=forms.HiddenInput, initial=1)
-    from_my_groups = forms.BooleanField(label=_('Show only from my groups'), initial=True,
+    from_my_groups = forms.BooleanField(label=_('My groups'), initial=True,
                                   widget=forms.CheckboxInput(attrs={'id': 'from_my_groups'}))
-    my_files = forms.BooleanField(label=_('Show only my files'),
+    my_files = forms.BooleanField(label=_('My files'),
                                   widget=forms.CheckboxInput(attrs={'id': 'my', 'checked': 'checked'}))
-    inactive_files = forms.BooleanField(label=_('Show inactive files'),
+    inactive_files = forms.BooleanField(label=_('Inactive files'),
                                   widget=forms.CheckboxInput(attrs={'id': 'ia'}))
 
     CHOICES_TYPES = [
@@ -104,10 +107,15 @@ class EditModuleForm(forms.Form):
 
     title = forms.CharField(label=_('Title'), max_length=150, widget=forms.TextInput(attrs={'id': 'moduleTitle'}))
     objective = forms.CharField(label=_('Module objective'), widget=forms.Textarea(attrs={'id': 'moduleObjective', 'rows':'5', 'cols': '42', 'maxlength':'2200'}))
+    completion_msg = forms.CharField(label=_('Goodbye message'),
+    widget=forms.Textarea(attrs={'id': 'completionMsg', 'rows':'5', 'cols': '42', 'maxlength':'2200'}), initial=_('Module complete'))
     language = forms.ChoiceField(label=_('Language'), choices=settings.LANGUAGES)
-    expires_on = forms.CharField(label=_('Expire date'), required=False, widget=forms.TextInput(attrs={'id': 'moduleDate', 'readonly': 'readonly'}))
+    expires_on = forms.CharField(label=_('Expiration date'), required=False, widget=forms.TextInput(attrs={'id': 'moduleDate', 'readonly': 'readonly'}))
     allow_download = forms.BooleanField(label=_('Allow downloading'), required=False, widget=forms.CheckboxInput(attrs={'id': 'allow_download'}), initial=False)
     allow_skipping = forms.BooleanField(label=_('Allow skipping'), required=False, widget=forms.CheckboxInput(attrs={'id': 'allow_skipping'}), initial=False)
+    sign_off_required = forms.BooleanField(label=_('Sign off required'),
+            required=False, widget=forms.CheckboxInput(attrs={'id':
+                'sign_off_required'}), initial=False)
 
     LANGUAGE_CHOICES = [
         ('0', _('Unspecified'))
@@ -124,7 +132,13 @@ class SearchAssignmentsForm(forms.Form):
     owner = UserModelChoiceField(User.objects.filter(Q(userprofile__role=mgmnt_models.UserProfile.ROLE_ADMIN) |
                                                        Q(userprofile__role=mgmnt_models.UserProfile.ROLE_SUPERADMIN)).
                                    order_by('last_name', 'first_name'), empty_label=None, required=False)
-    ocl = forms.BooleanField(label=_('Add one click link'), required=False, initial=False)
+    ocl = forms.BooleanField(label=_('Add one click link \'OCL\''), required=False, initial=False)
+    expires_on = forms.DateField(label=_("Set expire date"),
+            required=False,
+            widget=forms.TextInput(attrs={'id':'id_ocl_expires_on',
+                'disabled': True}))
+    send_email = forms.BooleanField(label=_('Send message'), required=False,
+                                    initial=True, widget=forms.CheckboxInput())
 
     LANGUAGE_CHOICES = [
         ('0', _('All languages'))

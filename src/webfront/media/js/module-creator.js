@@ -72,32 +72,33 @@ $(document).ready(function(){
 					placeholder: 'holds',
 					revert: false,
 					tolerance: 'pointer',
-					helper: function(event, element){
-					        //console.log('cloning');
+					helper: function(event){
 					        var clone = $(event.target).parents('li');
-							return $('<div class="helper"></div>').html( clone.html() );
+							return $('<div class="helper"></div>').attr('id', $(this).attr('id')).html( clone.html() );
 					},
-					'start': function(){
+					start: function(){
 						$('.overlay').remove();
-						//console.log('START Sortable');
 					},
-					'stop': function(event, ui){
-						//console.log('STOP Sortable');
+					stop: function(event, ui){
 						//app.triggerEvent('itemChanged', [$(this).parents('.shelf').attr('id')]);
 					},
-					'receive': function(event, ui){
-              //console.log('RECEIVE Sortable');
-							app.helpers.computeWidth('shelf');
-							app.helpers.computeWidth('module');
-							if($(this).parents('.shelf').attr('id') == $(ui.sender).parents('.shelf').attr('id')){
-								allowRemoval = true;
-							}else{
-								allowRemoval = false;
+					receive: function(event, ui){
+						$(event.target).children('li').each(function(i) {
+							if (!!!$(this).attr('id')) {
+								$(this).attr('id', ui.helper[0].id);
 							}
-							addDraggable();
-							if ( !allowRemoval ) {
-                app.triggerEvent('itemChanged', [$(this).parents('.shelf').attr('id')]);
-              }
+						});
+						app.helpers.computeWidth('shelf');
+						app.helpers.computeWidth('module');
+						if($(this).parents('.shelf').attr('id') == $(ui.sender).parents('.shelf').attr('id')){
+							allowRemoval = true;
+						}else{
+							allowRemoval = false;
+						}
+						addDraggable();
+						if ( !allowRemoval ) {
+		                app.triggerEvent('itemChanged', [$(this).parents('.shelf').attr('id')]);
+		              }
 					},
 					appendTo: 'body',
 					scroll: false,
@@ -107,25 +108,20 @@ $(document).ready(function(){
 
     // -- shelf and module
     function addDraggable(){
-		  //console.log('addDraggable function');
       $('#shelf ul li:not(.done), #module ul li:not(.done)').draggable({
           helper: function(event, element){
-              //console.log('cloinng draggable');
               var clone = $(event.target).parents('li').removeClass('done');
-              return $('<div class="helper"></div>').html( clone.html() );
+              return $('<div class="helper"></div>').attr('id', $(this).attr('id')).html( clone.html() );
           },
           appendTo: 'body',
           scroll: false,
           connectToSortable: '#shelf ul, #module ul',
-          'start': function(event, ui){
-              //console.log('START Draggable');
+          start: function(event, ui){
               $('.overlay').remove();
           },
-          'stop': function(event, ui){
-              //console.log('STOP Draggable');
+          stop: function(event, ui){
               if(allowRemoval){
                 $(event.target).remove();
-                //console.log('Removed duplicate');
                 allowRemoval = false;
                 app.triggerEvent('itemChanged', [$(this).parents('.shelf').attr('id')]);
               }
@@ -135,12 +131,14 @@ $(document).ready(function(){
     }
     // -- sound events
     $('.sound').droppable({
-      'tolerance': 'pointer',
-      'accept': function(element){
-        return app.data.map[element.attr('id')].type == 30;
+      tolerance: 'pointer',
+      accept: function(element){
+    	  return !!$(element).find('.fileTypeAudio').length;
+//    	  return !!$(element).attr('id') && app.data.map[$(element).attr('id')].type == 30;
       },
-      'drop': function(event, ui){
+      drop: function(event, ui){
         var tmp = $('<div class="active"><a href="#">' + $(ui.draggable).children('a').html() + '</a></div>');
+        ui.draggable[0].id = ui.helper[0].id;
         tmp.children('a').children('img').remove();
         tmp.children('a').attr('title', tmp.children('a').html())
                          .html('snd')
@@ -160,12 +158,12 @@ $(document).ready(function(){
     // -- sound events
     $('.sound').mouseover(function(event){
         var mark = elementToDrop.ttl || false;
-      if(elementToDrop.ttl && ((new Date()).getTime() - elementToDrop.ttl.getTime() < 1500)){
+      if(elementToDrop.ttl && ((new Date()).getTime() - elementToDrop.ttl.getTime() < 2500)){
         elementToDrop.obj.css('position', 'absolute');
         $('.sound').append(elementToDrop.obj);
         elementToDrop = {};
       }
-      snapToGrid(event.layerX);
+      snapToGrid(event.layerX || event.offsetX);
       if(mark){
         app.triggerEvent('itemChanged', [$(this).attr('id')]);
       }
@@ -358,7 +356,7 @@ $(document).ready(function(){
     	return false;
     })
     $('#collectionSave').click(function(){
-        if($('#shelfTitle').val().trim() != ''){
+        if($.trim($('#shelfTitle').val()) != ''){
         	if (app.data.change)
         	{
         		app.data.shelfId = $('#shelfId').val();

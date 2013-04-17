@@ -1,7 +1,8 @@
 {% extends "base_template.html" %}
 {% load i18n %}
-{% block meta_title %}{% trans "Manage modules" %}{% endblock %}
-{% block title %}{% trans "Manage modules" %}{% endblock %}
+{% load admin_custom_tags %}
+{% block meta_title %}{% trans "Manage content" %}{% endblock %}
+{% block title %}{% trans "Manage content" %}{% endblock %}
 {% block js_scripts %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/module-management.js"></script>
 {% endblock %}
@@ -30,9 +31,9 @@
         {% endif %}
 
         <div class="clear"></div>
-        <span class="resultHead headModuleName">{% trans "Module title" %}</span>
-        <span class="resultHead headModuleAssigned">{% trans "Assigned" %}</span>
-        <span class="resultHead headModuleStatus">{% trans "Status" %}</span>
+        <span class="resultHead headModuleName">{% trans "Content title" %}</span>
+        <span class="resultHead headModuleAssigned">{% trans "Sent" %}</span>
+        <span class="resultHead headModuleStatus">{% trans "Active" %}</span>
 
         <ul class="myModules result shadow-gray list"></ul>
         <a id="editModule" class="button-normal button-big-no-width fright" href="#">{% trans "Continue editing" %}</a>
@@ -41,17 +42,22 @@
     </div>
     <div id="mngMyModulesDetailsWrapper">
       <div class="preview"></div>
-      <h3>{{ form.title.label }}</h3>
-      <div class="inputWrapper shadow-gray fleft">
+      <h3 class="fleft">{{ form.title.label }}</h3>
+      <div class="inputWrapper titleWrapper shadow-gray fleft">
         {{ form.title }}
       </div>
-      <dl>
+      <dl class="infoContainer">
         <dt>{% trans "Created" %}:</dt><dd id="moduleCD"></dd>
         <dt id="moduleMD_wrapper">{% trans "Modified" %}:</dt><dd id="moduleMD"></dd>
         <dt id="modulePD_wrapper">{% trans "Published" %}:</dt><dd id="modulePD"></dd>
         <dt id="moduleDD_wrapper">{% trans "Deactivated" %}:</dt><dd id="moduleDD"></dd>
+      </dl>
+      <dl class="infoContainer" style="margin-left: 0">
         <dt>{{ form.allow_download.label }}:</dt><dd>{{ form.allow_download }}</dd>
         <dt>{{ form.allow_skipping.label }}:</dt><dd>{{ form.allow_skipping }}</dd>
+        {% if show_sign_off %}
+        <dt>{{ form.sign_off_required.label }}:</dt><dd>{{ form.sign_off_required }}</dd>
+        {% endif %}
       </dl>
 
       <div class="clear"></div>
@@ -68,10 +74,19 @@
       </ul> -->
 
 
-      <h3>{{ form.objective.label }}</h3>
+<!--  Moduelobjective    <h3>{{ form.objective.label }}</h3>
       <div class="inputWrapper shadow-gray textarea fleft">
         {{ form.objective }}
+      </div> -->
+
+      <div class="clear"></div>
+
+      {% if settings.SALES_PLUS %}
+      <h3>{{ form.completion_msg.label }}</h3>
+      <div class="inputWrapper shadow-gray textarea fleft">
+            {{ form.completion_msg }}
       </div>
+      {% endif %}
 
       <div class="clear"></div>
 
@@ -91,12 +106,13 @@
 
       <div class="clear"></div>
 
-      <h3>{% trans "Can be assigned to" %}</h3>
+      <h3>{% trans "Can be sent to" %}</h3>
       <ul id="tagList" class="taglist blueList"></ul>
       <div class="clear"></div>
       <div class="inputWrapper shadow-gray fleft">
         <select id="groupList" class="selectBoxJs">
           <option value="-1">{% trans "- choose group -" %}</option>
+          <option value="-2">{% trans "-- All groups --" %}</option>
           {% for group in my_groups %}
             <option value="{{ group.id }}">{{ group.name }}</option>
           {% endfor %}
@@ -115,10 +131,10 @@
             </select>
 	  {% endif %}
       <div class="clear"></div>
-      <h3>{% trans "Assignments" %}</h3>
+      <h3>{% trans "Sent to:" %}</h3>
       <ul id="assignmentList" class="taglist blueList"></ul>
       <div class="clear"></div>
-      <a id="moduleAssignments" class="button-normal button-big-no-width" href="#">{% trans "Change assignments" %}</a>
+<!--      <a id="moduleAssignments" class="button-normal button-big-no-width" href="#">{% trans "Change assignments" %}</a> -->
       <div class="formFooter">
           <div class="separator"></div>
           <!-- <br /><br /> --><a id="moduleSave" class="button-blue assignmentsBtn" href="#">{% trans "Save changes" %}</a>

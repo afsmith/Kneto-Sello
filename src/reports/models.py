@@ -78,6 +78,11 @@ class Report(models.Model):
 
     show_all = models.BooleanField(null=False, default=False)
     use_webservice = models.BooleanField(null=False, default=False)
+
+    ntf_users = models.ManyToManyField(auth_models.User, related_name='report_ntf_users')
+    ntf_admins = models.ManyToManyField(auth_models.User, related_name='report_ntf_admins')
+    ntf_groups = models.ManyToManyField(auth_models.Group, related_name='report_ntf_groups')
+    send_format = models.CharField(_('Send in formats'), max_length=14, null=False)
     
     def clean_template_name(self, old_name):
         return re.sub(r'[^A-Za-z0-9_.]+', '_', old_name.replace('.', '{0}.'.format(int(time.time()))))
@@ -119,6 +124,7 @@ class ReportResult(models.Model):
     report = models.ForeignKey(Report)
     file_path = models.CharField(_('File'), max_length=128, null=True, default=None)
     html_file_path = models.CharField(_('File'), max_length=128, null=True, default=None)
+    csv_file_path = models.CharField(_('File'), max_length=128, null=True, default=None)
     created_on = models.DateTimeField(_('Creation date'), auto_now_add=True)
     status = models.IntegerField(_('Status'), choices=STATUS_TYPES)
 

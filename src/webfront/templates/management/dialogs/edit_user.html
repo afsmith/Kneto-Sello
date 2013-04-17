@@ -1,12 +1,18 @@
 {% extends "modal_template.html" %}
 {% load i18n %}
 {% load extras %}
+{% load admin_custom_tags %}
 {% block style %} style="width: 520px;"{% endblock %}
 {% block title %}
   {% if edited_user %}
     {% trans "Edit user's details" %}
   {% else %}
-    {% trans "New user in" %} <span id="name_group" class="highlight">{{ group }}</span>
+    {% trans "Add new user to:" %}
+    {% if type == "pending" %} 
+     {% trans "Kneto" %} 
+    {% else %} 
+        <span id="name_group" class="highlight">{{ group }}</span>
+    {% endif %} 
   {% endif %}
 {% endblock %}
 {% block content %}
@@ -32,7 +38,7 @@
       	{% else %}
 	          <li>
 	            {% if field.html_name == form.role.html_name %}
-	              {% if user.get_profile.role == 10 %}
+	              {% if user.get_profile.role <= 20 %}
 	                  <label>{{ field.label }}</label><div class="inputWrapper shadow-gray selectWrapper">{{ field }}</div>
 	              {% else %}
 	                  {{ field.as_hidden }}
@@ -46,7 +52,18 @@
 	    	          	{% if field.html_name == 'ocl' %}
 			                <div class="inputWrapperCheck shadow-gray">{{ field }}</div>                
 			            {% else %}
-	                    	<div class="inputWrapper shadow-gray">{{ field }}</div>
+                            {% if field.html_name == 'send_email' %}
+                                {% if edited_user %}
+                                <div class="inputWrapperCheck shadow-gray">{{ field }}</div>
+                                <div id="previewMessageBtn" class="edit"></div>              
+                                {% else %}
+                                <div class="inputWrapperCheck shadow-gray">{{ field|htmlattributes:"disabled:disabled" }}</div>
+                                <div id="previewMessageBtn" class="add"></div>
+                                {% endif %}
+                                
+                            {% else %}
+                                <div class="inputWrapper shadow-gray">{{ field }}</div>
+                            {% endif %}
 	                    {% endif %}
 	                {% endif %}
 	            {% endif %}
@@ -80,7 +97,9 @@
 	{% endif %}
 {% endif %}
 </ul>
-<div style="width: 200px; margin: 0px auto;"><a id='sb' class="button-gray button-big" href="#" style="margin-top: 10px;">{% if edited_user %}{% trans "Save changes" %}{% else %}{% trans "Add new user" %}{% endif %}</a></div>
+<div style="width: 200px; margin: 0px auto;">
+    <a id={% if type == "pending" %}'sb_pending'{% else %}'sb'{% endif %} class="button-gray button-big" href="#" style="margin-top: 10px;">{% if edited_user %}{% trans "Save changes" %}{% else %}{% trans "Add new user" %}{% endif %}</a>
+</div>
 </form>
 
 {% endblock %}

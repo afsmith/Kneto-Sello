@@ -99,6 +99,20 @@ class GuiSettingsForm(forms.Form):
     default_language = forms.ChoiceField(label=_("Default language"), choices=_get_translated_available_languages(), initial='en')
     custom_web_title = forms.CharField(label=_("Custom web title"), max_length=25)
     footer = forms.CharField(label=_("Footer"), max_length=70)
+    logo_file = forms.FileField(label=_("Logo file"),
+        widget=forms.FileInput(attrs={'id': 'logo_file', 'class': 'file', 'style':"display: none;"}),
+            required=False, help_text='Required dimensions: 200x50px, format: .jpg, .png'
+    )
+    bg_file = forms.FileField(label=_("Background file"),
+        widget=forms.FileInput(
+            attrs={'id': 'bg_file', 'class': 'file', 'style': "display: none;"}),
+        required=False, help_text='Required dimensions: 1024x768px, '
+                                  'format: .jpg, .png'
+    )
+    use_logo_as_title = forms.BooleanField(label=_("Use Logo as title"),
+        initial=False, required=False)
+    use_bg_image = forms.BooleanField(label=_("Use background image"),
+        initial=False, required=False)
     css_file = forms.FileField(label=_("Css file"), widget=forms.FileInput(attrs={'id': 'css_file', 'class': 'file', 'style': "display: none;"}), required=False)
 
     application_icons = forms.FileField(label=_("Application icons"), widget=forms.FileInput(attrs={'id': 'application_icons', 'class': 'file', 'style': "display: none;"}), required=False)
@@ -117,15 +131,15 @@ class ReportImportForm(forms.Form):
     name = forms.CharField(label=_('Name'), max_length=50)
     template = forms.FileField(label=_('Template'), required=False)
 
-    user_required = forms.BooleanField(label=_('User required'), required=False)
+    user_required = forms.BooleanField(label=_('Receiver required'), required=False)
     group_required = forms.BooleanField(label=_('Group required'), required=False)
-    course_required = forms.BooleanField(label=_('Course required'), required=False)
-    admin_required = forms.BooleanField(label=_('Admin required'), required=False)
+    course_required = forms.BooleanField(label=_('Content required'), required=False)
+    admin_required = forms.BooleanField(label=_('Sender required'), required=False)
 
-    user_shown = forms.BooleanField(label=_('User visible'), required=False)
+    user_shown = forms.BooleanField(label=_('Receiver visible'), required=False)
     group_shown = forms.BooleanField(label=_('Group visible'), required=False)
-    course_shown = forms.BooleanField(label=_('Course visible'), required=False)
-    admin_shown = forms.BooleanField(label=_('Admin visible'), required=False)
+    course_shown = forms.BooleanField(label=_('Content visible'), required=False)
+    admin_shown = forms.BooleanField(label=_('Sender visible'), required=False)
 
     date_from_shown = forms.BooleanField(label=_('Date from visible'), required=False)
     date_to_shown = forms.BooleanField(label=_('Date to visible'), required=False)
@@ -143,6 +157,14 @@ class ReportImportForm(forms.Form):
             self._errors['template'] = self.error_class([_('This field is required.')])
             raise forms.ValidationError(_("Please fill up all necessary fields"))
         return cd
+
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        schar = '[\\,\/,\?,\|,\,,\$,\%,\&]'
+        invalid_characters = re.findall(schar, name)
+        if invalid_characters:
+            raise forms.ValidationError(_("Report name can\'t contain special characters: %s" % (schar,)))
+        return self.cleaned_data['name'].strip()
 
 
 # vim: set et sw=4 ts=4 sts=4 tw=78:

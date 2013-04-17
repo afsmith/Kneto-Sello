@@ -11,6 +11,7 @@ class TrackingEvent(models.Model):
 
     START_EVENT_TYPE = "START"
     END_EVENT_TYPE = "END"
+    PAGE_EVENT_TYPE = "PAGE"
 
     segment = models.ForeignKey(Segment)
     participant = models.ForeignKey(auth_models.User)
@@ -23,9 +24,14 @@ class TrackingEvent(models.Model):
     lesson_status = models.CharField(_('lesson status'), max_length=50, null=True)
     parent_event = models.ForeignKey('self', null=True)
     scorm_status = models.CharField(_('scorm status'), max_length=50, null=True)
+    client_ip = models.CharField(_('client ip'), max_length=41, null=True)
+    page_number = models.IntegerField(_('page number'), null=True)
 
     class Meta:
         ordering = ('created_on',)
+
+    def __unicode__(self):
+        return str(self.segment)+'. Event: '+self.event_type
 
 class TrackingEventService(object):
     
@@ -56,9 +62,13 @@ class TrackingEventService(object):
         events = TrackingEvent.objects.filter(segment__id=segment_id, participant=participant_id)
         tracking_list = []
         start_date = None
+        is_paging = False
         for event in events:
             if event.event_type == TrackingEvent.START_EVENT_TYPE:
                 start_date = event.created_on
+                start_event_id = event.id
+            elif event.event_type == TrackingEvent.PAGE_EVENT_TYPE:
+                is_paging = True
             elif event.event_type == TrackingEvent.END_EVENT_TYPE:
                 end_date = event.created_on
 
@@ -73,6 +83,8 @@ class TrackingEventService(object):
                         'date':start_date,
                         'duration': '%02d:%02d:%02d'%(hours,minutes,seconds),
                         'result': None,
+                        'is_paging': is_paging,
+                        'client_ip': event.client_ip
                         }
                     if event.is_scorm:
                         tracking_element['result'] = '(%d/%d/%d) %s'%(event.score_min if event.score_min else 0,
@@ -82,6 +94,7 @@ class TrackingEventService(object):
                     if ((seconds > 0 or minutes > 0 or hours > 0) or \
                         (event.score_min or event.score_raw or event.score_max or event.lesson_status)) and (date_from <= start_date <= date_to):   
                         tracking_list.append(tracking_element)
+                is_paging = False
         return tracking_list
 
 
@@ -129,13 +142,15 @@ def active_modules_with_track_ratio_sorted_by_last_event(user_id):
         
 def active_modules_with_track_ratio(user_id, group_id):
     courses_with_all_segments = Course.objects.raw("""
-        select course_group.course_id as id, count(distinct segment.id) as segments_count
+        select course_group.course_id as id, count(distinct segment.id) as segments_count, 
+        count(distinct tracking_event.client_ip) as used_ips
         from content_coursegroup course_group
         join content_course course on course_group.course_id = course.id
         join auth_group auth_group on auth_group.id = course_group.group_id
         join auth_user_groups user_group on user_group.group_id = course_group.group_id
         join content_segment segment on segment.course_id = course_group.course_id
             and track = 0
+        left join tracking_trackingevent tracking_event on tracking_event.segment_id = segment.id
         where user_group.user_id = %d
         and auth_group.id = %d
         and course.state_code in (2, 3, 4)
@@ -159,6 +174,7 @@ def active_modules_with_track_ratio(user_id, group_id):
     result = []
     for course in courses_with_all_segments:
         result.append({"id": course.id,
+                       "ip_count": course.used_ips,
                        "ratio":(float(segments_count(courses_with_learnt_segments, course.id)) / float(course.segments_count))})
 
     return result

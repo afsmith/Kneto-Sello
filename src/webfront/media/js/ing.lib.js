@@ -9,6 +9,38 @@
 Function.prototype.findInDOM = function() {
     return window['app'];
 }
+
+/**
+ * Elements unique method. Ads possibility to check if listener
+ * for specific event has been attached to particular element.
+ * Uses jquery _data and works only with jquery defined events.
+ */
+if (typeof Element.hasEventListener != "function") {
+	Element.prototype.hasEventListener = function(eventName) {
+		var events = $._data(this, "events");
+		for(var elEvent in events) {
+			if (elEvent == eventName) 
+				return true;
+		}
+		return false;
+	};
+}
+
+/**
+ * Allows using keys function across older browser
+ */
+var getObjKeys = function(object) {
+	var keys = [];
+	if (typeof object == "object"){
+		for(var key in object) {
+			keys.push(key);
+		}
+		return keys;
+	}
+};
+
+var swfobject;
+
 /**
  * Array.unique method. Returns an array without duplicate values.
  */
@@ -36,6 +68,40 @@ Array.prototype.inArray = function(v) {
     }
     return false;
 }
+
+// Add ECMA262-5 string trim if not supported natively
+//
+if (!('trim' in String.prototype)) {
+    String.prototype.trim= function() {
+        return this.replace(/^\s+/, '').replace(/\s+$/, '');
+    };
+}
+
+// Add ECMA262-5 Array methods if not supported natively
+// {{{
+if (!('indexOf' in Array.prototype)) {
+    Array.prototype.indexOf= function(find, i /*opt*/) {
+        if (i===undefined) i= 0;
+        if (i<0) i+= this.length;
+        if (i<0) i= 0;
+        for (var n= this.length; i<n; i++)
+            if (i in this && this[i]===find)
+                return i;
+        return -1;
+    };
+}
+
+if (!('filter' in Array.prototype)) {
+    Array.prototype.filter= function(filter, that /*opt*/) {
+        var other= [], v;
+        for (var i=0, n= this.length; i<n; i++)
+            if (i in this && filter.call(that, v= this[i], i, this))
+                other.push(v);
+        return other;
+    };
+}
+// }}}
+
 /**
  * Object size function. Returns number of object's fields.
  */
@@ -49,6 +115,14 @@ function objSize(obj) {
     return size;
 }
 
+//if (!!window.siteLanguage) $.get('/media/xml/messages_'+siteLanguage+'.xml', {}, function(data){
+//	var messages = {};
+//	$(data).find('message').each(function() {
+//		messages[$(this).attr('varname')] = $(this).text();
+//	});
+//	if (!!objSize(messages)) t = $.extend(t, messages);
+//});
+
 /**
  * Global ajax error handler
  *
@@ -59,7 +133,8 @@ $(document).ajaxError( function(event, xhr, settings, error) {
     'An exception has occured',
     'Requested URL: ' + settings.url + '<br />' +
     'Status code: ' + xhr.status + '<br />' +
-    'Response: ' + xhr.responseText);
+    'Response: ' + xhr.responseText + '<br />' +
+    'Error: ' + error);
 });
 /**
  *
@@ -77,6 +152,7 @@ function Ing() {
      * Configuration object
      */
     this.config = {
+        'ocl_token': '',
         'cookieTime':    3600,
         'elemWidth':     107,
         'elemWrapperWidth': 139,
@@ -101,10 +177,25 @@ function Ing() {
             'timer2': false
         },
         'player':        {
-            'height': 500,
             'splash': '.nm',
-            'url': 'swf/player.swf',
-            'width': 700,
+            'minFlashVersion': "9.0.0",
+            'mode': 'flash',
+            'flashPlayer': {
+                'url': 'swf/player.swf',
+                'params': {
+                	'allowFullscreen': 'true',
+                	'allowScriptAccess': 'always',
+                	'wmode': 'transparent'
+                }
+            },
+            'html5player': {
+            	'mp4_support': "",
+	    		'webM_support': "",
+	    		'theora_support': "",
+	    		'canvas_support': false
+    		},
+            'modalSize': {'width': 700, 'height': 500},
+            'embedSize': {'width': 600, 'height': 480},
             'zIndex': 15000
         },
         'roller':        '#roller',
@@ -123,13 +214,24 @@ function Ing() {
         'soundFile':     '.snd',
         'tagsInput':     '#id_tags_ids',
         'tagList':       '#tagList',
-        'totalFilesCount': '#totalFiles'
+        'totalFilesCount': '#totalFiles',
 
     },
     /**
      * Main function - starts the app
      */
     this.run = function() {
+        this.checkHTML5Features();
+        if (this.config.player.mode == "flash") {
+            if(swfobject.hasFlashPlayerVersion("9.0.115")){
+            	
+            } else {
+            	alert("You do not have the minimum required flash version. Please install Flash and come back. http://get.adobe.com/flashplayer/ ");
+            }
+        }
+        if (typeof MediaPlayer === typeof Function) {
+        	this.player = new MediaPlayer(this);
+        }
         this.listeners.changeListener();
         this.listeners.tagsListener();
         this.listeners.formSubmitListener();// -- IE bug
@@ -137,6 +239,44 @@ function Ing() {
         this.helpers.tools();
         this.data.files = [];
         this.data.map = {};
+        
+        window.onorientationchange = function() {
+        	$(window).resize();
+        	if ($('#video.fullscreen').length)
+        		$('#video').trigger('onscreenrotate');
+        }
+    },
+    
+    /**
+     * This method performs all HTML5 features detection logic
+     * and stores results in application config. HTML5/Flash player 
+     * bases on those results.
+     */    
+    this.checkHTML5Features = function() {
+    	var playerConfig = this.config.player,
+    		testVideo = document.createElement('video'),
+    		testCanvas = document.createElement('canvas'),
+    		testAudio = document.createElement('audio');
+    	
+    	playerConfig.mode = (!!testVideo.canPlayType && !!testCanvas.getContext && !!testAudio.canPlayType) ? "html5": "flash";
+    	if (playerConfig.mode == "html5") {
+    		playerConfig.html5player.mp4_support = testVideo.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
+    		playerConfig.html5player.webM_support = testVideo.canPlayType('video/webm; codecs="vp8, vorbis"');
+    		playerConfig.html5player.theora_support = testVideo.canPlayType('video/ogg; codecs="theora, vorbis"');
+    		playerConfig.html5player.mp3_support = testAudio.canPlayType('audio/mpeg');
+    		playerConfig.html5player.ogg_support = testAudio.canPlayType('audio/ogg');
+    		playerConfig.html5player.canvas_support = (typeof testCanvas.getContext('2d').fillText === typeof Function);
+    	}
+		playerConfig.html5player.webkit_fullscreen_support = (!!testVideo.webkitRequestFullScreen);
+		playerConfig.html5player.moz_fullscreen_support = (!!testVideo.mozRequestFullScreen);
+		playerConfig.html5player.standard_fullscreen_support = (!!testVideo.requestFullscreen);
+		playerConfig.html5player.fullscreen_support = playerConfig.html5player.webkit_fullscreen_support 
+													|| playerConfig.html5player.moz_fullscreen_support 
+													|| playerConfig.html5player.standard_fullscreen_support;
+		
+		playerConfig.html5player.touch_support = ('ontouchstart' in document.documentElement
+												   || 'ontouchend' in document.documentElement
+												   || 'ontouchmove' in document.documentElement);
     },
     /**
      * Callback functions - every callback sent to or
@@ -177,32 +317,34 @@ function Ing() {
         /**
          * Opens message modal with parameters
          */
-        openCompose: function(recipientsNames, recipientsIds, subject) {
-            this.parent.callbacks.openMessageForm(recipientsNames, recipientsIds, '/messages/compose/', subject);
+        openCompose: function(recipientsNames, recipientsIds, subject, course_id) {
+            this.parent.callbacks.openMessageForm(recipientsNames, recipientsIds, '/messages/compose/', subject, course_id);
         },
         openReply: function(recipientName, recipientId, messageid) {
             this.parent.callbacks.openMessageForm(recipientName, [recipientId], '/messages/reply/' + messageid + '/');
         },
-        openMessageForm: function(recipientsNames, recipientsIds, url, subject) {
+        openMessageForm: function(recipientsNames, recipientsIds, url, subject, course_id) {
             $('<a href="' + url + '" />').nyroModal({
                 callbacks: {
                     afterReposition: function(nm) {
                         Ing.findInDOM().triggerEvent('msgformOpened');
                         $("#recipients").html(recipientsNames.toString());
                         $('#recipients_ids').val(recipientsIds.toString());
+                        $('#course_id').val(course_id);
 												if (subject) {
 														subject = subject.replace(/^\s+|\s+$/g, '')
 												}
 												$("#id_subject").val(subject);
 
                         $('#sendMessage').bind('click', function(event) {
-                            if($('#id_body').val().trim() != '' && $('#id_subject').val().trim() != '') {
+                            if($.trim($('#id_body').val()) != '' && $.trim($('#id_subject').val()) != '') {
                                 $.post(
                                 url,
                                 JSON.stringify({
                                     "subject": $("#id_subject").val(),
                                     "body": $("#id_body").val(),
-                                    "recipients": $('#recipients_ids').val().split(',')
+                                    "recipients": $('#recipients_ids').val().split(','),
+                                    "course_id": $('#course_id').val()
                                 }), function(data, status, xmlHttpRequest) {
                                     if(data.status == "OK") {
                                         $('.nyroModalClose').trigger('click');
@@ -217,10 +359,10 @@ function Ing() {
                                 });
                             } else {
                                 $('.formError').remove();
-                                if($('#id_body').val().trim() == '') {
+                                if($.trim($('#id_body').val()) == '') {
                                     $('#id_body').parent('div').after('<div class="formError"><div class="hr"></div>' + t.FIELD_CANNOT_EMPTY + '</div>');
                                 }
-                                if($('#id_subject').val().trim() == '') {
+                                if($.trim($('#id_subject').val()) == '') {
                                     $('#id_subject').parent('div').after('<div class="formError"><div class="hr"></div>' + t.FIELD_CANNOT_EMPTY + '</div>');
                                 }
                                 $.nmTop().resize(true);
@@ -239,7 +381,13 @@ function Ing() {
          *
          * Function overrriden due to functionality change
          */
-        handleTags: function (elem, event) {
+        handleTags: function (elem, event, tagList) {
+            if(event){
+                if(typeof event === 'string'){
+                    tagList = event;
+                    event = undefined;
+                }
+            }
             if($(elem) && (!event || event.keyCode == 13)) {
                 if(!(this.parent.data.tags)) {
                     this.parent.data.tags = [];
@@ -248,9 +396,9 @@ function Ing() {
                 var els = this.parent.elements;
                 var tgs = this.parent.data.tags;
                 if($(elem).is('select')) {
-                    var tag = $(elem + ' option:selected').text().trim();
+                    var tag = $.trim($(elem + ' option:selected').text());
                 } else {
-                    var tag = $(elem).html().trim() || $(elem).val().trim();
+                    var tag = $.trim($(elem).html()) || $.trim($(elem).val());
                 }
                 $(elem).val('');
                 if(tag.length > 30) {
@@ -259,14 +407,17 @@ function Ing() {
                 }
                 var exists = tag == '';
                 for(var j = 0, ln = tgs.length; j < ln; j++) {
-                    if(tgs[j].name.toLowerCase() == tag.toLowerCase()) {
+                    if($.trim(tgs[j].name).toLowerCase() == $.trim(tag).toLowerCase()) {
                         exists = true;
                     }
+                }
+                if(!tagList){
+                    tagList = cnf.tagList;
                 }
                 if(!exists) {
                     tgs.push({name: tag});
                     var el = new els.tag(tag);
-                    els.attach(el, cnf.tagList);
+                    els.attach(el, tagList);
                     if(this.parent.config.searchForm) {
 												$('#id_file_name').val('');
                         $(this.parent).trigger($.Event('submit_search'));
@@ -358,9 +509,9 @@ function Ing() {
             }
         },
         /**
-         * Flash player callbacks
+         * media player callbacks
          */
-        fp: {
+        mp: {
             parent: this,
             /**
              * Handler for error messages.
@@ -372,14 +523,26 @@ function Ing() {
              * Handler for information messages.
              */
             info_handler: function(msg) {
-                var json = $.parseJSON(msg);
-                var ing = Ing.findInDOM();
+            	var json,
+            		ing = Ing.findInDOM();
+					
+                if (!moduleID) {
+                	if (msg != "PLAYLIST_COMPLETE")
+                    	return false;
+                }
+
+                try {
+					json = $.parseJSON(msg);
+				} catch(err) {
+					json = false;
+				}  
+
                 if (json && json.segment_id) {
                     json.lesson_status = '';
                     switch(json.event_type) {
                         case 'START':
                             $.post(
-                            '/tracking/events/create/',
+                            '/tracking/events/create/?token='+app.config.ocl_token,
                             JSON.stringify(json), function(data) {
                                 ing.data.lastEventId = data.event_id;
                                 if(ing.data.lastEvent) {
@@ -391,20 +554,27 @@ function Ing() {
                                     }
                                     ing.data.lastEvent = false;
                                     $.post(
-                                    '/tracking/events/create/',
+                                    '/tracking/events/create/?token='+app.config.ocl_token,
                                     JSON.stringify(json), function(data) {
                                         if(json.lesson_status == 'completed'){
                                             var map = Ing.findInDOM().data.map;
                                             $.each(map, function(key, value){
                                                if(value.segment_id == json.segment_id){
                                                    $('#'+key).addClass('completed');
-                                                   if(this.allow_downloading == true && false && !($('#'+key).has(':button.segmentDownload').length)) {
-                                                       $('#'+key).append(' <button class="segmentDownload" onclick="window.location.href=\''+value.download_url+'\'" title="' + t.SEGMENT_DOWNLOAD + '"></button>');
+                                                   if(this.allow_downloading == true && !($('#'+key).has(':button.segmentDownload').length)) {
+                                                    var ocl_token = Ing.findInDOM().config.ocl_token;
+                                                    var download_url = value.download_url;
+                                                    if (ocl_token) {
+                                                        download_url += '?token=' + ocl_token;
+                                                    }
+                                                       $('#'+key).append(' <button class="segmentDownload" onclick="window.location.href=\''+download_url+'\'" title="' + t.SEGMENT_DOWNLOAD + '"></button>');
                                                    }
                                                    $('#'+key).next().find('.courseApla').remove();
                                                    return false;
                                                }
                                             });
+                                            $('#video').trigger('segmentCompleted');
+                                            app.module.showHideSignOffButton(moduleID);
                                         }
                                     }
                                     );
@@ -418,7 +588,7 @@ function Ing() {
                                 json.parent_event_id = ing.data.lastEventId;
                                 ing.data.lastEvent = false;
                                 $.post(
-                                    '/tracking/events/create/',
+                                    '/tracking/events/create/?token='+app.config.ocl_token,
                                     JSON.stringify(json),
                                     function(data) {
                                      if(json.lesson_status == 'completed'){
@@ -427,12 +597,19 @@ function Ing() {
                                                if(value.segment_id == json.segment_id){
                                                    $('#'+key).addClass('completed');
                                                    if(this.allow_downloading == true && !($('#'+key).has(':button.segmentDownload').length)) {
-                                                       $('#'+key).append(' <button class="segmentDownload" onclick="window.location.href=\''+value.download_url+'\'" title="' + t.SEGMENT_DOWNLOAD + '"></button>');
+                                                        var ocl_token = Ing.findInDOM().config.ocl_token;
+                                                        var download_url = value.download_url;
+                                                        if (ocl_token) {
+                                                            download_url += '?token=' + ocl_token;
+                                                        }
+                                                       $('#'+key).append(' <button class="segmentDownload" onclick="window.location.href=\''+download_url+'\'" title="' + t.SEGMENT_DOWNLOAD + '"></button>');
                                                    }
                                                    $('#'+key).next().find('.courseApla').remove();
                                                    return false;
                                                }
                                             });
+                                            $('#video').trigger('segmentCompleted');
+                                            app.module.showHideSignOffButton(moduleID);
                                         }
                                     }
                                 );
@@ -440,6 +617,12 @@ function Ing() {
                                 ing.data.lastEvent = json;
                             }
                             break;
+                        case 'PAGE':
+                        	if(ing.data.lastEventId) {
+	                        	json.parent_event_id = ing.data.lastEventId;
+	                            $.post('/tracking/events/create/?token='+app.config.ocl_token, JSON.stringify(json));
+                        	}
+                        	break;
                         case 'LEAVING':
                             if(ing.data.lastEventId) {
                                 json.parent_event_id = ing.data.lastEventId;
@@ -447,8 +630,9 @@ function Ing() {
                                 ing.data.lastEvent = false;
                                 json.event_type = 'END';
                                 $.post(
-                                '/tracking/events/create/',
+                                '/tracking/events/create/?token='+app.config.ocl_token,
                                 JSON.stringify(json), function(data) {
+                                    app.module.showHideSignOffButton(moduleID);
                                 }
                                 );
                             } else {
@@ -458,9 +642,49 @@ function Ing() {
                         default:
                             break;
                     }
-
-
-
+                } else if (ing.config.player.mode == "flash" && msg.trim() == "PLAYLIST_COMPLETE") {
+                	var msgBody,
+                		module,
+                		controlsTimer,
+                		goodbyeMsg = document.createElement('div'),
+                		playerPrev = document.createElement('div'),
+                		playerContainer = (!!document.getElementById('videoWrapper'))? document.getElementById('videoWrapper'): $('.mplayerWrapper')[0];
+                		
+                	if (!!ing.data.moduleJSON) {
+                		module = ing.data.moduleJSON;
+                	} else if (!$('#modulesPreviewList').length) {
+                		module = ing.data.modules[ing.data.activeModule.id];
+                	} else {
+                		module = ing.data.modules[parseInt($('#modulesPreviewList').find('.selected').attr('id').replace(/_/, ''))];
+                	}
+                		
+                	if (playerContainer === undefined)
+                		playerContainer = $('#assignmentPreviewLesson')[0];
+                		
+                	playerPrev.setAttribute('class', 'goBack');
+			    	playerPrev.setAttribute('id', 'goBack');
+			    	playerPrev.setAttribute('style', 'z-index: 102;');
+	        		goodbyeMsg.setAttribute('id', 'flashCustomMsg');
+	        		msgBody = '<div class="goodbyeMsg"><div class="messageBody">'; 
+	        		msgBody += (!!module.meta.completion_msg)? ing.helpers.htmlSpecialDecoder(module.meta.completion_msg): t.LESSON_FINISHED;
+	        		msgBody += '</div></div>';
+	        		$('#videoWrapper').css('position', 'relative');
+	        		playerContainer.appendChild(goodbyeMsg);
+	        		playerContainer.appendChild(playerPrev);
+	        		$(goodbyeMsg).html($(msgBody));
+	        		$(goodbyeMsg).css({'height': $(playerContainer).find('object').height()});
+	        		$(goodbyeMsg).find('.goodbyeMsg').css('top', ($(playerContainer).find('object').height() - $(goodbyeMsg).find('.messageBody').outerHeight())/2);
+					$('.goBack').one('click', function(event){
+		        		event.preventDefault();
+		        		ing.player.api.play(module.track0.length - 1);
+		        	});
+		        	$(goodbyeMsg).on('mousemove', function(){
+		        		$('.goBack').show();
+				    	clearTimeout(controlsTimer);
+				    	controlsTimer = setTimeout(function(){
+				        	$('.goBack').hide()
+				    	}, 2000);
+		        	});
                 }
             },
             /**
@@ -487,10 +711,17 @@ function Ing() {
              * Handler for displaying PDF files
              */
             pdf_handler: function(url, pages) {
+                var nextButton,
+                	prevButton,
+                	currentPage,
+                	title,
+                	itemsList,
+                	canSkip,
+                	segment_id = 0;
+                
                 if(pages === undefined || pages == 0) {
                     var pages = 1;
                 }
-                var segment_id = 0;
                 if(this.parent.data.moduleJSON){
                     var mod = this.parent.data.moduleJSON.track0;
                     for(var i = 0, len = mod.length; i < len; i++){
@@ -503,47 +734,113 @@ function Ing() {
                 }
                 var els = this.parent.elements;
                 var ing = this.parent;
-                var p = els.getObj(new els.playerHTML({'src': url + '/p-1.html'}));
+                
+                if (!!ing.player.playlist) {
+                    title = ing.player.playlist[(!!ing.data.activeItem)? ing.data.activeItem: ing.player.playlistParams.playingIndex].title;                	
+                } else title = $('#rollerItems li.active').attr('title'); 
+                
+                if (ing.config.player.mode == "html5") {
+                	var p = els.getObj(new els.playerHTML5({'src': url + '/p-1.html', 'title': title})),
+			        	id = p.attr('id'),
+			        	currentPage;
+                	
+			    	p.appendTo('#video');
+	                nextButton = $('.goAhead');
+	                prevButton = $('.goBack');
 
-                var id = p.attr('id');
-                p.appendTo('body');
-                p.children('div').css({
-                    'height':  ($(window).height() - 20) + 'px',
-                    'width':  $(window).width() + 'px'
-                });
-                p.find('iframe').css({
-                    'height':  ($(window).height() - 115) + 'px',
-                    'width':  ($(window).width() - 50) + 'px'
-                });
-                $('<a href="#' + id + '" />').nyroModal({
-                    callbacks: {
-                        afterClose: function(nm) {
-                            $('#' + id).remove();
-                            // -- adding leaving event
-                            if(segment_id){
-                                ing.callbacks.fp.info_handler(JSON.stringify({'event_type': 'LEAVING', 'segment_id': segment_id}));
-                            }
-                        },
-                        beforeShowCont: function(nm) { //hiding iframe before repositioning images
-                            $(".nyroModalCont iframe").css("visibility","hidden");
-                        },
-                        afterShowCont: function(nm) {
-                            $(window).resize(function(){
-                                if(TO !== false)
-                                    clearTimeout(TO);
-                                TO = setTimeout(resizeThisModal, 50);
-                            });
-                            //resizing image content to fit modal window
-                            checkImage = setTimeout(checkImageWidth, 150);
-                        }
+			    	$('.playerHTML5').addClass('playerSCORM');
+			        p.css({
+			            'height':  $('#video').height() + 'px',
+			            'width':  $('#video').width() + 'px'
+			        });
+			        p.find('.playerHTML5').css({
+			            'height':  ($('#video').height() - 26) + 'px',
+			            'width':  $('#video').width() + 'px'
+			        });
+			        p.find('iframe').css({
+			            'border': 'none'
+			        });
+			        
+			        $('.playerHTML5 iframe').load(function() {
+			        	$('.playerHTML5 iframe').contents().find('img').css('-webkit-transform', 'translateZ(0)');
+			        });
+			              
+                    itemsList = $('#moduleList').find('li');
+                    
+                    if (itemsList.length && !!ing.player.playlistParams) {
+                        if (itemsList.length >= ing.player.playlistParams.playingIndex + 1) {
+                        	canSkip = $(itemsList[ing.player.playlistParams.playingIndex + 1]).find('.courseApla').length < 1
+                    					|| ing.player.playlist[ing.player.playlistParams.playingIndex + 1].allow_skipping
+                    					|| ing.player.playlist[ing.player.playlist.length -1].is_learnt;
+                    	} else canSkip = (ing.player.playlistParams.playingIndex < ing.player.playlist.length);
+                        if (canSkip)
+                        	$('.skipTo').toggleClass('hidden', false);
+                    }else if (!ing.player.trackUser && !!ing.player.playlistParams) {
+                    	$('.skipTo').toggleClass('hidden', false);                    	
                     }
-                }).trigger('click');
-
-                var TO = false;
-                function resizeThisModal() {
-                    $(".nyroModalCont iframe").width( $(window).width()-25 ).height( $(window).height()-115 );
-                    $(".nyroModalCont .playerHTML").width( $(".nyroModalCont iframe").width()+25 ).height( $(".nyroModalCont iframe").height()+95 );
-                    setTimeout("if ($.nmTop()) { $.nmTop().resize(true) }", 150);
+                    
+                    $('.skipTo:not(.hidden)').click(function(event){
+                    	event.preventDefault();
+        	    		$('.goAhead').unbind('click');
+        	    		$('.goBack').unbind('click');
+        	    		$('#video').trigger('goTo', [ing.player.playlistParams.playingIndex + 1]);
+                    });
+			        
+			        currentPage = $('.playerHTML5 iframe').attr('src').match(/p-([0-9]+)/);
+                    $(window).resize(function(){
+                        if(TO !== false)
+                            clearTimeout(TO);
+                        TO = setTimeout(resizeThisModal, 50);
+                    });
+                    //resizing image content to fit modal window
+                    checkImage = setTimeout(checkImageWidth, 150);
+                } else {
+	                var p = els.getObj(new els.playerHTML({'src': url + '/p-1.html'})),
+	                	id = p.attr('id');
+	                
+	                p.appendTo('body');
+	                nextButton = $('.playerNext, .goAhead');
+	                prevButton = $('.playerPrev, .goBack');
+	                
+	                p.children('div').css({
+	                    'height':  ($(window).height() - 20) + 'px',
+	                    'width':  $(window).width() + 'px'
+	                });
+	                p.find('iframe').css({
+	                    'height':  ($(window).height() - 115) + 'px',
+	                    'width':  ($(window).width() - 50) + 'px'
+	                });
+	                $('<a href="#' + id + '" />').nyroModal({
+	                    callbacks: {
+	                        afterClose: function(nm) {
+	                            $('#' + id).remove();
+	                            // -- adding leaving event
+	                            if(segment_id){
+	                                ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'LEAVING', 'segment_id': segment_id}));
+	                            }
+	                        },
+	                        beforeShowCont: function(nm) { //hiding iframe before repositioning images
+	                            $(".nyroModalCont iframe").css("visibility","hidden");
+	                        },
+	                        afterShowCont: function(nm) {
+	                            $(window).resize(function(){
+	                                if(TO !== false)
+	                                    clearTimeout(TO);
+	                                TO = setTimeout(resizeThisModal, 50);
+	                            });
+	                            //resizing image content to fit modal window
+	                            checkImage = setTimeout(checkImageWidth, 150);
+	                        }
+	                    }
+	                }).trigger('click');
+	
+	                var TO = false;
+	                function resizeThisModal() {
+	                    $(".nyroModalCont iframe").width( $(window).width()-25 ).height( $(window).height()-115 );
+	                    $(".nyroModalCont .playerHTML").width( $(".nyroModalCont iframe").width()+25 ).height( $(".nyroModalCont iframe").height()+95 );
+	                    setTimeout("if ($.nmTop()) { $.nmTop().resize(true) }", 150);
+	                }	
+	                currentPage = $('.playerPages').siblings('iframe').attr('src').match(/p-([0-9]+)/);
                 }
 
                 function checkImageWidth() { //repositioning images in the iframe
@@ -580,20 +877,37 @@ function Ing() {
 
                 // -- adding start event
                 if(segment_id){
-                    ing.callbacks.fp.info_handler(JSON.stringify({'event_type': 'START', 'segment_id': segment_id}));
+                    ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'START', 'segment_id': segment_id,
+                    											  'page_number': parseInt(currentPage[1])}));
                 }
                 if(pages == 1){
                     // -- adding end event
                     if(segment_id){
-                        ing.callbacks.fp.info_handler(JSON.stringify({'event_type': 'END', 'segment_id': segment_id}));
+                        ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'END', 'segment_id': segment_id}));
                     }
                 }
-                $('.playerPrev').click( function() {
-                    var index = $(this).siblings('iframe').attr('src').match(/p-([0-9]+)/);
-
-                    if(index[1] > 1) {
-                        $(this).siblings('iframe').attr('src',
-                            $(this).siblings('iframe').attr('src').replace(index[0], 'p-' + (parseInt(index[1]) - 1))
+                prevButton.on('click', function() {
+                    var index = $('.playerHTML iframe').attr('src').match(/p-([0-9]+)/);
+                    
+                    if (parseInt(index[1]) == 1) {
+                        if (ing.config.player.mode == "html5") {
+                        	if (!!ing.player.playlistParams){
+	        	    			$('.goAhead').unbind('click');
+	        	    			$('.goBack').unbind('click');
+	            	    		$('#video').trigger('goTo', [ing.player.playlistParams.playingIndex - 1]);
+	            	    	}
+            	    	} else {
+	         	    		$('.goAhead').unbind('click');
+	        	    		$('.goBack').unbind('click');       	    			
+        	    		}
+        	    		return;
+                    }
+                    
+                    if (parseInt(index[1]) > 1) {
+                        ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'PAGE', 'segment_id': segment_id,
+							  'page_number': parseInt(index[1]) - 1}));
+                        $('.playerHTML iframe').attr('src',
+                        	$('.playerHTML iframe').attr('src').replace(index[0], 'p-' + (parseInt(index[1]) - 1))
                         );
                         $('#pdf_cp').html(parseInt($('#pdf_cp').html()) - 1);
                     }
@@ -608,34 +922,63 @@ function Ing() {
                     
                     if (pages != 1) {
                         if (index[1]-1 == 1) {
-                            $('.playerPrev').addClass("disabled");
+                            if (ing.config.player.mode == "html5") {
+                            	prevButton.toggleClass('disabled', !ing.data.activeItem);
+                            } else prevButton.toggleClass('disabled', true);
                         }
                         else {
                             $('.playerNext').removeClass("disabled");
                         }
-                    }                    
+                    }
+                    
+                    if (parseInt(index[1]) <= pages && ing.config.player.mode == "html5" && !ing.player.playlistParams) {
+                        $('.goAhead').toggleClass('disabled', false);
+                    }
 
                     return false;
                 });
-                $('.playerNext').click( function() {
-                    var index = $(this).siblings('iframe').attr('src').match(/p-([0-9]+)/);
-                    if(index[1] < pages) {
-                        $(this).siblings('iframe').attr('src',
-                            $(this).siblings('iframe').attr('src').replace(index[0], 'p-' + (parseInt(index[1]) + 1))
+                nextButton.on('click', function() {
+                    var index = $('.playerHTML iframe').attr('src').match(/p-([0-9]+)/);
+
+                    if (parseInt(index[1]) == pages) {
+        	    		if (ing.config.player.mode == "html5") {
+        	    			ing.player.preventBtnControl = false;
+        	    			if (!!ing.player.playlistParams){
+        	    				$('.goAhead').unbind('click');
+	        	    			$('.goBack').unbind('click');
+	        	    			if(segment_id)
+	                                ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'LEAVING', 'segment_id': segment_id}));
+        	    				$('#video').trigger('goTo', [ing.player.playlistParams.playingIndex + 1]); 
+        	    			}    			
+        	    		} else {
+	         	    		$('.goAhead').unbind('click');
+	        	    		$('.goBack').unbind('click');       	    			
+        	    		}
+        	    		return;
+                    }
+                    
+                    if(parseInt(index[1]) < pages) {
+                        ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'PAGE', 'segment_id': segment_id,
+                        											  'page_number': parseInt(index[1]) + 1}));
+                        $('.playerHTML iframe').attr('src',
+                        	$('.playerHTML iframe').attr('src').replace(index[0], 'p-' + (parseInt(index[1]) + 1))
                         );
                         $('#pdf_cp').html(parseInt($('#pdf_cp').html()) + 1);
                     }
-                    if(index[1] == pages-1){
+                    if(parseInt(index[1]) == pages - 1) {
                         // -- adding end event
-                        if(segment_id){
-                            ing.callbacks.fp.info_handler(JSON.stringify({'event_type': 'END', 'segment_id': segment_id}));
+                        if (ing.config.player.mode == "html5" && !ing.player.playlistParams)
+                        	$('.goAhead').toggleClass('disabled', true);
+                        	
+                        if(segment_id) {
+                            ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'END', 'segment_id': segment_id}));
                         }
                     }
                     
                     //resizing image content to fit modal window
                     if ( !$('.playerNext').hasClass("disabled") ) {
                         $(".nyroModalCont iframe").css("visibility","hidden");
-                    }                    
+                    }
                     $(".playerHTML iframe").one('load', function(){                        
                         checkImage = setTimeout(checkImageWidth, 100);
                     })
@@ -645,43 +988,50 @@ function Ing() {
                             $('.playerNext').addClass("disabled");
                         }
                         else {
-                            $('.playerPrev').removeClass("disabled");
+                        	prevButton.toggleClass('disabled', false);
                         }
                     }
 
                     return false;
                 });
-                var currentPage = $('.playerPages').siblings('iframe').attr('src').match(/p-([0-9]+)/);
                 //Play next/prevoius buttons
-                $('.playerPrev, .playerNext').removeClass("disabled");
-                if (currentPage[1] == 1) {
-                     $('.playerPrev').addClass("disabled");
+                prevButton.toggleClass('disabled', false);
+                nextButton.toggleClass('disabled', false);
+                
+                if (parseInt(currentPage[1]) == 1) {
+                    if (ing.config.player.mode == "html5") {
+                    	prevButton.toggleClass('disabled', !ing.data.activeItem);
+                    } else prevButton.toggleClass('disabled', true);
                 }
-                if (currentPage[1] == pages) {
-                     $('.playerNext').addClass("disabled");
+                if (parseInt(currentPage[1]) == pages) {
+                    $('.playerNext').addClass("disabled");
                 }
-                if (currentPage[1] == 1 && currentPage[1] == pages) {
+                if (parseInt(currentPage[1]) == 0 && currentPage[1] == pages) {
                     $('.playerPrev, .playerNext').hide();
                 }
                 //Player pages
-                $('.playerPages').html(t.PAGE + " <span id=\"pdf_cp\">" + currentPage[1] + "</span> " + t.PAGE_OF + " " + pages);
-                $('.playerClose').html(t.CLOSE_WINDOW).click( function() {
-                    $('.flashWrapper .closeFW.oneElement').trigger('click');
+                $('.playerClose').html(t.CLOSE_WINDOW).click( function(e) {
+                    e.preventDefault();
                     $(".playerHTML").hide();
                     $.nmTop().close();
-                    //$('.flashWrapper, .modalBg').remove();
-                });
+                    $('.mplayerWrapper .closeFW.oneElement').trigger('click');
+                    //$('.mplayerWrapper, .modalBg').remove();
+                });                	
+                $('.playerPages').html(t.PAGE + " <span id=\"pdf_cp\">" + currentPage[1] + "</span> " + t.PAGE_OF + " " + pages);
                 this.parent.helpers.js_notify('PDF displayed: ' + url, 'notice');
             },
             /**
              * Handler for displaying SCORM files
              */
             scorm_handler: function(url) {
-                var ing = Ing.findInDOM();
+                var ing = Ing.findInDOM(),
+                	title,
+                	segment_id;
+                
                 if(ing.config.scormTTL && (new Date()).getTime() - ing.config.scormTTL.getTime() > 1500) {
                     ing.config.scormTTL = false;
                 }
-                var segment_id;
+                
                 if(!ing.config.scormTTL) {
                     var segment_id = 0;
                     if(this.parent.data.moduleJSON){
@@ -695,8 +1045,184 @@ function Ing() {
                     }
                     ing.config.scormTTL = new Date();
                     var els = this.parent.elements;
-                    var p = els.getObj(new els.playerSCORM({'src': url}));
-                    var id = p.attr('id');
+                    
+                    if (!!ing.player.playlist) {
+                    	title = ing.player.playlist[(!!ing.data.activeItem)? ing.data.activeItem: ing.player.playlistParams.playingIndex].title;                	
+                    } else title = $('#rollerItems li.active').attr('title'); 
+                    
+                    if (ing.config.player.mode == "html5") {
+                    	var p = els.getObj(new els.playerHTML5({'src': url,
+        						'title': title})),
+				        	id = p.attr('id'),
+				        	playIndex = ing.player.playlistParams.playingIndex;
+
+                    	if (!!ing.player.playlistParams) {
+                    		$('.goBack').toggleClass('disabled', !ing.player.playlistParams.playingIndex);
+                    		$('.goAhead').toggleClass('disabled', false);
+    				    	$('.goBack').on('click', function(event){
+    	        	    		$('.goAhead').unbind('click');
+    	        	    		$('.goBack').unbind('click');
+    	        	    		ing.player.preventBtnControl = false;
+    	        	    		ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'END', 'segment_id': segment_id}));
+    				    		$('#video').trigger('goTo', [ing.player.playlistParams.playingIndex - 1]);
+    				    	});
+    				    	$('.goAhead').on('click', function(event){
+    	        	    		$('.goAhead').unbind('click');
+    	        	    		$('.goBack').unbind('click');
+    	        	    		ing.player.preventBtnControl = false;
+    	        	    		ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'END', 'segment_id': segment_id}));
+    				    		$('#video').trigger('goTo', [ing.player.playlistParams.playingIndex + 1]);
+    				    	});    
+                    	} else {
+                    		ing.player.preventBtnControl = false;
+                    		$('.goAhead').unbind('click');
+	        	    		$('.goBack').unbind('click');
+                    	}
+                    	
+				    	p.appendTo('#video');
+				    	$('.playerHTML5').addClass('playerSCORM');
+				        p.css({
+				            'height':  $('#video').height() + 'px',
+				            'width':  $('#video').width() + 'px'
+				        });
+				        p.find('.playerHTML5').css({
+				            'height':  ($('#video').height() - 26) + 'px',
+				            'width':  $('#video').width() + 'px'
+				        });
+				        p.find('iframe').css({
+				            'border': 'none'
+				        });                	
+                    } else {
+	                    var p = els.getObj(new els.playerSCORM({'src': url}));
+	                    var id = p.attr('id');
+	                    p.appendTo('body');
+	                    p.children('div').css({
+	                        'height':  ($(window).height() - 20) + 'px',
+	                        'width':  $(window).width() + 'px'
+	                    });
+	                    p.find('iframe').css({
+	                        'height':  ($(window).height() - 110) + 'px',
+	                        'width':  ($(window).width() - 50) + 'px',
+	                        'margin-left': '25px',
+	                        'border': 'none'
+	                    });
+	                    $('<a href="#' + id + '" />').nyroModal({
+	                        callbacks: {
+	                            afterClose: function(nm) {
+	                                $('#' + id).remove();
+	                                // -- adding leaving event
+	                                if(segment_id){
+	                                    ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'END', 'segment_id': segment_id}));
+	                                }
+	                            },
+	                            afterShowCont: function(nm) {
+	                                $(window).resize(function(){
+	                                    if(TO !== false)
+	                                        clearTimeout(TO);
+	                                    TO = setTimeout(resizeThisModalScorm, 50);
+	                                });
+	                            }
+	                        }
+	                    }).trigger('click');
+	
+	                    var TO = false;
+	                    function resizeThisModalScorm() {
+	                        $("#scormFrame").width( $(window).width()-25 ).height( $(window).height()-110 );
+	                        $(".nyroModalCont .playerSCORM").width( $("#scormFrame").width()+25 ).height( $("#scormFrame").height()+90 );
+	                        setTimeout("if ($.nmTop()) { $.nmTop().resize(true) }", 150);
+	                    }
+	
+	                    $('.playerClose').html(t.CLOSE_WINDOW).click( function() {
+	                        $('.mplayerWrapper .closeFW.oneElement').trigger('click');
+	                        $(".playerSCORM").hide();
+	                        $.nmTop().close();
+	                        //$('.mplayerWrapper, .modalBg').remove();
+	                    });
+	                    //window.open(url);
+                    }
+                    // -- adding start event
+                    if(segment_id){
+                        ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'START', 'segment_id': segment_id, 'is_scorm': true}));
+                        this.parent.helpers.js_notify('Displaying SCORM the cool way: ' + url, 'notice');
+                    }
+                }
+                return false;
+            },
+            /**
+             * Handler for displaying HTML files
+             */
+            html_handler: function(url) {
+                var ing = Ing.findInDOM(),
+                	segment_id,
+                	title;
+                
+                if(this.parent.data.moduleJSON){
+                    var mod = this.parent.data.moduleJSON.track0;
+                    for(var i = 0, len = mod.length; i < len; i++){
+                        if(mod[i].start == this.parent.data.activeItem){
+                            segment_id = mod[i].segment_id;
+                            break;
+                        }
+                    }
+                }
+                
+                var els = this.parent.elements;
+                // -- hack
+                if(url.indexOf('.txt') != -1){
+                    url = url.replace('/media/pub/', '/content/file/').replace('.txt', '/');
+                }   
+                
+                if (!!ing.player.playlist) {
+                	title = ing.player.playlist[(!!ing.data.activeItem)? ing.data.activeItem: ing.player.playlistParams.playingIndex].title;               	
+                } else title = $('#rollerItems li.active').attr('title'); 
+                
+                if (ing.config.player.mode == "html5") {
+                    var p = els.getObj(new els.playerHTML5({'src': url,
+                    										'title': title})),
+                    	id = p.attr('id');
+                    
+                	if (!!ing.player.playlistParams) {
+                		$('.goBack').toggleClass('disabled', !ing.player.playlistParams.playingIndex);
+                		$('.goAhead').toggleClass('disabled', false);
+                    	$('.goBack').on('click', function(event){
+            	    		$('.goAhead').unbind('click');
+            	    		$('.goBack').unbind('click');
+            	    		ing.player.preventBtnControl = false;
+                    		ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'END', 'segment_id': segment_id}));
+                    		$('#video').trigger('goTo', [ing.player.playlistParams.playingIndex - 1]);
+                    	});
+            	    	$('.goAhead').on('click', function(event){
+            	    		$('.goAhead').unbind('click');
+            	    		$('.goBack').unbind('click');
+            	    		ing.player.preventBtnControl = false;
+            	    		ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'END', 'segment_id': segment_id}));
+            	    		$('#video').trigger('goTo', [ing.player.playlistParams.playingIndex + 1]);
+            	    	});
+                	} else {
+                		ing.player.preventBtnControl = false;
+                		$('.goAhead').unbind('click');
+        	    		$('.goBack').unbind('click');
+                	}
+                	
+                	p.appendTo('#video');
+                    p.css({
+                        'height':  $('#video').height() + 'px',
+                        'width':  $('#video').width() + 'px'
+                    });
+                    p.find('.playerHTML5').css({
+                        'height':  ($('#video').height() - 26) + 'px',
+                        'width':  $('#video').width() + 'px'
+                    });
+                    p.find('iframe').css({
+                        'border': 'none'
+                    });
+                    
+                    $('.playerHTML5 iframe').load(function() {
+			        	$('.playerHTML5 iframe').contents().find('pre').css('-webkit-transform', 'translateZ(0)');
+			        });
+                } else {
+                    var p = els.getObj(new els.playerHTML({'src': url})),
+                    	id = p.attr('id');
                     p.appendTo('body');
                     p.children('div').css({
                         'height':  ($(window).height() - 20) + 'px',
@@ -712,111 +1238,37 @@ function Ing() {
                         callbacks: {
                             afterClose: function(nm) {
                                 $('#' + id).remove();
-                                // -- adding leaving event
+                                // -- adding end event
                                 if(segment_id){
-                                    ing.callbacks.fp.info_handler(JSON.stringify({'event_type': 'END', 'segment_id': segment_id}));
+                                    ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'END', 'segment_id': segment_id}));
                                 }
                             },
                             afterShowCont: function(nm) {
                                 $(window).resize(function(){
                                     if(TO !== false)
                                         clearTimeout(TO);
-                                    TO = setTimeout(resizeThisModalScorm, 50);
+                                    TO = setTimeout(resizeThisModal, 50);
                                 });
                             }
                         }
                     }).trigger('click');
 
                     var TO = false;
-                    function resizeThisModalScorm() {
-                        $("#scormFrame").width( $(window).width()-25 ).height( $(window).height()-110 );
-                        $(".nyroModalCont .playerSCORM").width( $("#scormFrame").width()+25 ).height( $("#scormFrame").height()+90 );
+                    function resizeThisModal() {
+                        $(".nyroModalCont iframe").width( $(window).width()-25 ).height( $(window).height()-110 );
+                        $(".nyroModalCont .playerHTML").width( $(".nyroModalCont iframe").width()+25 ).height( $(".nyroModalCont iframe").height()+90 );
                         setTimeout("if ($.nmTop()) { $.nmTop().resize(true) }", 150);
                     }
-
+                    $('.playerNext, .playerPrev, .playerPages').hide();
                     $('.playerClose').html(t.CLOSE_WINDOW).click( function() {
-                        $('.flashWrapper .closeFW.oneElement').trigger('click');
-                        $(".playerSCORM").hide();
+                        $('.mplayerWrapper .closeFW.oneElement').trigger('click');
+                        $(".playerHTML").hide();
                         $.nmTop().close();
-                        //$('.flashWrapper, .modalBg').remove();
                     });
-                    // -- adding start event
-                    if(segment_id){
-                        ing.callbacks.fp.info_handler(JSON.stringify({'event_type': 'START', 'segment_id': segment_id, 'is_scorm': true}));                    this.parent.helpers.js_notify('Displaying SCORM the cool way: ' + url, 'notice');
-                    }
-                    //window.open(url);
                 }
-                return false;
-            },
-            /**
-             * Handler for displaying HTML files
-             */
-            html_handler: function(url) {
-                var ing = Ing.findInDOM();
-                var segment_id;
-                if(this.parent.data.moduleJSON){
-                    var mod = this.parent.data.moduleJSON.track0;
-                    for(var i = 0, len = mod.length; i < len; i++){
-                        if(mod[i].start == this.parent.data.activeItem){
-                            segment_id = mod[i].segment_id;
-                            break;
-                        }
-                    }
-                }
-                var els = this.parent.elements;
-                // -- hack
-                if(url.indexOf('.txt') != -1){
-                    url = url.replace('/media/pub/', '/content/file/').replace('.txt', '/');
-                }
-                var p = els.getObj(new els.playerHTML({'src': url}));
-                var id = p.attr('id');
-                p.appendTo('body');
-                p.children('div').css({
-                    'height':  ($(window).height() - 20) + 'px',
-                    'width':  $(window).width() + 'px'
-                });
-                p.find('iframe').css({
-                    'height':  ($(window).height() - 110) + 'px',
-                    'width':  ($(window).width() - 50) + 'px',
-                    'margin-left': '25px',
-                    'border': 'none'
-                });
-                $('<a href="#' + id + '" />').nyroModal({
-                    callbacks: {
-                        afterClose: function(nm) {
-                            $('#' + id).remove();
-                            // -- adding end event
-                            if(segment_id){
-                                ing.callbacks.fp.info_handler(JSON.stringify({'event_type': 'END', 'segment_id': segment_id}));
-                            }
-                        },
-                        afterShowCont: function(nm) {
-                            $(window).resize(function(){
-                                if(TO !== false)
-                                    clearTimeout(TO);
-                                TO = setTimeout(resizeThisModal, 50);
-                            });
-                        }
-                    }
-                }).trigger('click');
-
-                var TO = false;
-                function resizeThisModal() {
-                    $(".nyroModalCont iframe").width( $(window).width()-25 ).height( $(window).height()-110 );
-                    $(".nyroModalCont .playerHTML").width( $(".nyroModalCont iframe").width()+25 ).height( $(".nyroModalCont iframe").height()+90 );
-                    setTimeout("if ($.nmTop()) { $.nmTop().resize(true) }", 150);
-                }
-
-
-                $('.playerNext, .playerPrev, .playerPages').hide();
-                $('.playerClose').html(t.CLOSE_WINDOW).click( function() {
-                    $('.flashWrapper .closeFW.oneElement').trigger('click');
-                    $(".playerHTML").hide();
-                    $.nmTop().close();
-                });
                 // -- adding start event
                 if(segment_id){
-                    ing.callbacks.fp.info_handler(JSON.stringify({'event_type': 'START', 'segment_id': segment_id}));
+                    ing.callbacks.mp.info_handler(JSON.stringify({'event_type': 'START', 'segment_id': segment_id}));
                 }
                 return false;
             },
@@ -965,6 +1417,7 @@ function Ing() {
          */
         courseDetails: function(details) {
             this.data = $.extend(true, {}, details);
+            this.data.completion_msg = app.helpers.htmlSpecialDecoder(this.data.completion_msg);
             this.events = [];
             if (this.data.type == 70) {
                 thumbnailURL = Ing.findInDOM().config.mediaURL + 'img/file_type_scorm.png';
@@ -976,21 +1429,18 @@ function Ing() {
             // '<dt>' + t.ID + ':</dt><dd>{id}</dd>' +
             // '<dt>' + t.TITLE + ':</dt><dd>{title}</dd>' +
             '<dt>' + t.AUTHOR + ':</dt><dd>' + this.data.owner + '</dd>' +
-            '<dt>' + t.PUBLISHED_DATE + ':</dt><dd>' + app.helpers.timestampToDate(this.data.published_on, true) + '</dd>' +
-            '<dt>' + t.ALLOW_DOWNLOADING + ':</dt><dd><input id="allow_download" type="checkbox" name="allow_download" ';
-            if (this.data.allow_download) this.tpl += 'checked';
-            this.tpl += ' disabled>' +
-            '<dt>' + t.ALLOW_SKIPPING + ':</dt><dd><input id="allow_skipping" type="checkbox" name="allow_skipping" ';
-            if (this.data.allow_skipping) this.tpl += 'checked';
-            this.tpl += ' disabled>' +
-            '<dt>' + t.LANGUAGE + ':</dt><dd>' + this.data.language_name + '</dd>' +
-            '</dl><div class="preview"><img src="' + thumbnailURL + '" alt="" /></div>' +
+            '<dt>' + t.ALLOW_DOWNLOADING + ':</dt><dd>';
+            this.tpl += (this.data.allow_download)? t.YES: t.NO;
+            this.tpl += ' </dl>' +
+            '<dl><dt>' + t.PUBLISHED_DATE + ':</dt><dd>' + app.helpers.timestampToDate(this.data.published_on, true) + '</dd>' +
+            '<dt>' + t.ALLOW_SKIPPING + ':</dt><dd>';
+            this.tpl += (this.data.allow_skipping)? t.YES: t.NO;
+            this.tpl += '</dl>' +
+            '<dl><dt>' + t.LANGUAGE + ':</dt><dd>' + this.data.language_name + '</dd></dl>' +
+            '</dl><div class="preview"><span>' + t.PREVIEW + '</span></div>' +
             //'</dl><div class="preview" style="background-image: url(\''+ this.data.thumbnail_url+'\'); background-position: center center; background-repeat: no-repeat;"></div>' +
-            '<h3 class="clear">' + t.COURSE_OBJECTIVE + '</h3><p>{objective}</a></p>' +
-            '<div class="fleft">' +         // left column
-  			'<span class="fleft movableDot progress0"></span>' +
-            '<span id="dot_{id}" class="dotInfo">' + t.COURSE_ASSIGN + '</span>' +
-            '</div><div class="fright">';	// right column
+            '<div class="fleft leftText"><h3 class="clear">' + t.COURSE_OBJECTIVE + '</h3><div class="mdetails">{objective}</div>' +
+            '<h3 class="clear">' + t.COURSE_MESSAGE + '</h3><div class="mdetails">{completion_msg}</div></div><div class="fleft">';
 
 
 
@@ -998,33 +1448,35 @@ function Ing() {
             // var temporary_tags = $.parseJSON(data.meta.groups_ids_can_be_assigned_to);
             var groups_ids_can_be_assigned_to = eval(this.data.groups_ids_can_be_assigned_to);
             if(groups_ids_can_be_assigned_to.length > 0) {
-            	html += '<h3 class="clear">' + t.CAN_BE_ASSIGNED_TO + '</h3><ul class="taglist">';
+            	html += '<div class="assignmentsWrapper"><h3 class="clear">' + t.CAN_BE_ASSIGNED_TO + '</h3><ul class="taglist">';
                 var ing = Ing.findInDOM();
 
                 for(var i = 0, len = groups_ids_can_be_assigned_to.length; i < len; i++) {
                 	var id = groups_ids_can_be_assigned_to[i];
-                    html += ing.elements.getObj(
-                    new ing.elements.tag(ing.data.groups[id].name, false)
-                    ).wrap('<div />').parent().html();
+                    if (id>0) {
+                        html += ing.elements.getObj(
+                        new ing.elements.tag(ing.data.groups[id].name + ';', false)
+                        ).wrap('<div />').parent().html();
+                    }
                 }
-                html += '</ul>';
+                html += '</ul></div>';
                }
             this.tpl+= html;
 
             var html = '';
             if(this.data.groups_names && this.data.groups_names.length > 0) {
-            	html += '<h3 class="clear">' + t.ASSIGNMENTS + '</h3><ul class="taglist">';
+            	html += '<div class="assignmentsWrapper"><h3 class="clear">' + t.ASSIGNMENTS + '</h3><ul class="taglist">';
                 var ing = Ing.findInDOM();
 
                 for(var i = 0, len = this.data.groups_names.length; i < len; i++) {
                     html += ing.elements.getObj(
-                    new ing.elements.tag(this.data.groups_names[i], false)
+                    new ing.elements.tag(this.data.groups_names[i] + ';', false)
                     ).wrap('<div />').parent().html();
                 }
-                html += '</ul>';
+                html += '</ul></div>';
                }
             this.tpl += html;
-            this.tpl += '</div>';	// right column
+            this.tpl += '</div><div class="clear"></div>';	// right column
 
         },
         /**
@@ -1050,21 +1502,34 @@ function Ing() {
                 thumbnailURL = "{thumbnail_url}";
             }
 
-            this.tpl = '<h3 class="fileTitle">{title}</h3>' +
-            '<a href="' + ing.config.mediaURL + 'swf/player.swf" class="nm preview" >' +
-            '<img src="' + thumbnailURL + '" alt="" />' +
-            '</a>' +
-            '<dl>' +
+            this.tpl = '<h3 class="fileTitle">{title}</h3>';
+            this.tpl += '<div><a href="' + ing.config.mediaURL + 'swf/player.swf" class="nm preview" >' +
+			            '<span>' + t.PREVIEW + '</span>' +
+			            '</a>' +
+            			'<span class="propertyTitle" style="line-height: 23px; clear:none">' + t.OWNER + ': </span>';
+            if(this.data.tags.length > 0) {
+                var ing = Ing.findInDOM();
+                var html = '';
+                for(var i = 0, len = this.data.tags.length; i < len; i++) {
+                	if (this.data.tags[i][1] == "owner"){
+	                    html += ing.elements.getObj(
+	                    new ing.elements.tag(this.data.tags[i][0], false)
+	                    ).wrap('<div />').parent().html();
+                	}
+                }
+                this.tpl += '<ul class="taglist" style="clear:none; margin-top:-4px; margin-right: 8px">' + html + '</ul>';
+            }
+            this.tpl += '<dl>' +
             // '<dt>' + t.OWNER + ':</dt><dd class="highlight">{owner}</dd>' +
             '<dt>' + t.DURATION + ':</dt><dd> ' + obj.duration  + " " + t.MINUTES + '</dd>' +
             '<dt>' + t.ADDED + ':</dt><dd>{created_on}</dd>';
 
             if(this.data.expires_on == null)
-            	this.tpl = this.tpl + '<dt>' + t.EXPIRATION_DATE + ':</dt><dd>'+ t.DATE_NOT_SET + '</dd>';
+            	this.tpl = this.tpl + '<dt>' + t.EXPIRATION_DATE + ':</dt><dd>'+ t.DATE_NOT_SET + '</dd></dl>';
         	else
-            	this.tpl = this.tpl + '<dt>' + t.EXPIRATION_DATE + ':</dt><dd>{expires_on}</dd>';
+            	this.tpl = this.tpl + '<dt>' + t.EXPIRATION_DATE + ':</dt><dd>{expires_on}</dd></dl>';
 
-            this.tpl = this.tpl + '<dt>' + t.LANGUAGE + ':</dt><dd>{language}</dd>' +
+            this.tpl = this.tpl + '<dl><dt>' + t.LANGUAGE + ':</dt><dd>{language}</dd>' +
                     '<dt>' + t.DOWNLOADABLE + ':</dt><dd>{allow_downloading}</dd>' +
             '<dt class="hidden">' + t.ID + ':</dt><dd class="hidden" id="' + ing.config.fileId.substr(1) + '">{id}</dd>' +
             '</dl>' +
@@ -1076,15 +1541,30 @@ function Ing() {
             // '<dt>' + t.ALLOW_DOWNLOADING + ':</dt><dd>{allow_downloading}</dd>' +
             // '<dt>' + t.ALLOW_SCALING + ':</dt><dd>{allow_scaling}</dd>' +
             // '<dt>' + t.GROUPS + ':</dt><dd>{groups}</dd>' +
-            '</dl><div class="hr"></div>' +
-            '<div><span class="propertyTitle">' + t.TAGS + ': </span>{tags}';
+            '</dl><div class="hr"></div>';
+            this.tpl += '<div><span class="propertyTitle">' + t.GROUPS + ': </span>';
             if(this.data.tags.length > 0) {
                 var ing = Ing.findInDOM();
                 var html = '';
                 for(var i = 0, len = this.data.tags.length; i < len; i++) {
-                    html += ing.elements.getObj(
-                    new ing.elements.tag(this.data.tags[i], false)
-                    ).wrap('<div />').parent().html();
+                	if (this.data.tags[i][1] == 'group'){
+	                    html += ing.elements.getObj(
+	                    new ing.elements.tag(this.data.tags[i][0], false)
+	                    ).wrap('<div />').parent().html();
+                	}
+                }
+                this.tpl += '<ul class="taglist">' + html + '</ul>';
+            }
+            this.tpl += '</div><div><span class="propertyTitle">' + t.TAGS + ': </span>{tags}';
+            if(this.data.tags.length > 0) {
+                var ing = Ing.findInDOM();
+                var html = '';
+                for(var i = 0, len = this.data.tags.length; i < len; i++) {
+                	if (this.data.tags[i][1] == 'custom'){
+	                    html += ing.elements.getObj(
+	                    new ing.elements.tag(this.data.tags[i][0], false)
+	                    ).wrap('<div />').parent().html();
+                	}
                 }
                 this.data.tags = '<ul class="taglist">' + html + '</ul>';
             }
@@ -1106,7 +1586,6 @@ function Ing() {
                 this.data.expires_on = ing.helpers.timestampToDate(this.data.expires_on);
             }
             this.data.type = ing.data.filetypes[this.data.type];
-
         },
 
         /**
@@ -1199,8 +1678,10 @@ function Ing() {
             else
             	this.data.shortText = this.data.owner;
             this.tpl = '<li {className}><a href="#"></a>' +
+            '<span class="moduleCheck"><input type="checkbox" /></span>'+
             '<span class="moduleName" lang="{language}">{title}</span>'+
-            '<span class="moduleAuthor" ownerid="{ownerId}" title="{owner}">{shortText}</span>';
+            '<span class="moduleAuthor" ownerid="{ownerId}" title="{owner}">{shortText}</span>'+
+            '<div class="modulePreview"><a href="#" class="previewBtn">' + t.PREVIEW + '</a></div>';
 
             var groups_ids_can_be_assigned_to = $.parseJSON(this.data.groups_ids_can_be_assigned_to);
             this.tpl+= '<input type="hidden" class="groups" value="'+ this.data.groups_ids_can_be_assigned_to +'" />';
@@ -1220,6 +1701,8 @@ function Ing() {
             this.data = $.extend(true, {}, details);
             this.events = [];
             this.tpl = '<div><div class="playerHTML"><a href="#" class="playerClose icoClose">&nbsp;</a>' +
+            '<a href="#" class="playerPrev goBack" title="' + t.PAGE_PREV + '">&nbsp;</a>' +
+            '<a href="#" class="playerNext goAhead" title="' + t.PAGE_NEXT + '">&nbsp;</a>' +
             '<iframe src="{src}"></iframe><div class="hr"></div>' +
             '<a href="#" class="playerPrev" title="' + t.PAGE_PREV + '">&nbsp;</a>' +
             '<a href="#" class="playerNext" title="' + t.PAGE_NEXT + '">&nbsp;</a>' +
@@ -1237,6 +1720,21 @@ function Ing() {
             '<iframe name="scormFrame" id="scormFrame" src="{src}"></iframe>' +
             '<div class="hr"></div>' +
             '<a href="#" class="playerClose">&nbsp;</a></div></div>';
+        },
+        /**
+         * Embeded html and scorm player. Used when app is in html5 mode
+         */
+        playerHTML5: function(details) {
+            this.data = $.extend(true, {}, details);
+            this.events = [];
+            this.tpl = '<div class="playerHTML"><div class="playerHTML5">' +
+            '<iframe src="{src}"></iframe></div>' +
+            '<div class="playerBottomLabel">' +
+            '<label class="nameLabel">{title}</label>' +
+            '<span class="playerPages">&nbsp;</span>' +
+            '<div class="setFullscreen"></div>' +
+            '<a href="#" class="skipTo hidden">' + t.CLICK_TO_SKIP + '</a>' +
+            '</div></div>';
         },
         /**
          * Report details badge
@@ -1294,6 +1792,7 @@ function Ing() {
                 this.tpl = '<li class="{className}">' +
                 '<span class="reportFile">{result_path}</span>' +
                 '<span class="reportDownload"><a href="{result_url}">' + t.DOWNLOAD_PDF + '</a></span>' +
+                '<span class="reportDownload"><a href="{csv_result_url}">' + t.DOWNLOAD_CSV + '</a></span>' +
                 '<span class="reportDownload"><a href="{html_result_url}" target="_blank">' + t.DOWNLOAD_HTML + '</a></span>' +
                 '</li>'
             } else {
@@ -1480,7 +1979,7 @@ function Ing() {
                 name: 'click',
                 handler: function(e) {
                     if($(e.target).is('img')) {
-                        Ing.findInDOM().triggerEvent('tagRemoved', [$(this).text().replace('x ', '').trim()]);
+                        Ing.findInDOM().triggerEvent('tagRemoved', [$.trim($(this).text().replace('x ', ''))]);
                         $(this).remove();
                     }
                     return false;
@@ -1504,11 +2003,13 @@ function Ing() {
             '<tr><th>' + t.PHONE + ':</th><td>{phone}</td></tr>' +
             '<tr><th>' + t.GROUPS + ':</th><td class="myGroupList">{assignments}</td></tr>';
             if ($('#userlist:focus').length > 0) {
-	            if(this.data.user_type!='user') {
+	            //if(this.data.user_type!='user') {
+                    if(this.data.user_type!='OCL recipient' && this.data.user_type!='recipient') {
 	                this.tpl += '<tr><th>' + t.MANAGES + ':</th><td class="myGroupList">{managements}</td></tr>';
 	            }
               //console.log(this.data);
-	            if(this.data.user_type!='user') {
+	           // if(this.data.user_type!='user') {
+                    if(this.data.user_type!='OCL recipient' && this.data.user_type!='recipient') { 
 	                if(this.data.manages.inArray($('#my_groups').val())) {
 	                    this.tpl += '<tr><th> &nbsp; </th><td><a class="button-normal" href="#" id="tm">{% trans "Remove" %}' + t.MANAGER_REMOVE + '</a></td></tr>';
 	                } else {
@@ -1530,7 +2031,7 @@ function Ing() {
             if(allowEdit == true) {
                 this.tpl += '<div class="hr"></div><div>';
                 if(this.data.id != my_id) {
-                    if(this.data.ldap_user!='*' && (ssuper==true || (ssuper==false && this.data.user_type=='user'))) {
+                    if(this.data.ldap_user!='*' && (ssuper==true || (ssuper==false && this.data.user_type=='recipient'))) {
                         this.tpl += '<a class="button-normal" href="#" id="eu">' + t.USER_EDIT + '</a>';
                         if(ssuper || !this.data.has_tracking) {
                             this.tpl += '<a class="button-normal" href="#" id="ru"><img class="icoRemove icon" src="/media/img/blank.gif" alt="">{% trans "Remove" %}' + t.USER_REMOVE + '</a>';
@@ -1561,7 +2062,7 @@ function Ing() {
         userItem: function(details) {
             this.data = $.extend(true, {}, details);
             this.events = [];
-            this.tpl = '<option value="{id}" class="{user_type}">{last_name} {first_name}{ldap_user} {status_text}</option>';
+            this.tpl = '<option value="{id}" class="{user_type}">{last_name} {first_name}{ldap_user}{plus_user} {status_text}</option>';
             if(!(this.data.is_active)) {
                 this.data.status_text = ' (' + t.INACTIVE.toLowerCase() + ')';
             }
@@ -1696,8 +2197,8 @@ function Ing() {
          * selectable list of groups.
          */
         loadGroups: function() {
-            var groups = this.parent.data.groups;
-            var ing = Ing.findInDOM();
+        	var ing = Ing.findInDOM();
+            var groups = ing.gm.sortGroups(this.parent.data.groups);
             var elems = {
                 '0' : {id: '0', name: ' --- '},
                 '-1': {id: -1, name: t.ALL_USERS},
@@ -1732,12 +2233,13 @@ function Ing() {
          * and creates selectable list of groups.
          */
         loadMyGroups: function(loadIntoMyGroups) {
-            var groups = this.parent.data.mygroups;
-            var ing = Ing.findInDOM();
+        	var ing = Ing.findInDOM();
+        	var groups = ing.gm.sortGroups(this.parent.data.mygroups);
             var elems = {
                 '0' : {id: '0', name: ' --- '}
             }
             var tmp = $.extend(elems, groups);
+            
             $('#my_groups').html('');
             $.each(tmp, function(key, value) {
                 var g = new ing.elements.groupItem(value);
@@ -1753,8 +2255,8 @@ function Ing() {
          * into #my_groups and creates selectable list of groups.
          */
         loadGroupsIntoMyGroups: function() {
-            var groups = this.parent.data.groups;
-            var ing = Ing.findInDOM();
+        	var ing = Ing.findInDOM();
+            var groups = ing.gm.sortGroups(this.parent.data.groups);
             var elems = {
                 '0' : {id: '0', name: ' --- '}
             }
@@ -1765,6 +2267,33 @@ function Ing() {
                 ing.elements.attach(g, $('#my_groups'));
             });
             $("#my_groups").sb('refresh');
+        },
+        /**
+         * Return object with sorted groups
+         */
+        sortGroups: function(arrObj) {
+        	var arr = new Array();
+        	var retObj = {};
+        	
+        	$.each(arrObj, function(index, value) {
+        		arr.push(value);
+        	});
+        	//arr.objSort("name");
+            arr.sort(function(a, b){
+                if (a['name'].toLowerCase()>b['name'].toLowerCase()) {
+                    return 1;
+                } else if (a['name'].toLowerCase()==b['name'].toLowerCase()) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+            });
+        	
+        	$.each(arr, function(index, value) {
+        		retObj[index + 1] = value;
+        	});
+        	
+        	return retObj;
         },
         /**
          * Restores saved UI state.
@@ -1981,9 +2510,6 @@ function Ing() {
 	    		else if (moduleId == 'allModules')
 	            	this._loadModules(moduleId, '/content/modules/active/list/?my=0', false);
 	        }
-
-
-
         },
         loadModules: function(moduleId) {
              this._loadModules(moduleId, '/content/modules/list/', false);
@@ -2000,8 +2526,9 @@ function Ing() {
             Ing.findInDOM().helpers.throbber($('.' + moduleId));
 
             var active = false;
-            $.get(url, function(data) {
+            $.get(url, function(data) {;
             	var active;
+            	
                 if(typeof data != 'object') { // IE bug --
                     data = $.parseJSON(data);
                 }
@@ -2055,17 +2582,9 @@ function Ing() {
                 }
                 $('#moduleTitle').val($.unescapifyHTML(data.meta.title));
                 $('#moduleObjective').val(data.meta.objective?$.unescapifyHTML(data.meta.objective):"");
-                if(data.track0[0] && data.track0[0].thumbnail_url) {
-                	$('.preview').html('');
-                  if (data.track0[0].type == 70) { //SCORM
-                    $('.preview').append('<img class="filetypeIcoPreview" src="' + app.config.mediaURL + 'img/file_type_scorm.png" alt="" />');
-                  }
-                  else {
-                     $('.preview').append('<img src="' + data.track0[0].thumbnail_url + '" alt="" />');
-                  }
-                } else {
-                    $('.preview').html('');
-                }
+                $('#completionMsg').val(data.meta.completion_msg?$.unescapifyHTML(data.meta.completion_msg):"");
+                $('.preview').html('<span>' + t.PREVIEW + '</span>');
+//                $('.preview').append('');
                 // --replace these values with real ones
                 $('#moduleCD').text(ing.helpers.timestampToDate(data.meta.created_on, true));
 
@@ -2084,7 +2603,7 @@ function Ing() {
 
                 $('#allow_download').attr('checked', data.meta.allow_download);
                 $('#allow_skipping').attr('checked', data.meta.allow_skipping);
-
+                $('#sign_off_required').attr('checked', data.meta.sign_off_required);
 
                 $('#id_language option[value=' + data.meta.language + ']').attr('selected', 'selected');
                 $('#moduleDate').val(data.meta.expires_on ? ing.helpers.timestampToDate(data.meta.expires_on) : '');
@@ -2093,13 +2612,15 @@ function Ing() {
                 $(ing.config.tagList).html('');
                 for(var i = 0, len = temporary_tags.length; i < len; i++) {
                     var tName = $('#groupList option[value=' + temporary_tags[i] + ']').text();
-                    if(!tName) {
-                        tName = $('#myGroupList option[value=' + temporary_tags[i] + ']').text();
-                    }
-                    if(tName) {
-                        ing.data.tags.push({id: temporary_tags[i], name: tName});
-                        var el = new ing.elements.tag(tName);
-                        ing.elements.attach(el, ing.config.tagList);
+                    if(temporary_tags[i]!=-2){
+                        if(!tName) {
+                            tName = $('#myGroupList option[value=' + temporary_tags[i] + ']').text();
+                        }
+                        if(tName) {
+                            ing.data.tags.push({id: temporary_tags[i], name: tName});
+                            var el = new ing.elements.tag(tName);
+                            ing.elements.attach(el, ing.config.tagList);
+                        }
                     }
                 }
 
@@ -2118,8 +2639,7 @@ function Ing() {
          */
         loadModules: function(moduleId) {
             Ing.findInDOM().helpers.throbber($('.myModules'));
-            var activeKey = 0;
-						var active;
+            var activeKey = 0, active;
             $.get('/content/modules/list/', function(data) {
                 $('.myModules').html('');
                 if(typeof data != 'object') { // IE bug --
@@ -2176,10 +2696,12 @@ function Ing() {
                 'module_id': ing.data.activeModule.id,
                 'title': $('#moduleTitle').val(),
                 'objective': $('#moduleObjective').val(),
+                'completion_msg': $('#completionMsg').val(),
                 'language': $('#id_language').val(),
                 'expires_on': $('#moduleDate').val(),
-                'allow_download': $('#allow_download').attr('checked'),
-                'allow_skipping': $('#allow_skipping').attr('checked')
+                'allow_download': $('#allow_download').is(':checked') ? 'checked' : '',
+                'allow_skipping': $('#allow_skipping').is(':checked') ? 'checked' : '',
+                'sign_off_required': $('#sign_off_required').is(':checked') ? 'checked' : '',
             }
             var groups_ids = [];
             $(ing.data.tags).each( function() {
@@ -2189,15 +2711,19 @@ function Ing() {
             });
             data.groups_ids = groups_ids;
             ing.helpers.throbber($('#mngMyModulesDetailsWrapper'));
-            $.post(
-            url,
-            JSON.stringify(data), function(data) {
-                if(typeof data != 'object') { // IE bug --
-                    data = $.parseJSON(data);
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: url,
+                data: JSON.stringify(data),
+                success: function(data) {
+                    if(typeof data != 'object') { // IE bug --
+                        data = $.parseJSON(data);
+                    }
+                    var windowHash=window.location.hash;
+                                    ing.mm.loadModules(windowHash=windowHash.slice(1, windowHash.length));
+                    Ing.findInDOM().helpers.throbber($('#mngMyModulesDetailsWrapper'), 'remove');
                 }
-                var windowHash=window.location.hash;
-								ing.mm.loadModules(windowHash=windowHash.slice(1, windowHash.length));
-                Ing.findInDOM().helpers.throbber($('#mngMyModulesDetailsWrapper'), 'remove');
             });
         },
         /**
@@ -2287,8 +2813,8 @@ function Ing() {
         /**
          * Loads reports list
          */
-        loadReports: function() {
-            var ing = Ing.findInDOM();
+        loadReports: function(reportId) {
+            var ing = Ing.findInDOM(), active;
             if ($('#reportsList').length > 0) {
             	ing.helpers.throbber($('#reportsList'));
 	            $.get(
@@ -2314,14 +2840,19 @@ function Ing() {
 	                tmp.sort(function(a,b){return b.id - a.id});
 	                $.each(tmp, function(key, value) {
 	                    value.className = i++%2 ? 'even' : 'odd';
-	                    ing.elements.attach(new ing.elements.reportRow(value), $('#reportsList'));
+	                    var attached = ing.elements.attach(new ing.elements.reportRow(value), $('#reportsList'));
+	                    if(reportId !== undefined && reportId == value.id) {
+	                        active = attached;
+	                    }
 	                });
+	                if(active) { active.click(); }
 	                $('#reportsList li:first').addClass('first');
 	                $('#reportsList li:last').addClass('last');
 	                ing.helpers.throbber($('#reportsList'), 'remove');
 	            });
 	    	}
 	    	else {
+	    		if (!!!document.getElementById('importedReportsList')) { return; }
 	    		ing.helpers.throbber($('#importedReportsList'));
 	    		$.get(
 	            '/administration/reports/list/', function(data) {
@@ -2370,7 +2901,7 @@ function Ing() {
                 source : function(request, response) {
                     $.get(
                     "/tagging/tags/autocomplete/",
-                    { term: request.term.trim()},
+                    { term: $.trim(request.term)},
                     response
                     );
                 },
@@ -2378,7 +2909,7 @@ function Ing() {
                     return false;
                 },
                 search: function() {
-                    if(this.value.length < 3 || this.value.trim() == '') {
+                    if(this.value.length < 3 || $.trim(this.value) == '') {
                         return false;
                     }
                 }
@@ -2487,7 +3018,6 @@ function Ing() {
          * or a module's html wrapper.
          */
         computeWidth: function(itemId) {
-        	// alert(itemId);
             var tmp = 0;
             var cnf = this.parent.config;
             $('#' + itemId + ' li').each( function(index, elem) {
@@ -2639,11 +3169,11 @@ function Ing() {
          */
         throbber: function(element, mode) {
             if(mode == 'remove') {
-                $('#throbber_' + $(element).attr('id')).remove();
+                $('#throbber_' + ($(element).attr('id') || '')).remove();
                 return true;
             }
             var e = $(element);
-            var t = this.parent.elements.getObj(new this.parent.elements.throbber(e.attr('id')));
+            var t = this.parent.elements.getObj(new this.parent.elements.throbber(e.attr('id') || ''));
             var p = e.offset();
             t.css({
                 height: e.outerHeight(),
@@ -2669,34 +3199,51 @@ function Ing() {
          * initialized upon app startup.
          */
         tools: function() {
-            var cnf = this.parent.config;
-            var oth = cnf.other;
-            var mv = this.parent.helpers.move;
+            var cnf = this.parent.config,
+            	oth = cnf.other,
+            	mv = this.parent.helpers.move,
+            	moved1 = false,
+            	moved2 = false;
+            
             $(oth.mr).mousedown( function() {
                 oth.timer2 = setInterval( function() {
-                    mv('right', oth.movingStep, cnf.module)
+                    mv('right', oth.movingStep, cnf.module);
+                    moved2 = true;
                 }, oth.movingInterval);
             });
             $(oth.ml).mousedown( function() {
                 oth.timer2 = setInterval( function() {
-                    mv('left', oth.movingStep, cnf.module)
+                    mv('left', oth.movingStep, cnf.module);
+                    moved2 = true;
                 }, oth.movingInterval);
             });
             $(oth.mr + ', ' + oth.ml).mouseup( function() {
+            	if (!moved2) {
+                	var dir = $(this).hasClass('next') ? 'right' : 'left';
+                	mv(dir, 60, cnf.module);
+            	}
                 clearTimeout(oth.timer2);
+                moved2 = false;
             });
             $(oth.sr).mousedown( function() {
                 oth.timer = setInterval( function() {
-                    mv('right', oth.movingStep, cnf.shelf)
+                    mv('right', oth.movingStep, cnf.shelf);
+                    moved1 = true;
                 }, oth.movingInterval);
             });
             $(oth.sl).mousedown( function() {
                 oth.timer = setInterval( function() {
-                    mv('left', oth.movingStep, cnf.shelf)
+                    mv('left', oth.movingStep, cnf.shelf);
+                    moved1 = true;
                 }, oth.movingInterval);
             });
             $(oth.sr + ', ' + oth.sl).mouseup( function() {
+            	if (!moved1) {
+                	var dir = $(this).hasClass('next') ? 'right' : 'left';
+                	mv(dir, 60, cnf.shelf);
+            	}
                 clearTimeout(oth.timer);
+                moved1 = false;
             });
 
             //Getting JSON data for "Continue course" menu
@@ -2783,6 +3330,10 @@ function Ing() {
 		    var input_width = $(tagList).siblings('.inputWrapper').width();
 		    var li_width = $(tagList).parent().width();
 		    $(tagList).width(li_width - label_width - input_width - 35);
+        },
+        htmlSpecialDecoder: function(input){
+        	return input.replace(/&gt;/gi, '>').replace(/&lt;/gi, '<')
+						.replace(/&amp;/gi, '&').replace(/&nbsp;/gi, ' ');
         }
     },
     /**
@@ -2819,13 +3370,13 @@ function Ing() {
                     users[index] = [];
                 }
 
-								var gArray = new Array();
-								for(var i = 0, len = users[index].length; i < len; i++) {
+                var gArray = new Array();
+                for(var i = 0, len = users[index].length; i < len; i++) {
                     gArray.push( ing.data.users[users[index][i]] );
-										gArray.objSort("role","last_name");
                 }
+                gArray.objSort("role","last_name");
 								//console.log(gArray);
-								for(var i = 0, len = users[index].length; i < len; i++) {
+                for(var i = 0, len = users[index].length; i < len; i++) {
                     var g = new ing.elements.userItem(gArray[i]);
                     ing.elements.attach(g, $('#' + targets[id]));
                 }
@@ -2945,7 +3496,7 @@ function Ing() {
                     });
 
                     if(count == 1) {
-                        inLastGroup.push($(elem).text().trim());
+                        inLastGroup.push($.trim($(elem).text()));
                     }
 
                     append.push($(elem));
@@ -3201,18 +3752,11 @@ function Ing() {
          */
         addViewerEvents: function() {
             $(this.parent.config.module).find('a').live('click', function(elem) {
-                var searched = $(this).parent('li');
-                var index = false;
-                $(this).parents('ul').children('li').each( function(i) {
-                    if(searched.attr('id') == $(this).attr('id')) {
-                        index = i;
-                    }
-                });
                 var elements = $("#moduleList").find('li').length;
                 if ( app.data.activeItem < elements ) {
-                    document.getElementById('video').pause();
+                	Ing.findInDOM().player.api.pause();
                 }
-                Ing.findInDOM().player.play(index);
+                Ing.findInDOM().player.play(this);
                 return false;
             })
         },
@@ -3234,7 +3778,7 @@ function Ing() {
             }
             if(readOnly) {
                 if(this.parent.helpers.cookie.get('ing_obj_' + json.meta.id) == '') {
-                    this.displayObjective(json, false);
+                	if (!!!singleModuleMode) this.displayObjective(json, false);
                     this.parent.helpers.cookie.set('ing_obj_' + json.meta.id, 1, this.parent.config.cookieTime);
                 } else {
                     Ing.findInDOM().data.moviePlayed = true;
@@ -3265,8 +3809,8 @@ function Ing() {
                         name: 'click',
                         handler: function(e) {
                             $.nmTop().close();
-                            if (!clickedButton) { that.startPlayback(moduleObject.meta.id); }
-                            document.getElementById('video').resume();
+//                            if (!clickedButton) { that.startPlayback(moduleObject.meta.id); }
+                            that.parent.player.api.resume();
                             return false;
                         }
                     }]
@@ -3286,8 +3830,8 @@ function Ing() {
                             name: 'click',
                             handler: function(e) {
                                 $.nmTop().close();
-                                if (!clickedButton) { that.startPlayback(moduleObject.meta.id); }
-                                document.getElementById('video').resume();
+//                                if (!clickedButton) { that.startPlayback(moduleObject.meta.id); }
+                                that.parent.player.api.resume();
                                 return false;
                             }
                         }]
@@ -3295,10 +3839,10 @@ function Ing() {
                     );
                 }
 
-                if(!clickedButton) {
-                    that.startPlayback(moduleObject.meta.id);
-                    return;
-                }
+//                if(!clickedButton) {
+//                    that.startPlayback(moduleObject.meta.id);
+//                    return;
+//                }
             }
             //playMovie('/content/modules/' + moduleObject.meta.id + '/?format=xml', 'playlist', false, playingIndex);
         },
@@ -3311,15 +3855,15 @@ function Ing() {
             if(!format) {
                 format = 'json';
             }
-            var url = '/content/modules/' + id + '/?format='+format;
-            var ret = $.get(
-            url,
-            false, function(data) {
-                app.helpers.throbber('#moduleWrapper', 'remove');
-                Ing.findInDOM().module.create(data, readOnly);
-            },
-            'text'
-            );
+            $.ajax({url: '/content/modules/' + id + '/?format='+format+'&token='+app.config.ocl_token,
+            	cached: false,
+	            success: function(data) {
+	                app.helpers.throbber('#moduleWrapper', 'remove');
+	                Ing.findInDOM().module.create(data, readOnly);
+	            },
+	            dataType: 'text',
+	            async: false
+            });
         },
         /**
          * Checks, whether two HTML elements overlap.
@@ -3338,7 +3882,6 @@ function Ing() {
          */
         save: function() {
             // -- clearing form timer - only in prototype
-
             clearTimeout(formTimer);
             var cnf = this.parent.config;
             var mod = $(cnf.module);
@@ -3415,147 +3958,32 @@ function Ing() {
         startPlayback: function(id) {
             var mark = Ing.findInDOM().data.moviePlayed;
             if(!mark) {
-                playMovie('/content/modules/' + id + '/?format=xml', 'playlist', false, playingIndex);
+                app.player.playEmbedded(id, 'playlist', false, playingIndex);
                 mark = true;
+            }
+        },
+        showHideSignOffButton: function(moduleId) {
+            if($('#courseSignOff').length) {
+                $.get(
+                    '/content/show-sign-off-button/'+moduleId+'/?token=' + app.config.ocl_token,
+                    function(data, status, xmlHttpRequest){
+                        if(typeof data != 'object'){ // IE bug --
+                            data = $.parseJSON(data);
+                        }
+                        if(data.status == 'OK' && data.show){
+                            $('#courseSignOff').show();
+                            return false;
+                        } else {
+                            $('#courseSignOff').hide();
+                        }
+                });
             }
         }
     },
     /**
-     * Flash player
+     * HTML5/Flash player
      */
-    this.player = {
-        parent: this,
-        /**
-         * Player API.
-         *
-         * API consists of two groups of functions.
-         * One group controls flash player using JS.
-         * The other group is used to receive callbacks
-         * from the player.
-         *
-         * @todo: Move the old api here.
-         */
-        api: {
-            /**
-             * Object holding handler functions
-             */
-            handlers: {},
-            /**
-             * Registering action handler
-             */
-            register: function(name, type) {
-                this.handlers[type] = name;
-                return true;
-            },
-            /**
-             * Unregistering action handler
-             */
-            unregister: function(type) {
-                delete this.handlers[type];
-            },
-            /**
-             * Retrieving action handler of agiven type.
-             *
-             * Note: This function is used by a flash player
-             * to get a proper function assigned to
-             * a specified event.
-             */
-            get: function(type) {
-                if(this.handlers[type]) {
-                    return this.handlers[type];
-                }
-                return false;
-            },
-            /**
-             * Starts playback from a given index
-             *
-             * @todo: Write the function body.
-             */
-            play: function(i) {
-                document.getElementById('video').goTo(i);
-            }
-        },
-        /**
-         * Initializing. Binds player displaying functionality
-         * to a splash. Displays the player using nyroModal window.
-         */
-        init: function() {
-            var cnf = this.parent.config.player;
-            $(cnf.splash).live('click', function(event) {
-                event.preventDefault();
-                var parent = Ing.findInDOM();
-                var obj = parent.data.files[parent.helpers.find($(parent.config.fileId).html())];
-                var bg = $('<div class="modalBg"></div>');
-                var flash = $('<div class="flashWrapper"><a href="javascript:void(0);" class="closeFW oneElement"></a><div id="flash"></div></div>');
-                bg.css({
-                    height: $(window).height(),
-                    width: $(window).width()
-                });
-                flash.css({
-                    left: $(window).width() / 2 - 350,
-                    top: 10
-                });
-                bg.appendTo($('body'));
-                flash.appendTo($('body'));
-                bg.click(function(){
-                    flash.remove();
-                    $(this).unbind('click').remove();
-                });
-								$('.flashWrapper .closeFW').click(function(){
-										flash.remove();
-										bg.unbind('click').remove();
-								});
-                swfobject.embedSWF(
-                    app.config.mediaURL + app.config.player.url,
-                    "flash",
-                    "700",
-                    "500",
-                    "9.0.0",
-                    false,
-                    {
-                        'relativeURL': app.config.mediaURL,
-                        'contentURL': encodeURIComponent(obj.url),
-                        'cType': parent.data.filetypes[obj.type],
-                        'duration': encodeURIComponent(obj.duration),
-                        'pagesNum': encodeURIComponent(obj.pages_num),
-                        'allow_downloading': encodeURIComponent(obj.allow_downloading),
-                        'siteLanguage': siteLanguage
-                    },{
-                        'allowFullscreen': 'true',
-                        'allowScriptAccess': 'always',
-                        'wmode': 'transparent'
-                    },{}
-                 );
-
-                return false;
-            });
-        },
-        /**
-         * Visualizes playback state and passes
-         * active index to Player API.
-         */
-        play: function(index) {
-            this.saveState(index);
-            $(this.parent.config.module).find('li').each( function(i) {
-                if(i == index) {
-                    $(this).addClass('current');
-                    Ing.findInDOM().player.api.play(index + 1);
-                } else {
-                    $(this).removeClass('current');
-                }
-            });
-        },
-        /**
-         * Storing currently played segment in a cookie
-         * to provide "Continue course" functionality
-         */
-        saveState: function(state) {
-            this.parent.helpers.cookie.set('ing_last', JSON.stringify({
-                'courseId': app.data.moduleJSON.meta.id,
-                'index': state
-            }), this.parent.config.cookieTime);
-        }
-    },
+    this.player = {},
     /**
      * Roller object. Displays fileslist in a roller-style list.
      */
@@ -3566,13 +3994,16 @@ function Ing() {
          */
         addDraggable: function(elem) {
             $(elem).draggable({
-                helper: 'clone',
+				helper: function(event){
+					var clone = $(event.target).parents('li');
+					return $('<div class="mainHelper"></div>').attr('id', $(this).attr('id')).html(clone.html());
+				},
                 opacity: 0.5,
                 placeholder: 'holds',
                 appendTo: 'body',
                 scroll: false,
                 connectToSortable: '.ui-sortable',
-                'stop': function(event, ui) {
+                stop: function(event, ui) {
                     var ing = Ing.findInDOM();
                     var cnf = ing.config;
                     ing.helpers.computeWidth(cnf.shelf.substr(1));
@@ -3586,26 +4017,26 @@ function Ing() {
         addScrollable: function() {
             var cnf = this.parent.config;
             var that = this;
-						var beforeIndex;
-						var newIndex=1;
-						var scr;
+			var beforeIndex;
+			var newIndex=1;
+			var scr;
             $(cnf.roller).scrollable({
                 circular: false,
                 mousewheel: true,
-								onBeforeSeek: function() {
-										scr = that.scr();
-										beforeIndex = scr.getIndex() + 1;
-										//console.log( '[before:'+beforeIndex+']' );
-										//console.log( '[after:'+newIndex+']' );
-										if ( (beforeIndex != newIndex) || (newIndex === 'undefined') )
-										{
-												return false;
-										}
-								},
+				onBeforeSeek: function() {
+						scr = that.scr();
+						beforeIndex = scr.getIndex() + 1;
+						//console.log( '[before:'+beforeIndex+']' );
+						//console.log( '[after:'+newIndex+']' );
+						if ( (beforeIndex != newIndex) || (newIndex === 'undefined') )
+						{
+								return false;
+						}
+				},
                 onSeek: function() {
                     scr = that.scr();
-										newIndex = scr.getIndex() + 1;
-										//console.log( '[after:'+newIndex+']' );
+					newIndex = scr.getIndex() + 1;
+					//console.log( '[after:'+newIndex+']' );
 
                     $(cnf.rollerNavi).children('a').removeClass('active');
                     $(cnf.rollerNavi).children('#'+scr.getIndex()).addClass('active');
@@ -3720,11 +4151,11 @@ function Ing() {
                 },
                 track0: []
             }
-            if(($('#shelfTitle').val().trim() != '') ){
+            if(($.trim($('#shelfTitle').val()) != '') ){
                 $('#shelfId').attr('disabled', 'disabled');
             }
             if($('#shelfId').attr('disabled')) {
-                json.meta.title = $('#shelfTitle').val().trim();
+                json.meta.title = $.trim($('#shelfTitle').val());
             }else{
                 json.meta.title = $('#shelfId :selected').html();
                 var elems = mod.find('li').each( function(i) {
@@ -3742,7 +4173,7 @@ function Ing() {
                 });
             }
 
-            if(($('#shelfTitle').val().trim() != '')){
+            if(($.trim($('#shelfTitle').val()) != '')){
                 $('#shelfTitle').val('');
                 $('#shelfId').removeAttr('disabled');
                 $(this.parent.config.shelf).children('ul').html('');
@@ -3811,8 +4242,9 @@ function Ing() {
         }
         var that = this;
         if(url) {
-            app.helpers.throbber('#rollerWrapper');
-
+            if (!!document.getElementById('rollerWrapper')) {
+            	app.helpers.throbber('#rollerWrapper');
+            }
             $.get(
             url, function(data) {
                 if(typeof data != 'object') { // IE bug --
@@ -3867,7 +4299,12 @@ function Ing() {
                     that.roller.addScrollable();
                     that.loadFiles();
                 }
-                app.helpers.throbber('#rollerWrapper', 'remove');
+                if (!!document.getElementById('rollerWrapper')) {
+                	app.helpers.throbber('#rollerWrapper', 'remove');
+                }
+                if ($('#rollerItems li.active').length == 0) {
+                    $('#rollerWrapper').trigger('loaded');                	
+                }
             });
 
             //console.log("get2 ends");
@@ -3912,7 +4349,7 @@ function Ing() {
                     '/administration/mycontent/',
                     function(data){
                         var root = $(that.id + ' .content dl');
-                        root.append('<dt>' + t.TOTAL_NUMBER_OF_MY_CONTENT + ':</dt><dd>' + data.total + '</dd>');
+                        root.append('<dt>' + t.TOTAL_CONTENT + ':</dt><dd>' + data.total + '</dd>');
                         root.append('<dt>' + t.VIDEO + ':</dt><dd>' + data.video + '</dd>');
                         root.append('<dt>' + t.AUDIO + ':</dt><dd>' + data.audio + '</dd>');
                         root.append('<dt>' + t.IMAGE + ':</dt><dd>' + data.image + '</dd>');
@@ -3950,7 +4387,7 @@ function Ing() {
                     '/administration/myreports/',
                     function(data){
                         var root = $(that.id + ' .content dl');
-                        root.append('<dt>' + t.MY_REPORTS + ':</dt><dd>' + data.total + '</dd>');
+                        root.append('<dt>' + t.TOTAL_REPORTS + ':</dt><dd>' + data.total + '</dd>');
                         ing.helpers.throbber(that.id, 'remove');
                 });
             }
@@ -3965,10 +4402,29 @@ function Ing() {
                     '/administration/mymodules/',
                     function(data){
                         var root = $(that.id + ' .content dl');
-                        root.append('<dt>' + t.TOTAL_NUMBER_OF_MY_MODULES + ':</dt><dd>' + data.total + '</dd>');
+                        root.append('<dt>' + t.TOTAL_MODULES + ':</dt><dd>' + data.total + '</dd>');
                         root.append('<dt>' + t.DRAFTS + ':</dt><dd>' + data.drafts + '</dd>');
                         root.append('<dt>' + t.ACTIVE + ':</dt><dd>' + data.active + '</dd>');
                         root.append('<dt>' + t.DEACTIVATED + ':</dt><dd>' + data.deactivated + '</dd>');
+                        ing.helpers.throbber(that.id, 'remove');
+                });
+            }
+        },
+        'my_templates_stats': function(id){
+            this.id = '#' + id;
+            this.init = function(){
+                var ing = Ing.findInDOM();
+                var that = this;
+                ing.helpers.throbber(this.id);
+                $.get(
+                    '/administration/mytemplates/',
+                    function(data){
+                        var root = $(that.id + ' .content dl');
+                        root.append('<dt>' + t.TOTAL_NUMBER_OF_TEMPLATES + ':</dt><dd>' + data.total + '</dd>');
+//                        root.append('<dt>' + t.TOTAL_MODULES + ':</dt><dd>' + data.total + '</dd>');
+//                        root.append('<dt>' + t.DRAFTS + ':</dt><dd>' + data.drafts + '</dd>');
+//                        root.append('<dt>' + t.ACTIVE + ':</dt><dd>' + data.active + '</dd>');
+//                        root.append('<dt>' + t.DEACTIVATED + ':</dt><dd>' + data.deactivated + '</dd>');
                         ing.helpers.throbber(that.id, 'remove');
                 });
             }

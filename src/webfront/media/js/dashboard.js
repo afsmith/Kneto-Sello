@@ -4,7 +4,28 @@ var ldap_error = false;
 $(document).ready(function() {
     app.config.mediaURL = mediaURL;
     app.run();
+    app.fitAdminTools = function() {
+    	var menuHeight, contHeight, menuHeightDiff;
+    	
+    	app.helpers.throbber('#adm_toolsTab', 'remove');
+    	$('#adm_categories').attr('style', '');
+    	menuHeight = $('#adm_categories').outerHeight();
+    	menuHeightDiff = menuHeight - $('#adm_categories').height();
+		contHeight = $('.modalContent').innerHeight();
+    	
+    	if (menuHeight < contHeight){
+    		$('#adm_categories').height(contHeight - menuHeightDiff);
+    	} else {
+    		$('.modalContent').attr('style', function(i, currentStyle) { 
+    			return currentStyle + '; height: ' + menuHeight + 'px !important;';
+    		});
+    	}
+    }
+    
+    var fitAdminTools = app.fitAdminTools;
 
+    var savedMsg = '<div class="admSettingsSaved modalContent"><span>' + t.SETTING_SAVED + '</span></div>';
+    
     // -- initializing widgets
     $('.widget').each(function() {
         var w = new window["app"]["widgets"][$(this).attr('id')]($(this).attr('id'));
@@ -24,10 +45,6 @@ $(document).ready(function() {
                 // -- CONTENT
 
                 $('#id_quality_of_content').sb();
-
-                // -- Messages template
-                $("#selectMessageTemplate").sb();
-                $("#selectMessageTemplate").change();
 
                 // -- Fix for SAFARI browser
                 $('ul.selectbox').css("width","auto");
@@ -219,11 +236,16 @@ $(document).ready(function() {
                  $(this).parents('form').serialize(),
                  function(data, status, xmlHttpRequest) {
                      if (xmlHttpRequest.status == 201) {
-												new app.widgets['administrative_tools']('administrative_tools').init();
-                        $.nmTop().close();
+                        $('#adm_toolsTab #selectedMessage').html(savedMsg);
+                        //new app.widgets['administrative_tools']('administrative_tools').init();
+                        //$.nmTop().close();
                     } else {
-                        $('.nyroModalLink').html(data);
+                        $('#adm_toolsTab #selectedMessage').html(data);
+                        $('#id_group_type').sb();
+                        $('#id_use_ldap').change();
+                        //$('.nyroModalLink').html(data);
                     }
+                    fitAdminTools();
                  });
         }
         return false;
@@ -239,21 +261,21 @@ $(document).ready(function() {
 			//					$.nmTop().close();
 			//			});
 
-				$.post(
-						$(this).parents('form').attr('action'),
-						$(this).parents('form').serialize(),
-						function(data, status, xmlHttpRequest) {
-								if (xmlHttpRequest.status == 201) {
-									 new app.widgets['administrative_tools']('administrative_tools').init();
-									 $.nmTop().close();
-								} else {
-										$('.nyroModalLink').html(data);
-										$('#id_quality_of_content').sb();
-										$('.nyroModalLink a.close').click(function(){
-												$.nmTop().close();
-										});
-								}
-				});
+        $.post(
+            $(this).parents('form').attr('action'),
+            $(this).parents('form').serialize(),
+            function(data, status, xmlHttpRequest) {
+                if (xmlHttpRequest.status == 201) {
+                    $('#adm_toolsTab #selectedMessage').html(savedMsg);
+                } else {
+                    $('#adm_toolsTab #selectedMessage').html(data);
+                    $('#id_quality_of_content').sb();
+                    $('.nyroModalLink a.close').click(function(){
+                        $.nmTop().close();
+                    });
+                }
+                fitAdminTools();
+        });
 
         return false;
     });
@@ -263,11 +285,14 @@ $(document).ready(function() {
 						$(this).parents('form').serialize(),
 						function(data, status, xmlHttpRequest) {
 								if (xmlHttpRequest.status == 201) {
-									 new app.widgets['administrative_tools']('administrative_tools').init();
-									 $.nmTop().close();
+                                    $('#adm_toolsTab #selectedMessage').html(savedMsg);
+									// new app.widgets['administrative_tools']('administrative_tools').init();
+									// $.nmTop().close();
 								} else {
-									$('.nyroModalLink').html(data);
+                                    $('#adm_toolsTab #selectedMessage').html(data);
+									//$('.nyroModalLink').html(data);
 								}
+								fitAdminTools();
 				});
 
         return false;
@@ -293,8 +318,12 @@ $(document).ready(function() {
             $(this).parents('form').ajaxSubmit({
                 success: function(data) {
                     if(data.status == "OK") {
-                        $('.nyroModalClose').trigger('click');
+                        $('#adm_toolsTab #selectedMessage').html(savedMsg);
+                    } else {
+                        $('#GUISettingsForm div.error').remove()
+                        $('#GUISettingsForm').prepend($('<div>').addClass('error').append(data.message));
                     }
+                    fitAdminTools();
                     //TODO handle errors
                 },
                 dataType: 'json'
@@ -305,9 +334,51 @@ $(document).ready(function() {
         return false;
     });
 
+    $('#id_use_logo_as_title').live('change', function(){
+        if($(this).attr('checked')){
+//            console.log('checked');
+        }else{
+            var label = $(this).attr('id');
+            label = label.split('id_')[1];
+            //$("#id_url_for_dms").attr('disabled', true);
+            var data = {
+                'action': 'delete',
+                'data': label,
+                'scope': 'GUI_SETTINGS_ENTRY_MAP'
+            };
+            $.post(
+                '/administration/gui-settings/',
+                JSON.stringify(data),
+                function(data){
+                    app.helpers.throbber('#GUISettingsForm', 'remove');
+                }
+            );
+        }
+    });
+
     $("#GUISettingsForm .file").live('change', function() {
         var span = $(this).prev();
         span.text($(this).attr("value"));
+    });
+
+    $("#GUISettingsForm #logo_file").live('change', function() {
+        // Check if logo file is uploaded
+        //  if is, enable 'use_as_logo' checkbox
+        var checkbox = $("#id_use_logo_as_title");
+        if(checkbox.attr('disabled')){
+            checkbox.removeAttr("disabled");
+        }
+    });
+
+    $("#logo_file-back_to_default").live('click', function() {
+        // Check if logo file is uploaded
+        //  if isn't, disable 'use_as_logo' checkbox
+        var checkbox = $("#id_use_logo_as_title");
+        if(! checkbox.attr('disabled')){
+            checkbox.attr("disabled", "disabled");
+            checkbox.removeAttr("checked");
+            checkbox.trigger("change");
+        }
     });
 
     $("#GUISettingsForm a.back_to_default").live('click', function() {
@@ -316,7 +387,8 @@ $(document).ready(function() {
         var span = file.prev();
         span.text(span.attr("filename"));
     });
-    $("#application_icons-back_to_default, #css_file-back_to_default, #filetype_icons-back_to_default, #progress_icons-back_to_default, #main_menu_bar-back_to_default").live('click',function() {
+
+    $("#application_icons-back_to_default, #css_file-back_to_default, #filetype_icons-back_to_default, #progress_icons-back_to_default, #main_menu_bar-back_to_default, #logo_file-back_to_default, #bg_file-back_to_default").live('click',function() {
         app.helpers.throbber('#GUISettingsForm');
         var label = $(this).attr('id');
         var action = label.substr(0, label.indexOf('-'));
@@ -337,6 +409,12 @@ $(document).ready(function() {
 		var file;
         switch(action)
         {
+        	case 'logo_file':
+        		file = 'default_logo';
+        		break;
+        	case 'bg_file':
+        		file = 'kneto-bg.png';
+        		break;
         	case 'css_file':
         		file = 'default.less';
         		break;
@@ -358,70 +436,72 @@ $(document).ready(function() {
         return false;
     });
 
-
-
-    //nasty hack by MJA - custom.file.input creates a lot of divs for
-    // fileinput files which stay on page after nyroModal close -
-    // are unvisible and clickable
-    $(".nyroModalClose, .nyroModalBg").live('click', function() {
-       $("div.custom-file-input").remove();
-    });
-
     $("#ldapGroupWrapper .button-close").live('click', function() {
 		  new app.widgets['administrative_tools']('administrative_tools').init();
     	$.nmTop().close();
     	return false;
     });
 
-
-
-    $("#selectMessageTemplate").live('change', function() {
-    	var id = $(this).val();
-    	$(".messageContent").hide();
-    	$(".messageTitle").hide();
-    	$(".messageDescription").hide();
-    	$("#messageTemplateSubject-" + id).show();
-    	$("#messageTemplate-"+ id).show();
-    	$("#messageDescription-" + id).show();
+    $('#adm_categories li').live('click', function(){
+    	$('#selectedMessage').empty();
+    	app.helpers.throbber('#adm_toolsTab');
+    	$("div.custom-file-input").remove();
+        $(this).addClass('active');
+        $(this).siblings('li').removeClass('active');
     });
 
-    $('#MessagesTemplateForm .button-default').live('click', function() {
-    	var messageId = $("#selectMessageTemplate").val();
-    	var defaultText = $('#messageTemplate-' + messageId + ' input[type="hidden"]').val();
-    	jQuery('#messageTemplate-' + messageId + ' textarea').val(defaultText);
-
-        var defaultSubject = $('#messageTemplateSubject-' + messageId + ' input[type="hidden"]').val();
-    	jQuery('#messageTemplateSubject-' + messageId + ' input[type="text"]').val(defaultSubject);
-
-    	return false;
-    });
-
-    $('#MessagesTemplateForm .button-submit').live('click', function() {
-    	var data = {
-           'action': 'save',
-           'data': { }
-        };
-
-        $('#selectMessageTemplate option').each(function(id) {
-        	var id = $(this).val();
-        	var title = $('#messageTemplateSubject-' + id + ' input').val();
-        	var text = $('#messageTemplate-' + id + ' textarea').val();
-        	data.data[id] = {'title': title , 'text' : text} ;
+    $('#adm_content').live('click', function(){
+        $.get('/administration/content-settings/', function(data) {
+            $('#adm_toolsTab #selectedMessage').html(data);
+            $('#id_quality_of_content').sb();
+            $('#id_use_dms').change();
+            fitAdminTools();
         });
-
-		$.post(
-			'/messages/templates/save/',
-			JSON.stringify(data),
-			function(data) {
-				if(data.status == "OK") {
-					$('.nyroModalClose').trigger('click');
-			    }
-			//console.log(data);
-		});
-
-        return false;
-
-    })
-
+    });
+    $('#adm_gui').live('click', function(){
+        $.get('/administration/gui-settings/', function(data) {
+            $('#adm_toolsTab #selectedMessage').html(data);
+            $('#id_default_language').sb();
+            fitAdminTools();
+        });
+    });
+    $('#adm_reports').live('click', function(){
+        $.get('/administration/reports/', function(data) {
+            $('#adm_toolsTab #selectedMessage').html(data);
+            app.reports.loadReports();
+            //$('#id_default_language').sb();
+            fitAdminTools();
+        });
+    });
+    $('#adm_registration').live('click', function(){
+        $.get('/administration/self-register-settings/', function(data) {
+            $('#adm_toolsTab #selectedMessage').html(data);
+            $('#selectMessageTemplate').sb();
+            $('#selectMessageTemplate').change();
+            fitAdminTools();
+        });
+    });
+    $('#adm_messages').live('click', function(){
+        $.get('/messages/templates/', function(data) {
+            $('#adm_toolsTab #selectedMessage').html(data);
+            fitAdminTools();
+        });
+    });
+    $('#adm_ldap').live('click', function(){
+        $.get('/administration/ldap/', function(data) {
+            $('#adm_toolsTab #selectedMessage').html(data);
+            $('#id_group_type').sb();
+            $('#id_use_ldap').change();
+            fitAdminTools();
+        });
+    });
+    $('#adm_ldap_groups').live('click', function(){
+        $.get('/administration/ldap-groups/', function(data) {
+            $('#adm_toolsTab #selectedMessage').html(data);
+            //$('#id_group_type').sb();
+            //$('#id_use_ldap').change();
+            fitAdminTools();
+        });
+    });
 
 });

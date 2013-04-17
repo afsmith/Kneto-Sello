@@ -19,7 +19,7 @@
 	// Unescapify HTML
 	$.unescapifyHTML = function(text){
 		if(text) {
-			return $('<div/>').html(text).text();
+			return text.replace('&gt;',  '>').replace('&lt;', '<').replace('&amp;', '&');//$('<div/>').html(text).text();
 		} else {
 			return '$$_undefined_unescapifyHTML()_$$';
 		}

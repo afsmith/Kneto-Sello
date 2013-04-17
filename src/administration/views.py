@@ -30,6 +30,7 @@ from django.views.generic.simple import direct_to_template, direct_to_template
 
 from ldap.dn import dn2str, str2dn
 from content.course_states import Draft, Active, ActiveAssign, ActiveInUse, Deactivated, DeactivatedUsed, Removed
+from messages_custom.models import MailTemplate
 from content.models import File, Course
 from management import models as manage_models
 from plato_common import decorators, decorators
@@ -40,6 +41,7 @@ from utils import check_group_name_existence, LDAPSynchronizer, LDAPSynchError, 
 import json
 import os
 import shutil
+import subprocess
 
 LDAP_SETTINGS_ENTRY_MAP = {'use_ldap': models.ConfigEntry.AUTH_LDAP_IS_USED,
                    'ldap_url': models.ConfigEntry.AUTH_LDAP_SERVER_URI,
@@ -57,30 +59,38 @@ CONTENT_SETTINGS_ENTRY_MAP = {'quality_of_content': models.ConfigEntry.CONTENT_Q
                               'dms_path': models.ConfigEntry.CONTENT_DMS_PATH,}
 GUI_SETTINGS_ENTRY_MAP = {'default_language': models.ConfigEntry.GUI_DEFAULT_LANGUAGE,
                           'custom_web_title': models.ConfigEntry.GUI_CUSTOM_WEB_TITLE,
-                          'footer': models.ConfigEntry.GUI_FOOTER,}
+                          'footer': models.ConfigEntry.GUI_FOOTER,
+                          'use_logo_as_title': models.ConfigEntry.GUI_LOGO_AS_TITLE,
+                          'use_bg_image': models.ConfigEntry.GUI_IMAGE_AS_BG,}
 
 SELF_REGISTER_SETTINGS_ENTRY_MAP = {'token': models.ConfigEntry.SELF_REGISTER_TOKEN}                       
 
 GUI_SETTINGS_FILES = {'css_file': models.ConfigEntry.GUI_CSS_FILE,
+                      'logo_file': models.ConfigEntry.GUI_LOGO_FILE,
+                      'bg_file': models.ConfigEntry.GUI_BG_FILE,
                       'application_icons': models.ConfigEntry.GUI_APPLICATION_ICONS,
                       'filetype_icons': models.ConfigEntry.GUI_FILETYPE_ICONS,
                       'progress_icons': models.ConfigEntry.GUI_PROGRESS_ICONS,
                       'main_menu_bar': models.ConfigEntry.GUI_MAIN_MENU_BAR}
 
 GUI_FILES_NAMES = {'application_icons': settings.CUSTOM_APPLICATION_ICONS_NAME,
-                   'css_file':settings.CUSTOM_CSS_FILE_NAME,
+                   'logo_file': settings.CUSTOM_LOGO_FILE_NAME,
+                   'bg_file': settings.CUSTOM_BG_FILE_NAME,
+                   'css_file': settings.CUSTOM_CSS_FILE_NAME,
                    'filetype_icons': settings.CUSTOM_FILETYPE_ICONS_NAME,
                    'progress_icons': settings.CUSTOM_PROGRESS_ICONS_NAME,
                    'main_menu_bar': settings.CUSTOM_MAIN_MENU_BAR_NAME}
 
 GUI_FILES_NAMES_DEFAULT = {'application_icons': settings.DEFAULT_APPLICATION_ICONS_NAME,
+                           'logo_file': settings. DEFAULT_LOGO_FILE_NAME,
+                           'bg_file': settings. DEFAULT_BG_FILE_NAME,
                            'css_file':settings.DEFAULT_CSS_FILE_NAME,
                            'filetype_icons': settings.DEFAULT_FILETYPE_ICONS_NAME,
                            'progress_icons': settings.DEFAULT_PROGRESS_ICONS_NAME,
                            'main_menu_bar': settings.DEFAULT_MAIN_MENU_BAR_NAME}
                                   
 
-BOOLEAN_ENTRIES = ['use_ldap', 'use_dms']
+BOOLEAN_ENTRIES = ['use_ldap', 'use_dms', 'use_logo_as_title', 'use_bg_image']
 
 GROUP_EXISTS_MESSAGE = 'Group %s already exists, users from %s will be added to that group.'
 
@@ -103,20 +113,27 @@ def get_initial_form_values(entry_map):
 def dashboard(request):
     if request.user.get_profile().is_superadmin:
         ctx = {
-            'widgets': ['my_content_stats', 'my_groups_stats', 'my_reports_stats', 'my_modules_stats', 'administrative_tools']
+            'widgets': ['my_groups_stats', 'my_reports_stats', 'my_templates_stats', 'administrative_tools']
         }
     else:
         ctx = {
-               'widgets': ['my_content_stats', 'my_groups_stats', 'my_modules_stats', 'my_reports_stats']
+               'widgets': ['my_groups_stats', 'my_templates_stats', 'my_reports_stats']
         }
     ctx["settings"] = {
         "REGISTRATION_OPEN": settings.REGISTRATION_OPEN
         }
+    ctx["tabname"] = 'start'
     return direct_to_template(request, 'administration/dashboard.html', ctx)
 
 @decorators.is_superadmin
 def ldap_json(request):
     return bls_django.HttpJsonResponse(get_initial_form_values(LDAP_SETTINGS_ENTRY_MAP))
+
+@decorators.is_superadmin
+def adm_tools_site(request):
+    return direct_to_template(request, 'administration/adm_tools.html',
+                             {'tabname': 'administration_tools',
+                              'REGISTRATION_OPEN': settings.REGISTRATION_OPEN})
 
 @decorators.is_superadmin
 def administrative_tools(request):
@@ -184,6 +201,13 @@ def mymodules_stats(request):
                                         'deactivated': deactivated})
 
 @decorators.is_admin_or_superadmin
+def mytemplates_stats(request):
+    total = MailTemplate.objects.filter(owner=None).count()
+    total_user = MailTemplate.objects.filter(owner=request.user).count()
+    return bls_django.HttpJsonResponse({'total': total,
+                                        'total_user': total_user})
+    
+@decorators.is_admin_or_superadmin
 def mycontent_stats(request):
     total = audio = video = image = text = slides = scorm = 0
 
@@ -238,25 +262,47 @@ def gui_settings(request):
         form = forms.GuiSettingsForm(request.POST, request.FILES)
         try:
             data = json.loads(request.raw_post_data)
-            if data['action'] == 'delete' and data['data']:
-                models.ConfigEntry.objects.filter(config_key=GUI_SETTINGS_FILES[data['data']]).delete()
+            if 'scope' in data and data['scope'] == 'GUI_SETTINGS_ENTRY_MAP':
+                if data['action'] == 'delete' and data['data']:
+                    entry = models.ConfigEntry.objects.filter(
+                        config_key=GUI_SETTINGS_ENTRY_MAP[data['data']]
+                    )
+                    models.ConfigEntry.objects.filter(
+                        config_key=GUI_SETTINGS_ENTRY_MAP[data['data']]
+                    ).delete()
 
-                shutil.copy(os.path.join(settings.CSS_TEMPLATES_DIR, GUI_FILES_NAMES_DEFAULT[data['data']]),
+#                gui_file_name = GUI_FILES_NAMES_DEFAULT[data['data']]
+#                shutil.copy(os.path.join(settings.CSS_TEMPLATES_DIR, gui_file_name),
+#                            os.path.join(settings.CSS_TEMPLATES_DIR, GUI_FILES_NAMES[data['data']]))
+                return http.HttpResponse("""{"status": "OK"}""") 
+
+            elif data['action'] == 'delete' and data['data']:
+                models.ConfigEntry.objects.filter(
+                                    config_key=GUI_SETTINGS_FILES[data['data']]
+                                 ).delete()
+
+                gui_file_name = GUI_FILES_NAMES_DEFAULT[data['data']]
+                shutil.copy(os.path.join(settings.CSS_TEMPLATES_DIR, gui_file_name),
                             os.path.join(settings.CSS_TEMPLATES_DIR, GUI_FILES_NAMES[data['data']]))
-                return http.HttpResponse("""{"status": "OK"}""")        
+                return http.HttpResponse("""{"status": "OK"}""")
             
         except (TypeError, ValueError):
             pass
 
         if form.is_valid():
-            _save_settings(form, GUI_SETTINGS_ENTRY_MAP)
+            _save_settings(form, GUI_SETTINGS_ENTRY_MAP)         
 
             for file_name, file_key in GUI_SETTINGS_FILES.items():
+                print file_key
                 if form.cleaned_data[file_name] and type(form.cleaned_data[file_name]) is not str:
-                    path = os.path.join(settings.CSS_TEMPLATES_DIR, GUI_FILES_NAMES[file_name])
+                    file_name_gui = GUI_FILES_NAMES[file_name]
+                    if not os.path.splitext(file_name_gui)[1]:
+                        file_name_gui += os.path.splitext(
+                            form.cleaned_data[file_name].name)[1]
+
+                    path = os.path.join(settings.CSS_TEMPLATES_DIR, file_name_gui)
                     if os.path.exists(path):
                         os.remove(path)
-                    print file_name + " " + file_key
                     with closing(storage.default_storage.open(path, 'wb')) as fh:
                         for chunk in form.cleaned_data[file_name].chunks():
                             fh.write(chunk)
@@ -266,7 +312,16 @@ def gui_settings(request):
                         config_entry = models.ConfigEntry(config_key=file_key)
                     config_entry.config_val=form.cleaned_data[file_name].name
                     config_entry.save()
-            
+                    
+            if not _call_styles_compiler():
+                shutil.copy(os.path.join(settings.CSS_TEMPLATES_DIR, GUI_FILES_NAMES_DEFAULT['css_file']),
+                            os.path.join(settings.CSS_TEMPLATES_DIR, GUI_FILES_NAMES['css_file']))
+                _call_styles_compiler()
+                config_entry = get_entry('GUI_CSS_FILE')
+                if not config_entry:
+                        config_entry = models.ConfigEntry(config_key='GUI_CSS_FILE')
+                config_entry.config_val=GUI_FILES_NAMES_DEFAULT['css_file']
+                config_entry.save()
     
             return http.HttpResponse("""{"status": "OK"}""")
 
@@ -290,11 +345,26 @@ def gui_settings(request):
 #        
         else:
             #TODO handle errors
-            return http.HttpResponse("{\"status\": \"ERROR\", \"message\": \"TODO.\"}")
+            return bls_django.HttpJsonResponse({"status": "ERROR", "message": str(form.errors)})
+            #return http.HttpResponse("{\"status\": \"ERROR\", \"message\": \"TODO.\"}")
     else:
+        logo_as_title_entry = models.ConfigEntry.objects.filter(
+            config_key=GUI_SETTINGS_ENTRY_MAP['use_logo_as_title']
+        )
         form = forms.GuiSettingsForm(initial=get_initial_form_values(GUI_SETTINGS_ENTRY_MAP))
+        gui_logo_filename = models.get_entry_val(ConfigEntry.GUI_LOGO_FILE) or ''
+        gui_logo_filename_parts = os.path.splitext(gui_logo_filename)
+        gui_logo_file_ext = gui_logo_filename_parts[1] or ''
+
         return direct_to_template(request, 'administration/gui_settings.html', {
             'form': form,
+
+            'bg_file_name': models.get_entry_val(ConfigEntry.GUI_BG_FILE) or settings.DEFAULT_BG_FILE_NAME,
+            'bg_file_url': settings.CSS_TEMPLATES_URL +'/'+ settings.CUSTOM_BG_FILE_NAME,
+
+            'logo_file_name': models.get_entry_val(ConfigEntry.GUI_LOGO_FILE) or settings.DEFAULT_LOGO_FILE_NAME,
+            'logo_file_url': settings.CSS_TEMPLATES_URL +'/'+ settings.CUSTOM_LOGO_FILE_NAME + gui_logo_file_ext,
+
             'css_file_name': models.get_entry_val(ConfigEntry.GUI_CSS_FILE) or settings.DEFAULT_CSS_FILE_NAME,
             'css_file_url': settings.CSS_TEMPLATES_URL +'/'+ settings.CUSTOM_CSS_FILE_NAME,
             
@@ -317,8 +387,19 @@ def _save_settings(form, entry_map):
         config_object = models.get_entry(value)
         if not config_object:
             config_object = models.ConfigEntry(config_key=value)
-        config_object.config_val = str(form.cleaned_data[key]).strip()
-        config_object.save()
+        config_val = form.cleaned_data[key]
+        if config_val != None:
+            config_object.config_val = str(form.cleaned_data[key]).strip()
+            config_object.save()
+            
+def _call_styles_compiler():
+    try:
+        script_path = os.path.join(settings.ROOT_DIR, 'compile-styles.sh')
+        if os.path.exists(script_path) and subprocess.call(['sh', script_path]) == 0:
+            return True
+    except subprocess.CalledProcessError as error:
+        return False
+    
 
 @decorators.is_superadmin
 def ldap_settings(request):

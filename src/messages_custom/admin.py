@@ -25,9 +25,13 @@ class MailTemplateAdmin(admin.ModelAdmin):
     list_display = ('name', 'content', 'type', 'default', 'description')
 
 
+class MessageProfileAdmin(admin.ModelAdmin):
+    list_display = ('message', 'ocl')
+
 
 admin.site.register(models.MailTemplateParam, MailTemplateParamAdmin)
 admin.site.register(models.MailTemplate, MailTemplateAdmin)
+admin.site.register(models.MessageProfile, MessageProfileAdmin)
 
 
 # vim: set et sw=4 ts=4 sts=4 tw=78:

@@ -3,7 +3,7 @@
 {% block style %} style="width: 580px;"{% endblock %}
 {% block title %}{% trans "Reports import" %}{% endblock %}
 {% block content %}
-<form id="newReportForm" action="/administration/reports/create/{% if report.id %}{{ report.id }}/{% endif %}" method="post" enctype="multipart/form-data">
+<form id="newReportForm" class="clear" action="/administration/reports/create/{% if report.id %}{{ report.id }}/{% endif %}" method="post" enctype="multipart/form-data">
 {% include "report_template_form.html" %}
 <div style="width: 200px; margin: 0px auto;">
     <a class="button-gray button-big button-submit" href="#" style="margin-top: 10px;">{% trans "Save" %}{% if report.id %} {% trans "changes" %}{% endif %}</a>

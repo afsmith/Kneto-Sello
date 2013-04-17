@@ -9,7 +9,11 @@
 """ Models for administrative settings.
 """
 from django.conf import settings
-from django.core.files.uploadhandler import MemoryFileUploadHandler, FileUploadHandler, StopUpload, UploadFileException, StopFutureHandlers, TemporaryFileUploadHandler
+from django.core.files.uploadhandler import (MemoryFileUploadHandler,
+                                             FileUploadHandler,
+                                             StopUpload, UploadFileException,
+                                             StopFutureHandlers,
+                                             TemporaryFileUploadHandler)
 
 import ldap
 
@@ -33,19 +37,18 @@ class ConfigEntry(models.Model):
     AUTH_LDAP_EMAIL_MAPPING = 'AUTH_LDAP_EMAIL_MAPPING'
     AUTH_LDAP_PHONE_MAPPING = 'AUTH_LDAP_PHONE_MAPPING'
 
-
     AUTH_LDAP_CONFIGS = [AUTH_LDAP_IS_USED,
-                        AUTH_LDAP_SERVER_URI,
-                        AUTH_LDAP_USERS_DN,
-                        AUTH_LDAP_GROUPS_DN,
-                        AUTH_LDAP_USER_DISCRIMINANT,
-                        AUTH_LDAP_GROUP_TYPE,
-                        AUTH_LDAP_GROUP_OBJECT_CLASS]
+                         AUTH_LDAP_SERVER_URI,
+                         AUTH_LDAP_USERS_DN,
+                         AUTH_LDAP_GROUPS_DN,
+                         AUTH_LDAP_USER_DISCRIMINANT,
+                         AUTH_LDAP_GROUP_TYPE,
+                         AUTH_LDAP_GROUP_OBJECT_CLASS]
 
     AUTH_LDAP_USER_ATTRS = [AUTH_LDAP_FIRST_NAME_MAPPING,
-                                 AUTH_LDAP_LAST_NAME_MAPPING,
-                                 AUTH_LDAP_EMAIL_MAPPING,
-                                 AUTH_LDAP_PHONE_MAPPING]
+                            AUTH_LDAP_LAST_NAME_MAPPING,
+                            AUTH_LDAP_EMAIL_MAPPING,
+                            AUTH_LDAP_PHONE_MAPPING]
 
     AUTH_LDAP_USER_ATTRS_MAP = {
         AUTH_LDAP_FIRST_NAME_MAPPING: 'first_name',
@@ -88,26 +91,37 @@ class ConfigEntry(models.Model):
     CONTENT_DMS_PATH = 'CONTENT_DMS_PATH'
     CONTENT_URL_FOR_LOCAL_MEDIA_SERVER = 'CONTENT_URL_FOR_LOCAL_MEDIA_SERVER'
 
+    CONTENT_VIDEO_FORMATS = ['webm', 'ogv', 'mp4', 'flv']
+    CONTENT_AUDIO_FORMATS = ['mp3', 'ogg']
+
     GUI_DEFAULT_LANGUAGE = 'GUI_DEFAULT_LANGUAGE'
     GUI_CUSTOM_WEB_TITLE = 'GUI_CUSTOM_WEB_TITLE'
     GUI_FOOTER = 'GUI_FOOTER'
-    GUI_CSS_FILE = 'GUI_CSS_FILE'   
-    
+    GUI_LOGO_AS_TITLE = 'GUI_LOGO_AS_TITLE'
+    GUI_IMAGE_AS_BG = 'GUI_IMAGE_AS_BG'
+
+    GUI_CSS_FILE = 'GUI_CSS_FILE'
+    GUI_BG_FILE = 'GUI_BG_FILE'
+    GUI_LOGO_FILE = 'GUI_LOGO_FILE'
     GUI_APPLICATION_ICONS = 'GUI_APPLICATION_ICONS'
     GUI_FILETYPE_ICONS = 'GUI_FILETYPE_ICONS'
     GUI_PROGRESS_ICONS = 'GUI_PROGRESS_ICONS'
     GUI_MAIN_MENU_BAR = 'GUI_MAIN_MENU_BAR'
-    
+
     SELF_REGISTER_TOKEN = 'SELF_REGISTER_TOKEN'
 
-    config_key = models.CharField(_('Config entry name'), max_length=255, unique=True)
+    config_key = models.CharField(_('Config entry name'),
+                                  max_length=255,
+                                  unique=True)
     config_val = models.CharField(_('Config entry value'), max_length=255)
+
 
 def _get_quality_type_label(type):
     for tuple in ConfigEntry.QUALITY_TYPES:
         if tuple[0] == type:
             return unicode(tuple[1])
     return
+
 
 def get_entry(key):
     """
@@ -123,27 +137,34 @@ def get_entry(key):
     except ConfigEntry.DoesNotExist:
         return None
 
+
 def get_entry_val(key):
     try:
         return ConfigEntry.objects.get(config_key=key).config_val
     except ConfigEntry.DoesNotExist:
         return None
 
+
 class LDAPGroupConfig(models.Model):
     name = models.CharField(_('Local group name'), max_length=255)
-    group_dn = models.CharField(_('LDAP group DN'), max_length=255, unique=True)
+    group_dn = models.CharField(_('LDAP group DN'), max_length=255,
+                                unique=True)
+
 
 class MaxFileMemoryFileUploadHandler(MemoryFileUploadHandler):
 
-    def handle_raw_input(self, input_data, META, content_length, boundary, encoding=None):
+    def handle_raw_input(self, input_data, META, content_length,
+                         boundary, encoding=None):
         if content_length > settings.FILE_UPLOAD_MAX_MEMORY_SIZE:
             self.activated = False
         else:
             self.activated = True
 
+
 class MaxFileTemporaryFileUploadHandler(TemporaryFileUploadHandler):
 
-    def handle_raw_input(self, input_data, META, content_length, boundary, encoding=None):
+    def handle_raw_input(self, input_data, META, content_length,
+                         boundary, encoding=None):
         if content_length > settings.FILE_UPLOAD_MAX_MEMORY_SIZE:
             self.activated = False
         else:
@@ -151,15 +172,18 @@ class MaxFileTemporaryFileUploadHandler(TemporaryFileUploadHandler):
 
     def new_file(self, file_name, *args, **kwargs):
         if self.activated:
-            super(MaxFileTemporaryFileUploadHandler, self).new_file(file_name, *args, **kwargs)
+            super(MaxFileTemporaryFileUploadHandler, self).new_file(file_name,
+                                                                    *args,
+                                                                    **kwargs)
 
     def receive_data_chunk(self, raw_data, start):
         if self.activated:
-            super(MaxFileTemporaryFileUploadHandler, self).receive_data_chunk(raw_data, start)
+            super(MaxFileTemporaryFileUploadHandler, self).\
+                receive_data_chunk(raw_data, start)
 
     def file_complete(self, file_size):
         if self.activated:
-            super(MaxFileTemporaryFileUploadHandler, self).file_complete(file_size)
+            super(MaxFileTemporaryFileUploadHandler, self).\
+                file_complete(file_size)
         else:
             return
-        

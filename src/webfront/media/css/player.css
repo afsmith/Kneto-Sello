@@ -1,12 +1,463 @@
-#height {height: 500px; margin: 10px 0px; padding: 0px 100px;}
-#video {
-  font-size: 12px;
-  font-weight: bold;
-  height: 500px;
-  line-height: 500px;
-  margin: 0px auto;
-  text-align: center;
-  width: 700px;
+/*
+ * Configurables
+ */
+/*
+ * The configuration point to default image files, if you want
+ * to use custom image file, uncomment proper line
+ */
+/*
+ * Default images
+ */
+/*
+ * Custom images
+ */
+/*
+ * Configurables
+ */
+/*
+ * The configuration point to default image files, if you want
+ * to use custom image file, uncomment proper line
+ */
+/*
+ * Default images
+ */
+/*
+ * Custom images
+ */
+.mplayerWrapper video,
+#videoWrapper video,
+.mplayerWrapper audio,
+#videoWrapper audio {
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
 }
-.sound span {color: #fff;}
-
+.mplayerWrapper.fullscreen,
+#videoWrapper.fullscreen,
+.mplayerWrapper .fullscreen,
+#videoWrapper .fullscreen {
+  background-color: #adadad !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100%;
+  height: 100%;
+  padding: 0 !important;
+}
+.setFullscreen,
+.volumeHandle {
+  cursor: pointer;
+  float: right;
+  margin: 2px 0 2px 10px;
+  width: 19px;
+  height: 20px;
+}
+.setFullscreen {
+  background: url('../img/player/fullscreen.png') center no-repeat;
+}
+.setFullscreen.on {
+  background: url('../img/player/fullscreen_off.png') center no-repeat;
+}
+.volumeHandle {
+  background: url('../img/player/sound_on.png') center no-repeat;
+}
+.volumeHandle.off {
+  background: url('../img/player/sound_off.png') center no-repeat;
+}
+#mplayer {
+  overflow: auto;
+  height: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align: center;
+  margin: auto;
+  vertical-align: middle;
+}
+#mplayer.active #mediaControls {
+  opacity: 1;
+}
+#mplayer.active #imageControls {
+  opacity: 1;
+}
+#mplayer img {
+  display: block;
+  margin: auto;
+}
+#mplayer .imagePlayer {
+  position: relative;
+}
+#mplayer .imagePlayer:not(.original) {
+  width: auto;
+  height: 100%;
+}
+#video {
+  background-size: auto 90%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: none;
+  text-align: center;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  z-index: 101;
+}
+#video.finish {
+  background-color: #696969;
+}
+#video:-webkit-full-screen {
+  background-color: #adadad;
+}
+#video:-moz-full-screen {
+  background-color: #adadad;
+}
+#video:-fullscreen {
+  background-color: #adadad;
+}
+#video.fullscreen {
+  position: absolute;
+  top: 0;
+}
+#video.music {
+  background-size: auto;
+  background-image: url('../img/player/audio.png') !important;
+}
+#video.scorm {
+  background-image: url('../img/file_type_scorm_big.png') !important;
+}
+#video.active .goAhead:not(.disabled),
+#video.active .goBack:not(.disabled),
+#video.active #mediaControls:not(.disabled) {
+  opacity: 1;
+}
+#video.active #imageControls:not(.disabled) {
+  opacity: 1;
+}
+.goodbyeMsg {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+}
+.goodbyeMsg .messageBody {
+  background: white;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font: 12px "Trebuchet MS";
+  line-height: 16px;
+  margin: 0 auto;
+  width: 400px;
+  padding: 16px;
+  text-align: left;
+}
+#flashCustomMsg {
+  background-color: #696969;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 101;
+}
+.msgContainer {
+  width: 320px;
+  height: 128px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: none;
+}
+.msgContainer > div {
+  color: white;
+  font-size: 18px;
+  font-family: Arial, Tahoma, Verdana;
+  line-height: 24px;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: black;
+  border: 2px solid white;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 320px;
+  height: auto;
+  min-width: 300px;
+  min-height: 100px;
+  position: absolute;
+  padding: 12px 16px;
+  top: -50%;
+  left: -50%;
+}
+.msgContainer .msgHeader {
+  font-size: 24px;
+  line-height: 32px;
+}
+.msgContainer .msgBody {
+  color: #a6a6a6;
+  line-height: 22px;
+}
+.msgContainer span {
+  display: block;
+  margin: auto;
+}
+#imageControls {
+  position: absolute;
+  width: 100px
+	height: 24px;
+  right: 6px;
+  bottom: 12px;
+  opacity: 0;
+  z-index: 999;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: opacity 0.15s ease-in;
+  -moz-transition: opacity 0.15s ease-in;
+  -o-transition: opacity 0.15s ease-in;
+  transition: opacity 0.15s ease-in;
+}
+#imageControls.disabled {
+  display: none;
+}
+#imageControls div {
+  cursor: pointer;
+  float: left;
+  width: 19px;
+  height: 20px;
+  margin: 2px 10px 2px 0;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#imageControls .setOriginal {
+  background: url('../img/player/scaleDown.png') center no-repeat;
+}
+#imageControls .setOriginal.on {
+  background: url('../img/player/scaleUp.png') center no-repeat;
+}
+#imageControls .setFullscreen {
+  background: url('../img/player/fullscreen.png') center no-repeat;
+}
+#imageControls .setFullscreen.on {
+  background: url('../img/player/fullscreen_off.png') center no-repeat;
+}
+#mediaControls {
+  background: url('../img/player/bg.png') repeat-x;
+  bottom: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: opacity 0.15s ease-in;
+  -moz-transition: opacity 0.15s ease-in;
+  -o-transition: opacity 0.15s ease-in;
+  transition: opacity 0.15s ease-in;
+  height: 25px;
+  width: 100%;
+  position: absolute;
+  padding-left: 35px;
+  padding-right: 160px;
+  z-index: 100;
+  opacity: 0;
+}
+#mediaControls.disabled {
+  display: none;
+}
+#mediaControls .playerProgress {
+  width: 100%;
+  height: 25px;
+  position: relative;
+  cursor: pointer;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding-right: 17px;
+}
+#mediaControls .progressBg {
+  width: 0;
+  position: relative;
+  top: -23px;
+  margin-top: 2px;
+  background-color: #347FD5;
+  height: 19px;
+}
+#playerBtnPlay {
+  background: url('../img/player/play.png') no-repeat;
+  height: 25px;
+  width: 35px;
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+#playerBtnPlay.pause {
+  background: url('../img/player/pause.png') no-repeat;
+}
+#playButton_bigGray {
+  display: none;
+  margin: 0 auto;
+  height: 50%;
+  width: 50%;
+  position: absolute;
+  overflow: visible;
+}
+#playButton_bigGray div {
+  background: transparent url('../img/bigPlay_gray.png') center no-repeat;
+  bottom: -94px;
+  cursor: pointer;
+  width: 186px;
+  height: 186px;
+  right: -96px;
+  position: absolute;
+}
+#playerRightControls {
+  height: 25px;
+  width: 160px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url('../img/player/separator.png') left no-repeat, url('../img/player/ending.png') right no-repeat;
+  line-height: 25px;
+  top: 0;
+  right: 0;
+  position: absolute;
+  padding: 0 10px 0 14px;
+}
+#playerRightControls span {
+  line-height: 25px;
+  margin: 0 2px;
+  float: left;
+  font-size: 11px;
+}
+#playerSeekHandle {
+  height: 23px;
+  width: 17px;
+  position: relative;
+  left: 0;
+  top: 0;
+  margin: 0;
+  background: url('../img/player/seek.png') center no-repeat;
+}
+#mediaLoader {
+  width: 150px;
+  height: 64px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: none;
+}
+#mediaLoader > div {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 150px;
+  height: 64px;
+  border: 2px solid white;
+  border-radius: 12px;
+  font-family: Arial, Tahoma, Verdana;
+  line-height: 64px;
+  color: white;
+  font-size: 18px;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+#video .goAhead,
+.playerHTML .goAhead,
+#videoWrapper .goAhead,
+.mplayerWrapper .goAhead,
+#assignmentPreviewLesson .goAhead,
+#video .goBack,
+.playerHTML .goBack,
+#videoWrapper .goBack,
+.mplayerWrapper .goBack,
+#assignmentPreviewLesson .goBack {
+  cursor: pointer;
+  width: 90px;
+  height: 69px;
+  position: absolute;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 100;
+  top: 40%;
+  -webkit-transition: opacity 0.15s ease-in;
+  -moz-transition: opacity 0.15s ease-in;
+  -o-transition: opacity 0.15s ease-in;
+  transition: opacity 0.15s ease-in;
+}
+#video .goAhead,
+.playerHTML .goAhead,
+#videoWrapper .goAhead,
+.mplayerWrapper .goAhead,
+#assignmentPreviewLesson .goAhead {
+  background-image: url('../img/player/next1.png');
+  right: 0;
+}
+#video .goBack,
+.playerHTML .goBack,
+#videoWrapper .goBack,
+.mplayerWrapper .goBack,
+#assignmentPreviewLesson .goBack {
+  background-image: url('../img/player/prev1.png');
+  left: 0;
+}
+#video .goAhead.disabled,
+.playerHTML .goAhead.disabled,
+#videoWrapper .goAhead.disabled,
+.mplayerWrapper .goAhead.disabled,
+#assignmentPreviewLesson .goAhead.disabled,
+#video .goBack.disabled,
+.playerHTML .goBack.disabled,
+#videoWrapper .goBack.disabled,
+.mplayerWrapper .goBack.disabled,
+#assignmentPreviewLesson .goBack.disabled {
+  display: none;
+}
+#video .goAhead,
+#video .goBack {
+  opacity: 0;
+}
+#backgroundAudio {
+  height: 0 !important;
+  display: none !important;
+}
+.playerHTML .goAhead {
+  right: 24px;
+}
+.playerHTML .goBack {
+  left: 24px;
+}
+.playerHTML5 {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.playerHTML5 iframe {
+  margin: 0 auto;
+  width: 100%;
+  height: 99%;
+}
+.playerBottomLabel {
+  height: 25px;
+  width: 100%;
+  line-height: 22px;
+  position: relative;
+  text-align: center;
+}
+.playerBottomLabel .nameLabel {
+  margin: 0 auto;
+  line-height: 22px;
+}
+.playerBottomLabel .setFullscreen {
+  position: absolute;
+  right: 6px;
+  top: 0;
+}
+.playerBottomLabel .playerPages {
+  line-height: 22px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.playerBottomLabel .skipTo {
+  right: 36px;
+  position: absolute;
+  top: 0;
+}

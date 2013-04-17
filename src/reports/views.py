@@ -4,7 +4,7 @@ from django import http
 from django.views.generic.simple import direct_to_template
 from django.conf import settings
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db.models.query_utils import Q
 from content.course_states import ActiveAssign, Active, ActiveInUse
 from content.models import Course
@@ -16,12 +16,14 @@ from management import models as mgmnt_models
 
 @decorators.is_admin_or_superadmin
 def reports(request):
-    return direct_to_template(request, 'reports/reports.html')
+    return direct_to_template(request, 'reports/reports.html',
+                              {'tabname': 'reports'})
 
 @decorators.is_admin_or_superadmin
 def reports_create(request, id=None):
 
     if id:
+        # Edit report
         report = get_object_or_404(models.Report, pk=id)
         template_report = models.Report.objects.get(template_path=report.template_path, is_template=True)
         date_from = date_to = None
@@ -29,6 +31,12 @@ def reports_create(request, id=None):
             date_from = report.date_from.strftime('%Y-%m-%d')
         if report.date_to:
             date_to = report.date_to.strftime('%Y-%m-%d')
+
+        send_report = False
+        if report.ntf_users.all() or report.ntf_groups.all() or \
+           report.ntf_admins.all():
+            send_report = True
+
         initial = {
             'report_id': report.id,
             'name': report.name,
@@ -45,17 +53,42 @@ def reports_create(request, id=None):
             'show_all': report.show_all,
             'datepicker_from': date_from,
             'datepicker_to': date_to,
-        }        
-        
+            'ntf_users': report.ntf_users,
+            'ntf_admins': report.ntf_admins,
+            'ntf_groups': report.ntf_groups,
+            'send_format': report.send_format.split(','),
+            'send_report': send_report,
+        }
+
         if report.schedule_type == models.Report.SCHEDULE_WEEKLY:
             initial['schedule_day_week'] = report.schedule_day
         elif report.schedule_type == models.Report.SCHEDULE_MONTHLY:
             initial['schedule_day_month'] = report.schedule_day
 
     if request.method == 'POST':
+        # Save report
         form = forms.CreateReportForm(request.user, request.POST)
 
-        if form.is_valid():
+        # report notifications
+        usernames = request.POST.get('notifyUsers').split(',')
+        adminnames = request.POST.get('notifyAdmins').split(',')
+        groupnames = request.POST.get('notifyGroups').split(',')
+
+        ## 'ME' is default value
+        if 'ME' in usernames:
+            usernames.remove('ME');
+            usernames.append(request.user.username)
+
+        # Additional validation (send_to field is required)
+        is_valid = True
+        if not usernames and not adminnames and not groupnames:
+            is_valid = False
+
+#        if (usernames or adminnames or groupnames) and \
+#            not request.POST.get('send_report'):
+#            is_valid = False
+
+        if form.is_valid() and is_valid:
             if form.cleaned_data['report_id']:
                 report = get_object_or_404(models.Report, pk=form.cleaned_data['report_id'])
             else:
@@ -66,6 +99,12 @@ def reports_create(request, id=None):
                 superadmin_form.full_clean()
                 report.show_all = superadmin_form.cleaned_data["show_all"]
 
+
+            ntf_users = User.objects.filter(username__in=usernames)
+            ntf_admins = User.objects.filter(username__in=adminnames)
+            ntf_groups = Group.objects.filter(name__in=groupnames)
+
+            report.send_format = ','.join(form.cleaned_data['send_format'])
             report.name = form.cleaned_data['name']
             report.note = form.cleaned_data['note']
             report.user = form.cleaned_data['user']
@@ -102,6 +141,13 @@ def reports_create(request, id=None):
                 report.admin = None
 
             report.save()
+            report.ntf_users.clear()
+            report.ntf_users.add(*[ntfu for ntfu in ntf_users])
+            report.ntf_admins.clear()
+            report.ntf_admins.add(*[ntfu for ntfu in ntf_admins])
+            report.ntf_groups.clear()
+            report.ntf_groups.add(*[ntfu for ntfu in ntf_groups])
+            report.save()
 
 
             ''' in order for ajax file upload to work properly,
@@ -131,14 +177,19 @@ def reports_create(request, id=None):
         ctx = {
             'form' : form,
             'report': report,
-            'superadmin_form': superadmin_form
+            'superadmin_form': superadmin_form,
+            'ntf_users': initial['ntf_users'].all(),
+            'ntf_admins': initial['ntf_admins'].all(),
+            'ntf_groups': initial['ntf_groups'].all(),
         }
     else:
+        # Create report
         form = forms.CreateReportForm(request.user)
         superadmin_form = forms.SuperadminCreateReportForm()
         ctx = {
             'form' : form,
-            'superadmin_form': superadmin_form
+            'superadmin_form': superadmin_form,
+            'ntf_users': [{'username': 'ME'}],
         }
 
     ctx['form'].fields['group'].queryset = request.user.groups
@@ -202,6 +253,7 @@ def reports_list(request):
                 'result_path': result.file_path[:-4],
                 'result_url': settings.REPORTS_RESULTS_URL + '/' + result.file_path,
                 'html_result_url': settings.REPORTS_RESULTS_URL + '/' + result.html_file_path,
+                'csv_result_url': settings.REPORTS_RESULTS_URL + '/' + (result.csv_file_path or ''),
                 'created_on': result.created_on.strftime('%Y-%m-%d %H:%M'),
                 'status': result.status
             }

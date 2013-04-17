@@ -1,7 +1,7 @@
 {% extends "base_template.html" %}
 {% load i18n %}
-{% block meta_title %}{% trans "Manage content" %}{% endblock %}
-{% block title %}{% trans "Manage content" %}{% endblock %}
+{% block meta_title %}{% trans "Manage files" %}{% endblock %}
+{% block title %}{% trans "Manage files" %}{% endblock %}
 {% block js_scripts %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/files-manage.js"></script>
 {% endblock %}
@@ -82,7 +82,7 @@
         	</div>
     	{% endif %}
         <div class="hr"></div>
-        <a class="button-blue fright" href="{% url content-import_file %}">{% trans "Import new file" %}</a>
+        <a class="button-blue fright" href="{% url content-import_file %}">{% trans "Add file" %}</a>
 				<a class="button-normal fright marginRight" id="refresh" href="javascript:void();">{% trans "Refresh" %}</a>
         <div class="hr" style="padding-top: 20px;"></div>
       </div>

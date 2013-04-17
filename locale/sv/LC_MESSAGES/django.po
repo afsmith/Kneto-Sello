@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-21 10:34+0200\n"
+"POT-Creation-Date: 2013-04-16 14:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: src/administration/forms.py:30
-#: src/webfront/templates/administration/dashboard.html:83
+#: src/webfront/templates/administration/dashboard.html:77
 msgid "Use LDAP"
 msgstr "Användare från LDAP"
 
@@ -42,22 +42,22 @@ msgstr "Gruppnamn"
 msgid "User distinguisher"
 msgstr "Användarinformation"
 
-#: src/administration/forms.py:36 src/management/forms.py:50
+#: src/administration/forms.py:36 src/management/forms.py:55
 #: src/self_register/self_register_form.py:20
 #: src/webfront/templates/management/user_profile.html:23
 #: src/webfront/templates/registration/registration_form.html:53
 msgid "First name"
 msgstr "Förnamn"
 
-#: src/administration/forms.py:37 src/management/forms.py:51
+#: src/administration/forms.py:37 src/management/forms.py:56
 #: src/self_register/self_register_form.py:22
-#: src/webfront/templates/assignments/admin_status.html:66
+#: src/webfront/templates/assignments/module_progress.html:45
 #: src/webfront/templates/management/user_profile.html:27
 #: src/webfront/templates/registration/registration_form.html:60
 msgid "Last name"
 msgstr "Efternamn"
 
-#: src/administration/forms.py:38 src/management/forms.py:52
+#: src/administration/forms.py:38 src/management/forms.py:57
 #: src/self_register/self_register_form.py:18
 #: src/webfront/templates/management/user_profile.html:31
 #: src/webfront/templates/registration/password_reset_form.html:21
@@ -65,19 +65,19 @@ msgstr "Efternamn"
 msgid "Email"
 msgstr "E-post"
 
-#: src/administration/forms.py:39 src/management/forms.py:53
-#: src/webfront/templates/assignments/admin_status.html:68
+#: src/administration/forms.py:39 src/management/forms.py:58
+#: src/webfront/templates/assignments/module_progress.html:50
 #: src/webfront/templates/management/user_profile.html:35
 msgid "Phone"
 msgstr "Telefon"
 
 #: src/administration/forms.py:78
-#: src/webfront/templates/administration/dashboard.html:81
+#: src/webfront/templates/administration/dashboard.html:75
 msgid "Quality of video content"
 msgstr "Video kvalitet"
 
 #: src/administration/forms.py:79
-#: src/webfront/templates/administration/dashboard.html:82
+#: src/webfront/templates/administration/dashboard.html:76
 msgid "Use DMS"
 msgstr "Använd DMS"
 
@@ -106,129 +106,152 @@ msgid "Footer"
 msgstr "Sidfot"
 
 #: src/administration/forms.py:102
+msgid "Logo file"
+msgstr "logo-fil"
+
+#: src/administration/forms.py:106
+msgid "Background file"
+msgstr "bakgrund fil"
+
+#: src/administration/forms.py:112
+msgid "Use Logo as title"
+msgstr "Använd logotypen som titel"
+
+#: src/administration/forms.py:114
+msgid "Use background image"
+msgstr "Använd bakgrundsbild"
+
+#: src/administration/forms.py:116
 msgid "Css file"
 msgstr "Css fil"
 
-#: src/administration/forms.py:104
+#: src/administration/forms.py:118
 msgid "Application icons"
 msgstr "Applikations ikoner"
 
-#: src/administration/forms.py:105
+#: src/administration/forms.py:119
 msgid "Filetype icons"
 msgstr "Filtyp ikoner"
 
-#: src/administration/forms.py:106
+#: src/administration/forms.py:120
 msgid "Progress icons"
 msgstr "Framfart ikoner"
 
-#: src/administration/forms.py:107
+#: src/administration/forms.py:121
 msgid "Main menu bar"
 msgstr "Huvudmenyraden"
 
-#: src/administration/forms.py:111 src/self_register/self_register_form.py:26
-#: src/webfront/templates/registration/registration_form.html:77
+#: src/administration/forms.py:125 src/self_register/self_register_form.py:26
+#: src/webfront/templates/registration/registration_form.html:74
 msgid "Token"
 msgstr "Aktiverings kod"
 
-#: src/administration/forms.py:117 src/content/forms.py:43
-#: src/content/models.py:145 src/content/models.py:674
-#: src/management/forms.py:107 src/reports/forms.py:34
+#: src/administration/forms.py:131 src/content/forms.py:43
+#: src/content/models.py:146 src/content/models.py:694
+#: src/management/forms.py:136 src/reports/forms.py:51
 #: src/reports/models.py:46
+#: src/webfront/templates/assignments/admin_status.html:97
+#: src/webfront/templates/assignments/admin_status.html:145
 msgid "Name"
 msgstr "Namn"
 
-#: src/administration/forms.py:118 src/reports/models.py:47
+#: src/administration/forms.py:132 src/reports/models.py:47
 msgid "Template"
 msgstr "Mall"
 
-#: src/administration/forms.py:120
-msgid "User required"
-msgstr "Användar roll"
+#: src/administration/forms.py:134
+msgid "Receiver required"
+msgstr "Ange mottagare"
 
-#: src/administration/forms.py:121
+#: src/administration/forms.py:135
 msgid "Group required"
-msgstr "Grupp rättigheter"
+msgstr "Ange grupp"
 
-#: src/administration/forms.py:122
-msgid "Course required"
-msgstr "Kursens synlig"
+#: src/administration/forms.py:136
+msgid "Content required"
+msgstr "Ange Innehåll"
 
-#: src/administration/forms.py:123
-msgid "Admin required"
-msgstr "Admin behövs"
+#: src/administration/forms.py:137
+msgid "Sender required"
+msgstr "Ange avsändare"
 
-#: src/administration/forms.py:125
-msgid "User visible"
-msgstr "Användare synlig"
+#: src/administration/forms.py:139
+msgid "Receiver visible"
+msgstr "Mottagaren visas"
 
-#: src/administration/forms.py:126
+#: src/administration/forms.py:140
 msgid "Group visible"
-msgstr "Grupp synlig"
+msgstr "Visa Innehåll"
 
-#: src/administration/forms.py:127
-msgid "Course visible"
-msgstr "Kursens Målsättning"
+#: src/administration/forms.py:141
+msgid "Content visible"
+msgstr "Visa Innehåll"
 
-#: src/administration/forms.py:128
-msgid "Admin visible"
-msgstr "Admin  synlig"
+#: src/administration/forms.py:142
+msgid "Sender visible"
+msgstr "Visa Avsändaren"
 
-#: src/administration/forms.py:130
+#: src/administration/forms.py:144
 msgid "Date from visible"
-msgstr "Datum från synlig"
+msgstr "Visa från datum"
 
-#: src/administration/forms.py:131
+#: src/administration/forms.py:145
 msgid "Date to visible"
-msgstr "Datum till synlig"
+msgstr "Visa  till datum"
 
-#: src/administration/forms.py:133 src/content/forms.py:48
-#: src/content/models.py:171 src/reports/forms.py:43 src/reports/models.py:51
+#: src/administration/forms.py:147 src/content/forms.py:48
+#: src/content/models.py:172 src/reports/forms.py:74 src/reports/models.py:51
 msgid "Note"
 msgstr "Notera"
 
-#: src/administration/forms.py:143 src/reports/forms.py:63
-#: src/reports/forms.py:68 src/reports/forms.py:72 src/reports/forms.py:76
-#: src/reports/forms.py:80 src/reports/forms.py:84
+#: src/administration/forms.py:157 src/reports/forms.py:125
+#: src/reports/forms.py:130 src/reports/forms.py:134 src/reports/forms.py:138
+#: src/reports/forms.py:142
 msgid "This field is required."
 msgstr "Detta fält är obligatoriskt"
 
-#: src/administration/forms.py:144 src/reports/forms.py:88
+#: src/administration/forms.py:158 src/reports/forms.py:146
 msgid "Please fill up all necessary fields"
 msgstr "Vänligen fyll i alla obligatoriska fält"
 
-#: src/administration/models.py:81
+#: src/administration/forms.py:166 src/reports/forms.py:161
+#, python-format
+msgid "Report name can't contain special characters: %s"
+msgstr ""
+
+#: src/administration/models.py:84
 msgid "high"
 msgstr "hög"
 
-#: src/administration/models.py:82
+#: src/administration/models.py:85
 msgid "medium"
 msgstr "mellan"
 
-#: src/administration/models.py:83
+#: src/administration/models.py:86
 msgid "low"
 msgstr "låg"
 
-#: src/administration/models.py:103
+#: src/administration/models.py:113
 msgid "Config entry name"
 msgstr "Config entry namn"
 
-#: src/administration/models.py:104
+#: src/administration/models.py:116
 msgid "Config entry value"
 msgstr "Config entry värde"
 
-#: src/administration/models.py:133
+#: src/administration/models.py:149
 msgid "Local group name"
 msgstr "Lokalt grupp namn"
 
-#: src/administration/models.py:134
+#: src/administration/models.py:150
 msgid "LDAP group DN"
 msgstr "LDAP-grupp DN"
 
-#: src/administration/views.py:123
+#: src/administration/views.py:140
 msgid "False"
-msgstr "Falskt"
+msgstr "Inte aktiverat"
 
-#: src/administration/views.py:125
+#: src/administration/views.py:142
 msgid "True"
 msgstr "Sant"
 
@@ -254,32 +277,33 @@ msgstr "'Utgår' datumet måste vara minst en vecka framöver"
 msgid "Module must have at least one group in \"Can be assigned to\" section."
 msgstr "Modulen måste ha minst en grupp i \" Kan hänföras till\"delen."
 
-#: src/content/forms.py:42 src/content/forms.py:107 src/content/forms.py:123
-#: src/content/models.py:173 src/content/models.py:367
-#: src/management/models.py:84 src/self_register/self_register_form.py:24
-#: src/webfront/templates/registration/login.html:87
+#: src/content/forms.py:42 src/content/forms.py:112 src/content/forms.py:131
+#: src/content/models.py:174 src/content/models.py:369
+#: src/management/models.py:137 src/self_register/self_register_form.py:24
+#: src/webfront/templates/registration/login.html:104
 #: src/webfront/templates/registration/registration_form.html:67
 msgid "Language"
 msgstr "Språk"
 
-#: src/content/forms.py:44 src/content/forms.py:108 src/content/models.py:167
-#: src/content/models.py:363
-msgid "Expire date"
+#: src/content/forms.py:44 src/content/forms.py:113 src/content/models.py:168
+#: src/content/models.py:365 src/management/models.py:36
+#: src/webfront/templates/messages/view_ocl.html:22
+msgid "Expiration date"
 msgstr "Utgångsdatum"
 
-#: src/content/forms.py:45 src/content/models.py:168
-msgid "Delete content after expired"
-msgstr "Radera innehåll efter utgångsdatum"
+#: src/content/forms.py:45 src/content/models.py:169
+msgid "Delete file after expiration"
+msgstr "Radera efter utgångsdatum"
 
-#: src/content/forms.py:46 src/content/forms.py:109 src/content/models.py:169
+#: src/content/forms.py:46 src/content/forms.py:114 src/content/models.py:170
 msgid "Allow downloading"
 msgstr "Tillåt nedladdning"
 
-#: src/content/forms.py:47 src/content/models.py:170
+#: src/content/forms.py:47 src/content/models.py:171
 #: src/webfront/templates/assignments/user_modules.html:101
 #: src/webfront/templates/assignments/user_modules.html:212
-#: src/webfront/templates/assignments/user_progress.html:64
-#: src/webfront/templates/assignments/user_progress.html:86
+#: src/webfront/templates/assignments/user_progress.html:35
+#: src/webfront/templates/assignments/user_progress.html:54
 msgid "Duration"
 msgstr "Längd"
 
@@ -287,228 +311,271 @@ msgstr "Längd"
 msgid "Owner"
 msgstr "Ägare"
 
-#: src/content/forms.py:54 src/content/forms.py:113
+#: src/content/forms.py:54 src/content/forms.py:121
 #: src/content/serializers.py:26
 msgid "Unspecified"
 msgstr "Ospecificerat"
 
-#: src/content/forms.py:72
-msgid "Show only from my groups"
-msgstr "Visa endast mina grupper"
+#: src/content/forms.py:75
+#: src/webfront/templates/content/list_modules.html:124
+#: src/webfront/templates/management/users.html:37
+msgid "My groups"
+msgstr "Egna grupper"
 
-#: src/content/forms.py:74
-msgid "Show only my files"
-msgstr "Visa endast mina grupper"
+#: src/content/forms.py:77
+#: src/webfront/templates/assignments/admin_status.html:93
+msgid "My files"
+msgstr "Mina filer"
 
-#: src/content/forms.py:76
-msgid "Show inactive files"
-msgstr "Visa inaktiv fil"
+#: src/content/forms.py:79
+msgid "Inactive files"
+msgstr "Inaktiva filer"
 
-#: src/content/forms.py:80
+#: src/content/forms.py:83
 msgid "All types"
 msgstr "Alla typer"
 
-#: src/content/forms.py:83 src/content/forms.py:130
+#: src/content/forms.py:86 src/content/forms.py:144
 msgid "All languages"
 msgstr "Alla språk"
 
-#: src/content/forms.py:105 src/content/models.py:358 src/notepad/models.py:8
-#: src/webfront/templates/assignments/admin_status.html:111
+#: src/content/forms.py:108 src/content/models.py:359 src/notepad/models.py:8
+#: src/webfront/templates/assignments/admin_status.html:73
+#: src/webfront/templates/assignments/admin_status.html:121
 #: src/webfront/templates/assignments/user_modules.html:93
 #: src/webfront/templates/assignments/user_modules.html:204
 msgid "Title"
 msgstr "Titel"
 
-#: src/content/forms.py:106
-#: src/webfront/templates/content/module_viewer.html:34
+#: src/content/forms.py:109
+#: src/webfront/templates/content/module_viewer.html:38
+#: src/webfront/templates/content/module_viewer_smm.html:58
 msgid "Module objective"
 msgstr "Modulens målsättning"
 
-#: src/content/forms.py:110 src/content/models.py:370
-#: src/webfront/templates/content/list_modules.html:65
+#: src/content/forms.py:110 src/content/models.py:361
+msgid "Goodbye message"
+msgstr "Hej då meddelande"
+
+#: src/content/forms.py:111
+msgid "Module complete"
+msgstr "Modul klar"
+
+#: src/content/forms.py:115 src/content/models.py:372
+#: src/webfront/templates/content/list_modules.html:71
 msgid "Allow skipping"
 msgstr "Tillåt hoppande"
 
-#: src/content/forms.py:127
-msgid "Add one click link"
-msgstr "Lägg till automatisk inloggning"
+#: src/content/forms.py:116 src/content/models.py:373
+msgid "Sign off required"
+msgstr "Signera krävs"
 
-#: src/content/models.py:123
+#: src/content/forms.py:135
+msgid "Add one click link 'OCL'"
+msgstr "Lägg till OCL (en-klick-länk)"
+
+#: src/content/forms.py:136
+msgid "Set expire date"
+msgstr "Ställ utgångsdatum"
+
+#: src/content/forms.py:140 src/management/forms.py:71
+#: src/management/forms.py:166
+#: src/webfront/templates/management/dialogs/remove_user.html:20
+#: src/webfront/templates/messages/my_templates.html:61
+#: src/webfront/templates/messages/templates.html:50
+msgid "Send message"
+msgstr "Skicka Meddelande"
+
+#: src/content/models.py:124
 msgid "plain"
 msgstr "vanligt"
 
-#: src/content/models.py:124
+#: src/content/models.py:125
 msgid "image"
 msgstr "bild"
 
-#: src/content/models.py:125
+#: src/content/models.py:126
 msgid "audio"
 msgstr "ljud"
 
-#: src/content/models.py:126
+#: src/content/models.py:127
 msgid "video"
 msgstr "video"
 
-#: src/content/models.py:127
+#: src/content/models.py:128
 msgid "doc"
 msgstr "doc"
 
-#: src/content/models.py:128
+#: src/content/models.py:129
 msgid "ppt"
 msgstr "ppt"
 
-#: src/content/models.py:129
+#: src/content/models.py:130
 msgid "scorm"
 msgstr "scorm"
 
-#: src/content/models.py:130
+#: src/content/models.py:131
 msgid "pdf"
 msgstr "pdf"
 
-#: src/content/models.py:131
+#: src/content/models.py:132
 msgid "html"
 msgstr "html"
 
-#: src/content/models.py:140
+#: src/content/models.py:141
 msgid "uploaded"
 msgstr "laddade"
 
-#: src/content/models.py:141
+#: src/content/models.py:142
 msgid "available"
 msgstr "tillgänglig"
 
-#: src/content/models.py:142
+#: src/content/models.py:143
 #, fuzzy
 msgid "removed"
 msgstr "Ta bort"
 
-#: src/content/models.py:146
-#: src/webfront/templates/assignments/user_progress.html:106
+#: src/content/models.py:147
+#: src/webfront/templates/assignments/user_progress.html:86
 msgid "Type"
 msgstr "Typ"
 
-#: src/content/models.py:149
+#: src/content/models.py:150
 msgid "Original File Name"
 msgstr "Ursprungliga filnamnet"
 
-#: src/content/models.py:150 src/reports/models.py:123
-#: src/webfront/templates/base_template.html:77
-#: src/webfront/templates/base_template.html:81
+#: src/content/models.py:151 src/reports/models.py:129
 #: src/webfront/templates/assignments/user_modules.html:3
 #: src/webfront/templates/assignments/user_modules.html:4
-#: src/webfront/templates/content/list_modules.html:35
 msgid "Status"
 msgstr "Status"
 
-#: src/content/models.py:153
+#: src/content/models.py:154
 msgid "Key"
 msgstr "Nyckel"
 
-#: src/content/models.py:156
+#: src/content/models.py:157
 msgid "Original Sub Key"
 msgstr "Original Sub Nyckel"
 
-#: src/content/models.py:158
+#: src/content/models.py:159
 msgid "Converted Sub Key"
 msgstr "Konverterad Sub Nyckel"
 
-#: src/content/models.py:160
+#: src/content/models.py:161
 msgid "Thumbnail Sub Key"
 msgstr "Thumbnail Sub Nyckel"
 
-#: src/content/models.py:162
+#: src/content/models.py:163
 msgid "Preview Sub Key"
 msgstr "Original Sub Nyckel"
 
-#: src/content/models.py:165
+#: src/content/models.py:166
 msgid "Created on"
 msgstr "Skapad"
 
-#: src/content/models.py:166
+#: src/content/models.py:167
 msgid "Updated on"
 msgstr "Uppdaterad"
 
-#: src/content/models.py:176
+#: src/content/models.py:177
 msgid "Number of content pages"
 msgstr "Antal sidor innehåll"
 
-#: src/content/models.py:178
+#: src/content/models.py:179
 msgid "Content is removed"
 msgstr "Innehållet har tagits bort"
 
-#: src/content/models.py:359
+#: src/content/models.py:360
 msgid "Objective"
 msgstr "Målsättning"
 
-#: src/content/models.py:360
+#: src/content/models.py:362
 msgid "State code"
 msgstr "Status"
 
-#: src/content/models.py:364
+#: src/content/models.py:366
 msgid "Publish date"
 msgstr "Publiserat datum"
 
-#: src/content/models.py:365
+#: src/content/models.py:367
 msgid "Deactivated date"
 msgstr "Avaktivera"
 
-#: src/content/models.py:369
+#: src/content/models.py:371
 msgid "Allow downloads"
 msgstr "Tillåt nedladdning"
 
-#: src/content/models.py:439
+#: src/content/models.py:445
 msgid "Track"
 msgstr "Stycke"
 
-#: src/content/models.py:440
+#: src/content/models.py:446
 msgid "Start offset"
 msgstr "Starta offset"
 
-#: src/content/models.py:441
+#: src/content/models.py:447
 msgid "End offset"
 msgstr "Sluta offset"
 
-#: src/content/models.py:442
+#: src/content/models.py:448
 msgid "Playback mode"
 msgstr "Uppspelningsläge"
 
-#: src/content/models.py:684
+#: src/content/models.py:520
+msgid "Sign off module"
+msgstr ""
+
+#: src/content/models.py:704
 msgid "Position"
 msgstr "Position"
 
-#: src/content/views.py:291 src/content/views.py:827
+#: src/content/views.py:300 src/content/views.py:309 src/content/views.py:341
+#: src/content/views.py:350
+msgid "User is not allowed to view this content."
+msgstr ""
+
+#: src/content/views.py:324
+msgid "Module is not finished yet."
+msgstr ""
+
+#: src/content/views.py:327
+msgid "Module does not have sign off option"
+msgstr ""
+
+#: src/content/views.py:473 src/content/views.py:1040
 msgid "Yes"
 msgstr "Ja"
 
-#: src/content/views.py:291 src/content/views.py:827
+#: src/content/views.py:473 src/content/views.py:1040
 msgid "No"
 msgstr "Nej"
 
-#: src/content/views.py:489
+#: src/content/views.py:682
 msgid "Exceeded maximum file upload size."
 msgstr ""
 
-#: src/content/views.py:493 src/content/views.py:506
-#: src/management/forms.py:144
+#: src/content/views.py:686 src/content/views.py:699
+#: src/management/forms.py:175
 msgid "Unsupported file type."
 msgstr "filtypen stöds inte"
 
-#: src/content/views.py:880
+#: src/content/views.py:1121
 #, python-format
 msgid "Modules assigned to %(group_name)s"
 msgstr ""
 
-#: src/management/forms.py:20 src/management/forms.py:49
+#: src/management/forms.py:20 src/management/forms.py:54
 #: src/self_register/forms.py:35 src/self_register/self_register_form.py:16
-#: src/webfront/templates/assignments/admin_status.html:64
+#: src/webfront/templates/assignments/module_progress.html:43
 #: src/webfront/templates/management/user_profile.html:19
-#: src/webfront/templates/registration/login.html:75
+#: src/webfront/templates/registration/login.html:92
 #: src/webfront/templates/registration/registration_form.html:19
 msgid "Username"
 msgstr "Användarnamn"
 
 #: src/management/forms.py:21 src/self_register/forms.py:41
-#: src/webfront/templates/registration/login.html:81
+#: src/webfront/templates/registration/login.html:98
 msgid "Password"
 msgstr "Lösenord"
 
@@ -524,11 +591,11 @@ msgstr "Ange rätt användarnamn."
 msgid "Please enter a correct password."
 msgstr "Ange rätt lösenord."
 
-#: src/management/forms.py:40
+#: src/management/forms.py:45
 msgid "Group does not exist."
 msgstr "Gruppen finns inte"
 
-#: src/management/forms.py:43
+#: src/management/forms.py:48
 msgid ""
 "Invalid phone number. Numer must consist of + (optional) and digits "
 "separated (or not) with single spaces."
@@ -536,122 +603,126 @@ msgstr ""
 "Ogiltigt Telefon nummer. Nummret måste innehålla + (valfri) och "
 "nummerhopskrivet eller med enkla mellanslag"
 
-#: src/management/forms.py:46
+#: src/management/forms.py:51
 msgid "You are not authorized to change roles of users."
 msgstr "Du är inte berättigad att ändra användarroller"
 
-#: src/management/forms.py:57
+#: src/management/forms.py:68
 msgid "Role"
 msgstr "Roll"
 
-#: src/management/forms.py:58
-msgid "One click link"
-msgstr "En klick link"
+#: src/management/forms.py:70
+msgid "OCL (One-click-link)"
+msgstr "OCL (en-klick-länk)"
 
-#: src/management/forms.py:89
+#: src/management/forms.py:112
 msgid ""
 "User with such username already exists. Please enter different username."
 msgstr ""
 "Användare med samma namn finns redan. Vänligen inför ett annat användarnamn"
 
-#: src/management/forms.py:127
+#: src/management/forms.py:156
 msgid "Group with the same name already exists. Please choose different name."
 msgstr "Grupp med samma namn finns redan. Vänligen inför ett annat gruppnamn"
 
-#: src/management/forms.py:136 src/reports/models.py:120
-#: src/reports/models.py:121
+#: src/management/forms.py:165 src/reports/models.py:125
+#: src/reports/models.py:126 src/reports/models.py:127
 msgid "File"
 msgstr "Fil namn"
 
-#: src/management/forms.py:149
+#: src/management/forms.py:180
 msgid "Send goodbye email"
 msgstr "Skicka Hej Då Meddelande"
 
-#: src/management/forms.py:156
+#: src/management/forms.py:187
 msgid "Old password is invalid."
 msgstr "Oösenordet är inte i bruk"
 
-#: src/management/forms.py:157
+#: src/management/forms.py:188
 msgid "New password must be repeated twice."
 msgstr "Vänligen skriv in nya lösenordet två gånger"
 
-#: src/management/forms.py:158
+#: src/management/forms.py:189
 msgid "New password must be different than previous"
 msgstr "NNya lösenordet kan inte vara samma som tidigare"
 
-#: src/management/forms.py:162
+#: src/management/forms.py:193
 msgid "Old password"
 msgstr "Gamla lösenord"
 
-#: src/management/forms.py:165 src/self_register/self_register_form.py:31
+#: src/management/forms.py:196 src/self_register/self_register_form.py:31
 #: src/webfront/templates/registration/password_reset_confirm.html:30
 #: src/webfront/templates/registration/registration_form.html:39
 msgid "New password"
 msgstr "Lösenorde"
 
-#: src/management/forms.py:174 src/self_register/self_register_form.py:40
+#: src/management/forms.py:205 src/self_register/self_register_form.py:40
 #: src/webfront/templates/registration/registration_form.html:46
 msgid "Repeat new password"
 msgstr "Upprepa lösenorde"
 
-#: src/management/forms.py:185
+#: src/management/forms.py:216
 msgid "New password is required"
 msgstr "Kursens Målsättning"
 
-#: src/management/forms.py:187
+#: src/management/forms.py:218
 msgid "Repeat new password is required"
 msgstr "Skriv in lösenordet pånytt"
 
-#: src/management/models.py:51
+#: src/management/models.py:62
 msgid "Access level"
 msgstr "Tillträde nivå"
 
-#: src/management/models.py:77
-msgid "admin"
-msgstr "admin"
+#: src/management/models.py:124
+msgid "sender"
+msgstr "avsändare"
 
-#: src/management/models.py:78 src/self_register/models.py:178
-msgid "user"
-msgstr ""
+#: src/management/models.py:125 src/management/models.py:129
+msgid "recipient"
+msgstr "Mottagare"
 
-#: src/management/models.py:82
+#: src/management/models.py:126 src/management/models.py:130
+msgid "OCL recipient"
+msgstr "OCL-Mottagare"
+
+#: src/management/models.py:135
 msgid "User role"
 msgstr "Användar roll"
 
-#: src/management/models.py:83
+#: src/management/models.py:136
 msgid "Phone number"
 msgstr "Telefon nummer"
 
-#: src/management/models.py:85
+#: src/management/models.py:138
 msgid "User from LDAP"
 msgstr "Användare från LDAP"
 
-#: src/management/models.py:86
-#: src/webfront/templates/assignments/admin_status.html:80
+#: src/management/models.py:139
+#: src/webfront/templates/assignments/module_progress.html:34
 msgid "Has card"
-msgstr "Har kort"
+msgstr ""
 
-#: src/management/models.py:303 src/management/views.py:372
+#: src/management/models.py:381 src/management/views.py:403
 #, python-format
 msgid "Imported file has more than maximal number of lines (%d)"
 msgstr "Importerade filen har mera än tillåtna antal rader (%d)"
 
-#: src/management/models.py:316
+#: src/management/models.py:394
 #, python-format
 msgid "Missing required header fields: %s."
 msgstr "Rubrik fälten saknas: %s."
 
-#: src/management/models.py:329
+#: src/management/models.py:407
 #, python-format
 msgid "Missing username field in row %d."
 msgstr "Användarnamn fält på rad %d.saknas"
 
-#: src/management/models.py:342 src/management/models.py:369
+#: src/management/models.py:420 src/management/models.py:447
 #, python-format
 msgid "User %(username)s added to group %(groupname)s."
 msgstr "Användare %(username)s har lagts till gruppen %(groupname)s"
 
-#: src/management/models.py:345 src/management/models.py:371
+#: src/management/models.py:423 src/management/models.py:449
 #, python-format
 msgid ""
 "User %(username)s (row %(counter)d) already assigned to this group, skipping."
@@ -659,120 +730,132 @@ msgstr ""
 "Användare %(username)s (row %(counter)d) är redan tilldelad den här gruppen, "
 "hoppa över "
 
-#: src/management/models.py:352 src/management/models.py:378
+#: src/management/models.py:430 src/management/models.py:456
 #, python-format
 msgid "Missing required field values for fields %(mising)s in row %(counter)d"
 msgstr "Värden saknas i fälten %(mising)s i rad %(counter)d"
 
-#: src/management/models.py:358
+#: src/management/models.py:436
 #, python-format
 msgid "User %s already exists with different personal information."
 msgstr "Användare %s existerar med annat person data"
 
-#: src/management/models.py:394
+#: src/management/models.py:471
 #, python-format
 msgid "Username %s is too long."
 msgstr "Användarnamnet %s är för långt."
 
-#: src/management/models.py:397
+#: src/management/models.py:474
 #, python-format
 msgid "First name %s is too long."
 msgstr "Förnamnet %s är för långt."
 
-#: src/management/models.py:400
+#: src/management/models.py:477
 #, python-format
 msgid "Last name %s is too long."
 msgstr "Efternamnet %s är för långt."
 
-#: src/management/models.py:403
+#: src/management/models.py:480
 #, python-format
 msgid "Email %s is too long."
 msgstr "E-post %s är för långt."
 
-#: src/management/models.py:406
+#: src/management/models.py:483
 #, python-format
 msgid "Email %s is not valid."
 msgstr "E-post %s är fel."
 
-#: src/management/models.py:409
+#: src/management/models.py:486
 #, python-format
 msgid "Phone %s is not valid."
 msgstr "Telefon %s är fel."
 
-#: src/management/models.py:426
+#: src/management/models.py:505
 #, python-format
 msgid "New user %(username)s was created and added to group %(groupname)s"
 msgstr ""
 "Ny användare %(username)s är skapad och tillag till gruppen %(groupname)s"
 
-#: src/management/views.py:327
+#: src/management/views.py:353
 msgid "User has groups not managed by this admin."
 msgstr "Användaren har grupper som inte kontroleras av den här admin"
 
-#: src/management/views.py:330
+#: src/management/views.py:356
 msgid "User has started course."
 msgstr "Användaren har påbörjat info paketet."
 
-#: src/management/views.py:340
+#: src/management/views.py:366
 #, python-format
 msgid "User with ID %s is not eligable for deletion"
 msgstr "Användare med ID %s går inte att ta bort"
 
-#: src/management/views.py:392
+#: src/management/views.py:423
 #, python-format
 msgid "User successfully deleted %s"
 msgstr "Meddelande har tagits bort %s."
 
-#: src/management/views.py:394
+#: src/management/views.py:425
 #, python-format
 msgid "User %s not found"
 msgstr "Användare %s hittas inte"
 
-#: src/management/views.py:396
+#: src/management/views.py:427
 #, python-format
 msgid "Unable to delete %s. You can't remove yourself."
 msgstr "Kan inte ta bort %s. Du kan inte ta bort dig själv."
 
-#: src/management/views.py:401
+#: src/management/views.py:432
 msgid "Results of removed users"
 msgstr "Lista över moduler"
 
-#: src/management/views.py:405
+#: src/management/views.py:436
 msgid "Remove users listed in the selected file"
 msgstr "Ta bort användare i den valda filen"
 
-#: src/management/views.py:406
+#: src/management/views.py:437
 msgid "remove users"
 msgstr "Ta bort användare"
 
-#: src/management/views.py:534 src/management/views.py:549
+#: src/management/views.py:566 src/management/views.py:581
 #, python-format
 msgid "User with ID %d does not exist."
 msgstr "Användare med ID %d finns inte."
 
-#: src/management/views.py:555 src/management/views.py:679
+#: src/management/views.py:587 src/management/views.py:712
 msgid "Invalid action specified."
 msgstr "Ogiltig åtgärd"
 
-#: src/management/views.py:651 src/management/views.py:668
+#: src/management/views.py:684 src/management/views.py:701
 #, python-format
 msgid "Group with ID %d does not exist."
 msgstr "Användare med ID %d finns inte."
 
-#: src/management/views.py:786
+#: src/management/views.py:844
 msgid "Results of users import to group:"
 msgstr "Inga användare i den här gruppen:"
 
-#: src/management/views.py:794
+#: src/management/views.py:852
 msgid "Import users to group: "
 msgstr "Inga användare i den här gruppen"
 
-#: src/management/views.py:795
+#: src/management/views.py:853
 msgid "import users to group"
 msgstr "Inga användare i den här gruppen"
 
+#: src/management/views.py:1020
+#, fuzzy
+msgid "Token does not exist"
+msgstr "Gruppen finns inte"
+
+#: src/management/views.py:1034
+#, fuzzy
+msgid "Date is invalid"
+msgstr "Oösenordet är inte i bruk"
+
 #: src/messages_custom/forms.py:6
-#: src/webfront/templates/messages/templates.html:28
+#: src/webfront/templates/messages/my_templates.html:36
+#: src/webfront/templates/messages/templates.html:25
+#: src/webfront/templates/messages/dialog/edit_before_send.html:12
 msgid "Subject"
 msgstr "Rubrik"
 
@@ -780,11 +863,24 @@ msgstr "Rubrik"
 msgid "Body"
 msgstr "Innehåll"
 
-#: src/messages_custom/forms.py:11 src/notepad/models.py:9
+#: src/messages_custom/forms.py:12 src/notepad/models.py:9
+#: src/reports/forms.py:81
+#: src/webfront/templates/content/module_creator.html:134
+#: src/webfront/templates/content/dialogs/preview_assignment.html:13
 msgid "Content"
 msgstr "Innehåll"
 
-#: src/messages_custom/views.py:42
+#: src/messages_custom/tasks.py:128
+#, fuzzy
+msgid "Created from e-mail"
+msgstr "Skapad"
+
+#: src/messages_custom/tasks.py:134
+#, fuzzy
+msgid "Unknown Sender"
+msgstr "Hantera innehåll"
+
+#: src/messages_custom/views.py:153
 #, python-format
 msgid ""
 "%(date)s, %(sender)s wrote:\n"
@@ -795,87 +891,121 @@ msgstr ""
 "%(body)s\n"
 "\n"
 
-#: src/messages_custom/views.py:46
+#: src/messages_custom/views.py:157
 #, python-format
 msgid "Re: %(subject)s"
 msgstr "Re: %(subject)s"
 
-#: src/messages_custom/views.py:78
+#: src/messages_custom/views.py:173
+#, python-format
+msgid "There was a problem with re-sending message: %s Try again later."
+msgstr ""
+
+#: src/messages_custom/views.py:215 src/messages_custom/views.py:248
 msgid "Message successfully deleted."
 msgstr "Meddelande har tagits bort."
 
-#: src/reports/forms.py:19
+#: src/reports/forms.py:24
 msgid "Show all"
 msgstr "Visa alla"
 
-#: src/reports/forms.py:24
+#: src/reports/forms.py:29
 msgid "Monday"
 msgstr "Måndag"
 
-#: src/reports/forms.py:25
+#: src/reports/forms.py:30
 msgid "Tuesday"
 msgstr "Tisdag"
 
-#: src/reports/forms.py:26
+#: src/reports/forms.py:31
 msgid "Wednesday"
 msgstr "Onsdag"
 
-#: src/reports/forms.py:27
+#: src/reports/forms.py:32
 msgid "Thursday"
 msgstr "Torsdag"
 
-#: src/reports/forms.py:28
+#: src/reports/forms.py:33
 msgid "Friday"
 msgstr "Fredag"
 
-#: src/reports/forms.py:29
+#: src/reports/forms.py:34
 msgid "Saturday"
 msgstr "Lördag"
 
-#: src/reports/forms.py:30
+#: src/reports/forms.py:35
 msgid "Sunday"
 msgstr "Söndag"
 
-#: src/reports/forms.py:36
+#: src/reports/forms.py:39 src/reports/forms.py:79
+msgid "Receiver"
+msgstr "Mottagare"
+
+#: src/reports/forms.py:40 src/reports/forms.py:83
+#, fuzzy
+msgid "Sender"
+msgstr "avsändare"
+
+#: src/reports/forms.py:41 src/reports/forms.py:111
+#: src/webfront/templates/assignments/module_progress.html:52
+#: src/webfront/templates/content/module_assignment.html:24
+msgid "Groups"
+msgstr "Grupper"
+
+#: src/reports/forms.py:56
 msgid "Template report"
 msgstr "Mall rapport"
 
-#: src/reports/forms.py:38
+#: src/reports/forms.py:60
 msgid "Execution"
 msgstr "Utförande"
 
-#: src/reports/forms.py:39 src/reports/forms.py:40
+#: src/reports/forms.py:62 src/reports/forms.py:66
 msgid " "
 msgstr " "
 
-#: src/reports/forms.py:41
+#: src/reports/forms.py:69
 msgid "Schedule hour"
 msgstr "Schema timme"
 
-#: src/reports/forms.py:46
-msgid "User"
-msgstr "Användar namn"
-
-#: src/reports/forms.py:47
-#: src/webfront/templates/registration/registration_form.html:84
+#: src/reports/forms.py:80
+#: src/webfront/templates/content/module_assignment.html:182
+#: src/webfront/templates/registration/registration_form.html:81
 msgid "Group"
-msgstr "Grupper"
+msgstr "Grupp"
 
-#: src/reports/forms.py:48
-msgid "Course"
-msgstr "Kursens Målsättning"
-
-#: src/reports/forms.py:50
-msgid "Admin"
-msgstr "Admin"
-
-#: src/reports/forms.py:52
+#: src/reports/forms.py:85
 msgid "Date from"
 msgstr "Från datum"
 
-#: src/reports/forms.py:53
+#: src/reports/forms.py:86
 msgid "Date to"
 msgstr "Till Datum"
+
+#: src/reports/forms.py:87
+msgid "Send the reports"
+msgstr "Skicka rapporterna"
+
+#: src/reports/forms.py:88
+msgid "Report format"
+msgstr "Rapport format"
+
+#: src/reports/forms.py:95
+msgid "Send to:"
+msgstr "Skicka åt:"
+
+#: src/reports/forms.py:114
+#: src/webfront/templates/content/module_assignment.html:25
+msgid "Users"
+msgstr "Användare"
+
+#: src/reports/forms.py:117
+msgid "Admins"
+msgstr "Admin"
+
+#: src/reports/forms.py:168
+msgid "Report formats are required if \"Send report\" is selected"
+msgstr ""
 
 #: src/reports/models.py:18
 msgid "PDF"
@@ -901,7 +1031,7 @@ msgstr "En gång i veckan"
 msgid "Once a month"
 msgstr "En gång i månaden"
 
-#: src/reports/models.py:48 src/reports/models.py:122
+#: src/reports/models.py:48 src/reports/models.py:128
 msgid "Creation date"
 msgstr "Datum för skapande"
 
@@ -925,11 +1055,15 @@ msgstr "Kör raporten"
 msgid "Run hour"
 msgstr "Raporten körd"
 
-#: src/reports/models.py:115
+#: src/reports/models.py:85
+msgid "Send in formats"
+msgstr ""
+
+#: src/reports/models.py:120
 msgid "Report generated successfully"
 msgstr "Rapport genererad framgångsrikt"
 
-#: src/reports/models.py:116
+#: src/reports/models.py:121
 msgid "Report generation failed"
 msgstr "Rapport generering misslyckades"
 
@@ -947,7 +1081,7 @@ msgstr ""
 "Detta fält kan endast innehålla bokstäver, siffror och @/./+/-/_ tecken."
 
 #: src/self_register/forms.py:39 src/self_register/reset_password_form.py:13
-#: src/webfront/templates/assignments/admin_status.html:67
+#: src/webfront/templates/assignments/module_progress.html:49
 msgid "E-mail"
 msgstr "E-post"
 
@@ -986,19 +1120,23 @@ msgstr ""
 "Registrering med hjälp av gratis e-postadresser är förbjuden. Vänligen "
 "angeen annan e-postadress."
 
+#: src/self_register/models.py:177
+msgid "user"
+msgstr ""
+
 # msgid ""
 # "Registration using free email addresses is prohibited. Please supply a "
 # "different email address."
 # msgstr ""
-#: src/self_register/models.py:179
+#: src/self_register/models.py:178
 msgid "activation key"
 msgstr "Avaktivera"
 
-#: src/self_register/models.py:184
+#: src/self_register/models.py:183
 msgid "registration profile"
 msgstr "Användar roll"
 
-#: src/self_register/models.py:185
+#: src/self_register/models.py:184
 msgid "registration profiles"
 msgstr "Användar roll"
 
@@ -1037,287 +1175,306 @@ msgstr "Fel kod"
 msgid "The two email fields didn't match."
 msgstr "Lösenordsfälten stämde inte överens."
 
-#: src/tagging/models.py:9
+#: src/tagging/models.py:17
+#, fuzzy
+msgid "Tag entry value"
+msgstr "Config entry värde"
+
+#: src/tagging/models.py:20
 msgid "tag name"
 msgstr "tag namn"
 
-#: src/tagging/models.py:10
+#: src/tagging/models.py:21
 msgid "is default"
 msgstr "är standard"
 
-#: src/tracking/models.py:18
-msgid "event type"
+#: src/tagging/models.py:22
+#, fuzzy
+msgid "tag type"
 msgstr "typ av händelse"
 
 #: src/tracking/models.py:19
+msgid "event type"
+msgstr "typ av händelse"
+
+#: src/tracking/models.py:20
 msgid "is scorm"
 msgstr "är scorm"
 
-#: src/tracking/models.py:20
+#: src/tracking/models.py:21
 msgid "scorm min score"
 msgstr "scorm min. poäng"
 
-#: src/tracking/models.py:21
+#: src/tracking/models.py:22
 msgid "scorm raw score"
 msgstr "scorm poäng (RAW)"
 
-#: src/tracking/models.py:22
+#: src/tracking/models.py:23
 msgid "scorm max score"
 msgstr "scorm max. poäng "
 
-#: src/tracking/models.py:23
+#: src/tracking/models.py:24
 msgid "lesson status"
 msgstr "Admin status"
 
-#: src/tracking/models.py:25
+#: src/tracking/models.py:26
 msgid "scorm status"
 msgstr "Admin status"
 
-#: src/webfront/settings.py:35 src/webfront/settings.py:100
+#: src/tracking/models.py:27
+msgid "client ip"
+msgstr ""
+
+#: src/tracking/models.py:28
+#, fuzzy
+msgid "page number"
+msgstr "Telefon nummer"
+
+#: src/webfront/settings.py:45 src/webfront/settings.py:110
 msgid "English"
 msgstr "Engelska"
 
-#: src/webfront/settings.py:36 src/webfront/settings.py:101
+#: src/webfront/settings.py:46 src/webfront/settings.py:111
 msgid "Finnish"
 msgstr "Finska"
 
-#: src/webfront/settings.py:37 src/webfront/settings.py:102
+#: src/webfront/settings.py:47 src/webfront/settings.py:112
 msgid "Swedish"
 msgstr "Svenska"
 
-#: src/webfront/settings.py:38
+#: src/webfront/settings.py:48
 msgid "Arabic"
 msgstr "Arabiska"
 
-#: src/webfront/settings.py:39
+#: src/webfront/settings.py:49
 msgid "Bulgarian"
 msgstr "Bulgarsiska"
 
-#: src/webfront/settings.py:40
+#: src/webfront/settings.py:50
 msgid "Bengali"
 msgstr "Bengaliska"
 
-#: src/webfront/settings.py:41
+#: src/webfront/settings.py:51
 msgid "Bosnian"
 msgstr "Bonsinska"
 
-#: src/webfront/settings.py:42
+#: src/webfront/settings.py:52
 msgid "Catalan"
 msgstr "Katalanska"
 
-#: src/webfront/settings.py:43
+#: src/webfront/settings.py:53
 msgid "Czech"
 msgstr "Tjeckien"
 
-#: src/webfront/settings.py:44
+#: src/webfront/settings.py:54
 msgid "Welsh"
 msgstr "walesiska"
 
-#: src/webfront/settings.py:45
+#: src/webfront/settings.py:55
 msgid "Danish"
 msgstr "Danska"
 
-#: src/webfront/settings.py:46
+#: src/webfront/settings.py:56
 msgid "German"
 msgstr "Tyska"
 
-#: src/webfront/settings.py:47
+#: src/webfront/settings.py:57
 msgid "Greek"
 msgstr "Grekiska"
 
-#: src/webfront/settings.py:48
+#: src/webfront/settings.py:58
 msgid "British English"
 msgstr "Brittisk Engelska"
 
-#: src/webfront/settings.py:49
+#: src/webfront/settings.py:59
 msgid "Spanish"
 msgstr "Spanska"
 
-#: src/webfront/settings.py:50
+#: src/webfront/settings.py:60
 msgid "Argentinian Spanish"
 msgstr "Argentinsk Spanska"
 
-#: src/webfront/settings.py:51
+#: src/webfront/settings.py:61
 msgid "Estonian"
 msgstr "Estninska"
 
-#: src/webfront/settings.py:52
+#: src/webfront/settings.py:62
 msgid "Basque"
 msgstr "Baskiska"
 
-#: src/webfront/settings.py:53
+#: src/webfront/settings.py:63
 msgid "Persian"
 msgstr "Persiska"
 
-#: src/webfront/settings.py:54
+#: src/webfront/settings.py:64
 msgid "French"
 msgstr "Franska"
 
-#: src/webfront/settings.py:55
+#: src/webfront/settings.py:65
 msgid "Frisian"
 msgstr "Frisiska"
 
-#: src/webfront/settings.py:56
+#: src/webfront/settings.py:66
 msgid "Irish"
 msgstr "Irland Engelska"
 
-#: src/webfront/settings.py:57
+#: src/webfront/settings.py:67
 msgid "Galician"
 msgstr "Galiciska"
 
-#: src/webfront/settings.py:58
+#: src/webfront/settings.py:68
 msgid "Hebrew"
 msgstr "Hebreiska"
 
-#: src/webfront/settings.py:59
+#: src/webfront/settings.py:69
 msgid "Hindi"
 msgstr "Hindi"
 
-#: src/webfront/settings.py:60
+#: src/webfront/settings.py:70
 msgid "Croatian"
 msgstr "Kroatiska"
 
-#: src/webfront/settings.py:61
+#: src/webfront/settings.py:71
 msgid "Hungarian"
 msgstr "Ungerska"
 
-#: src/webfront/settings.py:62
+#: src/webfront/settings.py:72
 msgid "Indonesian"
 msgstr "Indonesiska"
 
-#: src/webfront/settings.py:63
+#: src/webfront/settings.py:73
 msgid "Icelandic"
 msgstr "Isländska"
 
-#: src/webfront/settings.py:64
+#: src/webfront/settings.py:74
 msgid "Italian"
 msgstr "Italienska"
 
-#: src/webfront/settings.py:65
+#: src/webfront/settings.py:75
 msgid "Japanese"
 msgstr "Japanska"
 
-#: src/webfront/settings.py:66
+#: src/webfront/settings.py:76
 msgid "Georgian"
 msgstr "Georgiska"
 
-#: src/webfront/settings.py:67
+#: src/webfront/settings.py:77
 msgid "Khmer"
 msgstr "Khmeriska"
 
-#: src/webfront/settings.py:68
+#: src/webfront/settings.py:78
 msgid "Kannada"
 msgstr "Kanada Engelska "
 
-#: src/webfront/settings.py:69
+#: src/webfront/settings.py:79
 msgid "Korean"
 msgstr "Koreanska"
 
-#: src/webfront/settings.py:70
+#: src/webfront/settings.py:80
 msgid "Lithuanian"
 msgstr "Lituanska"
 
-#: src/webfront/settings.py:71
+#: src/webfront/settings.py:81
 msgid "Latvian"
 msgstr "Latviska"
 
-#: src/webfront/settings.py:72
+#: src/webfront/settings.py:82
 msgid "Macedonian"
 msgstr "Makedonska"
 
-#: src/webfront/settings.py:73
+#: src/webfront/settings.py:83
 msgid "Malayalam"
 msgstr "Malayalam"
 
-#: src/webfront/settings.py:74
+#: src/webfront/settings.py:84
 msgid "Mongolian"
 msgstr "Mongolska"
 
-#: src/webfront/settings.py:75
+#: src/webfront/settings.py:85
 msgid "Dutch"
 msgstr "Holländska"
 
-#: src/webfront/settings.py:76
+#: src/webfront/settings.py:86
 msgid "Norwegian"
 msgstr "Norska"
 
-#: src/webfront/settings.py:77
+#: src/webfront/settings.py:87
 msgid "Norwegian Bokmal"
 msgstr "Norsk Bokmål"
 
-#: src/webfront/settings.py:78
+#: src/webfront/settings.py:88
 msgid "Norwegian Nynorsk"
 msgstr "NyNorsk"
 
-#: src/webfront/settings.py:79
+#: src/webfront/settings.py:89
 msgid "Polish"
 msgstr "Polska"
 
-#: src/webfront/settings.py:80
+#: src/webfront/settings.py:90
 msgid "Portuguese"
 msgstr "Portugisiska"
 
-#: src/webfront/settings.py:81
+#: src/webfront/settings.py:91
 msgid "Brazilian Portuguese"
 msgstr "Brasilianska portugisiska"
 
-#: src/webfront/settings.py:82
+#: src/webfront/settings.py:92
 msgid "Romanian"
 msgstr "Romänska"
 
-#: src/webfront/settings.py:83
+#: src/webfront/settings.py:93
 msgid "Russian"
 msgstr "Ryska"
 
-#: src/webfront/settings.py:84
+#: src/webfront/settings.py:94
 msgid "Slovak"
 msgstr "Slovakiska"
 
-#: src/webfront/settings.py:85
+#: src/webfront/settings.py:95
 msgid "Slovenian"
 msgstr "Slovenska"
 
-#: src/webfront/settings.py:86
+#: src/webfront/settings.py:96
 msgid "Albanian"
 msgstr "Albanska"
 
-#: src/webfront/settings.py:87
+#: src/webfront/settings.py:97
 msgid "Serbian"
 msgstr "Serbiska"
 
-#: src/webfront/settings.py:88
+#: src/webfront/settings.py:98
 msgid "Serbian Latin"
 msgstr "Serbisk Latin"
 
-#: src/webfront/settings.py:89
+#: src/webfront/settings.py:99
 msgid "Tamil"
 msgstr "Tamilska"
 
-#: src/webfront/settings.py:90
+#: src/webfront/settings.py:100
 msgid "Telugu"
 msgstr "Telugu"
 
-#: src/webfront/settings.py:91
+#: src/webfront/settings.py:101
 msgid "Thai"
 msgstr "Thai"
 
-#: src/webfront/settings.py:92
+#: src/webfront/settings.py:102
 msgid "Turkish"
 msgstr "Turkiska"
 
-#: src/webfront/settings.py:93
+#: src/webfront/settings.py:103
 msgid "Ukrainian"
 msgstr "Ukrainska"
 
-#: src/webfront/settings.py:94
+#: src/webfront/settings.py:104
 msgid "Vietnamese"
 msgstr "Vietnamesiska"
 
-#: src/webfront/settings.py:95
+#: src/webfront/settings.py:105
 msgid "Simplified Chinese"
 msgstr "Simplifierad kinesiska"
 
-#: src/webfront/settings.py:96
+#: src/webfront/settings.py:106
 msgid "Traditional Chinese"
 msgstr "Traditionell kinesiska"
 
@@ -1325,316 +1482,434 @@ msgstr "Traditionell kinesiska"
 msgid "Sorry:"
 msgstr ""
 
-#: src/webfront/templates/base_template.html:70
+#: src/webfront/templates/403.html:33
+msgid "You do not have access to this content."
+msgstr ""
+
+#: src/webfront/templates/base_template.html:74
 #: src/webfront/templates/messages/inbox.html:4
+#: src/webfront/templates/messages/ocl.html:4
 #: src/webfront/templates/messages/outbox.html:4
 msgid "Messages"
 msgstr "meddelande"
 
-#: src/webfront/templates/base_template.html:78
+#: src/webfront/templates/base_template.html:81
+#: src/webfront/templates/administration/admin_tabs.html:7
+msgid "Home"
+msgstr "Startsida"
+
+#: src/webfront/templates/base_template.html:82
 msgid "Continue Module"
 msgstr "Fortsätt senaste"
 
-#: src/webfront/templates/base_template.html:79
+#: src/webfront/templates/base_template.html:84
 #: src/webfront/templates/notepad/notepad.html:3
 #: src/webfront/templates/notepad/notepad.html:7
 msgid "Notepad"
 msgstr "Anteckningar"
 
-#: src/webfront/templates/base_template.html:82
-#: src/webfront/templates/administration/dashboard.html:23
+#: src/webfront/templates/base_template.html:86
+#: src/webfront/templates/assignments/admin_status.html:4
+msgid "Dashboard"
+msgstr "Kontrollpanel"
+
+#: src/webfront/templates/base_template.html:87
 #: src/webfront/templates/content/files_manage.html:3
 #: src/webfront/templates/content/files_manage.html:4
+msgid "Manage files"
+msgstr "Hantera filer"
+
+#: src/webfront/templates/base_template.html:88
+#: src/webfront/templates/content/list_modules.html:4
+#: src/webfront/templates/content/list_modules.html:5
 msgid "Manage content"
 msgstr "Hantera innehåll"
 
-#: src/webfront/templates/base_template.html:83
-#: src/webfront/templates/administration/dashboard.html:68
-#: src/webfront/templates/content/list_modules.html:3
-#: src/webfront/templates/content/list_modules.html:4
-msgid "Manage modules"
-msgstr "Hantera moduler"
-
-#: src/webfront/templates/base_template.html:84
-#: src/webfront/templates/content/list_modules.html:118
+#: src/webfront/templates/base_template.html:89
 #: src/webfront/templates/content/module_assignment.html:3
 #: src/webfront/templates/content/module_assignment.html:4
-msgid "Assignments"
-msgstr "Uppdrag"
+#: src/webfront/templates/content/module_assignment.html:217
+#: src/webfront/templates/messages/compose.html:35
+msgid "Send"
+msgstr "Skicka"
 
-#: src/webfront/templates/base_template.html:85
+#: src/webfront/templates/base_template.html:90
+#: src/webfront/templates/administration/adm_tools.html:3
+#: src/webfront/templates/administration/adm_tools.html:4
+#: src/webfront/templates/administration/dashboard.html:3
+#: src/webfront/templates/administration/dashboard.html:4
+#: src/webfront/templates/messages/my_templates.html:3
 msgid "Administration"
 msgstr "Administration"
 
-#: src/webfront/templates/base_template.html:96
+#: src/webfront/templates/base_template.html:105
 msgid "Log out"
 msgstr "Logga ut"
 
-#: src/webfront/templates/base_template.html:142
-msgid "Support"
-msgstr "Support"
-
-#: src/webfront/templates/administration/content_settings.html:4
-#: src/webfront/templates/administration/dashboard.html:87
-msgid "Administer content"
+#: src/webfront/templates/administration/adm_tools.html:20
+msgid "Administer Content"
 msgstr "Administrera innehåll"
 
-#: src/webfront/templates/administration/content_settings.html:9
-#: src/webfront/templates/administration/gui_settings.html:71
-#: src/webfront/templates/administration/ldap_settings.html:9
-#: src/webfront/templates/administration/reports_import.html:9
-#: src/webfront/templates/administration/self_register_settings.html:25
-#: src/webfront/templates/content/module_creator.html:107
-#: src/webfront/templates/messages/templates.html:61
-#: src/webfront/templates/notepad/notepad.html:32
-#: src/webfront/templates/reports/create.html:15
-msgid "Save"
-msgstr "Spara"
-
-#: src/webfront/templates/administration/dashboard.html:3
-#: src/webfront/templates/administration/dashboard.html:4
-msgid "Dashboard"
-msgstr "Instrumentbräda"
-
-#: src/webfront/templates/administration/dashboard.html:16
-msgid "My content"
-msgstr "Hantera innehåll"
-
-#: src/webfront/templates/administration/dashboard.html:31
-#: src/webfront/templates/content/list_modules.html:108
-#: src/webfront/templates/content/module_assignment.html:99
-#: src/webfront/templates/management/users.html:33
-msgid "My groups"
-msgstr "Mina grupper"
-
-#: src/webfront/templates/administration/dashboard.html:38
-msgid "Manage groups & users"
-msgstr "Hantera Grupper"
-
-#: src/webfront/templates/administration/dashboard.html:46
-#: src/webfront/templates/reports/reports.html:12
-msgid "My reports"
-msgstr "Mina rapporter"
-
-#: src/webfront/templates/administration/dashboard.html:53
-msgid "Manage reports"
-msgstr "Mina rapporter"
-
-#: src/webfront/templates/administration/dashboard.html:61
-#: src/webfront/templates/assignments/user_modules.html:16
-#: src/webfront/templates/content/module_assignment.html:17
-msgid "My modules"
-msgstr "Mina moduler"
-
-#: src/webfront/templates/administration/dashboard.html:76
-msgid "Administrative tools"
-msgstr "Administrativa verktyg"
-
-#: src/webfront/templates/administration/dashboard.html:84
-msgid "Mapped groups"
-msgstr "Kartlagda grupper"
-
-#: src/webfront/templates/administration/dashboard.html:88
-#: src/webfront/templates/administration/gui_settings.html:4
+#: src/webfront/templates/administration/adm_tools.html:21
 msgid "Administer GUI"
 msgstr "Administrera GUI"
 
-#: src/webfront/templates/administration/dashboard.html:89
-msgid "Administer reports"
-msgstr "Redigera rapport"
+#: src/webfront/templates/administration/adm_tools.html:22
+msgid "Administer Reports"
+msgstr "Administrera rapporter"
 
-#: src/webfront/templates/administration/dashboard.html:90
-msgid "Administer messages"
+#: src/webfront/templates/administration/adm_tools.html:23
+msgid "Administer Messages"
 msgstr "Administrera meddelanden"
 
-#: src/webfront/templates/administration/dashboard.html:92
-#: src/webfront/templates/administration/self_register_settings.html:4
+#: src/webfront/templates/administration/adm_tools.html:25
 msgid "Administer Self Registration"
 msgstr "Administrera självregistreringen"
 
-#: src/webfront/templates/administration/dashboard.html:94
-#: src/webfront/templates/administration/ldap_settings.html:4
+#: src/webfront/templates/administration/adm_tools.html:27
 msgid "Configure LDAP"
 msgstr "Konfigurera LDAP"
 
-#: src/webfront/templates/administration/dashboard.html:95
-#: src/webfront/templates/administration/ldap_groups.html:4
+#: src/webfront/templates/administration/adm_tools.html:28
 msgid "Map LDAP groups"
 msgstr "LDAP-grupp DN"
 
-#: src/webfront/templates/administration/gui_settings.html:38
-#: src/webfront/templates/administration/gui_settings.html:45
-#: src/webfront/templates/administration/gui_settings.html:52
-#: src/webfront/templates/administration/gui_settings.html:59
-#: src/webfront/templates/administration/gui_settings.html:66
+#: src/webfront/templates/administration/admin_tabs.html:14
+#: src/webfront/templates/administration/dashboard.html:20
+msgid "Groups & Users"
+msgstr "Grupper och Mottagare"
+
+#: src/webfront/templates/administration/admin_tabs.html:21
+#: src/webfront/templates/administration/dashboard.html:39
+msgid "Reports"
+msgstr "Rapporter"
+
+#: src/webfront/templates/administration/admin_tabs.html:28
+#: src/webfront/templates/administration/dashboard.html:56
+msgid "My messages"
+msgstr "Mina meddelanden"
+
+#: src/webfront/templates/administration/admin_tabs.html:36
+#: src/webfront/templates/administration/dashboard.html:68
+msgid "Administrative tools"
+msgstr "Admin verktyg"
+
+#: src/webfront/templates/administration/content_settings.html:8
+#: src/webfront/templates/administration/gui_settings.html:121
+#: src/webfront/templates/administration/ldap_settings.html:8
+#: src/webfront/templates/administration/reports_import.html:9
+#: src/webfront/templates/administration/self_register_settings.html:24
+#: src/webfront/templates/content/module_creator.html:107
+#: src/webfront/templates/messages/my_templates.html:85
+#: src/webfront/templates/messages/templates.html:75
+#: src/webfront/templates/messages/dialog/edit_before_send.html:39
+#: src/webfront/templates/notepad/notepad.html:32
+#: src/webfront/templates/reports/create.html:56
+msgid "Save"
+msgstr "Spara"
+
+#: src/webfront/templates/administration/dashboard.html:23
+msgid ""
+"Here you can manage users and groups within the system. Create a group, add "
+"users to it.  Users can be typed in by selecting a group then clicking the "
+"add users bar, or imported from a comma separated value file (CSV). This is "
+"where you can edit a users information too. Change their phone number, make "
+"them an publisher or remove them.  Also, if you would like to share the "
+"responsibility of managing a group, you can use the 'Add Manager' feature.  "
+"This allows your colleague to add users and make assignments to the group "
+"too."
+msgstr ""
+"Här kan du hantera användare och grupper i systemet. Skapa grupper och lägga "
+"till avsändare och mottagare. Mottagare kan läggas i en grupp genom att "
+"först skapa eller välja en grupp och sedan klicka på \"lägg till mottagare"
+"\". Mottagare kan även importeras från en CSV- fil. Om du vill dela ansvaret "
+"med en kollega för att hantera en av dina grupper, kan du använda \"Dela "
+"Admin rättigheter\"- funktionen. Detta gör att även din kollega kan lägga "
+"till användare och göra publiceringar åt gruppen"
+
+#: src/webfront/templates/administration/dashboard.html:29
+msgid "Manage groups & users"
+msgstr "Hantera Grupper"
+
+#: src/webfront/templates/administration/dashboard.html:42
+msgid ""
+"Would you like to share the progress of your receivers with others?  See who "
+"looked at your proposal yesterday/last week by looking at your email, you "
+"can with reports. Select a template, chose your options, set a schedule, or "
+"not, then choose who you would like it sent too. We can send them a pdf, "
+"html, CSV or any combination of them. Custom report templates can be made "
+"too. Send us a message with what you would like to report on and let's see "
+"what we can come up with."
+msgstr ""
+"Här kan du ställa in hur och åt vem du vill ha dina rapporter levererade "
+"automatiskt. Kneto kan skicka dom som en .pdf, .html eller .CSV (excel).  Vi "
+"kan göra dig rapportmallar du har konkret nytta av. Vem av dina mottagare "
+"har sett på materialet du har skickat? Vem har sett på offerten du skickade "
+"ut igår?"
+
+#: src/webfront/templates/administration/dashboard.html:59
+msgid ""
+"Set up your own message templates.  The ones set up by your Admin are used "
+"as defaults. You can add you own logo, email signature. It's up to you. The "
+"editor allows you to copy and past existing html, or edit you own with the "
+"editor. You can use parameter too for things like your recipients first "
+"name, module title, etc. The parameter available for the templet are listed "
+"on the bottom."
+msgstr ""
+"Gör dina egna mallar för meddelanden. Mallarna som görs av Administratorn "
+"används som standard. Men även du kan göra egna mallar som är anpassade just "
+"för ditt behov. Med det inbyggda editerings programmet kan du enkelt få en "
+"snygg första sida på ditt meddelande."
+
+#: src/webfront/templates/administration/dashboard.html:71
+msgid ""
+"Add an ldap server for importing users, add report templates and set the "
+"sites default messages."
+msgstr ""
+"Gör dina egna mallar för meddelanden. Mallarna som görs av Administratorn "
+"används som standard. Men även du kan göra egna mallar som är anpassade just "
+"för ditt behov. Med det inbyggda editerings programmet kan du enkelt få en "
+"snygg första sida på ditt meddelande"
+
+#: src/webfront/templates/administration/dashboard.html:78
+msgid "Mapped groups"
+msgstr "Kartlagda grupper"
+
+#: src/webfront/templates/administration/gui_settings.html:41
+#: src/webfront/templates/administration/gui_settings.html:64
+#: src/webfront/templates/administration/gui_settings.html:88
+#: src/webfront/templates/administration/gui_settings.html:95
+#: src/webfront/templates/administration/gui_settings.html:102
+#: src/webfront/templates/administration/gui_settings.html:109
+#: src/webfront/templates/administration/gui_settings.html:116
 msgid "Upload new"
 msgstr "Ladda upp fil"
 
-#: src/webfront/templates/administration/gui_settings.html:39
-#: src/webfront/templates/administration/gui_settings.html:46
-#: src/webfront/templates/administration/gui_settings.html:53
-#: src/webfront/templates/administration/gui_settings.html:60
-#: src/webfront/templates/administration/gui_settings.html:67
-#: src/webfront/templates/messages/templates.html:56
+#: src/webfront/templates/administration/gui_settings.html:42
+#: src/webfront/templates/administration/gui_settings.html:65
+#: src/webfront/templates/administration/gui_settings.html:89
+#: src/webfront/templates/administration/gui_settings.html:96
+#: src/webfront/templates/administration/gui_settings.html:103
+#: src/webfront/templates/administration/gui_settings.html:110
+#: src/webfront/templates/administration/gui_settings.html:117
+#: src/webfront/templates/messages/my_templates.html:88
+#: src/webfront/templates/messages/templates.html:72
+#: src/webfront/templates/messages/dialog/edit_before_send.html:45
 msgid "Back to default"
 msgstr "Tillbaka till standard"
 
-#: src/webfront/templates/administration/ldap_groups.html:8
+#: src/webfront/templates/administration/ldap_groups.html:7
+#: src/webfront/templates/assignments/admin_status.html:20
 msgid "Group name"
 msgstr "Gruppnamn"
 
-#: src/webfront/templates/administration/ldap_groups.html:9
+#: src/webfront/templates/administration/ldap_groups.html:8
 msgid "Group DN"
 msgstr "Grupp DN"
 
-#: src/webfront/templates/administration/ldap_groups.html:21
-#: src/webfront/templates/administration/reports.html:29
+#: src/webfront/templates/administration/ldap_groups.html:20
+#: src/webfront/templates/administration/reports.html:23
 #: src/webfront/templates/content/module_creator.html:98
-#: src/webfront/templates/management/users.html:47
-#: src/webfront/templates/reports/reports.html:33
+#: src/webfront/templates/management/users.html:51
+#: src/webfront/templates/reports/reports.html:39
 msgid "Edit"
 msgstr "Redigera"
 
-#: src/webfront/templates/administration/ldap_groups.html:22
-#: src/webfront/templates/administration/reports.html:31
-#: src/webfront/templates/content/list_modules.html:20
+#: src/webfront/templates/administration/ldap_groups.html:21
+#: src/webfront/templates/administration/reports.html:25
 #: src/webfront/templates/content/list_modules.html:21
+#: src/webfront/templates/content/list_modules.html:22
 #: src/webfront/templates/content/module_creator.html:100
-#: src/webfront/templates/management/users.html:48
-#: src/webfront/templates/messages/view.html:19
+#: src/webfront/templates/management/users.html:52
+#: src/webfront/templates/messages/view.html:27
 #: src/webfront/templates/notepad/notepad.html:34
-#: src/webfront/templates/reports/reports.html:35
+#: src/webfront/templates/reports/reports.html:41
 msgid "Remove"
 msgstr "Ta bort"
 
-#: src/webfront/templates/administration/ldap_groups.html:23
+#: src/webfront/templates/administration/ldap_groups.html:22
 msgid "Synchronize"
 msgstr "Synkronisera"
 
-#: src/webfront/templates/administration/ldap_groups.html:29
+#: src/webfront/templates/administration/ldap_groups.html:28
 msgid "Add new group mapping"
 msgstr "Lägg till ny grupp kartläggning"
 
-#: src/webfront/templates/administration/ldap_groups.html:39
+#: src/webfront/templates/administration/ldap_groups.html:38
 msgid "Add"
 msgstr "Lägg till"
 
-#: src/webfront/templates/administration/ldap_groups.html:44
-msgid "Close"
-msgstr "Stäng"
-
-#: src/webfront/templates/administration/reports.html:9
+#: src/webfront/templates/administration/reports.html:3
 msgid "Report templates"
 msgstr "Rapport namn"
 
-#: src/webfront/templates/administration/reports.html:16
-#: src/webfront/templates/assignments/admin_status.html:33
+#: src/webfront/templates/administration/reports.html:10
+#: src/webfront/templates/assignments/admin_status.html:16
+#: src/webfront/templates/assignments/admin_status.html:54
+#: src/webfront/templates/assignments/module_progress.html:20
 #: src/webfront/templates/content/files_manage.html:20
-#: src/webfront/templates/content/list_modules.html:23
-#: src/webfront/templates/content/module_assignment.html:63
+#: src/webfront/templates/content/list_modules.html:24
+#: src/webfront/templates/content/module_assignment.html:97
+#: src/webfront/templates/content/module_assignment.html:140
 #: src/webfront/templates/content/module_creator.html:21
-#: src/webfront/templates/management/users.html:20
-#: src/webfront/templates/management/users.html:51
-#: src/webfront/templates/reports/reports.html:19
+#: src/webfront/templates/management/users.html:24
+#: src/webfront/templates/management/users.html:55
+#: src/webfront/templates/reports/reports.html:25
 msgid "- search by name -"
 msgstr "- Sök på namn - "
 
-#: src/webfront/templates/administration/reports.html:19
+#: src/webfront/templates/administration/reports.html:13
 msgid "Add new template"
 msgstr "Lägg till ny rapport"
 
-#: src/webfront/templates/administration/reports.html:21
+#: src/webfront/templates/administration/reports.html:15
 msgid "Template name"
-msgstr "Mall"
+msgstr "Mallnamn"
 
-#: src/webfront/templates/administration/reports.html:22
-#: src/webfront/templates/assignments/admin_status.html:110
+#: src/webfront/templates/administration/reports.html:16
+#: src/webfront/templates/assignments/admin_status.html:59
+#: src/webfront/templates/assignments/admin_status.html:72
 #: src/webfront/templates/assignments/user_modules.html:55
 #: src/webfront/templates/assignments/user_modules.html:134
 #: src/webfront/templates/assignments/user_modules.html:169
-#: src/webfront/templates/content/module_assignment.html:80
+#: src/webfront/templates/content/module_assignment.html:118
 msgid "Author"
-msgstr "upphovsman"
+msgstr "utfärdad av"
 
 #: src/webfront/templates/administration/reports_import.html:4
 msgid "Reports import"
 msgstr "Hämta rapporter"
 
 #: src/webfront/templates/administration/reports_import.html:9
-#: src/webfront/templates/reports/create.html:15
+#: src/webfront/templates/reports/create.html:56
 msgid "changes"
 msgstr "förändringar"
 
-#: src/webfront/templates/assignments/admin_status.html:3
-#: src/webfront/templates/assignments/admin_status.html:4
-msgid "Admin status"
-msgstr "Admin status"
+#: src/webfront/templates/assignments/admin_status.html:5
+msgid "Content completion"
+msgstr "Slutfört innehåll"
 
-#: src/webfront/templates/assignments/admin_status.html:11
-#: src/webfront/templates/content/files_manage.html:86
-#: src/webfront/templates/reports/reports.html:37
-msgid "Refresh"
-msgstr "Uppdatera"
+#: src/webfront/templates/assignments/admin_status.html:21
+msgid "Recipient/Sender"
+msgstr "Mottag/sänd"
 
-#: src/webfront/templates/assignments/admin_status.html:15
-#: src/webfront/templates/assignments/admin_status.html:22
-#: src/webfront/templates/content/list_modules.html:111
-msgid "-- no group selected --"
-msgstr "- Ingen utvald grupp - "
-
-#: src/webfront/templates/assignments/admin_status.html:30
-msgid "To group"
-msgstr "Till gruppen "
-
-#: src/webfront/templates/assignments/admin_status.html:38
-#: src/webfront/templates/management/users.html:41
+#: src/webfront/templates/assignments/admin_status.html:40
+#: src/webfront/templates/content/module_assignment.html:40
+#: src/webfront/templates/management/users.html:45
 msgid "Show only my groups"
 msgstr "Visa endast mina grupper"
 
-#: src/webfront/templates/assignments/admin_status.html:50
-#: src/webfront/templates/messages/compose.html:20
-#: src/webfront/templates/messages/outbox.html:8
-#: src/webfront/templates/messages/view.html:5
-msgid "To"
-msgstr "Åt"
+#: src/webfront/templates/assignments/admin_status.html:44
+#: src/webfront/templates/content/module_assignment.html:46
+msgid "No group selected"
+msgstr "Inga grupper valda"
 
-#: src/webfront/templates/assignments/admin_status.html:50
-msgid "people"
-msgstr "personer"
+#: src/webfront/templates/assignments/admin_status.html:47
+msgid "Group status"
+msgstr "Gruppens status"
 
-#: src/webfront/templates/assignments/admin_status.html:65
-msgid "First Name"
-msgstr "Förnamn"
+#: src/webfront/templates/assignments/admin_status.html:49
+msgid "To group"
+msgstr "Till gruppen "
 
-#: src/webfront/templates/assignments/admin_status.html:69
-msgid "Last login"
-msgstr "Senaste inloggning"
+#: src/webfront/templates/assignments/admin_status.html:58
+#: src/webfront/templates/content/list_modules.html:34
+#: src/webfront/templates/content/module_assignment.html:117
+msgid "Content title"
+msgstr "Rubrik"
 
-#: src/webfront/templates/assignments/admin_status.html:70
-msgid "Groups"
-msgstr "Grupper"
+#: src/webfront/templates/assignments/admin_status.html:60
+#: src/webfront/templates/assignments/module_progress.html:25
+msgid "Completion"
+msgstr "status"
 
-#: src/webfront/templates/assignments/admin_status.html:112
+#: src/webfront/templates/assignments/admin_status.html:74
 #: src/webfront/templates/assignments/user_modules.html:63
 #: src/webfront/templates/assignments/user_modules.html:142
 #: src/webfront/templates/assignments/user_modules.html:177
-#: src/webfront/templates/content/list_modules.html:51
+#: src/webfront/templates/content/list_modules.html:52
 msgid "Published"
 msgstr "Publiserad"
 
-#: src/webfront/templates/assignments/admin_status.html:123
-msgid "No users in this group"
-msgstr "Inga användare i den här gruppen"
+#: src/webfront/templates/assignments/admin_status.html:95
+msgid "Latest files"
+msgstr "Senaste Filer"
 
-#: src/webfront/templates/assignments/admin_status.html:127
-msgid "No group selected"
-msgstr "Ingen grupp är  utvald"
+#: src/webfront/templates/assignments/admin_status.html:97
+#: src/webfront/templates/assignments/admin_status.html:145
+msgid "Added"
+msgstr "Tillagt"
+
+#: src/webfront/templates/assignments/admin_status.html:117
+#: src/webfront/templates/content/module_assignment.html:52
+msgid "My content"
+msgstr "Eget innehåll"
+
+#: src/webfront/templates/assignments/admin_status.html:119
+msgid "Latest content"
+msgstr "Senaste innehåll"
+
+#: src/webfront/templates/assignments/admin_status.html:121
+#: src/webfront/templates/content/list_modules.html:50
+msgid "Created"
+msgstr "Skapad"
+
+#: src/webfront/templates/assignments/admin_status.html:141
+msgid "My Reports"
+msgstr "Mina rapporter"
+
+#: src/webfront/templates/assignments/admin_status.html:143
+msgid "Latest reports"
+msgstr "Senaste rapporter"
+
+#: src/webfront/templates/assignments/module_progress.html:3
+#: src/webfront/templates/assignments/module_progress.html:4
+msgid "Recipient Status"
+msgstr "Mottagarens status"
+
+#: src/webfront/templates/assignments/module_progress.html:13
+msgid "group"
+msgstr "gruppen"
+
+#: src/webfront/templates/assignments/module_progress.html:24
+msgid "Recipient"
+msgstr "Mottagare"
+
+#: src/webfront/templates/assignments/module_progress.html:44
+msgid "First Name"
+msgstr "Förnamn"
+
+#: src/webfront/templates/assignments/module_progress.html:47
+#: src/webfront/templates/assignments/user_progress.html:57
+msgid "User IP"
+msgstr "Användar IP"
+
+#: src/webfront/templates/assignments/module_progress.html:51
+msgid "Last login"
+msgstr "Senaste inloggning"
+
+#: src/webfront/templates/assignments/module_progress.html:67
+msgid "Select all"
+msgstr "Välj alla"
+
+#: src/webfront/templates/assignments/module_progress.html:69
+msgid "To 0 people"
+msgstr "Till 0 personer"
+
+#: src/webfront/templates/assignments/module_progress.html:73
+msgid "No recipient selected"
+msgstr "Inga mottagare valda"
+
+#: src/webfront/templates/assignments/user_modules.html:16
+msgid "Inbox"
+msgstr "Inbox"
 
 #: src/webfront/templates/assignments/user_modules.html:21
 msgid "Archive"
 msgstr "Arkiv"
 
 #: src/webfront/templates/assignments/user_modules.html:29
+#: src/webfront/templates/content/list_modules.html:115
 msgid "-- All groups --"
 msgstr "- Alla grupper - "
 
@@ -1646,60 +1921,76 @@ msgstr "Nya"
 
 #: src/webfront/templates/assignments/user_modules.html:43
 #: src/webfront/templates/assignments/user_modules.html:157
-msgid "Click here to view content"
-msgstr "Tryck här för att se innehållet"
+msgid "View Content"
+msgstr "Innehåll"
 
 #: src/webfront/templates/assignments/user_modules.html:48
 #: src/webfront/templates/assignments/user_modules.html:162
 msgid "Send a message to the author"
 msgstr "Skicka ett meddelande"
 
-#: src/webfront/templates/assignments/user_progress.html:3
-#: src/webfront/templates/assignments/user_progress.html:4
-msgid "User progress"
-msgstr "genomgång av modulen"
-
-#: src/webfront/templates/assignments/user_progress.html:16
-msgid "User Name"
-msgstr "Namn"
-
-#: src/webfront/templates/assignments/user_progress.html:64
+#: src/webfront/templates/assignments/user_progress.html:35
 msgid "min"
 msgstr "min"
 
-#: src/webfront/templates/assignments/user_progress.html:65
+#: src/webfront/templates/assignments/user_progress.html:36
 msgid "Total time"
 msgstr "Total tid"
 
-#: src/webfront/templates/assignments/user_progress.html:66
+#: src/webfront/templates/assignments/user_progress.html:37
 msgid "Download count"
 msgstr "Gånger nedladdad"
 
-#: src/webfront/templates/assignments/user_progress.html:83
-msgid "User log"
-msgstr "Användarens log"
+#: src/webfront/templates/assignments/user_progress.html:39
+#: src/webfront/templates/content/module_viewer.html:36
+#: src/webfront/templates/content/module_viewer_smm.html:56
+msgid "Sign off"
+msgstr "Avannonsera"
+
+#: src/webfront/templates/assignments/user_progress.html:39
+msgid "yes"
+msgstr "Ja"
+
+#: src/webfront/templates/assignments/user_progress.html:39
+msgid "no"
+msgstr "Nej"
+
+#: src/webfront/templates/assignments/user_progress.html:43
+#: src/webfront/templates/content/dialogs/preview_assignment.html:4
+#: src/webfront/templates/messages/dialog/preview.html:3
+msgid "Preview"
+msgstr "Förhandsgranska"
+
+#: src/webfront/templates/assignments/user_progress.html:51
+#: src/webfront/templates/assignments/dialogs/user_page_progress.html:10
+msgid "Log"
+msgstr "Log"
 
 # TRANSlATION DOES NOT SHOW 
-#: src/webfront/templates/assignments/user_progress.html:85
+#: src/webfront/templates/assignments/user_progress.html:53
 msgid "Date"
 msgstr "Datum"
 
-#: src/webfront/templates/assignments/user_progress.html:87
-#: src/webfront/templates/assignments/user_progress.html:108
+#: src/webfront/templates/assignments/user_progress.html:55
+#: src/webfront/templates/assignments/user_progress.html:88
 msgid "Result"
 msgstr "Resultat"
 
-#: src/webfront/templates/assignments/user_progress.html:103
+#: src/webfront/templates/assignments/user_progress.html:83
 msgid "Results log"
 msgstr "Resultat"
 
-#: src/webfront/templates/assignments/user_progress.html:105
+#: src/webfront/templates/assignments/user_progress.html:85
 msgid "Id"
 msgstr "Id"
 
-#: src/webfront/templates/assignments/user_progress.html:107
+#: src/webfront/templates/assignments/user_progress.html:87
 msgid "Student response"
 msgstr "Användar svar"
+
+#: src/webfront/templates/assignments/dialogs/user_page_progress.html:6
+msgid "Viewed pages"
+msgstr "Sedda sidor"
 
 #: src/webfront/templates/content/files_manage.html:17
 #: src/webfront/templates/content/module_creator.html:18
@@ -1712,7 +2003,7 @@ msgid "By tags"
 msgstr "Enligt Taggar"
 
 #: src/webfront/templates/content/files_manage.html:41
-#: src/webfront/templates/content/module_content.html:138
+#: src/webfront/templates/content/module_content.html:144
 #: src/webfront/templates/content/module_creator.html:42
 msgid "Add tag"
 msgstr "Lägg till tagg"
@@ -1728,153 +2019,215 @@ msgid "results"
 msgstr "resultat"
 
 #: src/webfront/templates/content/files_manage.html:85
-msgid "Import new file"
-msgstr "Importera ny fil"
+#: src/webfront/templates/content/module_content.html:3
+#: src/webfront/templates/content/module_content.html:4
+msgid "Add file"
+msgstr "Lägg till fil"
 
-#: src/webfront/templates/content/list_modules.html:13
+#: src/webfront/templates/content/files_manage.html:86
+#: src/webfront/templates/reports/reports.html:44
+msgid "Refresh"
+msgstr "Uppdatera"
+
+#: src/webfront/templates/content/list_modules.html:14
 #: src/webfront/templates/content/module_creator.html:101
 msgid "Create new"
 msgstr "Skapa ny"
 
-#: src/webfront/templates/content/list_modules.html:14
+#: src/webfront/templates/content/list_modules.html:15
 msgid "New from a copy"
 msgstr "Ny från en kopia"
 
-#: src/webfront/templates/content/list_modules.html:15
+#: src/webfront/templates/content/list_modules.html:16
 msgid "Activate"
 msgstr "Aktivera"
 
-#: src/webfront/templates/content/list_modules.html:16
+#: src/webfront/templates/content/list_modules.html:17
 msgid "Re-activate"
 msgstr "Återaktivera"
 
-#: src/webfront/templates/content/list_modules.html:17
+#: src/webfront/templates/content/list_modules.html:18
 msgid "Deactivate"
 msgstr "Avaktivera"
 
-#: src/webfront/templates/content/list_modules.html:18
+#: src/webfront/templates/content/list_modules.html:19
 msgid "To draft"
 msgstr "Att utarbeta"
 
-#: src/webfront/templates/content/list_modules.html:33
-#: src/webfront/templates/content/module_assignment.html:79
-msgid "Module title"
-msgstr "Modul titel"
+#: src/webfront/templates/content/list_modules.html:35
+#: src/webfront/templates/messages/box.html:19
+msgid "Sent"
+msgstr "Skickad"
 
-#: src/webfront/templates/content/list_modules.html:34
-msgid "Assigned"
-msgstr "Tilldela"
+#: src/webfront/templates/content/list_modules.html:36
+msgid "Active"
+msgstr "Aktiv"
 
-#: src/webfront/templates/content/list_modules.html:38
+#: src/webfront/templates/content/list_modules.html:39
 msgid "Continue editing"
 msgstr "Fortsätt redigera"
 
-#: src/webfront/templates/content/list_modules.html:49
-msgid "Created"
-msgstr "Skapad"
-
-#: src/webfront/templates/content/list_modules.html:50
+#: src/webfront/templates/content/list_modules.html:51
 msgid "Modified"
 msgstr "Modifierad"
 
-#: src/webfront/templates/content/list_modules.html:52
+#: src/webfront/templates/content/list_modules.html:53
 msgid "Deactivated"
 msgstr "Avaktivera"
 
-#: src/webfront/templates/content/list_modules.html:94
-msgid "Can be assigned to"
-msgstr "Kan tilldelas"
+#: src/webfront/templates/content/list_modules.html:109
+msgid "Can be sent to"
+msgstr "Kan skickas åt"
 
-#: src/webfront/templates/content/list_modules.html:99
+#: src/webfront/templates/content/list_modules.html:114
 msgid "- choose group -"
 msgstr "- Välj grupp - "
 
-#: src/webfront/templates/content/list_modules.html:105
-#: src/webfront/templates/content/module_assignment.html:96
+#: src/webfront/templates/content/list_modules.html:121
+#: src/webfront/templates/content/module_assignment.html:29
 msgid "Add group"
 msgstr "Lägg till grupp"
 
-#: src/webfront/templates/content/list_modules.html:121
+#: src/webfront/templates/content/list_modules.html:127
+msgid "-- no group selected --"
+msgstr "- Ingen utvald grupp - "
+
+#: src/webfront/templates/content/list_modules.html:134
+msgid "Sent to:"
+msgstr "Skickat:"
+
+#: src/webfront/templates/content/list_modules.html:137
 msgid "Change assignments"
 msgstr "Ändra uppgifter"
 
-#: src/webfront/templates/content/list_modules.html:124
+#: src/webfront/templates/content/list_modules.html:140
 #: src/webfront/templates/management/edit_group.html:14
 #: src/webfront/templates/management/user_pass_change.html:53
-#: src/webfront/templates/management/dialogs/edit_user.html:83
+#: src/webfront/templates/management/dialogs/edit_user.html:101
+#: src/webfront/templates/messages/view_ocl.html:26
 msgid "Save changes"
 msgstr "Spara ändringar"
 
-#: src/webfront/templates/content/module_assignment.html:22
-msgid "Other modules"
-msgstr "Övriga moduler"
+#: src/webfront/templates/content/module_assignment.html:18
+msgid "Select"
+msgstr "Välj"
+
+#: src/webfront/templates/content/module_assignment.html:33
+msgid "to send content"
+msgstr "för att sända innehåll"
 
 #: src/webfront/templates/content/module_assignment.html:36
-#: src/webfront/templates/content/module_assignment.html:44
-#: src/webfront/templates/management/users.html:13
+msgid "Select group to send content"
+msgstr "Välj grupp att sända innehåll"
+
+#: src/webfront/templates/content/module_assignment.html:57
+msgid "Available content"
+msgstr "Tillgängligt innehåll"
+
+#: src/webfront/templates/content/module_assignment.html:70
+#: src/webfront/templates/content/module_assignment.html:78
+#: src/webfront/templates/management/users.html:17
 msgid "All groups"
 msgstr "Alla Grupper"
 
-#: src/webfront/templates/content/module_assignment.html:114
-msgid "Publish"
-msgstr "Publicera"
+#: src/webfront/templates/content/module_assignment.html:110
+msgid "Show advanced search"
+msgstr "Visa avancerad sökning"
+
+#: src/webfront/templates/content/module_assignment.html:126
+msgid "Back"
+msgstr "Tillbaka"
+
+#: src/webfront/templates/content/module_assignment.html:134
+msgid "Group: "
+msgstr "Grupper"
+
+#: src/webfront/templates/content/module_assignment.html:135
+msgid "Change"
+msgstr "Ändra"
+
+#: src/webfront/templates/content/module_assignment.html:191
+#: src/webfront/templates/content/dialogs/preview_assignment.html:7
+#: src/webfront/templates/messages/dialog/preview.html:7
+msgid "Email message"
+msgstr "e-postmeddelanden"
+
+#: src/webfront/templates/content/module_assignment.html:197
+#: src/webfront/templates/messages/dialog/edit_before_send.html:3
+msgid "Edit message"
+msgstr "Editera meddelandet"
+
+#: src/webfront/templates/content/module_assignment.html:209
+msgid "Allow Log-In"
+msgstr "Tillåt Logga in"
+
+#: src/webfront/templates/content/module_assignment.html:214
+msgid "Show Preview"
+msgstr "Visa förhandsgranskning"
+
+#: src/webfront/templates/content/module_assignment.html:218
+#: src/webfront/templates/content/module_creator.html:108
+#: src/webfront/templates/messages/compose.html:34
+#: src/webfront/templates/messages/dialog/edit_before_send.html:42
+#: src/webfront/templates/registration/registration_form.html:92
+msgid "Cancel"
+msgstr "Avbryt"
 
 #: src/webfront/templates/content/module_content.html:3
 #: src/webfront/templates/content/module_content.html:4
 msgid "Edit file"
 msgstr "Redigera filen"
 
-#: src/webfront/templates/content/module_content.html:3
-#: src/webfront/templates/content/module_content.html:4
-msgid "Import file"
-msgstr "Importera fil"
-
-#: src/webfront/templates/content/module_content.html:23
+#: src/webfront/templates/content/module_content.html:29
 msgid "Select file"
 msgstr "Välj fil"
 
-#: src/webfront/templates/content/module_content.html:27
+#: src/webfront/templates/content/module_content.html:33
 msgid "Upload file"
 msgstr "Ladda upp fil"
 
-#: src/webfront/templates/content/module_content.html:28
+#: src/webfront/templates/content/module_content.html:34
 msgid "Choose from dms"
 msgstr "Välj från DMS"
 
-#: src/webfront/templates/content/module_content.html:29
+#: src/webfront/templates/content/module_content.html:35
 msgid "Supported file types"
 msgstr "filtyper som stöds"
 
-#: src/webfront/templates/content/module_content.html:99
+#: src/webfront/templates/content/module_content.html:105
 msgid "Cancel upload"
 msgstr "Avbryt"
 
-#: src/webfront/templates/content/module_content.html:134
+#: src/webfront/templates/content/module_content.html:140
 msgid "Tags"
 msgstr "Taggar"
 
-#: src/webfront/templates/content/module_content.html:174
+#: src/webfront/templates/content/module_content.html:180
 msgid "minutes"
 msgstr "minuter"
 
-#: src/webfront/templates/content/module_content.html:196
+#: src/webfront/templates/content/module_content.html:202
 msgid "Group rights"
 msgstr "Grupp rättigheter"
 
-#: src/webfront/templates/content/module_content.html:199
-#: src/webfront/templates/management/users.html:80
+#: src/webfront/templates/content/module_content.html:205
+#: src/webfront/templates/management/users.html:84
 msgid "Available"
 msgstr "Tillgänglig"
 
-#: src/webfront/templates/content/module_content.html:211
-#: src/webfront/templates/management/users.html:87
+#: src/webfront/templates/content/module_content.html:217
+#: src/webfront/templates/management/users.html:91
 msgid "Selected"
 msgstr "Valda"
 
-#: src/webfront/templates/content/module_content.html:225
+#: src/webfront/templates/content/module_content.html:232
+msgid "Clear"
+msgstr "Rensa"
+
+#: src/webfront/templates/content/module_content.html:233
 #: src/webfront/templates/content/module_creator.html:159
 msgid "Done"
-msgstr "Klar"
+msgstr "Färdig"
 
 #: src/webfront/templates/content/module_creator.html:3
 #: src/webfront/templates/content/module_creator.html:4
@@ -1883,30 +2236,28 @@ msgstr "Skapa modul"
 
 #: src/webfront/templates/content/module_creator.html:93
 msgid "Collection"
-msgstr "Insamling"
-
-#: src/webfront/templates/content/module_creator.html:108
-#: src/webfront/templates/messages/compose.html:33
-#: src/webfront/templates/registration/registration_form.html:95
-msgid "Cancel"
-msgstr "Avbryt"
-
-#: src/webfront/templates/content/module_creator.html:134
-msgid "Module"
-msgstr "Modul"
+msgstr "Samling"
 
 #: src/webfront/templates/content/module_creator.html:136
-msgid "Enter module title"
-msgstr "Lägg till namn på Info paketet"
+msgid "Enter content title"
+msgstr "Lägg till rubik på innehåll"
+
+#: src/webfront/templates/content/module_viewer_smm.html:21
+msgid "Log in"
+msgstr "Logga in"
 
 #: src/webfront/templates/content/rss.html:3
 #: src/webfront/templates/content/rss.html:4
 msgid "RSS Feeds"
-msgstr ""
+msgstr "RSS Flöden"
 
 #: src/webfront/templates/content/dialogs/choose_file_from_dms.html:4
 msgid "Choose file from DMS"
 msgstr "Välj från DMS"
+
+#: src/webfront/templates/content/dialogs/preview_assignment.html:20
+msgid "No content selected"
+msgstr "Inget innehåll har valts"
 
 #: src/webfront/templates/management/edit_group.html:6
 msgid "Edit group name"
@@ -1914,11 +2265,11 @@ msgstr "Redigera gruppnamn"
 
 #: src/webfront/templates/management/edit_group.html:8
 msgid "Create new group"
-msgstr "Skapa ny grupp"
+msgstr "Lägg till ny grupp"
 
 #: src/webfront/templates/management/edit_group.html:14
 msgid "Add new group"
-msgstr "Lägg till ny grupp"
+msgstr "Lägg till"
 
 #: src/webfront/templates/management/import_csv.html:8
 msgid "No changes have been made in the database because of following errors:"
@@ -1959,88 +2310,116 @@ msgstr "Användar roll"
 msgid "Groups &amp; users management"
 msgstr "Grupp &amp; användar management"
 
-#: src/webfront/templates/management/users.html:17
-#: src/webfront/templates/management/users.html:37
-#: src/webfront/templates/management/users.html:82
-#: src/webfront/templates/management/users.html:90
+#: src/webfront/templates/management/users.html:21
+#: src/webfront/templates/management/users.html:41
+#: src/webfront/templates/management/users.html:86
+#: src/webfront/templates/management/users.html:94
 msgid "Loading groups"
 msgstr "Laddar grupper"
 
-#: src/webfront/templates/management/users.html:24
-#: src/webfront/templates/management/users.html:55
+#: src/webfront/templates/management/users.html:28
+#: src/webfront/templates/management/users.html:59
 msgid "Loading users"
 msgstr "Laddar användare"
 
-#: src/webfront/templates/management/users.html:27
+#: src/webfront/templates/management/users.html:31
 msgid "Add selected to group"
 msgstr "Lägg till valda till gruppen"
 
-#: src/webfront/templates/management/users.html:29
+#: src/webfront/templates/management/users.html:33
 msgid "CSV remove"
 msgstr "CSV bort"
 
-#: src/webfront/templates/management/users.html:32
+#: src/webfront/templates/management/users.html:36
 msgid "Remove selected from group"
 msgstr "Ta bort markerade från gruppen"
 
-#: src/webfront/templates/management/users.html:46
+#: src/webfront/templates/management/users.html:50
 #: src/webfront/templates/notepad/notepad.html:31
 msgid "Add new"
 msgstr "Lägg till ny"
 
-#: src/webfront/templates/management/users.html:58
-#: src/webfront/templates/management/dialogs/edit_user.html:83
+#: src/webfront/templates/management/users.html:62
+#: src/webfront/templates/management/dialogs/edit_user.html:101
 msgid "Add new user"
 msgstr "Lägg till ny användare"
 
-#: src/webfront/templates/management/users.html:59
+#: src/webfront/templates/management/users.html:63
 msgid "Export to CSV"
 msgstr "Exportera till CSV"
 
-#: src/webfront/templates/management/users.html:60
+#: src/webfront/templates/management/users.html:64
 msgid "Import from CSV"
 msgstr "Importera från CSV"
 
-#: src/webfront/templates/management/users.html:64
+#: src/webfront/templates/management/users.html:68
 msgid "User details"
 msgstr "Användarinformation"
 
-#: src/webfront/templates/management/users.html:77
+#: src/webfront/templates/management/users.html:81
 msgid "Manage group self registration option"
 msgstr "Hantera självregistrering av grupp"
 
-#: src/webfront/templates/management/users.html:84
+#: src/webfront/templates/management/users.html:88
 msgid "Enable self-registration"
 msgstr "Aktivera självregistreringen"
 
-#: src/webfront/templates/management/users.html:88
+#: src/webfront/templates/management/users.html:92
 msgid "Disable self-registration"
 msgstr "Inaktivera självregistreringen"
 
-#: src/webfront/templates/management/dialogs/edit_user.html:7
+#: src/webfront/templates/management/dialogs/edit_user.html:8
 msgid "Edit user's details"
 msgstr "Redigera användar detaljer"
 
-#: src/webfront/templates/management/dialogs/edit_user.html:9
-msgid "New user in"
-msgstr "Ny användare i"
+#: src/webfront/templates/management/dialogs/edit_user.html:10
+msgid "Add new user to:"
+msgstr "Lägg till ny användare"
 
-#: src/webfront/templates/management/dialogs/edit_user.html:69
-#: src/webfront/templates/management/dialogs/edit_user.html:76
+#: src/webfront/templates/management/dialogs/edit_user.html:12
+msgid "Kneto"
+msgstr ""
+
+#: src/webfront/templates/management/dialogs/edit_user.html:86
+#: src/webfront/templates/management/dialogs/edit_user.html:93
 msgid "Reset password"
 msgstr "Återställ lösenordet"
+
+#: src/webfront/templates/management/dialogs/remove_user.html:6
+msgid "System message"
+msgstr "Systemmeddelande"
+
+#: src/webfront/templates/management/dialogs/remove_user.html:11
+msgid "Are You sure You want to remove this user?"
+msgstr "Representerar du säker att du vill ta bort den här användaren?"
+
+#: src/webfront/templates/management/dialogs/remove_user.html:13
+msgid "This operation cannot be undone."
+msgstr "Denna operation kan inte ångras."
 
 #: src/webfront/templates/messages/box.html:14
 msgid "Received"
 msgstr "Mottaget"
 
-#: src/webfront/templates/messages/box.html:19
-msgid "Sent"
-msgstr "Skickat"
+#: src/webfront/templates/messages/box.html:25
+msgid "OCL"
+msgstr "OCL"
 
-#: src/webfront/templates/messages/box.html:36
+#: src/webfront/templates/messages/box.html:35
+msgid "-- select module name --"
+msgstr "-- Välj modul namn -- "
+
+#: src/webfront/templates/messages/box.html:58
 msgid "No messages"
 msgstr "Inga meddelanden"
+
+#: src/webfront/templates/messages/box.html:70
+msgid "Select/deselect all"
+msgstr "Markera/avmarkera alla"
+
+#: src/webfront/templates/messages/box.html:74
+msgid "Remove messages"
+msgstr "Ta bort meddelanden"
 
 #: src/webfront/templates/messages/compose.html:3
 msgid "Messages - New message"
@@ -2050,54 +2429,85 @@ msgstr "Meddelande - Nytt meddelande"
 msgid "New message"
 msgstr "Nytt meddelande"
 
-#: src/webfront/templates/messages/compose.html:34
-msgid "Send"
-msgstr "Skicka"
+#: src/webfront/templates/messages/compose.html:21
+#: src/webfront/templates/messages/outbox.html:19
+#: src/webfront/templates/messages/view.html:6
+#: src/webfront/templates/messages/view_ocl.html:8
+msgid "To"
+msgstr "Åt"
 
 #: src/webfront/templates/messages/inbox.html:3
 msgid "Messages - Inbox"
 msgstr "meddelande . Inbox"
 
-#: src/webfront/templates/messages/inbox.html:8
-#: src/webfront/templates/messages/view.html:4
+#: src/webfront/templates/messages/inbox.html:11
+#: src/webfront/templates/messages/view.html:5
+#: src/webfront/templates/messages/view_ocl.html:7
 msgid "From"
 msgstr "Från"
 
-#: src/webfront/templates/messages/new_message.html:1
-#, python-format
-msgid ""
-"Hello %(recipient)s,\n"
-"\n"
-"you received a private message from %(sender)s with\n"
-"the following contents:"
-msgstr ""
-"Hello %(recipient)s,\n"
-"\n"
-"du har fått ett meddelande av %(sender)s:"
+#: src/webfront/templates/messages/my_templates.html:4
+msgid "Manage my templates"
+msgstr "Hantera mina mallar"
 
-#: src/webfront/templates/messages/outbox.html:3
-msgid "Messages - Sent"
-msgstr "meddelande - Skickat"
-
-#: src/webfront/templates/messages/templates.html:4
-msgid "Manage templates"
-msgstr "Administrera Mallar"
-
-#: src/webfront/templates/messages/templates.html:9
+#: src/webfront/templates/messages/my_templates.html:23
+#: src/webfront/templates/messages/templates.html:12
 msgid "Select template"
 msgstr "Välj mall"
 
-#: src/webfront/templates/messages/templates.html:37
+#: src/webfront/templates/messages/my_templates.html:44
+#: src/webfront/templates/messages/templates.html:33
+#: src/webfront/templates/messages/dialog/edit_before_send.html:20
 msgid "Message"
-msgstr "meddelande"
+msgstr "Meddelande"
 
-#: src/webfront/templates/messages/templates.html:43
+#: src/webfront/templates/messages/my_templates.html:50
+#: src/webfront/templates/messages/templates.html:39
+#: src/webfront/templates/messages/dialog/edit_before_send.html:26
 msgid "Parameters"
 msgstr "Parameter"
 
-#: src/webfront/templates/messages/view.html:15
+#: src/webfront/templates/messages/my_templates.html:73
+#: src/webfront/templates/messages/templates.html:61
+msgid "Save notification as default"
+msgstr "Spara meddelande som standard"
+
+#: src/webfront/templates/messages/new_message.html:7
+msgid "Service provided by"
+msgstr ""
+
+#: src/webfront/templates/messages/ocl.html:3
+msgid "Messages - OCL"
+msgstr "Meddelanden - OCL"
+
+#: src/webfront/templates/messages/ocl.html:11
+msgid "Show my links"
+msgstr "Visa mina länkar"
+
+#: src/webfront/templates/messages/outbox.html:3
+msgid "Messages - Sent"
+msgstr "Meddelande - Skickat"
+
+#: src/webfront/templates/messages/outbox.html:10
+msgid "Show only messages with OCL"
+msgstr "Visa endast meddelanden med OCL"
+
+#: src/webfront/templates/messages/templates.html:3
+msgid "Manage templates"
+msgstr "Administrera Mallar"
+
+#: src/webfront/templates/messages/view.html:19
 msgid "Reply"
 msgstr "Svara"
+
+#: src/webfront/templates/messages/view.html:23
+#: src/webfront/templates/messages/view_ocl.html:39
+msgid "Resend"
+msgstr "Skicka"
+
+#: src/webfront/templates/messages/view_ocl.html:37
+msgid "Expire now"
+msgstr "Expire nu"
 
 #: src/webfront/templates/notepad/notepad.html:22
 msgid "No notes"
@@ -2107,7 +2517,7 @@ msgstr "Inga anteckningar"
 # "Registration using free email addresses is prohibited. Please supply a "
 # "different email address."
 # msgstr ""
-#: src/webfront/templates/registration/activate.html:4
+#: src/webfront/templates/registration/activate.html:3
 msgid "Activation complete"
 msgstr "Aktiveringen är färdig"
 
@@ -2115,39 +2525,27 @@ msgstr "Aktiveringen är färdig"
 # "Registration using free email addresses is prohibited. Please supply a "
 # "different email address."
 # msgstr ""
-#: src/webfront/templates/registration/activate.html:4
+#: src/webfront/templates/registration/activate.html:3
 msgid "Activation problem"
 msgstr "Problem med aktiveringen"
 
-#: src/webfront/templates/registration/activate.html:7
-#, fuzzy
+#: src/webfront/templates/registration/activate.html:6
 msgid "Thanks {{ account }}, activation complete!  You may now"
-msgstr "Tack, aktiveringen är färdig!"
+msgstr "Tack {{ account }}, aktiveringen är färdig!"
 
-#: src/webfront/templates/registration/activate.html:7
-#, fuzzy
+#: src/webfront/templates/registration/activate.html:6
 msgid "using the username and password you set at registration."
 msgstr ""
 "Tack aktiveringen lyckades Du kan nu Logga in med detanvändarnamn och "
 "lösenord du angav vid registreringen. "
 
-#: src/webfront/templates/registration/activate.html:9
+#: src/webfront/templates/registration/activate.html:8
 msgid ""
-" \n"
-"<p>\n"
-"Oops &ndash; it seems that your activation key is invalid. <br> \n"
-"Perhaps you have already activated this account by clicking on the link we "
-"sent you?<br> \n"
-"<a href=\"http://info.sello.fi\">Click here to log in</a><br>\n"
-"If that doesn't work contact kauppakeskustoimisto@sello.fi \n"
+"Oops &ndash; it seems that your activation key is invalid.  Please check the "
+"url again."
 msgstr ""
-" \n"
-"<p>\n"
-"Woups! Det verkar som om din aktiveringsnyckel är ogiltig. <br> \n"
-"Det är möjligt att du redan aktiverat detta konto med ett "
-"tidigare klick.<br> \n"
-"<a href=\"http://info.sello.fi\">Klicka här för att logga in i eSello</a><br>\n"
-"Om det inte fungerar kontakta kauppakeskustoimisto@sello.fi\n"
+"Oops &ndash; det verkar som din aktiveringsnyckel är ogiltig. Klicka på "
+"original nyckel på nytt."
 
 #: src/webfront/templates/registration/activation_complete.html:7
 msgid "Thanks, activation complete!"
@@ -2165,142 +2563,62 @@ msgstr ""
 msgid "Login"
 msgstr "Senaste inloggning"
 
-#: src/webfront/templates/registration/activation_email.html:5
-#, python-format
-msgid ""
-"\n"
-"<html>\n"
-"<head>\n"
-"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n"
-"</head>\n"
-"<body bgcolor=\"#ffffff\">\n"
-"<img  align=\"top\" src=\"http://info.sello.fi/media/img/SELLO_2_RGB.jpeg\" "
-"alt=\"Home\">\n"
-"<hr>\n"
-"<p></p>\n"
-"<font face=\"Helvetica, Arial\">\n"
-"<p>\n"
-"<font size=\"5\"><b><i>Tervetuloa eSelloon</i></b><br></font>\n"
-"</p>\n"
-"Käyttäjätunnuksesi on:   %(username)s,<br />\n"
-"<p></p>\n"
-"<b><br /></b>\n"
-"Kauppakeskus Sellossa työskentelee yli 2000 työntekijää. Sello käyttää "
-"eSelloa jakaakseen<br> sisäistä koulutusmateriaalia Sellossa "
-"työskenteleville.<br />\n"
-"\n"
-"<p>\n"
-"Aktivoi tilisi eSelloon seuraamalla oheista linkkiä: <br>\n"
-"http://%(site_name)s%(activate_url)s\n"
-"<br><p></p><br>\n"
-"Huomaa: jos aktivointia ei tehdä 7 päivän sisällä, sinun on tehtävä "
-"rekisteröinti uudestaan. \n"
-"<br>\n"
-"<br>Mikäli yllä oleva linkki ei toimi: kopioi linkki  ja liitä se suoraan "
-"selaimen osoiteriville. <br> <br>\n"
-"Kun olet kirjautunut eSelloon, klikkaa vihreätä Play-nappia niin näet "
-"sinulle jaetun materiaalin. <br>\n"
-"Katso myös alta kuvaohje.<br>\n"
-"<img  align=\"top\" src=\"http://info.sello.fi/media/img/kneto_storyboard."
-"jpeg\" alt=\"Home\">\n"
-"</p>\n"
-"Unohditko salasanasi? Jos olet unohtanut salasanasi, saat uuden info.sello."
-"fi –osoitteesta<br>\n"
-"kohdasta PALAUTA SALASANA ja seuraamalla ohjeita.\n"
-"\n"
-"\n"
-"<hr>\n"
-"\n"
-"\n"
-"Sellon kauppakeskustoimisto<br>\n"
-"Kauppakeskus Sello - Enemmän kuin ostoksilla\n"
-"<br>\n"
-"<br>\n"
-"Puh. 010 424 6700<br>\n"
-"kauppakeskustoimisto@sello.fi\n"
-"<br>\n"
-"<br>\n"
-"Leppävaarankatu 3-9<br>\n"
-"02600 Espoo\n"
-"<br>\n"
-"<br>\n"
-"Tämä on automaattisesti lähetetty sähköpostiviesti, älä vastaa tähän "
-"sähköpostiviestiin <br />\n"
-"\n"
-"\n"
-"</body>\n"
-"\n"
-"<br />\n"
-"<br />\n"
-"\n"
-"</html>\n"
-msgstr ""
-
 #: src/webfront/templates/registration/activation_email.txt:5
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
-"Tervetuloa eSelloon\n"
+"Dear %(username)s,\n"
 "\n"
-"Käyttäjätunnuksesi on: %(username)s,\n"
-"\n"
-"Kauppakeskus Sellossa työskentelee yli 2000 työntekijää. Sello käyttää "
-"eSelloa jakaakseen sisäistä koulutusmateriaalia Sellossa työskenteleville.\n"
-"\n"
-"Aktivoi tilisi eSelloon seuraamalla oheista linkkiä: \n"
+"You have created an account for %(site_name)s, which has to\n"
+"be activated. To do this, please follow the following link:\n"
 "http://%(site_name)s%(activate_url)s\n"
 "\n"
-"Mikäli yllä oleva linkki ei toimi: kopioi linkki  ja liitä se suoraan "
-"selaimen osoiteriville.\n"
+"Please do take note that if your activation does not succeed\n"
+"within %(expiration_days)s days, you will have to restart\n"
+"the activation process.\n"
 "\n"
-"Huomaa: jos aktivointia ei tehdä 7 päivän sisällä, sinun on tehtävä "
-"rekisteröinti uudestaan. \n"
-"\n"
-"Kun olet kirjautunut eSelloon, klikkaa vihreätä Play-nappia niin näet "
-"sinulle jaetun materiaalin.\n"
-"\n"
-"Unohditko salasanasi? Jos olet unohtanut salasanasi, saat uuden info.sello."
-"fi –osoitteesta\n"
-"kohdasta PALAUTA SALASANA ja seuraamalla ohjeita.\n"
-"\n"
-"----------------------------------------------------------------------------\n"
-"Sellon kauppakeskustoimisto\n"
-"Kauppakeskus Sello - Enemmän kuin ostoksilla\n"
-"\n"
-"Puh. 010 424 6700\n"
-"kauppakeskustoimisto@sello.fi\n"
-"\n"
-"Leppävaarankatu 3-9\n"
-"02600 Espoo\n"
-"\n"
-"Tämä on automaattisesti lähetetty sähköpostiviesti, älä vastaa tähän "
-"sähköpostiviestiin\n"
-"\n"
-"\n"
+"Best regards,\n"
+"The Kneto\n"
 msgstr ""
+"Bästa %(username)s,\n"
+"Du har skapat ett konto för %(site_name)s, som nu måste\n"
+"aktiveras. \n"
+"För att göra detta, följ länken nedan:\n"
+"http://%(site_name)s%(activate_url)s\n"
+"\n"
+"Vänligen notera att om din aktivering som inte lyckas inom "
+"%(expiration_days)s dagar, måste du\n"
+"starta om registrerings.\n"
+"\n"
+"Med Vänlig Hälsning,\n"
+"Kneto\n"
 
-#: src/webfront/templates/registration/activation_email_subject.txt:30
+#: src/webfront/templates/registration/activation_email_subject.txt:29
 #, python-format
 msgid "Account activation for %(site_name)s"
 msgstr "Aktivera kontot för %(site_name)s"
 
-#: src/webfront/templates/registration/login.html:60
+#: src/webfront/templates/registration/login.html:72
 msgid "Please log-in"
 msgstr "Vänligen logga in"
 
-#: src/webfront/templates/registration/login.html:98
+#: src/webfront/templates/registration/login.html:84
+msgid "This link is expired"
+msgstr "Denna länk har upphört att gälla"
+
+#: src/webfront/templates/registration/login.html:115
 msgid "Log-in"
 msgstr "Logga in"
 
-#: src/webfront/templates/registration/login.html:102
-#: src/webfront/templates/registration/registration_base.html:66
-#: src/webfront/templates/registration/registration_form.html:92
+#: src/webfront/templates/registration/login.html:119
+#: src/webfront/templates/registration/registration_base.html:57
+#: src/webfront/templates/registration/registration_form.html:89
 msgid "Register"
 msgstr "Registrera Dig"
 
-#: src/webfront/templates/registration/login.html:106
+#: src/webfront/templates/registration/login.html:123
 msgid "Lost password"
-msgstr "Återställ lösenorde"
+msgstr "Återställ lösenordet"
 
 #: src/webfront/templates/registration/password_reset_complete.html:5
 #: src/webfront/templates/registration/password_reset_complete.html:6
@@ -2344,7 +2662,7 @@ msgstr "Ändra lösenord"
 #: src/webfront/templates/registration/password_reset_form.html:32
 #: src/webfront/templates/registration/registration_closed.html:9
 #: src/webfront/templates/registration/registration_complete.html:9
-msgid "Home"
+msgid "Ok"
 msgstr "Ok"
 
 #: src/webfront/templates/registration/password_reset_confirm.html:55
@@ -2444,203 +2762,156 @@ msgstr "Skapa ny rapport"
 msgid "Edit report"
 msgstr "Redigera rapport"
 
-#: src/webfront/templates/reports/reports.html:22
+#: src/webfront/templates/reports/create.html:16
+msgid "Receivers"
+msgstr "Mottagare"
+
+#: src/webfront/templates/reports/create.html:52
+msgid "add receiver"
+msgstr "lägg mottagare"
+
+#: src/webfront/templates/reports/reports.html:12
+msgid "My reports"
+msgstr "Mina rapporter"
+
+#: src/webfront/templates/reports/reports.html:28
 msgid "Add new report"
 msgstr "Lägg till ny rapport"
 
-#: src/webfront/templates/reports/reports.html:24
+#: src/webfront/templates/reports/reports.html:30
 msgid "Report name"
 msgstr "Rapport namn"
 
-#: src/webfront/templates/reports/reports.html:26
+#: src/webfront/templates/reports/reports.html:32
 msgid "Last execution time"
 msgstr "Senaste utföring"
 
-#: src/webfront/templates/reports/reports.html:36
+#: src/webfront/templates/reports/reports.html:43
 msgid "Run now!"
 msgstr "Kör rapport!"
 
-#~ msgid ""
-#~ "Oops &ndash; it seems that your activation key is invalid.  Please check "
-#~ "the url again."
-#~ msgstr ""
-#~ "Oops &ndash; det verkar som din aktiveringsnyckel är ogiltig. Klicka på "
-#~ "original nyckel på nytt."
+#~ msgid "pending mode"
+#~ msgstr "avvaktan läge"
 
-#, fuzzy
-#~ msgid ""
-#~ "\n"
-#~ "Dear %(username)s,\n"
-#~ "\n"
-#~ "You have created an account for %(site_name)s, which has to\n"
-#~ "be activated. To do this, please follow the following link:\n"
-#~ "http://%(site_name)s%(activate_url)s\n"
-#~ "\n"
-#~ "Please do take note that if your activation does not succeed\n"
-#~ "within %(expiration_days)s days, you will have to restart\n"
-#~ "the activation process.\n"
-#~ "\n"
-#~ "Best regards,\n"
-#~ "The Kneto\n"
-#~ msgstr ""
-#~ "Bästa %(username)s,\n"
-#~ "Du har skapat ett konto för %(site_name)s, som nu måste\n"
-#~ "aktiveras. \n"
-#~ "För att göra detta, följ länken nedan:\n"
-#~ "http://%(site_name)s%(activate_url)s\n"
-#~ "\n"
-#~ "Vänligen notera att om din aktivering som inte lyckas inom "
-#~ "%(expiration_days)s dagar, måste du\n"
-#~ "starta om registrerings.\n"
-#~ "\n"
-#~ "Med Vänlig Hälsning,\n"
-#~ "Kneto\n"
+#~ msgid "New user in"
+#~ msgstr "Ny användare i"
 
-#, fuzzy
 #~ msgid "Successfully deleted %(count)d %(items)s."
-#~ msgstr "Meddelande har tagits bort %s."
+#~ msgstr "Har tagits borti %(count)d %(items)s."
 
-#, fuzzy
 #~ msgid "Any date"
-#~ msgstr "Alla typer"
+#~ msgstr "Varje dag"
 
-#, fuzzy
 #~ msgid "This month"
-#~ msgstr ""
-#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ msgstr "Denna månad"
 
-#, fuzzy
 #~ msgid "This year"
-#~ msgstr ""
-#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-#~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
+#~ msgstr "Denna år"
 
-#, fuzzy
 #~ msgid "Unknown"
-#~ msgstr "Hantera innehåll"
+#~ msgstr "Okänd"
 
-#, fuzzy
 #~ msgid "Action:"
-#~ msgstr "Utförande"
+#~ msgstr "Åtgärd"
 
 #, fuzzy
 #~ msgid "action time"
 #~ msgstr "Senaste utföring"
 
-#, fuzzy
 #~ msgid "object id"
-#~ msgstr "Målsättning"
+#~ msgstr "object id"
 
-#, fuzzy
 #~ msgid "object repr"
-#~ msgstr "Målsättning"
+#~ msgstr "object repr"
 
-#, fuzzy
 #~ msgid "action flag"
-#~ msgstr "Senaste utföring"
+#~ msgstr "åtgärder flagga"
 
-#, fuzzy
 #~ msgid "change message"
-#~ msgstr "Nytt meddelande"
+#~ msgstr "ändra meddelande"
 
-#, fuzzy
 #~ msgid "log entry"
-#~ msgstr "Config entry namn"
+#~ msgstr "loggpost"
 
-#, fuzzy
 #~ msgid "log entries"
-#~ msgstr "Config entry namn"
+#~ msgstr "loggposter"
 
-#, fuzzy
 #~ msgid "Changed %s."
-#~ msgstr "förändringar"
+#~ msgstr "Ändrad %s."
 
-#, fuzzy
 #~ msgid "and"
-#~ msgstr "Kanada Engelska "
+#~ msgstr "och"
 
-#, fuzzy
 #~ msgid "Added %(name)s \"%(object)s\"."
-#~ msgstr "Lägg till ny"
+#~ msgstr "Lade %(name)s \"%(object)s\"."
 
 #, fuzzy
+#~ msgid "Changed %(list)s for %(name)s \"%(object)s\"."
+#~ msgstr "Lade %(name)s \"%(object)s\"."
+
+#, fuzzy
+#~ msgid "Deleted %(name)s \"%(object)s\"."
+#~ msgstr "Lade %(name)s \"%(object)s\"."
+
 #~ msgid "No fields changed."
-#~ msgstr "Spara ändringar"
+#~ msgstr "Inga fält ändrats"
 
-#, fuzzy
 #~ msgid "The %(name)s \"%(obj)s\" was added successfully."
-#~ msgstr "Rapport genererad framgångsrikt"
+#~ msgstr "Den %(name)s \"%(obj)s\" har lagts till"
 
-#, fuzzy
 #~ msgid "The %(name)s \"%(obj)s\" was changed successfully."
-#~ msgstr "Rapport genererad framgångsrikt"
-
-#, fuzzy
-#~ msgid "No action selected."
-#~ msgstr "Ingen grupp är  utvald"
-
-#, fuzzy
-#~ msgid "Add %s"
-#~ msgstr "Lägg till tagg"
-
-#, fuzzy
-#~ msgid "%(name)s object with primary key %(key)r does not exist."
-#~ msgstr "Användare med ID %d finns inte."
-
-#, fuzzy
-#~ msgid "Change %s"
-#~ msgstr "förändringar"
-
-#, fuzzy
-#~ msgid "%(count)s %(name)s was changed successfully."
-#~ msgid_plural "%(count)s %(name)s were changed successfully."
-#~ msgstr[0] "Rapport genererad framgångsrikt"
-#~ msgstr[1] "Rapport genererad framgångsrikt"
-
-#, fuzzy
-#~ msgid "%(total_count)s selected"
-#~ msgid_plural "All %(total_count)s selected"
-#~ msgstr[0] "Ingen grupp är  utvald"
-#~ msgstr[1] "Ingen grupp är  utvald"
-
-#, fuzzy
-#~ msgid "0 of %(cnt)s selected"
-#~ msgstr "Ingen grupp är  utvald"
-
-#, fuzzy
-#~ msgid "The %(name)s \"%(obj)s\" was deleted successfully."
-#~ msgstr "Rapport genererad framgångsrikt"
-
-#, fuzzy
-#~ msgid "Change history: %s"
-#~ msgstr "Ändra lösenord"
+#~ msgstr "Den %(name)s \"%(obj)s\" har ändrats."
 
 #, fuzzy
 #~ msgid ""
-#~ "Please enter a correct username and password. Note that both fields are "
-#~ "case-sensitive."
-#~ msgstr "Ange rätt användarnamn och lösenord."
+#~ "The %(name)s \"%(obj)s\" was added successfully. You may edit it again "
+#~ "below."
+#~ msgstr "Den %(name)s \"%(obj)s\" har lagts till"
 
 #, fuzzy
+#~ msgid "No action selected."
+#~ msgstr "Inget innehåll har valts"
+
+#~ msgid "Add %s"
+#~ msgstr "Lägg %s"
+
+#~ msgid "%(name)s object with primary key %(key)r does not exist."
+#~ msgstr "%(name)s objekt med primärnyckel %(key)r finns inte"
+
+#~ msgid "Change %s"
+#~ msgstr "Ändra %s"
+
+#~ msgid "%(count)s %(name)s was changed successfully."
+#~ msgid_plural "%(count)s %(name)s were changed successfully."
+#~ msgstr[0] "%(count)s %(name)s ändrades framgångsrikt."
+#~ msgstr[1] "%(count)s %(name)s har ändrats."
+
+#~ msgid "%(total_count)s selected"
+#~ msgid_plural "All %(total_count)s selected"
+#~ msgstr[0] "%(total_count)s valts"
+#~ msgstr[1] "Alla %(total_count)s valda"
+
+#~ msgid "0 of %(cnt)s selected"
+#~ msgstr "0 av %(cnt)s är valt"
+
+#~ msgid "The %(name)s \"%(obj)s\" was deleted successfully."
+#~ msgstr "Den %(name)s \"%(obj)s\" har raderats."
+
+#~ msgid "Change history: %s"
+#~ msgstr "Ändra historien: %s"
+
+#~ msgid ""
+#~ "Please enter a correct username and password. Note that both fields are "
+#~ "case-sensitive."
+#~ msgstr ""
+#~ "Ange ett korrekt användarnamn och lösenord. Observera att båda fälten "
+#~ "ärskiftlägeskänsligt."
+
 #~ msgid "Site administration"
 #~ msgstr "Administration"
 
-#, fuzzy
-#~ msgid "Log in"
-#~ msgstr "Logga ut"
-
-#, fuzzy
 #~ msgid "%s administration"
-#~ msgstr "Administration"
+#~ msgstr "%s administration"
 
 # TRANSlATION DOES NOT SHOW 
 #, fuzzy
@@ -2705,10 +2976,6 @@ msgstr "Kör rapport!"
 #~ msgstr "Radera"
 
 #, fuzzy
-#~ msgid "Change"
-#~ msgstr "förändringar"
-
-#, fuzzy
 #~ msgid "Recent Actions"
 #~ msgstr "Utförande"
 
@@ -2735,6 +3002,9 @@ msgstr "Kör rapport!"
 #, fuzzy
 #~ msgid "Date/time"
 #~ msgstr "Till Datum"
+
+#~ msgid "User"
+#~ msgstr "Användar namn"
 
 #, fuzzy
 #~ msgid "Action"
@@ -2885,7 +3155,11 @@ msgstr "Kör rapport!"
 
 #, fuzzy
 #~ msgid "Personal info"
-#~ msgstr "Persiska"
+#~ msgstr "Anpassa"
+
+#, fuzzy
+#~ msgid "Permissions"
+#~ msgstr "Datum för skapande"
 
 #, fuzzy
 #~ msgid "Important dates"
@@ -2898,6 +3172,12 @@ msgstr "Kör rapport!"
 #, fuzzy
 #~ msgid "Change password: %s"
 #~ msgstr "Ändra lösenord"
+
+#, fuzzy
+#~ msgid ""
+#~ "Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only."
+#~ msgstr ""
+#~ "Detta fält kan endast innehålla bokstäver, siffror och @/./+/-/_ tecken."
 
 #, fuzzy
 #~ msgid "Password confirmation"
@@ -2915,8 +3195,12 @@ msgstr "Kör rapport!"
 #~ msgstr "Modulnamn"
 
 #, fuzzy
-#~ msgid "group"
-#~ msgstr "Grupper"
+#~ msgid "permission"
+#~ msgstr "Datum för skapande"
+
+#, fuzzy
+#~ msgid "permissions"
+#~ msgstr "Datum för skapande"
 
 #, fuzzy
 #~ msgid "groups"
@@ -2970,8 +3254,11 @@ msgstr "Kör rapport!"
 #~ msgstr "Uppdaterad"
 
 #, fuzzy
+#~ msgid "user permissions"
+#~ msgstr "Datum för skapande"
+
 #~ msgid "users"
-#~ msgstr "Användar namn"
+#~ msgstr "Användare"
 
 #, fuzzy
 #~ msgid "message"
@@ -3016,6 +3303,10 @@ msgstr "Kör rapport!"
 #~ msgstr "E-post"
 
 #, fuzzy
+#~ msgid "Comment"
+#~ msgstr "Hantera innehåll"
+
+#, fuzzy
 #~ msgid "content type"
 #~ msgstr "typ av händelse"
 
@@ -3056,8 +3347,20 @@ msgstr "Kör rapport!"
 #~ msgstr "Uppdaterat"
 
 #, fuzzy
+#~ msgid "comment flag"
+#~ msgstr "Hantera innehåll"
+
+#, fuzzy
+#~ msgid "comment flags"
+#~ msgstr "Hantera innehåll"
+
+#, fuzzy
 #~ msgid "Approve a comment"
 #~ msgstr "Original Sub Nyckel"
+
+#, fuzzy
+#~ msgid "Really make this comment public?"
+#~ msgstr "Ta bort markerade från gruppen"
 
 #, fuzzy
 #~ msgid "Approve"
@@ -3084,12 +3387,16 @@ msgstr "Kör rapport!"
 #~ msgstr "Valda innehållet namn"
 
 #, fuzzy
+#~ msgid "Really flag this comment?"
+#~ msgstr "Ta bort markerade från gruppen"
+
+#, fuzzy
 #~ msgid "Thanks for flagging"
 #~ msgstr "Tack för att du använder vår webbservice!"
 
 #, fuzzy
-#~ msgid "Preview"
-#~ msgstr "Original Sub Nyckel"
+#~ msgid "Thanks for commenting"
+#~ msgstr "Tack för att du använder vår webbservice!"
 
 #, fuzzy
 #~ msgid "Thank you for your comment"
@@ -3157,6 +3464,10 @@ msgstr "Kör rapport!"
 #~ msgstr "Config entry värde"
 
 #, fuzzy
+#~ msgid "Invalid geometry type."
+#~ msgstr "Config entry värde"
+
+#, fuzzy
 #~ msgid "nd"
 #~ msgstr "Skicka"
 
@@ -3173,8 +3484,32 @@ msgstr "Kör rapport!"
 #~ msgstr "Detta fält är obligatoriskt"
 
 #, fuzzy
+#~ msgid "Invalid CUIT."
+#~ msgstr "Fel kod"
+
+#, fuzzy
+#~ msgid "Burgenland"
+#~ msgstr "Isländska"
+
+#, fuzzy
+#~ msgid "Enter a valid Austrian Social Security Number in XXXX XXXXXX format."
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
+#~ msgid "Enter a 4 digit post code."
+#~ msgstr "Ange rätt användarnamn och lösenord."
+
+#, fuzzy
+#~ msgid "Invalid CPF number."
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
 #~ msgid "This field requires at most 11 digits or 14 characters."
 #~ msgstr "Detta fält är obligatoriskt"
+
+#, fuzzy
+#~ msgid "Invalid CNPJ number."
+#~ msgstr "Telefon nummer"
 
 #, fuzzy
 #~ msgid "This field requires at least 14 digits"
@@ -3193,8 +3528,28 @@ msgstr "Kör rapport!"
 #~ msgstr "Fredag"
 
 #, fuzzy
+#~ msgid "Enter a valid Chilean RUT."
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
 #~ msgid "The Chilean RUT is not valid."
 #~ msgstr "E-post %s är fel."
+
+#, fuzzy
+#~ msgid "Liberec Region"
+#~ msgstr "Franska"
+
+#, fuzzy
+#~ msgid "Hradec Region"
+#~ msgstr "Franska"
+
+#, fuzzy
+#~ msgid "Vysocina Region"
+#~ msgstr "Franska"
+
+#, fuzzy
+#~ msgid "Zlin Region"
+#~ msgstr "Franska"
 
 #, fuzzy
 #~ msgid "Enter a valid birth number."
@@ -3207,6 +3562,10 @@ msgstr "Kör rapport!"
 #, fuzzy
 #~ msgid "Bavaria"
 #~ msgstr "Bulgarsiska"
+
+#, fuzzy
+#~ msgid "Mecklenburg-Western Pomerania"
+#~ msgstr "Romänska"
 
 #, fuzzy
 #~ msgid "Thuringia"
@@ -3233,11 +3592,27 @@ msgstr "Kör rapport!"
 #~ msgstr "Galiciska"
 
 #, fuzzy
+#~ msgid "Please enter a valid NIF or NIE."
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
+#~ msgid "Invalid checksum for bank account number."
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
 #~ msgid "Enter a valid Finnish social security number."
 #~ msgstr "Telefon nummer"
 
 #, fuzzy
+#~ msgid "Enter a valid post code"
+#~ msgstr "Ange rätt användarnamn och lösenord."
+
+#, fuzzy
 #~ msgid "Enter a valid phone number"
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
+#~ msgid "Enter a valid vehicle license plate number"
 #~ msgstr "Telefon nummer"
 
 #, fuzzy
@@ -3277,6 +3652,18 @@ msgstr "Kör rapport!"
 #~ msgstr "Tyska"
 
 #, fuzzy
+#~ msgid "Roscommon"
+#~ msgstr "Hantera innehåll"
+
+#, fuzzy
+#~ msgid "Westmeath"
+#~ msgstr "Romänska"
+
+#, fuzzy
+#~ msgid "Enter a valid zip code."
+#~ msgstr "Ange rätt användarnamn och lösenord."
+
+#, fuzzy
 #~ msgid "Enter a valid Social Security number."
 #~ msgstr "Telefon nummer"
 
@@ -3289,8 +3676,16 @@ msgstr "Kör rapport!"
 #~ msgstr "minuter"
 
 #, fuzzy
+#~ msgid "Enter a valid Kuwaiti Civil ID number"
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
 #~ msgid "Durango"
 #~ msgstr "Längd"
+
+#, fuzzy
+#~ msgid "Enter a valid postal code"
+#~ msgstr "Ange rätt användarnamn och lösenord."
 
 #, fuzzy
 #~ msgid "Enter a valid SoFi number"
@@ -3311,6 +3706,10 @@ msgstr "Kör rapport!"
 #, fuzzy
 #~ msgid "Zeeland"
 #~ msgstr "Isländska"
+
+#, fuzzy
+#~ msgid "Enter a valid Norwegian social security number."
+#~ msgstr "Telefon nummer"
 
 #, fuzzy
 #~ msgid "This field requires 8 digits."
@@ -3345,12 +3744,36 @@ msgstr "Kör rapport!"
 #~ msgstr "Romänska"
 
 #, fuzzy
+#~ msgid "Enter a valid CIF."
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
+#~ msgid "Enter a valid CNP."
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
+#~ msgid "Enter a valid postal code in the format XXXXXX"
+#~ msgstr "Ange rätt användarnamn och lösenord."
+
+#, fuzzy
 #~ msgid "Enter a valid Swedish organisation number."
 #~ msgstr "Telefon nummer"
 
 #, fuzzy
 #~ msgid "Enter a valid Swedish personal identity number."
 #~ msgstr "Telefon nummer"
+
+#, fuzzy
+#~ msgid "Södermanland"
+#~ msgstr "Isländska"
+
+#, fuzzy
+#~ msgid "Gotland"
+#~ msgstr "Isländska"
+
+#, fuzzy
+#~ msgid "Halland"
+#~ msgstr "Isländska"
 
 #, fuzzy
 #~ msgid "Galanta"
@@ -3373,7 +3796,23 @@ msgstr "Kör rapport!"
 #~ msgstr "Franska"
 
 #, fuzzy
+#~ msgid "Nitra region"
+#~ msgstr "Franska"
+
+#, fuzzy
+#~ msgid "Presov region"
+#~ msgstr "Franska"
+
+#, fuzzy
 #~ msgid "Trencin region"
+#~ msgstr "Franska"
+
+#, fuzzy
+#~ msgid "Trnava region"
+#~ msgstr "Franska"
+
+#, fuzzy
+#~ msgid "Zilina region"
 #~ msgstr "Franska"
 
 #, fuzzy
@@ -3389,32 +3828,80 @@ msgstr "Kör rapport!"
 #~ msgstr "Skapa datum"
 
 #, fuzzy
+#~ msgid "Northumberland"
+#~ msgstr "Skapad"
+
+#, fuzzy
 #~ msgid "Surrey"
 #~ msgstr "Nuvarande användning"
+
+#, fuzzy
+#~ msgid "County Antrim"
+#~ msgstr "Tyska"
+
+#, fuzzy
+#~ msgid "County Armagh"
+#~ msgstr "Tyska"
 
 #, fuzzy
 #~ msgid "County Fermanagh"
 #~ msgstr "Tyska"
 
 #, fuzzy
+#~ msgid "County Tyrone"
+#~ msgstr "Tyska"
+
+#, fuzzy
+#~ msgid "West Glamorgan"
+#~ msgstr "Romänska"
+
+#, fuzzy
 #~ msgid "Central Scotland"
 #~ msgstr "Skapad"
+
+#, fuzzy
+#~ msgid "Orkney Islands"
+#~ msgstr "Isländska"
 
 #, fuzzy
 #~ msgid "Northern Ireland"
 #~ msgstr "Skapad"
 
 #, fuzzy
+#~ msgid "Scotland"
+#~ msgstr "Skapad"
+
+#, fuzzy
+#~ msgid "Enter a valid U.S. Social Security number in XXX-XX-XXXX format."
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
 #~ msgid "Enter a valid CI number."
 #~ msgstr "Telefon nummer"
+
+#, fuzzy
+#~ msgid "Enter a valid South African ID number"
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
+#~ msgid "Enter a valid South African postal code"
+#~ msgstr "Ange rätt användarnamn och lösenord."
 
 #, fuzzy
 #~ msgid "Mpumalanga"
 #~ msgstr "Katalanska"
 
 #, fuzzy
+#~ msgid "Northern Cape"
+#~ msgstr "Skapad"
+
+#, fuzzy
+#~ msgid "Western Cape"
+#~ msgstr "Romänska"
+
+#, fuzzy
 #~ msgid "lazy message"
-#~ msgstr "Inga meddelanden"
+#~ msgstr "Mina meddelanden"
 
 #, fuzzy
 #~ msgid "session key"
@@ -3449,6 +3936,21 @@ msgstr "Kör rapport!"
 #~ msgstr "Telefon nummer"
 
 #, fuzzy
+#~ msgid "Enter a valid URL."
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
+#~ msgid ""
+#~ "Enter a valid 'slug' consisting of letters, numbers, underscores or "
+#~ "hyphens."
+#~ msgstr ""
+#~ "Detta fält kan endast innehålla bokstäver, siffror och @/./+/-/_ tecken."
+
+#, fuzzy
+#~ msgid "Enter a valid IPv4 address."
+#~ msgstr "Redigera användar detaljer"
+
+#, fuzzy
 #~ msgid "Value %r is not a valid choice."
 #~ msgstr "E-post %s är fel."
 
@@ -3463,6 +3965,14 @@ msgstr "Kör rapport!"
 #, fuzzy
 #~ msgid "Date (without time)"
 #~ msgstr "Senaste utföring"
+
+#, fuzzy
+#~ msgid "Enter a valid date in YYYY-MM-DD format."
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
+#~ msgid "Invalid date: %s"
+#~ msgstr "Telefon nummer"
 
 #, fuzzy
 #~ msgid "Date (with time)"
@@ -3501,7 +4011,26 @@ msgstr "Kör rapport!"
 #~ msgstr "Telefon nummer"
 
 #, fuzzy
+#~ msgid "Enter a valid date/time."
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
+#~ msgid "Enter a list of values."
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
 #~ msgid "Please correct the duplicate data for %(field)s."
+#~ msgstr "Ange rätt användarnamn."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please correct the duplicate data for %(field)s, which must be unique."
+#~ msgstr "Ange rätt användarnamn."
+
+#, fuzzy
+#~ msgid ""
+#~ "Please correct the duplicate data for %(field_name)s which must be unique "
+#~ "for the %(lookup)s in %(date_field)s."
 #~ msgstr "Ange rätt användarnamn."
 
 #, fuzzy
@@ -3541,6 +4070,10 @@ msgstr "Kör rapport!"
 #~ msgstr "Måndag"
 
 #, fuzzy
+#~ msgid "September"
+#~ msgstr "Telefon nummer"
+
+#, fuzzy
 #~ msgid "November"
 #~ msgstr "Telefon nummer"
 
@@ -3553,6 +4086,10 @@ msgstr "Kör rapport!"
 #~ msgstr "Kanada Engelska "
 
 #, fuzzy
+#~ msgid "mar"
+#~ msgstr "Måndag"
+
+#, fuzzy
 #~ msgid "may"
 #~ msgstr "Måndag"
 
@@ -3561,12 +4098,16 @@ msgstr "Kör rapport!"
 #~ msgstr "Söndag"
 
 #, fuzzy
+#~ msgid "jul"
+#~ msgstr "Söndag"
+
+#, fuzzy
 #~ msgid "oct"
 #~ msgstr "doc"
 
 #, fuzzy
 #~ msgid "nov"
-#~ msgstr "nuvarande användning"
+#~ msgstr "Nej"
 
 #, fuzzy
 #~ msgid "dec"
@@ -3668,10 +4209,6 @@ msgstr "Kör rapport!"
 #~ msgstr "Avaktivera"
 
 #, fuzzy
-#~ msgid "Active"
-#~ msgstr "Aktivera"
-
-#, fuzzy
 #~ msgid "status"
 #~ msgstr "Status"
 
@@ -3682,6 +4219,10 @@ msgstr "Kör rapport!"
 #, fuzzy
 #~ msgid "Task detail"
 #~ msgstr "Användarinformation"
+
+#, fuzzy
+#~ msgid "Tasks"
+#~ msgstr "Admin status"
 
 #, fuzzy
 #~ msgid "Revoke selected tasks"
@@ -3748,6 +4289,10 @@ msgstr "Kör rapport!"
 
 #, fuzzy
 #~ msgid "Keyword arguments"
+#~ msgstr "Uppdrag"
+
+#, fuzzy
+#~ msgid "JSON encoded keyword arguments"
 #~ msgstr "Uppdrag"
 
 #, fuzzy
@@ -3825,6 +4370,24 @@ msgstr "Kör rapport!"
 #~ "#-#-#-#-#  django.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 
 #, fuzzy
+#~ msgid "Rate limit"
+#~ msgstr "Insamling"
+
+#, fuzzy
+#~ msgid ""
+#~ "Required, %s characters or fewer. Only letters, numbers, and characters "
+#~ "such as @.+_- are allowed."
+#~ msgstr ""
+#~ "Detta fält kan endast innehålla bokstäver, siffror och @/./+/-/_ tecken."
+
+#, fuzzy
+#~ msgid ""
+#~ "Required, %s characters or fewer. Only letters, numbers, and @, ., +, -, "
+#~ "or _ characters."
+#~ msgstr ""
+#~ "Detta fält kan endast innehålla bokstäver, siffror och @/./+/-/_ tecken."
+
+#, fuzzy
 #~ msgid "All users"
 #~ msgstr "Alla moduler"
 
@@ -3877,12 +4440,20 @@ msgstr "Kör rapport!"
 #~ msgstr "Mottagna meddelanden"
 
 #, fuzzy
-#~ msgid "Sender"
-#~ msgstr "Skicka"
-
-#, fuzzy
 #~ msgid "Parent message"
 #~ msgstr "Skickade meddelanden"
+
+#, fuzzy
+#~ msgid "sent at"
+#~ msgstr "Skickat:"
+
+#, fuzzy
+#~ msgid "Sender deleted at"
+#~ msgstr "Ta bort markerade från gruppen"
+
+#, fuzzy
+#~ msgid "Recipient deleted at"
+#~ msgstr "Inga mottagare valda"
 
 #, fuzzy
 #~ msgid "New Message: %(subject)s"
@@ -3907,7 +4478,7 @@ msgstr "Kör rapport!"
 
 #, fuzzy
 #~ msgid "Sent Messages"
-#~ msgstr "Skickade meddelanden"
+#~ msgstr "Skicka Meddelande"
 
 #, fuzzy
 #~ msgid "New Message"
@@ -3915,7 +4486,7 @@ msgstr "Kör rapport!"
 
 #, fuzzy
 #~ msgid "Compose Message"
-#~ msgstr "meddelande"
+#~ msgstr "Slutförande meddelande"
 
 #, fuzzy
 #~ msgid "delete"
@@ -3924,6 +4495,16 @@ msgstr "Kör rapport!"
 #, fuzzy
 #~ msgid "No messages."
 #~ msgstr "Inga meddelanden"
+
+#~ msgid ""
+#~ "Hello %(recipient)s,\n"
+#~ "\n"
+#~ "you received a private message from %(sender)s with\n"
+#~ "the following contents:"
+#~ msgstr ""
+#~ "Hello %(recipient)s,\n"
+#~ "\n"
+#~ "du har fått ett meddelande av %(sender)s:"
 
 #, fuzzy
 #~ msgid "Deleted Messages"
@@ -3942,8 +4523,160 @@ msgstr "Kör rapport!"
 #~ msgstr "Mottagna meddelanden"
 
 #, fuzzy
+#~ msgid ""
+#~ "You have deleted the message <a href=\"%(message_url)s\">%(message)s</a>."
+#~ msgstr "Mottagna meddelanden"
+
+#, fuzzy
 #~ msgid "You have recovered the message '%(message)s'."
 #~ msgstr "Mottagna meddelanden"
+
+#, fuzzy
+#~ msgid ""
+#~ "You have recovered the message <a href=\"%(message_url)s\">%(message)s</"
+#~ "a>."
+#~ msgstr "Mottagna meddelanden"
+
+#, fuzzy
+#~ msgid ""
+#~ "You have replied to '%(message_parent_msg)s' from %(message_recipient)s."
+#~ msgstr "Mottagna meddelanden"
+
+#, fuzzy
+#~ msgid "You have sent the message '%(message)s' to %(message_recipient)s."
+#~ msgstr "Mottagna meddelanden"
+
+#~ msgid "User required"
+#~ msgstr "Användar roll"
+
+#, fuzzy
+#~ msgid "Module required"
+#~ msgstr "Kursens synlig"
+
+#~ msgid "Admin required"
+#~ msgstr "Admin behövs"
+
+#~ msgid "User visible"
+#~ msgstr "Användare synlig"
+
+#, fuzzy
+#~ msgid "Module visible"
+#~ msgstr "Kursens Målsättning"
+
+#~ msgid "Admin visible"
+#~ msgstr "Admin  synlig"
+
+#~ msgid "Module"
+#~ msgstr "Modul"
+
+#~ msgid "Admin"
+#~ msgstr "Admin"
+
+#~ msgid "Enter module title"
+#~ msgstr "Lägg till namn på Info paketet"
+
+#, fuzzy
+#~ msgid "My Messages"
+#~ msgstr "Mina meddelanden"
+
+#~ msgid "Start"
+#~ msgstr "Start"
+
+#~ msgid "admin"
+#~ msgstr "Administrator"
+
+#~ msgid "Send notification"
+#~ msgstr "Skicka anmälan"
+
+#~ msgid "No module Selected"
+#~ msgstr "Ingen modul vald"
+
+#~ msgid "Modules"
+#~ msgstr "Modul"
+
+#~ msgid "Personalize notification"
+#~ msgstr "Anpassa anmälan"
+
+#~ msgid "Other modules"
+#~ msgstr "Övriga moduler"
+
+#~ msgid "My modules"
+#~ msgstr "Mina moduler"
+
+#~ msgid "Publish"
+#~ msgstr "Publicera"
+
+#~ msgid "Notification"
+#~ msgstr "Anmälan"
+
+#~ msgid "to assign modules"
+#~ msgstr "för publicering"
+
+#~ msgid "Assigned"
+#~ msgstr "Tilldela"
+
+#~ msgid "Import file"
+#~ msgstr "Importera fil"
+
+#~ msgid "Import new file"
+#~ msgstr "Importera ny fil"
+
+#~ msgid "Show only from my groups"
+#~ msgstr "Visa endast mina grupper"
+
+#~ msgid "Show only my files"
+#~ msgstr "Visa endast mina filer"
+
+#~ msgid "User log"
+#~ msgstr "Användarens log"
+
+#~ msgid "No user selected"
+#~ msgstr "Ingen användare valda"
+
+#~ msgid "User name"
+#~ msgstr "Användarnamn"
+
+#~ msgid "in"
+#~ msgstr "i"
+
+#~ msgid "User progress"
+#~ msgstr "Användare framsteg"
+
+#~ msgid "Module title"
+#~ msgstr "Modulens namn"
+
+#~ msgid "My Modules"
+#~ msgstr "Mina moduler"
+
+#~ msgid "Latest modules"
+#~ msgstr "Senaste moduler"
+
+#~ msgid "Users/Admins"
+#~ msgstr "Användare/Admins"
+
+#~ msgid "Assignments"
+#~ msgstr "Publicera"
+
+#~ msgid "Manage modules"
+#~ msgstr "Hantera moduler"
+
+#~ msgid "Course"
+#~ msgstr "Kursens Målsättning"
+
+#~ msgid "Close"
+#~ msgstr "Stäng"
+
+#~ msgid "Admin status"
+#~ msgstr "Admin status"
+
+#~ msgid "No users in this group"
+#~ msgstr "Inga användare i den här gruppen"
+
+#~ msgid "User Name"
+#~ msgstr "Namn"
+
+#~ msgid "Action tid"
+#~ msgstr "Senaste utföring"
 
 #~ msgid "My Content"
 #~ msgstr "Info Paket"
@@ -4009,8 +4742,5 @@ msgstr "Kör rapport!"
 #~ msgid "My info packages"
 #~ msgstr "Mina  info paket"
 
-#~ msgid "Expiration date"
-#~ msgstr "Utgångsdatum"
-
 #~ msgid "author"
-#~ msgstr "upphovsman"
+#~ msgstr "utfärdad av"

@@ -138,7 +138,7 @@ $(document).ready(function(){
     });
     $('#search').keyup(function(){
         $('.moduleName').each(function(){
-            if($(this).html().toLowerCase().indexOf($('#search').val().toLowerCase().trim()) == -1){
+            if($(this).html().toLowerCase().indexOf($.trim($('#search').val().toLowerCase())) == -1){
                 $(this).parent('li').hide();
             }else{
                 $(this).parents('li').show();
@@ -171,11 +171,10 @@ $(document).ready(function(){
 
     $('#moduleSave').click(function(e){
         e.preventDefault();
-
         if(!validateModule()) {
             return false;
         }
-
+        	
         if(app.data.activeModule){
             app.mm.saveModule();
             app.data.dirtyForm = false;
@@ -191,44 +190,43 @@ $(document).ready(function(){
 
     $('.preview').live('click', function(){
         if(app.data.activeModule){
-            var bg = $('<div class="modalBg"></div>');
-            var flash = $('<div class="flashWrapper"><a href="javascript:void(0);" class="closeFW"></a><div id="flash"></div></div>');
+            var appConfig = app.config,
+            	bg = $('<div class="modalBg"></div>'),
+            	mplayer = $('<div class="mplayerWrapper"><a href="javascript:void(0);" class="closeFW"></a><div id="video"></div></div>');
             bg.css({
                 height: $(window).height(),
                 width: $(window).width()
             });
-            flash.css({
+            mplayer.css({
                 left: $(window).width() / 2 - 350,
                 top: 10
             });
             bg.appendTo($('body'));
-            flash.appendTo($('body'));
+            mplayer.appendTo($('body'));
             bg.click(function(){
-                flash.remove();
+            	mplayer.remove();
                 $(this).unbind('click').remove();
             });
-						$('.flashWrapper .closeFW').click(function(){
-								flash.remove();
-								bg.unbind('click').remove();
-						});
-            swfobject.embedSWF(
-                app.config.mediaURL + app.config.player.url,
-                "flash",
-                "700",
-                "500",
-                "9.0.0",
-                false,
-                {
-                    'relativeURL': app.config.mediaURL,
-                    'contentURL': '/content/modules/' + app.data.activeModule.id + '/?format=xml',
-                    'cType': 'playlist',
-                    'siteLanguage': siteLanguage
-                },{
-                    'allowFullscreen': 'true',
-                    'allowScriptAccess': 'always',
-                    'wmode': 'opaque'
-                },{}
-             );
+			$('.mplayerWrapper .closeFW').click(function(){
+				mplayer.remove();
+				bg.unbind('click').remove();
+			});
+	        playerParams = {
+	        		'contentURL': '/content/modules/' + app.data.activeModule.id + '/?format=json',
+	                'cType': 'playlist',
+	                'relativeURL': appConfig.mediaURL,
+	                'playingIndex': 0,
+	        	    'siteLanguage'	  : siteLanguage
+	            }
+	        
+	        if (app.config.player.mode == "html5") {
+	        	app.player.trackUser = false;
+	        	app.player.spawnHTML5(appConfig.player.modalSize, playerParams, 'opaque');
+	        } else {
+	        	playerParams.relativeURL = mediaURL;
+	        	playerParams.contentURL = '/content/modules/' + app.data.activeModule.id + '/?format=xml',
+	        	app.player.spawnFlash('video', appConfig.player.modalSize, playerParams, 'opaque');        	
+	        }
         }
     });
     $('#button-activate, #button-reactivate, #button-back_to_draft').click(function(){

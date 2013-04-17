@@ -1,10 +1,10 @@
-{% extends "modal_template.html" %}
+{% extends "administration/widget_admtool_template.html" %}
 {% load i18n %}
-{% block style %} style="width: 640px;"{% endblock %}
-{% block title %}{% trans "Administer GUI" %}{% endblock %}
+{% load admin_custom_tags %}
+{% block style %} style="width: 100%;"{% endblock %}
 {% block content %}
 
-<form id="GUISettingsForm" action="/administration/gui-settings/" method="post" class="nyroModal" enctype="multipart/form-data">
+<form id="GUISettingsForm" action="/administration/gui-settings/" method="post" class="nyroModal clear" enctype="multipart/form-data">
     {% load extras %}
     {% if form.non_field_errors %}
       <div class="error">
@@ -29,6 +29,56 @@
       <li>
         <label>{{ form.footer.label }}</label>
         <div class="inputWrapper shadow-gray">{{ form.footer }}</div>
+      </li>
+      <li>
+        <label>{{ form.logo_file.label }}</label>
+        {% if logo_file_name|has_extension %}
+        <a id="logo_file_span" href="{{ logo_file_url }}" filename="{{ logo_file_name}}">{{ logo_file_name }}</a>
+        {% else %}
+        <span id="logo_file_span">{{ logo_file_name }}</span>
+        {% endif %}
+        {{ form.logo_file }}
+        <a id=logo_file-upload class="button-normal button-big-no-width leftAlignment file-upload">{% trans "Upload new" %}</a>
+        <a id="logo_file-back_to_default" class="button-normal button-big-no-width leftAlignment back_to_default" href="#">{% trans "Back to default" %}</a>
+      </li>
+      <li>
+        <label></label>
+        <div class="descriptionWrapper">
+            <span class="description">{{ form.logo_file.help_text}}</span>
+        </div>
+      </li>
+      <li>
+        <label>{{ form.use_logo_as_title.label }}</label>
+        <div class="inputWrapperCheck shadow-gray"> 
+        {% if logo_file_name|has_extension %}
+            {{ form.use_logo_as_title }}
+        {% else %}
+            {{ form.use_logo_as_title|htmlattributes:"disabled: disabled" }}
+        {% endif %}
+        </div>
+      </li>
+      <li>
+        <label>{{ form.bg_file.label }}</label>
+        <a id="bg_file_span" href="{{ bg_file_url }}" filename="{{ bg_file_name}}">{{ bg_file_name }}</a>
+        {{ form.bg_file }}
+        <a id=bg_file-upload class="button-normal button-big-no-width leftAlignment file-upload">{% trans "Upload new" %}</a>
+        <a id="bg_file-back_to_default" class="button-normal button-big-no-width leftAlignment back_to_default" href="#">{% trans "Back to default" %}</a>
+      </li>
+      <li>
+        <label></label>
+        <div class="descriptionWrapper">
+            <span class="description">{{ form.bg_file.help_text}}</span>
+        </div>
+      </li>
+      <li>
+        <label>{{ form.use_bg_image.label }}</label>
+        <div class="inputWrapperCheck shadow-gray"> 
+        {% if bg_file_name|has_extension %}
+            {{ form.use_bg_image }}
+        {% else %}
+            {{ form.use_bg_image|htmlattributes:"disabled: disabled" }}
+        {% endif %}
+        </div>
       </li>
       <li>
         <label>{{ form.css_file.label }}</label>
@@ -67,8 +117,8 @@
         <a id="main_menu_bar-back_to_default" class="button-normal button-big-no-width leftAlignment back_to_default" href="#">{% trans "Back to default" %}</a>
       </li>
     </ul>
-<div style="width: 200px; margin: 0px auto;">
-    <a id="submit" class="button-gray button-big button-submit" href="#" style="margin-top: 10px;">{% trans "Save" %}</a>
+<div class="control-button" style="width: 200px; margin: 0px auto;">
+    <a id="submit" class="button-blue button-big button-submit" href="#" style="margin-top: 10px;">{% trans "Save" %}</a>
 </div>
 </form>
 <script type="text/javascript">
@@ -83,5 +133,4 @@
         });
     });
 </script>
-<div class="separator"></div>
 {% endblock %}

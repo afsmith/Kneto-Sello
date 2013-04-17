@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^group/modules/$', views.group_modules, name='assignments-group_modules'),
     url(r'^user/modules/$', views.user_modules, name='assignments-user_modules'),
     url(r'^user/progress/$', views.user_progress, name='assignments-user_progress'),
+    url(r'^module/progress/$', views.module_progress, name='assignments-module_progress'),
     url(r'^users_per_module/$', views.users_per_module, name='assignments-users_per_module'),
     url(r'^published_modules/$', views.published_modules, name='assignments-published_modules')
 )

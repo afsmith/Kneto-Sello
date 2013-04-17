@@ -1,7 +1,7 @@
 {% extends "base_template.html" %}
 {% load i18n %}
-{% block meta_title %}{% trans "Dashboard" %}{% endblock %}
-{% block title %}{% trans "Dashboard" %}{% endblock %}
+{% block meta_title %}{% trans "Administration" %}{% endblock %}
+{% block title %}{% trans "Administration" %}{% endblock %}
 {% block js_scripts %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.custom.file.input.js"></script>
@@ -9,92 +9,99 @@
 {% endblock %}
 {% block administrationclass %} class="active"{% endblock %}
 {% block content %}
-<div id="dashboardWrapper">
-    {% if 'my_content_stats' in widgets %}
-        <div id="my_content_stats" class="widget short">
-          <div class="header">
-            <h1>{% trans "My content" %}</h1>
-          </div>
-          <div class="separator"></div>
-          <div class="content">
-            <dl>
-            </dl>
-            <div class="clear"></div>
-            <a href="/content/manage/" class="button-gray button-big-no-width">{% trans "Manage content" %}</a>
-          </div>
-        </div>
-    {% endif %}
-
-    {% if 'my_groups_stats' in widgets %}
-        <div id="my_groups_stats" class="widget short">
-          <div class="header">
-            <h1>{% trans "My groups" %}</h1>
-          </div>
-          <div class="separator"></div>
-          <div class="content">
-            <dl>
-            </dl>
-            <div class="clear"></div>
-            <a href="/management/users/" class="button-gray button-big-no-width">{% trans "Manage groups & users" %}</a>
-          </div>
-        </div>
-    {% endif %}
-
-    {% if 'my_reports_stats' in widgets %}
-        <div id="my_reports_stats" class="widget short fright">
-          <div class="header">
-            <h1>{% trans "My reports" %}</h1>
-          </div>
-          <div class="separator"></div>
-          <div class="content">
-            <dl>
-            </dl>
-            <div class="clear"></div>
-            <a href="/reports/" class="button-gray button-big-no-width">{% trans "Manage reports" %}</a>
-          </div>
-        </div>
-    {% endif %}
-
-    {% if 'my_modules_stats' in widgets %}
-        <div id="my_modules_stats" class="widget short fright">
-          <div class="header">
-            <h1>{% trans "My modules" %}</h1>
-          </div>
-          <div class="separator"></div>
-          <div class="content">
-            <dl>
-            </dl>
-            <div class="clear"></div>
-            <a href="/content/" class="button-gray button-big-no-width">{% trans "Manage modules" %}</a>
-          </div>
-        </div>
-    {% endif %}
-
-    {% if 'administrative_tools' in widgets %}
-        <div id="administrative_tools" class="widget short">
-          <div class="header">
-            <h1>{% trans "Administrative tools" %}</h1>
-          </div>
-          <div class="separator"></div>
-          <div class="content">
-            <dl>
-                <dt>{% trans "Quality of video content" %}:</dt><dd id="qualityOfContent"></dd>
-                <dt>{% trans "Use DMS" %}:</dt><dd id="useDms"></dd>
-                <dt>{% trans "Use LDAP" %}:</dt><dd id="useLdap"></dd>
-                <dt>{% trans "Mapped groups" %}:</dt><dd id="mappedGroups"></dd>
-            </dl>
-            <div class="clear"></div>
-            <a href="/administration/content-settings/" class="nyroModal button-gray button-big-no-width">{% trans "Administer content" %}</a>
-            <a href="/administration/gui-settings/" class="nyroModal button-gray button-big-no-width">{% trans "Administer GUI" %}</a>
-            <a href="/administration/reports/" class="button-gray button-big-no-width">{% trans "Administer reports" %}</a>
-            <a href="/messages/templates/" class="nyroModal button-gray button-big-no-width">{% trans "Administer messages" %}</a>
-            {% if settings.REGISTRATION_OPEN %}
-            <a href="{% url administration-self-register-settings %}" class="nyroModal button-gray button-big-no-width">{% trans "Administer Self Registration" %}</a>
+<div id="dashboardWrapper" style="position: relative;">
+    <div class="clear"></div>
+    {% include "administration/admin_tabs.html" %}
+    <div id="startTab" class="boxGray">
+        <div class="tabElement">
+            {% if 'my_groups_stats' in widgets %}
+                <div id="my_groups_stats" class="widget">
+                <div class="header">
+                    <h1 class="groups_users"><a href="/management/users">{% trans "Groups & Users" %}</a></h1>
+                </div>
+                <div class="adm_description">
+                {% trans "Here you can manage users and groups within the system. Create a group, add users to it.  Users can be typed in by selecting a group then clicking the add users bar, or imported from a comma separated value file (CSV). This is where you can edit a users information too. Change their phone number, make them an publisher or remove them.  Also, if you would like to share the responsibility of managing a group, you can use the 'Add Manager' feature.  This allows your colleague to add users and make assignments to the group too." %}
+                </div>
+                <div class="content">
+                    <dl>
+                    </dl>
+                    <div class="clear"></div>
+                    <!--<a href="/management/users/" class="button-gray button-big-no-width">{% trans "Manage groups & users" %}</a>-->
+                </div>
+                </div>
             {% endif %}
-            <a href="/administration/ldap/" class="nyroModal button-gray button-big-no-width">{% trans "Configure LDAP" %}</a>
-            <a href="/administration/ldap-groups/" class="nyroModal button-gray button-big-no-width">{% trans "Map LDAP groups" %}</a>
-          </div>
         </div>
-    {% endif %}
+        <div class="clear"></div>
+        <div class="tabElement">
+            {% if 'my_reports_stats' in widgets %}
+                <div id="my_reports_stats" class="widget">
+                <div class="header">
+                    <h1 class="reports"><a href="/reports">{% trans "Reports" %}</a></h1>
+                </div>
+                <div class="adm_description">
+                {% trans "Would you like to share the progress of your receivers with others?  See who looked at your proposal yesterday/last week by looking at your email, you can with reports. Select a template, chose your options, set a schedule, or not, then choose who you would like it sent too. We can send them a pdf, html, CSV or any combination of them. Custom report templates can be made too. Send us a message with what you would like to report on and let's see what we can come up with." %}
+                </div>
+                <div class="content">
+                    <dl>
+                    </dl>
+                    <div class="clear"></div>
+                </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="tabElement">
+            {% if 'my_templates_stats' in widgets %}
+                <div id="my_messages" class="fake_widget">
+                <div class="header">
+                    <h1 class="messages"><a href="/messages/my_templates/">{% trans "My messages" %}</a></h1>
+                </div>
+                <div class="adm_description">
+                {% trans "Set up your own message templates.  The ones set up by your Admin are used as defaults. You can add you own logo, email signature. It's up to you. The editor allows you to copy and past existing html, or edit you own with the editor. You can use parameter too for things like your recipients first name, module title, etc. The parameter available for the templet are listed on the bottom." %}
+                </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="tabElement">
+            {% if 'administrative_tools' in widgets %}
+                <div id="administrative_tools" class="widget">
+                <div class="header">
+                    <h1 class="administrative_tools"><a href="/administration/adm_tools">{% trans "Administrative tools" %}</a></h1>
+                </div>
+                <div class="adm_description">
+                {% trans "Add an ldap server for importing users, add report templates and set the sites default messages." %}
+                </div>
+                <div class="content">
+                    <dl>
+                        <dt>{% trans "Quality of video content" %}:</dt><dd id="qualityOfContent"></dd>
+                        <dt>{% trans "Use DMS" %}:</dt><dd id="useDms"></dd>
+                        <dt>{% trans "Use LDAP" %}:</dt><dd id="useLdap"></dd>
+                        <dt>{% trans "Mapped groups" %}:</dt><dd id="mappedGroups"></dd>
+                    </dl>
+                    <div class="clear"></div>
+                </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div id="groups_usersTab" class="boxGray hidden" style="margin-top: 28px;">
+        <div class="tabElement">
+        Groups $ Users
+        </div>
+    </div>
+    <div id="reportsTab" class="boxGray hidden" style="margin-top: 28px;">
+        <div class="tabElement">
+        reports
+        </div>
+    </div>
+    <div id="messagesTab" class="boxGray hidden" style="margin-top: 28px;">
+        <div class="tabElement">
+        messages
+        </div>
+    </div>
+    <div id="administrative_toolsTab" class="boxGray hidden" style="margin-top: 28px;">
+        <div class="tabElement">
+        ADM tools
+        </div>
+    </div>
 </div>
 {% endblock %}

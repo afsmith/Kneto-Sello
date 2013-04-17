@@ -41,6 +41,27 @@
             "pattern": "[reportname]"
         }
     },
+    {
+        "pk": 7,
+        "model": "messages_custom.mailtemplateparam",
+        "fields": {
+            "pattern": "[moduleslist]"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "messages_custom.mailtemplateparam",
+        "fields": {
+            "pattern": "[first name]"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "messages_custom.mailtemplateparam",
+        "fields": {
+            "pattern": "[last name]"
+        }
+    },
  
     {
         "pk": 1, 
@@ -53,11 +74,14 @@
             "default_subject": "Welcome!",
             "params": [
                 1, 
-                2
+                2,
+                8,
+                9
             ], 
             "type": "EMAIL", 
             "description": "This message is sent to the users when they have been added to the system.",
-            "identifier": "WELCOME"
+            "identifier": "WELCOME",
+            "send_msg": "D"
         }
     }, 
     {
@@ -70,11 +94,15 @@
             "subject": "You become a member [groupname]\n\n",
             "default_subject": "Welcome to the group [groupname]",
             "params": [
-                3
+                3,
+                8,
+                9
             ], 
             "type": "INT", 
             "description": "This message is sent to the users when they have been added to the group.",
-            "identifier": "WELCOME_GROUP"
+            "identifier": "WELCOME_GROUP",
+            "send_msg": "T"
+
         }
     },
         {
@@ -86,10 +114,16 @@
             "content": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>Your account has been removed</i></b><br></font>\n</p>\n<p>\nYour account in the Kneto system has been removed.\n\nPlease contact you local administrator if you believe this to be an error.\n\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B<br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
             "subject": "Account Removed",
             "default_subject": "Account Removed",
-            "params": [],
+
+            "params": [
+                8,
+                9
+            ],
             "type": "EMAIL", 
             "description": "This message is sent to the users when they have been removed from the system.",
-            "identifier": "GOODBYE"
+            "identifier": "GOODBYE",
+            "send_msg": "D"
+
         }
     },
     {
@@ -102,11 +136,15 @@
             "subject": "Your password has been reset",
             "default_subject": "Your password has been reset",
             "params": [
-                1
+                1,
+                8,
+                9
             ],
             "type": "EMAIL",
             "description": "This message is sent to the users when their password has been reset.",
-            "identifier": "PASSWORD"
+            "identifier": "PASSWORD",
+            "send_msg": "D"
+
         }
     },
     {
@@ -118,10 +156,15 @@
             "content": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>You account information has changed</i></b><br></font>\n</p>\n<p>\n\nIf you are not expecting a change to your account. Please contact your local administrator.\n\n<br>\n\n<p>\n<a href=\"http://sales.kneto.fi\">Go to the Kneto!</a> \n</p>\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
             "subject": "You account information has changed",
             "default_subject": "You account information has changed",
-            "params": [],
+            "params": [
+                8,
+                9
+            ],
             "type": "EMAIL",
             "description": "This message is sent to the users when their data has been changed.",
-            "identifier": "EDIT_DATA"
+            "identifier": "EDIT_DATA",
+            "send_msg": "D"
+
         }
     },
     {
@@ -134,11 +177,15 @@
             "subject": "You become a manager of the group [groupname]",
             "default_subject": "You become a manager of the group [groupname]",
             "params": [
-                3
+                3,
+                8,
+                9
             ],
             "type": "INT",
             "description": "This message is sent to the admins when they become a manager of a group.",
-            "identifier": "ADD_RIGHT"
+            "identifier": "ADD_RIGHT",
+            "send_msg": "T"
+
         }
     },
     {
@@ -151,11 +198,13 @@
             "subject": "You have new content: [moduletitle]",
             "default_subject": "You have new content: [moduletitle]",
             "params": [
-                3,4
+                3,4,8,9
             ],
             "type": "EMAIL",
             "description": "This message is sent to members of a group when the new assignment has been made.",
-            "identifier": "ADD_ASSIGNMENT"
+            "identifier": "ADD_ASSIGNMENT",
+            "send_msg": "D"
+
         }
     },
     {
@@ -168,11 +217,15 @@
             "subject": "You have been removed from the group:  [groupname] ",
             "default_subject": "You have been removed from the group:  [groupname] ",
             "params": [
-                3
+                3,
+                8,
+                9
             ],
             "type": "INT", 
             "description": "This message is sent to the users when they have been removed from the group.",
-            "identifier": "GOODBYE"
+            "identifier": "GOODBYE",
+            "send_msg": "T"
+
         }
     },
     {
@@ -187,11 +240,15 @@
             "params": [
                 1,
                 2,
-                5
+                5,
+                8,
+                9
             ],
             "type": "EMAIL",
             "description": "This message is sent to the users when they have been added to the system.",
-            "identifier": "WELCOME_OCL"
+            "identifier": "WELCOME_OCL",
+            "send_msg": "D"
+
         }
     },
     {
@@ -203,10 +260,12 @@
             "content": "Your report '[reportname]' has been generated.\n\nhttp://kneto.lusikka.net",
             "subject": "Report generation",
             "default_subject": "Report generation.",
-            "params": [6],
+            "params": [6,8,9],
             "type": "INT",
             "description": "This message is sent to user whose report is generated.",
-            "identifier": "REPORT_GENERATION"
+            "identifier": "REPORT_GENERATION",
+            "send_msg": "D"
+
         }
     },
     {
@@ -219,11 +278,13 @@
             "subject": "You have new content [moduletitle]",
             "default_subject": "You have new content [moduletitle] ",
             "params": [
-                3,4,5
+                3,4,5,8,9
             ],
             "type": "EMAIL",
             "description": "This message is sent to members of a group when the new assignment has been made.",
-            "identifier": "ADD_ASSIGNMENT_OCL"
+            "identifier": "ADD_ASSIGNMENT_OCL",
+            "send_msg": "D"
+
         }
     },
     {
@@ -237,11 +298,34 @@
             "default_subject": "Welcome!",
             "params": [
                 1,
-                2
+                2,
+                8,
+                9
             ],
             "type": "INT",
             "description": "This message is sent to the users when they have been added to the system.",
-            "identifier": "WELCOME"
+            "identifier": "WELCOME",
+            "send_msg": "D"
+
+        }
+    },
+    {
+        "pk": 13,
+        "model": "messages_custom.mailtemplate",
+        "fields": {
+            "name": "Assign multiple lessons",
+            "default": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>You have new content to view!</i></b><br></font>\n</p>\n<p>\nNew modules have been assigned to your group: [groupname].<br>\n Check the list below for more details:\n</p><br>\n[moduleslist]\n<br><br>\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
+            "content": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n</head>\n<body bgcolor=\"#ffffff\">\n<img  align=\"top\" src=\"http://kneto.fi/sites/default/files/logo.png\" alt=\"Home\">\n<hr>\n<p></p>\n<font face=\"Helvetica, Arial\">\n<p>\n<font size=\"5\"><b><i>You have new content to view!</i></b><br></font>\n</p>\n<p>\nNew modules have been assigned to your group: [groupname].<br>\n Check the list below for more details:\n</p><br>\n[moduleslist]\n<br><br>\n\n<hr>\n<strong>Kneto</strong><br />\nKalevankatu 18 B <br />\n00100 Helsinki<br />\nFinland</p>\n<p>Tel. +358 207 344 100</p>\n<p><a href=\"mailto:info@kneto.fi\">info@kneto.fi</a></p>\nThis is a system generated email, do not reply to this email <br />\n</body>\n</html>",
+            "subject": "You have new content",
+            "default_subject": "You have new content",
+            "params": [
+                3,7,8,9
+            ],
+            "type": "EMAIL",
+            "description": "This message is sent to members of a group when the new assignment has been made.",
+            "identifier": "ADD_MULTI_ASSIGNMENTS",
+            "send_msg": "D"
+
         }
     }
 

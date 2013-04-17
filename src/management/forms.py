@@ -33,6 +33,11 @@ class AuthenticationForm(auth_forms.AuthenticationForm):
 
         super(AuthenticationForm, self).clean()
 
+    def clean_username(self):
+        return self.cleaned_data['username'].strip()
+
+    
+
 class UserProfileForm(forms.Form):
     """Form for creating and editing user data.
     """
@@ -54,14 +59,32 @@ class UserProfileForm(forms.Form):
                              required=False,
                              max_length=20,
                              error_messages={'invalid': PHONE_INVALID_MSG})
-    role = forms.TypedChoiceField(label=_('Role'), choices=models.UserProfile.ROLES, coerce=int)
-    ocl = forms.BooleanField(label=_('One click link'), required=False, initial=False, widget=forms.CheckboxInput())
+    
+    if settings.SALES_PLUS:
+        choices = models.UserProfile.ROLES
+    else:
+        choices = [roles for roles in models.UserProfile.ROLES if roles[0] != models.UserProfile.ROLE_USER_PLUS]
+        
+    role = forms.TypedChoiceField(label=_('Role'), choices=choices, coerce=int)
+
+    ocl = forms.BooleanField(label=_('OCL (One-click-link)'), required=False, initial=False, widget=forms.CheckboxInput())
+    send_email = forms.BooleanField(label=_('Send message'), required=False,
+                                    initial=True, widget=forms.CheckboxInput())
     #language = forms.ChoiceField(choices=settings.LANGUAGES)
 
     def __init__(self, *args, **kwargs):
         self._user = kwargs.pop('user', None)
         self._admin = kwargs.pop('admin')
         super(UserProfileForm, self).__init__(*args, ** kwargs)
+        if self._admin.userprofile.is_superadmin:
+            self.fields['role'].choices = models.UserProfile.ROLES
+        elif self._admin.userprofile.is_admin:
+            self.fields['role'].choices = models.UserProfile.ROLES_CUTED
+            
+        if not settings.SALES_PLUS:
+            self.fields['role'].choices = [roles for roles in self.fields['role'].choices \
+                                            if roles[0] != models.UserProfile.ROLE_USER_PLUS]
+
 
     def clean_group(self):
         group_id = self.cleaned_data['group']
@@ -73,7 +96,7 @@ class UserProfileForm(forms.Form):
             return group
 
     def clean_username(self):
-        username = self.cleaned_data['username']
+        username = self.cleaned_data['username'].strip()
         try:
             user = auth_models.User.objects.get(username=username)
         except auth_models.User.DoesNotExist:
@@ -91,6 +114,12 @@ class UserProfileForm(forms.Form):
             else:
                 return username
 
+    def clean_first_name(self):
+        return self.cleaned_data['first_name'].strip()
+
+    def clean_last_name(self):
+        return self.cleaned_data['last_name'].strip()
+
     def clean_role(self):
         role = self.cleaned_data['role']
         has_role_changed = role != models.UserProfile.ROLE_USER
@@ -104,14 +133,14 @@ class UserProfileForm(forms.Form):
 
     
 class GroupEditForm(forms.Form):
-    name = forms.CharField(label=_('Name'), min_length=3, max_length=30)
+    name = forms.CharField(label=_('Name'), min_length=5, max_length=30)
 
     def __init__(self, *args, **kwargs):
         self._group = kwargs.pop('group', None)
         super(GroupEditForm, self).__init__(*args, **kwargs)
 
     def clean_name(self):
-        name = self.cleaned_data['name']
+        name = self.cleaned_data['name'].strip()
         try:
             group = auth_models.Group.objects.get(name=name)
         except auth_models.Group.DoesNotExist:
@@ -134,6 +163,8 @@ class CsvImportForm(forms.Form):
         Form used for importing data from CSV files.
     """
     file = forms.FileField(label=_('File'))
+    send_email = forms.BooleanField(label=_('Send message'), required=False,
+                                    initial=True, widget=forms.CheckboxInput())
 
     def clean_file(self):
 
@@ -195,5 +226,9 @@ class ChangePasswordForm(forms.Form):
         super(ChangePasswordForm, self).clean()
         self.validate_new_password()
         return self.cleaned_data
+
+
+class OCLExpirationForm(forms.Form):
+    expires_on = forms.DateField(required=False)
 
 # vim: set et sw=4 ts=4 sts=4 tw=78:

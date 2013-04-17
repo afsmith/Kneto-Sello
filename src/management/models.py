@@ -12,11 +12,13 @@
 
 from django import http
 from django.conf import settings
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group, User, UserManager
 from django.core.servers.basehttp import FileWrapper
 from django.core.validators import EmailValidator
+from django.conf import settings
 from django.db import models, transaction
 from django.utils.translation import ugettext_lazy as _
+
 
 import codecs, csv
 import cStringIO as StringIO
@@ -25,10 +27,19 @@ from content import utils
 from messages_custom.models import MailTemplate
 from messages_custom.utils import send_email, send_message
 
+
 class OneClickLinkToken(models.Model):
 
     user = models.ForeignKey(User)
     token = models.CharField(default=utils.gen_ocl_token, max_length=30, blank=False)
+    expired = models.BooleanField(db_index=True, default=False)
+    expires_on = models.DateField(_('Expiration date'), null=True, db_index=True)
+    allow_login = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s[%s][%s]' % (self.user, self.token, self.expires_on)
+
+
 
 class UserGroupProfile(models.Model):
     """Group-specific user profile.
@@ -58,11 +69,46 @@ class UserGroupProfile(models.Model):
         return '%s (%s in %s)' % (self.user, self.get_access_level_display(), self.group)
 
 
+class KnetoUserManager(UserManager):
+    """ Custom User model manager
+    """
+
+    def all(self, *args, **kwargs):
+        """ possibility to take in to account
+            SALES_PLUS version view
+        """
+        if settings.SALES_PLUS:
+            return super(UserManager, self).all(*args, **kwargs)
+        else:
+            return super(UserManager, self).all(*args, **kwargs).filter(userprofile__role__lt=40)
+
+    def filter(self, *args, **kwargs):
+        """ possibility to take in to account
+            SALES_PLUS version view
+        """
+        if settings.SALES_PLUS:
+            return super(UserManager, self).filter(*args, **kwargs)
+        else:
+            return super(UserManager, self).filter(*args, **kwargs).filter(userprofile__role__lt=40)
+
+class UserProfileManager(models.Manager):
+    """ Custom User model manager
+    """
+
+    def all(self, *args, **kwargs):
+        """ possibility to take in to account
+            SALES_PLUS version view
+        """
+        if settings.SALES_PLUS:
+            return super(UserProfileManager, self).all(*args, **kwargs)
+        else:
+            return super(UserProfileManager, self).all(*args, **kwargs).filter(role__lt=40)
+
 class UserProfile(models.Model):
     """Model specifying additional data for users of the system.
     """
 
-    USERNAME_LENGTH = 20
+    USERNAME_LENGTH = 299
     FIRST_NAME_LENGTH = 20
     LAST_NAME_LENGTH = 30
     EMAIL_LENGTH = 70
@@ -71,11 +117,18 @@ class UserProfile(models.Model):
     ROLE_SUPERADMIN = 10
     ROLE_ADMIN = 20
     ROLE_USER = 30
+    ROLE_USER_PLUS = 40
 
     ROLES = (
-        (ROLE_SUPERADMIN, ('superadmin')),
-        (ROLE_ADMIN, _('admin')),
-        (ROLE_USER, _('user')),
+        (ROLE_SUPERADMIN, ('admin')),
+        (ROLE_ADMIN, _('sender')),
+        (ROLE_USER, _('recipient')),
+        (ROLE_USER_PLUS, _('OCL recipient')),
+    )
+    ROLES_CUTED = (
+        (ROLE_USER, _('recipient')),
+        (ROLE_USER_PLUS, _('OCL recipient')),
+
     )
 
     user = models.OneToOneField(User, primary_key=True)
@@ -84,6 +137,8 @@ class UserProfile(models.Model):
     language = models.CharField(_('Language'), choices=settings.LANGUAGES, max_length=7)
     ldap_user = models.BooleanField(_('User from LDAP'), default=False)
     has_card = models.BooleanField(_('Has card'), default=False)
+
+    objects = UserProfileManager()
 
     @property
     def is_superadmin(self):
@@ -96,12 +151,17 @@ class UserProfile(models.Model):
     @property
     def is_user(self):
         return self.role == self.ROLE_USER
+    @property
+    def is_user_plus(self):
+        return self.role == self.ROLE_USER_PLUS
 
     def get_user_type(self):
         if self.role in (self.ROLE_ADMIN, self.ROLE_SUPERADMIN):
-            return 'admin'
+            return 'sender'
+        elif self.role == self.ROLE_USER_PLUS:
+            return 'OCL recipient'
         else:
-            return 'user'
+            return 'recipient'
 
     def get_ldap_marker(self):
         if self.ldap_user:
@@ -109,8 +169,17 @@ class UserProfile(models.Model):
         else:
             return ''
 
+    def get_sales_plus_marker(self):
+        if self.role == self.ROLE_USER_PLUS:
+            return '+'
+        else:
+            return ''
+
     def __unicode__(self):
-        return "%s %s" % (self.user.first_name, self.user.last_name)
+        sufix = ''
+        if self.role == self.ROLE_USER_PLUS:
+            sufix = ' +'
+        return "%s %s%s" % (self.user.first_name, self.user.last_name, sufix)
 
 
 class GroupProfile(models.Model):
@@ -122,6 +191,15 @@ class GroupProfile(models.Model):
     self_register_enabled = models.BooleanField()
 
 
+def serialize_user(user):
+    user_serial = {
+        'id': user.id,
+        'name': user.first_name + ' ' + user.last_name + user.get_profile().get_sales_plus_marker(),
+        'role': user.get_profile().role
+    }
+
+    return user_serial
+
 def serialize_group(group):
     group_serial = {
         'id': group.id,
@@ -132,7 +210,7 @@ def serialize_group(group):
 
 def _user_to_dict(user):
     if user is None:
-        d = {
+        return {
             'first_name': 'first_name',
             'last_name': 'last_name',
             'email': 'email',
@@ -141,9 +219,6 @@ def _user_to_dict(user):
             'phone': 'phone',
             'has_card': 'has_card',
         }
-        if settings.STATUS_CHECKBOX:
-            d['has_card'] = 'has_card'
-        return d
 
     profile = user.get_profile()
     d = {
@@ -156,6 +231,7 @@ def _user_to_dict(user):
     }
     if settings.STATUS_CHECKBOX:
         d['has_card'] = profile.has_card
+        
     return d
 
 class UnknownFormatError(Exception):
@@ -268,7 +344,7 @@ class UserImporter(object):
 
 
     @transaction.commit_manually
-    def import_users(self, users_data):
+    def import_users(self, users_data, admin, is_sendmail=True):
 
         """
             Function importing users to a group from buffer given as the input data.
@@ -277,6 +353,8 @@ class UserImporter(object):
                                imported into system. Incoming data is in a CSV format.
                                First row of the file should contain header fields with
                                names specified in REQUIRED_FIELDS tuple.
+            :param admin:      Admin or Superadmin who makes import. User will
+                               will be used as email sender.
 
             Return values:
                 status_msg - dictionary object containing number of processed rows (field
@@ -378,12 +456,11 @@ class UserImporter(object):
                     status_msg['errors'].append(_('Missing required field values for fields %(mising)s in row %(counter)d')%{'mising':', '.join(missing), 'counter':counter+1,})
                     continue
 
-                username = row['username']
-                first_name = row['first_name']
-                last_name = row['last_name']
+                username = row['username'].strip()
+                first_name = row['first_name'].strip()
+                last_name = row['last_name'].strip()
                 email = row['email']
                 phone = row['phone'] if 'phone' in row else None
-                has_card = row.get('has_card')
 
                 if 'password' in row and row['password']:
                     password = row['password']
@@ -415,13 +492,15 @@ class UserImporter(object):
                 user.groups.add(self.group)
                 user.save()
 
-                userProfile = UserProfile(role=UserProfile.ROLE_USER, user=user, phone=phone, has_card=(has_card == 'True'))
+                userProfile = UserProfile(role=UserProfile.ROLE_USER, user=user, phone=phone)
                 userProfile.save()
 
 # Not helpful to recive two emails                self._send_add_to_group_internal_message(user)
-                send_email(recipient=user, msg_ident=MailTemplate.MSG_IDENT_WELCOME,
-                           msg_data={"[username]":user.username,
-                                     "[password]":password})
+                if is_sendmail:
+                    send_email(recipient=user, user=admin,
+                            msg_ident=MailTemplate.MSG_IDENT_WELCOME,
+                            msg_data={"[username]":user.username,
+                                        "[password]":password})
 
                 status_msg['infos'].append(_('New user %(username)s was created and added to group %(groupname)s')%{'username':user.username, 'groupname':self.group.name})
 

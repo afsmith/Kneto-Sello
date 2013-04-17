@@ -1,8 +1,14 @@
 {% extends "base_template.html" %}
 {% load i18n %}
-{% block meta_title %}{% if orig_filename %}{% trans "Edit file" %}: {{ orig_filename }} {% else %}{% trans "Import file" %}{% endif %}{% endblock %}
-{% block title %}{% if orig_filename %}{% trans "Edit file" %} {% else %}{% trans "Import file" %}{% endif %}{% endblock %}
+{% block meta_title %}{% if orig_filename %}{% trans "Edit file" %}: {{ orig_filename }} {% else %}{% trans "Add file" %}{% endif %}{% endblock %}
+{% block title %}{% if orig_filename %}{% trans "Edit file" %} {% else %}{% trans "Add file" %}{% endif %}{% endblock %}
 {% block close_url %}content/manage/{% endblock %}
+{% block js_globals %}
+    var isEdited = false;
+  {% if is_edited %}
+    var isEdited = true;
+  {% endif %}
+{% endblock %}
 {% block js_scripts %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.treeview.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.treeview.edit.js"></script>
@@ -222,7 +228,10 @@
         </div>
       </div>
       <div class="separator"></div>
-      <a id="mcd" class="button-blue done {% if not orig_filename %}button-disabled{% endif %}" href="#">{% trans "Done" %}</a>
+      	<div class="centered" style="margin-top: 10px;">
+      		<a id="mcc" class="button-blue {% if not orig_filename %}button-disabled{% endif %}" href="#">{% trans "Clear" %}</a>
+      		<a id="mcd" class="button-blue {% if not orig_filename %}button-disabled{% endif %}" href="#">{% trans "Done" %}</a>
+      	</div>
       <div class="spacer"></div>
     </div>
 </form>

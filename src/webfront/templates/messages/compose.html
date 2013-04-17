@@ -6,6 +6,7 @@
 <form id="messageForm" action="{% if message_id %}/messages/reply/{{ message_id }}/{% else %}/messages/compose/{% endif %}" method="post">
 {% csrf_token %}
 <input type="hidden" name="recipients_ids" id="recipients_ids" />
+<input type="hidden" name="course_id" id="course_id" />
 {% if form.non_field_errors %}
   <div class="error">
     {%for error in form.non_field_errors %}

@@ -13,7 +13,7 @@
 	  <ul>
 	    <li class="first active">
 	      <span class="left"></span>
-	      <a href="#myLessons"><span>{% trans "My modules" %}</span></a>
+	      <a href="#myLessons"><span>{% trans "Inbox" %}</span></a>
 	      <span class="right"></span>
 	    </li>
 	    <li class="">
@@ -40,10 +40,10 @@
     	           {% if course.is_new %}<span class="newFlag">{% trans "New" %}</span>{% endif %}
     	           <a href="{% url content-view_module id=course.id %}" class="playLesson">&nbsp;</a>
 								 <div class="tooltip">
-									{% trans "Click here to view content" %}
+									{% trans "View Content" %}
 								</div>
 	           </span>
-	           <a id="sendMessageToLessonOwner" ownerid="{{ course.owner.id }}" ownername="{{ course.owner.first_name }} {{ course.owner.last_name }}" href="#" class="sendMessageIco"></a>
+               <a id="sendMessageToLessonOwner" course_id="{{ course.id }}" ownerid="{{ course.owner.id }}" ownername="{{ course.owner.first_name }} {{ course.owner.last_name }}" href="#" class="sendMessageIco"></a>
 						 <div class="tooltip">
             		{% trans "Send a message to the author" %}
             	</div>
@@ -124,7 +124,7 @@
               <div class="singleLessonWrapper {% for group in course.groups.all %}group{{ group.id }}{% if not forloop.last %} {% endif %}{% endfor %}">
                  <!--<div class="lessonDetails">
                    {% if course.is_new %}<span class="newFlag">{% trans "New" %}</span>{% endif %}
-                   <a id="sendMessageToLessonOwner" ownerid="{{ course.owner.id }}" ownername="{{ course.owner.first_name }} {{ course.owner.last_name }}" href="#" class="postIco"></a>
+                   <a id="sendMessageToLessonOwner" course_id="{{ course.id }}" ownerid="{{ course.owner.id }}" ownername="{{ course.owner.first_name }} {{ course.owner.last_name }}" href="#" class="postIco"></a>
                    <p class="title">
                    	<a href="{% url content-view_module id=course.id %}">{{ course.title }}</a>
 	            	<div class="tooltip">
@@ -154,10 +154,10 @@
     	           {% if course.is_new %}<span class="newFlag">{% trans "New" %}</span>{% endif %}
     	           <a href="{% url content-view_module id=course.id %}" class="playLesson">&nbsp;</a>
 								 <div class="tooltip">
-									{% trans "Click here to view content" %}
+									{% trans "View Content" %}
 								</div>
 	           </span>
-	           <a id="sendMessageToLessonOwner" ownerid="{{ course.owner.id }}" ownername="{{ course.owner.first_name }} {{ course.owner.last_name }}" href="#" class="sendMessageIco"></a>
+               <a id="sendMessageToLessonOwner" course_id="{{ course.id }}" ownerid="{{ course.owner.id }}" ownername="{{ course.owner.first_name }} {{ course.owner.last_name }}" href="#" class="sendMessageIco"></a>
 						 <div class="tooltip">
             		{% trans "Send a message to the author" %}
             	</div>

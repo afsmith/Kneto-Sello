@@ -146,7 +146,21 @@ $(document).ready(function(){
       });
       $("#ure").live('click', function() {
         $.nmManual(
-            '/management/users/delete/'
+            '/management/users/delete/',{
+            	callbacks: {
+            		'beforeShowCont': function() {
+            			$('#id_send_goodbye_email').closest('li').append(
+            					'<div id="previewMessageBtn" class="remove"></div>');
+            			$('#id_send_goodbye_email').unbind();
+            			if (!$('#id_send_goodbye_email').is(':checked')) $('#previewMessageBtn').hide();
+            			$('#id_send_goodbye_email').change(function(){
+            				if ($('#id_send_goodbye_email').is(':checked')) {
+            					$('#previewMessageBtn').show()
+            				} else $('#previewMessageBtn').hide();
+            			});
+            		}
+            	}
+            }
         );
       });
       $('#gex').live('click', function(){
@@ -182,53 +196,90 @@ $(document).ready(function(){
         return false;
       });
 
+      $('#ru_yes').live('click', function(){
+        var userId = Ing.findInDOM().data.activeUser.id;
+        var deleteUser = function(sendGoodbyeEmail) {
+            $.post('/management/users/' + userId + '/delete/?send_goodbye_email=' + sendGoodbyeEmail, '',
+                    function(data, status, xmlHttpRequest){
+                        app.gm.saveState();
+                        app.gm.loadData();
+                        $('#u_details_content').html(t.NO_USER_SELECTED);
+                        app.helpers.window(t.SYSTEM_MESSAGE, t.USER_REMOVED);
+                    });
+            $.nmTop().close();
+            return false;
+        };
+
+        notification_input = $(this).parent().prev().find("#id_send_email")
+        deleteUser(notification_input.attr("checked"));
+        return false;
+      });
+      
+      $('#previewMessageBtn').live('click', function(){
+    	action = $(this).attr('class') + '_user';
+		$.post('/messages/preview/', JSON.stringify({action: action}), function(data) {
+			var bg = $('<div class="modalBg customModalBg onTop"></div>'),
+				modal = $(data);
+		        messageTemplate = '',
+	        	iframe = '';
+		        
+		    bg.css({
+		    	opacity: 0,
+		        height: $(window).height(),
+		        width: $(window).width()
+		    });
+		    modal.attr('id', 'assignmentPreview');
+		    modal.css({
+		        left: $(window).width() / 2 - 350,
+		        top: 10
+		    });
+		    bg.appendTo($('body'));
+		    modal.appendTo($('body'));
+		    $(modal).addClass('onTop');
+		    messageTemplate = app.helpers.htmlSpecialDecoder($('#messageTemplate').html());
+		    $('a.customModalCloseButton').click(function(){
+		    	$('#assignmentPreview').animate({
+		    	    opacity: 0,
+		    	  }, 300, function() {
+		    		$('#assignmentPreview').remove();
+		    		$('.customModalBg').animate({
+		        	    opacity: 0,
+		      	  	}, 300, function() {
+		        		$('.customModalBg').remove();
+		        	});
+		    	  });
+		    });
+		  	$('.customModalBg').animate({
+		  	    opacity: 0.7,
+			  	}, 300, function(){
+		      	$('#assignmentPreview').animate({
+		      	    opacity: 1,
+		      	}, 300, function(){
+		      			$('iframe').contents().find('html').html(messageTemplate);
+		    	        $('#messageTemplate').remove();
+		      		});     	  		
+			  	});
+		}, 'html');
+      });
+
+      $('#ru_no').live('click', function(){
+        $.nmTop().close();
+        return false;
+      });
+
       $('#ru').live('click', function(){
         var cnf = app.config;
         var userId = Ing.findInDOM().data.activeUser.id;
         if(userId){
-           var deleteUser = function(sendGoodbyeEmail) {
-               $.post('/management/users/' + userId + '/delete/?send_goodbye_email=' + sendGoodbyeEmail, '',
-                     function(data, status, xmlHttpRequest){
-                         app.gm.saveState();
-                         app.gm.loadData();
-                         $('#u_details_content').html(t.NO_USER_SELECTED);
-                         app.helpers.window(t.SYSTEM_MESSAGE, t.USER_REMOVED);
-                     });
-               $.nmTop().close();
-               return false;
-           };
-
-           app.helpers.window(
-               t.SYSTEM_MESSAGE,
-               t.USER_REMOVE_CONFIRM + '<br />' + t.CANNOT_BE_UNDONE + '<br/>',
-               [{
-                   'text': t.YES_GOODBYE,
-                   events: [{
-                       name: 'click',
-                       handler: function(){
-                            deleteUser(true);
-                       }
-                   }]
-               }, {
-                   'text': t.YES_NO_GOODBYE,
-                   events: [{
-                       name: 'click',
-                       handler: function(){
-                          deleteUser(false);
-                       }
-                   }]
-               },{
-                   'text': t.NO,
-                   events: [{
-                       name: 'click',
-                       handler: function(){
-                           $.nmTop().close();
-                           return false;
-                       }
-                   }]
-               }],
-               false
-           );
+            $.nmManual(
+            '/management/users/' + userId + '/delete/',
+            {
+                sizes: {
+                w: cnf.width,
+                h: cnf.height
+                }
+            }
+            );
            return false;
         }else{
           app.helpers.window(t.SYSTEM_MESSAGE, t.CHOOSE_USER_REMOVE);
@@ -307,11 +358,9 @@ $(document).ready(function(){
             }
           });
           $.nmManual(
-            '/management/users/create/',
-            {
-	    	      resizable: true
-            }
-          );
+            '/management/users/create/', {
+				resizable: true
+            });
         }else{
           app.helpers.window(t.SYSTEM_MESSAGE, t.CHOOSE_GROUP_ADD);
         }
@@ -424,6 +473,11 @@ $(document).ready(function(){
         app.triggerEvent('disableGroupsSelfRegister');
         return false;
     });
+    
+    $('#id_send_email').live('change', function(){
+    	if ($('#id_send_goodbye_email').length) return; 
+    	if ($(this).is(':checked')) {$('#previewMessageBtn').show()} else $('#previewMessageBtn').hide();
+    });
 
 	$('#grouplist').bind('focus',function() {
 		$(this).parent().parent().siblings('.rightArrow').addClass('active')});
@@ -466,4 +520,13 @@ $(document).ready(function(){
 				$('#narrow2').val(searchDefault);
 			}
 		});
+    $('#id_role').live('change', function(){
+        if ($(this).val() == 40){
+            $('input#id_send_email').removeAttr('checked');
+            $('#previewMessageBtn').hide();
+        } else {
+            $('input#id_send_email').attr('checked', 'checked');
+            $('#previewMessageBtn').show();
+        }
+    });
 });

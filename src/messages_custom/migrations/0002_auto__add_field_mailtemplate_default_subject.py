@@ -12,10 +12,6 @@ class Migration(SchemaMigration):
         # Adding field 'MailTemplate.default_subject'
         db.add_column('messages_custom_mailtemplate', 'default_subject', self.gf('django.db.models.fields.CharField')(default='', max_length=255), keep_default=False)
 
-	# loading data from fixture
-        call_command('loaddata', 'src/messages_custom/fixtures/initial_data.json')
-
-
     def backwards(self, orm):
         
         # Deleting field 'MailTemplate.default_subject'

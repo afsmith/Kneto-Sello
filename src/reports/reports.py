@@ -14,6 +14,11 @@ from messages_custom.utils import send_email, send_message
 from models import Report, ReportResult
 from tracking.models import TrackingEventService
 
+MIME_MAPPING = {
+    'pdf': 'application/pdf',
+    'csv': 'text/csv',
+    'html': 'text/html',
+}
 class ReportGenerationService(object):
     """Generates all reports
     """
@@ -46,29 +51,66 @@ class ReportGenerationService(object):
         if not report.is_deleted:
             self._generate(report)
 
+    def _attachments(self, files):
+        att_list = []
+        for f in files:
+            ext = os.path.splitext(f)[1][1:]
+            f_name = os.path.split(f)[1]
+            with open(f, 'r') as fh:
+                content = fh.read()
+
+            att_list.append((f_name, content, MIME_MAPPING[ext]))
+        return att_list
+
     def _generate(self, report):
         report_generator = ReportGenerator()
         now = datetime.now()
         file_name = report.name + '_' + now.strftime("%y-%m-%d %H:%M") + '_' + report.owner.username + '.pdf'
         html_file_name = report.name + '_' + now.strftime("%y-%m-%d %H:%M") + '_' + report.owner.username + '.html'
+        csv_file_name = report.name + '_' + now.strftime("%y-%m-%d %H:%M") + '_' + report.owner.username + '.csv'
 
         file_path = os.path.join(settings.REPORTS_RESULTS_DIR, file_name)
         html_file_path = os.path.join(settings.REPORTS_RESULTS_DIR, html_file_name)
+        csv_file_path = os.path.join(settings.REPORTS_RESULTS_DIR, csv_file_name)
 
-        status = report_generator.generate(report, file_path) & report_generator.generate(report, html_file_path)
+        status = report_generator.generate(report, file_path) &\
+                 report_generator.generate(report, html_file_path) &\
+                 report_generator.generate(report, csv_file_path)
 
         report.executed_on = now
         report.save()
-        report_result = ReportResult(report=report, file_path='' if status else file_name, html_file_path='' if status else html_file_name, created_on=now, status=status)
+        report_result = ReportResult(report=report,
+                    file_path='' if status else file_name, 
+                    html_file_path='' if status else html_file_name,
+                    csv_file_path='' if status else csv_file_name,
+                    created_on=now, status=status)
         report_result.save()
 
-        template = MailTemplate.objects.get(type=MailTemplate.TYPE_INTERNAL,
-                                            identifier=MailTemplate.MSG_IDENT_REPORT_GENERATION)
+        template = MailTemplate.for_user(None, type=MailTemplate.TYPE_INTERNAL,
+                                            identifier=MailTemplate.MSG_IDENT_REPORT_GENERATION)[0]
         params_dict={'[reportname]':report.name}
+        rcp_ids = []
+        rcp_ids.extend([ntfu.id for ntfu in report.ntf_users.all()])
+        rcp_ids.extend([ntfu.id for ntfu in report.ntf_admins.all()])
+        gusers = User.objects.filter(groups__in=report.ntf_groups.all())
+        rcp_ids.extend([guser.id for guser in gusers])
+        rcp_ids = list(set(rcp_ids)) # remove duplicates
+
+        att_list = []
+        for rformat in report.send_format.split(','):
+            if rformat=='pdf':
+                att_list.append(file_path)
+            elif rformat=='html':
+                att_list.append(html_file_path)
+            elif rformat=='csv':
+                att_list.append(csv_file_path)
+
+        attachments = self._attachments(att_list)
         send_message(sender=report.owner,
-                     recipients_ids=[report.owner.id],
+                     recipients_ids=rcp_ids,
                      subject=template.populate_params_to_text(template.subject, params_dict),
-                     body=template.populate_params(params_dict))
+                     body=template.populate_params(params_dict),
+                     attachments=attachments)
 
 class ReportGenerator(object):
     """Generates report file

@@ -11,6 +11,47 @@
 {% block content %}
 <form id="newReportForm" action="/reports/create/{% if report.id %}{{ report.id }}/{% endif %}" method="post" enctype="multipart/form-data">
     {% include "form_template.html" %}
+    <ul class="formList formExtend" style="padding-top: 0">
+        <li>
+            <label>{% trans "Receivers" %}</label>
+            <div class="rightTagsContainer">
+	            <div class="inputWrapperCheck">
+		            <ul id="tagListUsers" class="taglist bluelist">
+		            {% for ntfu in ntf_users %}
+		                <li id=tag_{{ ntfu.id }}>{{ ntfu.username }}
+		                    <a href="#" title="Remove from taglist">
+		                        <img class="delete" src="{{ MEDIA_URL }}img/blank.gif" alt="" /></a>
+		                </li>
+		            {% endfor %}
+		            </ul>
+	            </div>
+	            <div class="inputWrapperCheck">
+		            <ul id="tagListAdmins" class="taglist bluelist">
+		            {% for ntfa in ntf_admins %}
+		                <li id=tag_{{ ntfa.id }}>{{ ntfa.username }}
+		                    <a href="#" title="Remove from taglist">
+		                        <img class="delete" src="{{ MEDIA_URL }}img/blank.gif" alt="" /></a>
+		                </li>
+		            {% endfor %}
+		            </ul>
+	            </div>
+	            <div class="inputWrapperCheck">
+		            <ul id="tagListGroups" class="taglist bluelist">
+		            {% for ntfg in ntf_groups %}
+		                <li id=tag_{{ ntfg.id }}>{{ ntfg.name }}
+		                    <a href="#" title="Remove from taglist">
+		                        <img class="delete" src="{{ MEDIA_URL }}img/blank.gif" alt="" /></a>
+		                </li>
+		            {% endfor %}
+		            </ul>
+	            </div>
+	         </div>
+        </li>
+        <li>
+            <label></label>
+            <a id="add_receiver" class="button-normal button-big-no-width addBtn" href=#>{% trans "add receiver" %}</a>
+        </li>
+    </ul>
     <div style="width: 200px; margin: 0px auto;">
     <a class="button-gray button-big button-submit" href="#" style="margin-top: 10px;">{% trans "Save" %}{% if report.id %} {% trans "changes" %}{% endif %}</a>
 </div>
@@ -21,7 +62,7 @@
         {{ superadmin_form.all_groups }}
         {{ superadmin_form.all_courses }}
     </div>
-    <div class="superadmin">{{ superadmin_form.show_all }}&nbsp;{{ superadmin_form.show_all.label }}</div>
+    <div class="superadmin" style="left: 12px">{{ superadmin_form.show_all }}&nbsp;{{ superadmin_form.show_all.label }}</div>
 {% endif %}
 </form>
 

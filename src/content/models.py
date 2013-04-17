@@ -16,6 +16,7 @@ from datetime import datetime
 
 from django.conf import settings
 from django.contrib.auth import models as auth_models
+from django.contrib.sites.models import Site
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -164,8 +165,8 @@ class File(models.Model):
 
     created_on = models.DateTimeField(_('Created on'), auto_now_add=True)
     updated_on = models.DateTimeField(_('Updated on'), auto_now=True)
-    expires_on = models.DateField(_('Expire date'), null=True)
-    delete_expired = models.BooleanField(_('Delete content after expired'), default=False)
+    expires_on = models.DateField(_('Expiration date'), null=True)
+    delete_expired = models.BooleanField(_('Delete file after expiration'), default=False)
     is_downloadable = models.BooleanField(_('Allow downloading'), default=True)
     duration = models.IntegerField(_('Duration'), null=True)
     note = models.CharField(_('Note'), max_length=400, null=True)
@@ -271,7 +272,7 @@ class File(models.Model):
                 'segmentID': 'preview',
                 })
 
-            return settings.SCORM_PLAYER_START_URL_PATTERN + '?' + qs
+            return settings.SCORM_PLAYER_ENDPOINT + '?' + qs
         elif self.orig_filename.rpartition('.')[2].lower() in CONVERSION_EXCLUSIONS:
             path = os.path.join(settings.CONTENT_UPLOADED_DIR, self.orig_file_path)
             return urlparse.urljoin(settings.MEDIA_URL, path)
@@ -357,10 +358,11 @@ class Course(models.Model):
                                                        related_name="course_can_assign")
     title = models.CharField(_('Title'), max_length=150)
     objective = models.TextField(_('Objective'), blank=True)
+    completion_msg = models.TextField(_('Goodbye message'), blank=True, default='Module finished', null=True)
     state_code = models.IntegerField(_('State code'), default=course_states.Draft.CODE)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    expires_on = models.DateField(_('Expire date'), null=True)
+    expires_on = models.DateField(_('Expiration date'), null=True)
     published_on = models.DateTimeField(_('Publish date'), null=True)
     deactivated_on = models.DateTimeField(_('Deactivated date'), null=True)
     active = models.BooleanField(default=False)
@@ -368,10 +370,14 @@ class Course(models.Model):
     owner = models.ForeignKey(auth_models.User, null=True)
     allow_download = models.BooleanField(_('Allow downloads'), default=False)
     allow_skipping = models.BooleanField(_('Allow skipping'), default=False)
+    sign_off_required = models.BooleanField(_('Sign off required'), default=False)
 
     def __unicode__(self):
         return self.title
     
+    def is_assigned_to_all(self):
+        return len(self.groups.all())==len(auth_models.Group.objects.all())
+
     def get_state(self):
         states = [course_states.Draft(self),
                   course_states.Active(self),
@@ -505,6 +511,20 @@ class CourseGroup(models.Model):
     assigned_on = models.DateField()
 
 
+class CourseUser(models.Model):
+    """Stores associations between user and their modules.
+    """
+
+    user = models.ForeignKey(auth_models.User)
+    course = models.ForeignKey(Course)
+    sign_off = models.BooleanField(_('Sign off module'),
+            default=False)
+    sign_off_date = models.DateTimeField(null=True)
+    
+    def __unicode__(self):
+        return "%s, %s %s" % (self.course.title, self.user.first_name,
+                self.user.last_name)
+ 
 
 class ModuleDescrParser(object):
     supported_versions = (1,)

@@ -9,7 +9,6 @@ from django.db import models
 from django.db import transaction
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
-from django.core.mail import EmailMultiAlternatives
 
 try:
     from django.utils.timezone import now as datetime_now
@@ -252,21 +251,17 @@ class RegistrationProfile(models.Model):
             framework for details regarding these objects' interfaces.
 
         """
-	from django.core.mail import EmailMultiAlternatives
-        from django.template.loader import render_to_string
-
         ctx_dict = {'activation_key': self.activation_key,
                     'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
                     'site': site}
-	ctx_dict = dict(ctx_dict, **kwargs)
+        ctx_dict = dict(ctx_dict, **kwargs)
         subject = render_to_string('registration/activation_email_subject.txt',
                                    ctx_dict)
         # Email subject *must not* contain newlines
         subject = ''.join(subject.splitlines())
-
-        message_text = render_to_string('registration/activation_email.txt', ctx_dict)
-        message_html = render_to_string('registration/activation_email.html', ctx_dict)
-
-        msg = EmailMultiAlternatives(subject, message_text, settings.DEFAULT_FROM_EMAIL, [self.user.email])
-        msg.attach_alternative(message_html, "text/html")
-        msg.send()    
+        
+        message = render_to_string('registration/activation_email.txt',
+                                   ctx_dict)
+        
+        self.user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)
+    

@@ -165,7 +165,7 @@
 		            <label>{{ form.note.label }}</label>
 		            <div class="inputWrapper shadow-gray">{{ form.note }}</div>
 		            	<span class="charCounter"></span>
-		            {% if form.name.errors %}
+		            {% if form.note.errors %}
 		              <div class="formError">
 		                {%for error in form.name.errors %}
 		                  {{error}}

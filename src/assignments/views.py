@@ -18,7 +18,7 @@ from django import http
 from django.contrib.auth import models as auth_models
 from django.contrib.auth import decorators as auth_decorators
 from django.db import models as db_models, transaction
-from django.db.models import Sum
+from django.db.models import Sum, Max
 from django.db.models.query_utils import Q
 from django.shortcuts import get_object_or_404
 from django.views.decorators import http as http_decorators
@@ -27,17 +27,20 @@ from django.views.generic.simple import direct_to_template
 from bls_common import bls_django
 from content import models as cont_models, serializers
 import content
-from content.course_states import Active, ActiveAssign, ActiveInUse
+from content.course_states import Active, ActiveAssign, ActiveInUse, Removed
 from content.models import DownloadEvent
 from management import models as manage_models
 from management.models import OneClickLinkToken, UserProfile
 from management.views import one_click_link
 from messages_custom.models import MailTemplate
-from messages_custom.utils import send_goodbye_email, send_email, send_message
+from messages_custom.utils import send_email, send_message
 from plato_common import decorators
 from tracking.models import ScormActivityDetails, TrackingEventService, active_modules_with_track_ratio, module_with_track_ratio
 from tracking.utils import progress_formatter
 from reports import reports
+from reports.models import Report
+from management.forms import OCLExpirationForm
+
 
 logger = logging.getLogger("assignments")
 
@@ -53,6 +56,92 @@ is_user = decorators.user_passes_test(
     )
 """
 
+def _assign_to_all_groups(assignments, group_id, req_user, is_sendmail, allow_login, saved_template, saved_content, saved_subject, add_one_click_link, ocl_expires_on, host=''):
+    curr_time = datetime.now()
+    groups = auth_models.Group.objects.all()
+    m_assigned_to_all = []
+    for c in cont_models.Course.objects.all():
+        if c.is_assigned_to_all():
+            m_assigned_to_all.append(c)
+    for group in groups:
+        for module in group.course_set.all():
+            if (str(module.id) not in assignments[group_id]) and (module in m_assigned_to_all):
+                cont_models.CourseGroup.objects.filter(course=module, group=group).delete()
+
+                if module.get_state().has_code(ActiveAssign.CODE) and cont_models.CourseGroup.objects.filter(course=module).count() == 0:
+                    module.get_state().act('remove_assignments')
+
+        assigned_modules = []
+        for module_id in assignments[group_id]:
+            try:
+                module = cont_models.Course.objects.get(pk=module_id)
+            except cont_models.Course.DoesNotExist:
+                transaction.rollback()
+                response = {
+                    'status': 'ERROR',
+                    'messages': ['Course with ID %s does not exist.' % module_id],
+                    }
+                return bls_django.HttpJsonResponse(response)
+            if module not in group.course_set.all():
+                course_group = cont_models.CourseGroup(group=group, course=module, assigned_on=curr_time, assigner=req_user)
+                course_group.save()
+                assigned_modules.append(module)
+
+                if module.get_state().has_code(Active.CODE):
+                    module.get_state().act('assign')
+
+        if is_sendmail:
+            for user in group.user_set.filter(userprofile__role__gte=manage_models.UserProfile.ROLE_USER,
+                                            is_active=True):
+                modules_list_tmp = ''
+                ocl = None
+                if not user.get_profile().ldap_user and add_one_click_link:
+                    #create new ocl per assigment
+                    
+                    ocl = OneClickLinkToken.objects.create(user=user, expires_on=ocl_expires_on,
+                                                            allow_login=allow_login)
+                    for i in range(len(assigned_modules)):
+                        ocl_link = MailTemplate.ONE_CLICK_LINK_SMM % (host, int(assigned_modules[i].id), ocl.token)
+                        if not settings.SALES_PLUS:
+                            ocl_link = MailTemplate.ONE_CLICK_LINK % (host, ocl.token)
+                        
+                        if len(assigned_modules)==1:
+                            modules_list_tmp += assigned_modules[i].title
+                        else:
+                            modules_list_tmp += ''.join((str(i+1),'."',str(assigned_modules[i].title),
+                                                        '"<br />\n', str(ocl_link), '<br />\n'))
+                        
+                    prevent_user_plus=False                       
+                else:
+                    for i in range(len(assigned_modules)):
+                        if len(assigned_modules)==1:
+                            modules_list_tmp += assigned_modules[i].title
+                        else:
+                            modules_list_tmp += ''.join((str(i+1),'."',str(assigned_modules[i].title),'"<br />\n'))
+                    prevent_user_plus=True
+                    
+                is_ocl = (add_one_click_link and True) or False
+                if modules_list_tmp:
+                    msg_ident = MailTemplate.MSG_IDENT_ADD_ASSIGNMENT
+                    msg_data={'[groupname]': group.name,
+                            '[moduletitle]': modules_list_tmp}
+                    if len(assigned_modules) > 1:
+                        msg_data={'[groupname]': group.name,
+                                '[moduleslist]': modules_list_tmp}
+                        msg_ident = MailTemplate.MSG_IDENT_ADD_MULTI_ASSIGNMENTS
+                    if add_one_click_link:
+                        msg_data['[oneclicklink]'] = ocl_link
+                        msg_ident = MailTemplate.MSG_IDENT_ADD_ASSIGNMENT_OCL
+
+                    send_email(recipient=user, user=req_user,
+                            msg_ident=msg_ident,
+                            msg_data=msg_data,
+                            prevent_user_plus=prevent_user_plus,
+                            template_content=saved_content or None,
+                            template_subject=saved_subject or None,
+                            courses=assigned_modules or None,
+                            ocl=ocl)
+
 @transaction.commit_manually
 @decorators.is_admin_or_superadmin
 def group_modules(request):
@@ -65,13 +154,26 @@ def group_modules(request):
         return values:
         - 200
     """
-
     if request.method == 'POST':
-
         try:
             data = json.loads(request.raw_post_data)
             assignments = data['assignments']
             add_one_click_link = data['add_one_click_link'] if 'add_one_click_link' in data else False
+            ocl_expires_on = None
+            form = OCLExpirationForm(data)
+            if form.is_valid():
+                ocl_expires_on = form.cleaned_data['expires_on']
+
+            is_sendmail = data['is_sendmail'] if 'is_sendmail' in data else False
+            allow_login = data.get('allow_login', False)
+            # personalized template {{{
+            saved_template = data.get('savedTemplate', {})
+            saved_content = ''
+            saved_subject = ''
+            if saved_template:
+                saved_content = saved_template.get('content', '')
+                saved_subject = saved_template.get('subject', '')
+            #}}}
         except ValueError:
             response = {
                     'status': 'ERROR',
@@ -85,8 +187,13 @@ def group_modules(request):
             #
             # Checking if group has associations to modules which should be removed
             #
+            assign_to_all = False
             try:
-                group = auth_models.Group.objects.get(pk=group_id)
+                if group_id == '-2':
+                    _assign_to_all_groups(assignments, group_id, request.user, is_sendmail, allow_login, saved_template, saved_content, saved_subject, add_one_click_link, ocl_expires_on, host=request.get_host())
+                    assign_to_all = True
+                else:
+                    group = auth_models.Group.objects.get(pk=group_id)
             except auth_models.Group.DoesNotExist:
                 transaction.rollback()
                 response = {
@@ -95,55 +202,99 @@ def group_modules(request):
                     }
                 return bls_django.HttpJsonResponse(response)
 
-            for module in group.course_set.all():
-                if str(module.id) not in assignments[group_id]:
-                    cont_models.CourseGroup.objects.filter(course=module, group=group).delete()
+            if not assign_to_all:
+                for module in group.course_set.all():
+                    if str(module.id) not in assignments[group_id]:
+                        cont_models.CourseGroup.objects.filter(course=module, group=group).delete()
 
-                    if module.get_state().has_code(ActiveAssign.CODE) and cont_models.CourseGroup.objects.filter(course=module).count() == 0:
-                        module.get_state().act('remove_assignments')
+                        if module.get_state().has_code(ActiveAssign.CODE) and cont_models.CourseGroup.objects.filter(course=module).count() == 0:
+                            module.get_state().act('remove_assignments')
 
-            #
-            # Checking if group has any new associations to modules and saving them
-            #
-            for module_id in assignments[str(group.id)]:
-                try:
-                    module = cont_models.Course.objects.get(pk=module_id)
-                except cont_models.Course.DoesNotExist:
-                    transaction.rollback()
-                    response = {
-                        'status': 'ERROR',
-                        'messages': ['Course with ID %s does not exist.' % module_id],
-                        }
-                    return bls_django.HttpJsonResponse(response)
-                if module not in group.course_set.all():
-                    course_group = cont_models.CourseGroup(group=group, course=module, assigned_on=curr_time, assigner=request.user)
-                    course_group.save()
+                #
+                # Checking if group has any new associations to modules and saving them
+                #
+                assigned_modules = []
+                for module_id in assignments[str(group.id)]:
+                    try:
+                        module = cont_models.Course.objects.get(pk=module_id)
+                    except cont_models.Course.DoesNotExist:
+                        transaction.rollback()
+                        response = {
+                            'status': 'ERROR',
+                            'messages': ['Course with ID %s does not exist.' % module_id],
+                            }
+                        return bls_django.HttpJsonResponse(response)
+                    if module not in group.course_set.all():
+                        course_group = cont_models.CourseGroup(group=group, course=module, assigned_on=curr_time, assigner=request.user)
+                        course_group.save()
+                        assigned_modules.append(module)
 
-                    if module.get_state().has_code(Active.CODE):
-                        module.get_state().act('assign')
+                        if module.get_state().has_code(Active.CODE):
+                            module.get_state().act('assign')
 
-                    for user in group.user_set.filter(userprofile__role=manage_models.UserProfile.ROLE_USER,
-                                                      is_active=True):
+                if is_sendmail:
+                    for user in group.user_set.filter(userprofile__role__gte=manage_models.UserProfile.ROLE_USER,
+                                                    is_active=True):
+                        modules_list_tmp = ''
+                        ocl = None
                         if not user.get_profile().ldap_user and add_one_click_link:
-                            OneClickLinkToken.objects.filter(user=user).delete()
-                            ocl = OneClickLinkToken.objects.create(user=user)
-                            send_email(recipient=user,
-                                        msg_ident=MailTemplate.MSG_IDENT_ADD_ASSIGNMENT_OCL,
-                                        msg_data={'[groupname]':group.name,
-                                                  '[moduletitle]':module.title,
-                                                  "[oneclicklink]": MailTemplate.ONE_CLICK_LINK % (request.get_host(), ocl.token)})
+                            #create new ocl per assigment
+                            
+                            ocl = OneClickLinkToken.objects.create(user=user, expires_on=ocl_expires_on,
+                                                                    allow_login=allow_login)
+                            for i in range(len(assigned_modules)):
+                                ocl_link = MailTemplate.ONE_CLICK_LINK_SMM % (request.get_host(), int(assigned_modules[i].id), ocl.token)
+                                if not settings.SALES_PLUS:
+                                    ocl_link = MailTemplate.ONE_CLICK_LINK % (request.get_host(), ocl.token)
+                                
+                                if len(assigned_modules)==1:
+                                    modules_list_tmp += assigned_modules[i].title
+                                else:
+                                    modules_list_tmp += ''.join((str(i+1),'."',str(assigned_modules[i].title),
+                                                                '"<br />\n', str(ocl_link), '<br />\n'))
+                                
+                            prevent_user_plus=False                       
                         else:
-                            send_email(recipient=user,
-                                       msg_ident=MailTemplate.MSG_IDENT_ADD_ASSIGNMENT,
-                                       msg_data={'[groupname]':group.name,
-                                                 '[moduletitle]':module.title})
+                            for i in range(len(assigned_modules)):
+                                if len(assigned_modules)==1:
+                                    modules_list_tmp += assigned_modules[i].title
+                                else:
+                                    modules_list_tmp += ''.join((str(i+1),'."',str(assigned_modules[i].title),'"<br />\n'))
+                            prevent_user_plus=True
+                            
+                        is_ocl = (add_one_click_link and True) or False
+                        if modules_list_tmp:
+                            msg_ident = MailTemplate.MSG_IDENT_ADD_ASSIGNMENT
+                            msg_data={'[groupname]': group.name,
+                                    '[moduletitle]': modules_list_tmp}
+                            if len(assigned_modules) > 1:
+                                msg_data={'[groupname]': group.name,
+                                        '[moduleslist]': modules_list_tmp}
+                                msg_ident = MailTemplate.MSG_IDENT_ADD_MULTI_ASSIGNMENTS
+                            if add_one_click_link:
+                                msg_data['[oneclicklink]'] = ocl_link
+                                msg_ident = MailTemplate.MSG_IDENT_ADD_ASSIGNMENT_OCL
 
+                            send_email(recipient=user, user=request.user,
+                                    msg_ident=msg_ident,
+                                    msg_data=msg_data,
+                                    prevent_user_plus=prevent_user_plus,
+                                    template_content=saved_content or None,
+                                    template_subject=saved_subject or None,
+                                    courses=assigned_modules or None,
+                                    ocl=ocl)
+                                     
         transaction.commit()
         return bls_django.HttpJsonResponse({'status':'OK', 'messages': []})
 
     else:
         serialized_set = {}
         groups = auth_models.Group.objects.all()
+        courses = cont_models.Course.objects.filter(Q(state_code=ActiveAssign.CODE) |
+                                                  Q(state_code=ActiveInUse.CODE) |
+                                                  Q(state_code=Active.CODE))
+        serialized_assign_to_all = {}
+        groups_count = groups.count()
         for group in groups:
             serialized_set[group.id] = {}
             for module in group.course_set.filter(Q(state_code=ActiveAssign.CODE) |
@@ -153,6 +304,13 @@ def group_modules(request):
                 module_dict['short_title'] = module_dict['title'][:7] + '...'
                 module_dict['owner'] = ' '.join((module.owner.first_name,module.owner.last_name))
                 serialized_set[group.id][module.id] = module_dict
+                module_group = cont_models.CourseGroup.objects.filter(course=module)\
+                                                              .order_by('group')\
+                                                              .distinct('group')
+                if module_group.count()==groups_count:
+                    serialized_assign_to_all[module.id] = module_dict
+        serialized_set[-2] = serialized_assign_to_all
+
 
         return bls_django.HttpJsonResponse(serialized_set)
 
@@ -239,44 +397,117 @@ def admin_status(request):
     groups = []
 
     if request.user.get_profile().role == manage_models.UserProfile.ROLE_ADMIN:
-        my_groups = request.user.groups.all().order_by('name')
-        groups = request.user.groups.all().order_by('name')
+        my_groups = request.user.groups.all().order_by("name")
+        groups = request.user.groups.all().order_by("name")
 
     elif request.user.get_profile().role == manage_models.UserProfile.ROLE_SUPERADMIN:
-        my_groups = request.user.groups.all().order_by('name')
-        groups = auth_models.Group.objects.all().order_by('name')
+        my_groups = request.user.groups.all().order_by("name")
+        groups = auth_models.Group.objects.all().order_by("name")
 
+    recent_content = cont_models.File.objects.filter(status__in=(cont_models.File.STATUS_AVAILABLE,
+                                cont_models.File.STATUS_EXPIRED), owner=request.user)\
+                                .order_by('created_on').reverse()[0:5]
+                                
+    recent_modules = cont_models.Course.objects.filter(owner=request.user)\
+                          .filter(~db_models.query_utils.Q(state_code=Removed.CODE))\
+                          .order_by('created_on').reverse()[0:5]
+                          
+    recent_reports = Report.objects.filter(owner=request.user,is_template=False)\
+                          .order_by('created_on').reverse()[0:5]
 
     group_data = {}
+    
     for group in groups:
         group_data[group] = {}
+        group_data[group]['user_count'] = 0
+        group_data[group]['admin_count'] = 0
+        group_data[group]['module_ratio'] = dict()
         group_data[group]['id'] = group.id
         group_data[group]['courses']= group.course_set.annotate(
             segments_count=db_models.aggregates.Count("segment")).filter(
                 (Q(state_code=ActiveAssign.CODE) |
                  Q(state_code=ActiveInUse.CODE)) &
-                ~db_models.query_utils.Q(segments_count = 0)).reverse()
+                ~db_models.query_utils.Q(segments_count = 0)).order_by('title')
         group_data[group]['users_data'] = []
         for user in group.user_set.all():
-            if user.get_profile().role == manage_models.UserProfile.ROLE_USER:
+            if user.get_profile().role == manage_models.UserProfile.ROLE_USER \
+            or user.get_profile().role == manage_models.UserProfile.ROLE_USER_PLUS:
+                group_data[group]['user_count'] += 1
                 mods = active_modules_with_track_ratio(user.id, group.id)
                 if len(mods) > 0:
                     mods.reverse()
                     
                 for row in mods:
-                    row['ratio'] = progress_formatter(row['ratio'])
+                    if isinstance(group_data[group]['module_ratio'].get(row['id']), list):
+                        group_data[group]['module_ratio'][row['id']].append(float(row['ratio']))
+                    else:
+                        group_data[group]['module_ratio'][row['id']] = [float(row['ratio'])]
+
                 group_data[group]['users_data'].append([user, mods])
+            else:
+                group_data[group]['admin_count'] += 1
         
         group_data[group]['users_data'].sort(lambda x,y : cmp(x[0].last_name.lower(), y[0].last_name.lower()))
+        
+        for module in group_data[group]['module_ratio']:
+            overall_ratio = 0
+            for ratio in group_data[group]['module_ratio'][module]:
+                overall_ratio += ratio
+    
+            group_data[group]['module_ratio'][module] = progress_formatter(overall_ratio / len(group_data[group]['module_ratio'][module]))
         
     ctx = {
         'data': group_data,
         'groups': groups,
         'my_groups': my_groups,
-        'status_checkbox_enabled': settings.STATUS_CHECKBOX,
+        'settings': {'SALES_PLUS': settings.SALES_PLUS},
+        'my_stats': [recent_content, recent_modules, recent_reports],
+        'widgets': ['my_content_stats', 'my_reports_stats', 'my_modules_stats']
     }
 
     return direct_to_template(request, 'assignments/admin_status.html', ctx)
+
+@http_decorators.require_GET
+def module_progress(request):
+    course_id = request.GET.get('course_id', '')
+    group_id = request.GET.get('group_id', '')
+    course = get_object_or_404(cont_models.Course, pk=course_id)
+    group = get_object_or_404(auth_models.Group, pk=group_id)
+    
+    users = []
+    overall_ratio = 0
+    for user in group.user_set.all().order_by("first_name", "last_name"):
+        if all(curr_user.get('id') != user.id for curr_user in users) \
+        and user.get_profile().role in [manage_models.UserProfile.ROLE_USER,
+                                        manage_models.UserProfile.ROLE_USER_PLUS]:
+            user_ratio = 0
+            ip_count = 0
+            mods = active_modules_with_track_ratio(user.id, group_id)
+            if len(mods) > 0:
+                mods.reverse()
+            
+            for row in mods:
+                if row['id'] == course.id:
+                    user_ratio = row['ratio']
+                    ip_count = row['ip_count']
+                    
+            users.append({'data': user,
+                          'ip_count': ip_count,
+                          'ratio': progress_formatter(user_ratio)})
+            overall_ratio += user_ratio
+    
+    if users:
+        overall_ratio = progress_formatter(overall_ratio / len(users))
+    
+    ctx = {
+        'course': course,
+        'group': group,
+        'module_ratio': overall_ratio,
+        'settings': {'SALES_PLUS': settings.SALES_PLUS},
+        'users': users,
+        'status_checkbox_enabled': settings.STATUS_CHECKBOX,
+    }
+    return direct_to_template(request, 'assignments/module_progress.html', ctx)
 
 @decorators.is_admin_or_superadmin
 @http_decorators.require_GET
@@ -300,6 +531,11 @@ def user_progress(request):
 
     user = get_object_or_404(auth_models.User, pk=user_id)
     course = get_object_or_404(cont_models.Course, pk=course_id)
+    try:
+        course_user = cont_models.CourseUser.objects.get(course=course, user=user)
+    except cont_models.CourseUser.DoesNotExist:
+        course_user = None
+
     tracking_service = TrackingEventService()
     course_ratio = module_with_track_ratio(user_id=user.id, course_id=course.id)
 
@@ -331,10 +567,11 @@ def user_progress(request):
     ctx = {
         'user_obj': user,
         'course': course,
+        'course_user': course_user,
         'ratio': progress_formatter(course_ratio),
-        'segments': segments
+        'segments': segments,
+        'settings': {'SALES_PLUS': settings.SALES_PLUS},
     }
-    
     return direct_to_template(request, 'assignments/user_progress.html', ctx)
 
 

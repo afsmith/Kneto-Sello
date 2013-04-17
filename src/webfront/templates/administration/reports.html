@@ -1,11 +1,5 @@
-{% extends "base_template.html" %}
+{% extends "administration/widget_admtool_template.html" %}
 {% load i18n %}
-{% block js_scripts %}
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.custom.file.input.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.ui.datepicker.clearDate.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/reports.js"></script>
-{% endblock %}
 {% block title %}{% trans "Report templates" %}{% endblock %}}
 {% block close_url %}administration{% endblock %}}
 {% block administrationclass %} class="active"{% endblock %}

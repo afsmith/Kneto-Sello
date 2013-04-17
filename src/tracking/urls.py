@@ -11,5 +11,6 @@ urlpatterns = patterns('',
     url(r'^modules_usage/$', views.modules_usage, name='tracking-modules_usage'),
     url(r'^total_time/$', views.total_time, name='tracking-total_time'),
     url(r'^user_progress/$', views.user_progress, name='tracking-user_progress'),
+    url(r'^user_page_progress/(?P<end_event_id>\d+)$', views.user_page_progress, name='tracking-user_page_progress'),
     url(r'^course_to_continue/$', views.course_to_continue, name='tracking-course_to_continue'),
 )

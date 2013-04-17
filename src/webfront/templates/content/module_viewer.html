@@ -14,7 +14,7 @@
 	    	<div id="video"></div>
 	    </div>
 	    <div class="hr"></div>
-	    <div class="moduleWrapper" id="moduleBigWrapper">
+	    <div class="moduleWrapper" id="moduleUserWrapper">
 	        <div class="scrollableWrapper">
 	          <div  id="moduleLeft" class="leftMargin margin prev">
 	            <a class="prev browse left"></a>
@@ -31,6 +31,10 @@
 	        <div class="hr"></div>
 	      </div>
     </div>
-    <a id="courseObjective" class="button-orange fright" href="#">{% trans "Module objective" %}</a>
+    {% if course.sign_off_required %}
+    <a id="courseSignOff" class="button-orange fright" {% if not show_sign_off_button %}style="display: none;"{%endif%}
+        href="{% url content-sign_off_module course.id %}">{% trans "Sign off" %}</a>
+    {% endif %}
+<!--    <a id="courseObjective" class="button-orange fright" href="#">{% trans "Module objective" %}</a> -->
     <div class="hr"></div>
 {% endblock %}

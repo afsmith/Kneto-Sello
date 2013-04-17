@@ -10,6 +10,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views.decorators import http as http_decorators
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic.simple import direct_to_template
 
 from django.conf import settings
 from bls_common import bls_django
@@ -17,6 +18,7 @@ from bls_common.bls_django import HttpJsonOkResponse, HttpJsonResponse, HttpJson
 from content.course_states import ActiveInUse, ActiveAssign, Active
 from content.models import Segment, CourseGroup, Course
 from management.models import UserProfile
+from management.models import OneClickLinkToken
 from tracking.models import TrackingEvent, active_modules_with_track_ratio, ScormActivityDetails, active_modules_with_track_ratio_sorted_by_last_event, TrackingEventService
 from django.db import models as db_models
 from django.db.models import Q
@@ -27,6 +29,7 @@ from datetime import datetime
 
 import urllib
 
+from plato_common import decorators
 
 logger = logging.getLogger("tracking")
 
@@ -43,6 +46,22 @@ def create_event(request):
     - 405 if request method is not POST
     """
 
+    token = request.GET.get('token')
+    one_click_link_token = None
+    if token:
+        try:
+            one_click_link_token = OneClickLinkToken.objects.get(token=token)
+        except OneClickLinkToken.DoesNotExist, e:
+            return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+        
+        if one_click_link_token.expired:
+            return direct_to_template(request,
+                    'registration/login.html', {"ocl_expired": True})
+    if one_click_link_token:
+        loaded_user = one_click_link_token.user
+    else:
+        loaded_user = request.user
+
     try:
         data = json.loads(request.raw_post_data)
     except ValueError:
@@ -51,12 +70,20 @@ def create_event(request):
     is_scorm = "is_scorm" in data and bool(data["is_scorm"])
     is_update_end_event = "parent_event_id" in data
     is_user = "user_id" in data
+    pg_nr = data.get('page_number', '')
+    
+    addr_list = request.META.get('HTTP_X_FORWARDED_FOR')
+    if addr_list:
+        client_ip = addr_list.split(',')[-1].strip()
+    else:
+        client_ip = request.META.get('REMOTE_ADDR', None)
+
 
     if is_scorm:
        if is_user:
            user = get_object_or_404(User, pk=data["user_id"])
        else:
-           user = get_object_or_404(User, pk=request.user.id)
+           user = get_object_or_404(User, pk=loaded_user.id)
        segment = get_object_or_404(Segment, pk=data["segment_id"])
        _set_in_use_state_if_not_set_yet(segment.course)
 
@@ -73,6 +100,7 @@ def create_event(request):
                                              score_max=data["score_max"] if "score_max" in data else None,
                                              score_min=data["score_min"] if "score_min" in data else None,
                                              score_raw=data["score_raw"] if "score_raw" in data else None,
+                                             client_ip = client_ip,
                                              parent_event=event)
        end_event.save()
     else:
@@ -82,15 +110,29 @@ def create_event(request):
             _set_in_use_state_if_not_set_yet(segment.course)
 
             event = TrackingEvent.objects.create(segment=segment,
-                                         participant=get_object_or_404(User, pk=request.user.id),
-                                         event_type=TrackingEvent.START_EVENT_TYPE, is_scorm=False)
+                                         participant=get_object_or_404(User, pk=loaded_user.id),
+                                         event_type=TrackingEvent.START_EVENT_TYPE, is_scorm=False,
+                                         client_ip = client_ip)
             event.save()
+            if pg_nr:
+                page_event = TrackingEvent.objects.create(segment=segment,
+                                            participant=get_object_or_404(User,
+                                                pk=loaded_user.id),
+                                            event_type=TrackingEvent.PAGE_EVENT_TYPE,
+                                            is_scorm=False, parent_event=event,
+                                            page_number=pg_nr,
+                                            client_ip = client_ip)
+                page_event.save()
+
             end_event = TrackingEvent.objects.create(segment=segment,
-                                             participant=get_object_or_404(User, pk=request.user.id),
-                                             event_type=TrackingEvent.END_EVENT_TYPE, is_scorm=False, parent_event=event)
+                                        participant=get_object_or_404(User,
+                                            pk=loaded_user.id),
+                                        event_type=TrackingEvent.END_EVENT_TYPE,
+                                        is_scorm=False, parent_event=event,
+                                        client_ip = client_ip)
             end_event.save()
         else:
-            event = get_object_or_404(TrackingEvent, parent_event=data["parent_event_id"])
+            event = get_object_or_404(TrackingEvent, parent_event=data["parent_event_id"], event_type=TrackingEvent.END_EVENT_TYPE)
             event.created_on = datetime.now()
             if not (data["lesson_status"] == ""):
                 event.lesson_status = data['lesson_status']
@@ -137,8 +179,66 @@ def create_event(request):
 
             except IOError:
                 logger.error('Problems while reading scorm data')
+
             event.save()
+            if data.get('event_type', '')==TrackingEvent.PAGE_EVENT_TYPE:
+                page_event = TrackingEvent.objects.create(segment=segment,
+                                            participant=get_object_or_404(User,
+                                                pk=loaded_user.id),
+                                            event_type=TrackingEvent.PAGE_EVENT_TYPE,
+                                            is_scorm=False,
+                                            parent_event=get_object_or_404(
+                                                TrackingEvent,
+                                                pk=data['parent_event_id']),
+                                            page_number=pg_nr,
+                                            client_ip = client_ip)
+                page_event.save()
     return HttpJsonResponse({'status': 'OK', "event_id": event.id})
+
+@decorators.is_admin_or_superadmin
+@http_decorators.require_GET
+def user_page_progress(request, end_event_id):
+    """ user_page_progress
+
+        Handles preparing the screen for detail page progress
+
+        :params request: Request
+        :params end_event_id: id of the finished event
+    """
+    def _get_duration(current, prev):
+        delta = current - prev
+        hours, remainder = divmod(delta.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        return (hours, minutes, seconds)
+
+    end_event = TrackingEvent.objects.get(pk=end_event_id)
+    page_events = TrackingEvent.objects.filter(
+                        parent_event=end_event.parent_event,
+                        event_type=TrackingEvent.PAGE_EVENT_TYPE)
+    tracking_list = []
+    prev_id = None
+    prev_time = None
+    i = 0
+    for event in page_events:
+        track = {
+            'id': event.id,
+            'page':event.page_number,
+            'date': event.created_on,}
+        if prev_time:
+            tracking_list[i-1]['duration'] = '%02d:%02d:%02d'%\
+                    _get_duration(event.created_on, prev_time)
+        i += 1
+        prev_time = event.created_on
+        tracking_list.append(track)
+            
+    delta = end_event.created_on - prev_time
+    hours, remainder = divmod(delta.seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    tracking_list[len(tracking_list)-1]['duration'] = '%02d:%02d:%02d'%\
+                    _get_duration(end_event.created_on, prev_time)
+    return direct_to_template(request,
+                              'assignments/dialogs/user_page_progress.html',
+                              {'tracks': tracking_list})
 
 def _set_in_use_state_if_not_set_yet(course):
     if course.state_code == ActiveAssign.CODE:

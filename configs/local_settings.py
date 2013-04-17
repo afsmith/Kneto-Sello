@@ -1,7 +1,7 @@
 import os
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+   ('Kneto Ooops', 'app@kneto.fi'),
 )
 
 MANAGERS = ADMINS
@@ -37,12 +37,45 @@ DATABASES = {
 }
 
 REPORTS_CONFIG='/opt/bls/plato/src/reports/engine/conf/engine.properties'
-
+CKEDITOR_UPLOAD_WWW_PATH = 'http://192.168.0.109/media/uploaded-images/'
 ##############################################################################
 # SELF REGISTRATION
 ##############################################################################
 
 ACCOUNT_ACTIVATION_DAYS = 7
-REGISTRATION_OPEN=True
+REGISTRATION_OPEN=False
 
+##############################################################################
+# SALES +
+##############################################################################
 
+SALES_PLUS = False 
+ENABLE_MODULES_SIGNOFF = True 
+STATUS_CHECKBOX=False
+
+##############################################################################
+# MAIL BOX (used in messages_custom.tasks.check_mailbox()) 
+##############################################################################
+
+EMAIL_BOX_TYPE = 'pop3'
+EMAIL_BOX_HOST = 'mail1.sigmatic.fi'
+EMAIL_BOX_PORT = 995
+EMAIL_BOX_USER = ''
+EMAIL_BOX_PASSWORD = 'gBQzrW1ULrFc'
+EMAIL_BOX_SSL = True
+EMAIL_BOX_IMAP_FOLDER = 'INBOX'
+EMAIL_BOX_REMOVE_MESSAGES = True
+
+##############################################################################
+# SMTP Settings 
+##############################################################################
+
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+
+EMAIL_HOST='mail1.sigmatic.fi'
+EMAIL_HOST_USER=''
+EMAIL_HOST_PASSWORD='gBQzrW1ULrFc'
+DEFAULT_FROM_EMAIL=''
+EMAIL_USE_TLS=True
+EMAIL_CONTENT_SUBTYPE='html'
+EMAIL_PORT = 587

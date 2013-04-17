@@ -1,6 +1,7 @@
-{% load i18n %}{% blocktrans with message.recipient.username as recipient and message.sender.username as sender%}Hello {{ recipient }},
-
-you received a private message from {{ sender }} with
-the following contents:{% endblocktrans %}
-
+{% load i18n %}
 {{ message.body|safe }}
+
+<p>
+</p>
+<hr>
+<div style="font-family: Arial,Helvetica,sans-serif; font-size: 10px; color: rgb(176, 176, 176); text-align: right;">{% trans "Service provided by" %} <a style="color: rgb(240, 150, 0);" href="http://kneto.com">Kneto!</a></div>

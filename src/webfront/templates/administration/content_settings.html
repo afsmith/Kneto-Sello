@@ -1,13 +1,11 @@
-{% extends "modal_template.html" %}
+{% extends "administration/widget_admtool_template.html" %}
 {% load i18n %}
-{% block style %} style="width: 580px;"{% endblock %}
-{% block title %}{% trans "Administer content" %}{% endblock %}
+{% block style %} style="width: 100%"{% endblock %}
 {% block content %}
-<form id="ContentSettingsForm" action="/administration/content-settings/" method="post" class="nyroModal">
+<form id="ContentSettingsForm" class="clear" action="/administration/content-settings/" method="post">
 {% include "form_template.html" %}
-<div style="width: 200px; margin: 0px auto;">
-    <a class="button-gray button-big button-submit" href="#" style="margin-top: 10px;">{% trans "Save" %}</a>
+<div class="control-button" style="width: 200px; margin: 0px auto;">
+    <a class="button-blue button-big button-submit" href="#" style="margin-top: 10px;">{% trans "Save" %}</a>
 </div>
 </form>
-<div class="separator"></div>
 {% endblock %}

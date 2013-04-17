@@ -18,6 +18,7 @@ import mimetypes
 from django import http
 import django
 from django.core.servers.basehttp import FileWrapper
+from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import Q
 from django.conf import settings
@@ -27,7 +28,7 @@ from django.core import paginator
 from django.core import urlresolvers
 from django.core.files import storage
 from django.utils.translation import ugettext_lazy as _
-from django.http import HttpResponseNotFound, HttpResponseServerError, HttpResponse
+from django.http import HttpResponseNotFound, HttpResponseServerError, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.html import conditional_escape
 from django.utils.translation import ugettext
@@ -42,13 +43,18 @@ from distutils import file_util
 from bls_common import bls_django
 from bls_common.bls_django import HttpJsonOkResponse, HttpJsonResponse
 from content.course_states import InvalidActionError, Active, ActiveAssign, Draft, ActiveInUse, Deactivated, DeactivatedUsed, CourseState
-from content.models import Course, CourseGroup, CourseGroupCanBeAssignedTo, Segment, DownloadEvent
+from content.models import Course, CourseGroup, CourseUser, CourseGroupCanBeAssignedTo, Segment, DownloadEvent, File
+from administration.models import ConfigEntry
 from content.serializers import _get_language_name
 from management import models as manage_models
+from management.models import OneClickLinkToken
 from plato_common import decorators
+from plato_common.middleware import Http403
 from tagging.utils import bind_tags_with_file, add_if_not_exist
-from tracking.models import TrackingEventService
+from tracking.models import TrackingEventService, module_with_track_ratio
 from reports import reports
+
+from tagging import models as tagging_models
 
 from content import forms
 from content import models
@@ -56,14 +62,15 @@ from content import serializers
 from content import tasks
 from content import utils
 
-from content.models import File
+from messages_custom.models import MailTemplate
 
 @auth_decorators.login_required
 def list_modules(request):
     courses = models.Course.objects.all()
 
     return direct_to_template(request, 'content/list_modules.html', {
-        'courses': courses
+        'courses': courses,
+        'show_sign_off': getattr(settings, 'SIGN_OFF_ON_MODULE', False)
         })
 
 def _get_can_be_assigned_to_groups(user):
@@ -84,7 +91,9 @@ def manage_modules(request):
             'form': forms.EditModuleForm(),
             'manageModulesForm': forms.ManageModulesForm(initial={'owner': request.user}),
             'groups': groups,
-            'my_groups': my_groups
+            'my_groups': my_groups,
+            'show_sign_off': getattr(settings, 'ENABLE_MODULES_SIGNOFF', False),
+            'settings': {'SALES_PLUS': settings.SALES_PLUS},
             })
     try:
         data = json.loads(request.raw_post_data)
@@ -92,34 +101,93 @@ def manage_modules(request):
         return http.HttpResponseBadRequest('Invalid JSON content.')
 
     course = Course.objects.get(id=data['module_id'])
-    course.title = data['title']
-    course.objective = data['objective']
-    course.allow_download = data['allow_download']
-    course.allow_skipping = data['allow_skipping']
+    course.title = data.get('title', course.title)
+    course.objective = data.get('objective', course.objective)
+    course.completion_msg = data.get('completion_msg')
+    course.allow_download = data.get('allow_download', course.allow_download)
+    course.allow_skipping = data.get('allow_skipping', course.allow_skipping)
+    course.sign_off_required = data.get('sign_off_required', course.sign_off_required)
     if 'expires_on' in data and data['expires_on']:
         course.expires_on = datetime.datetime.strptime(data['expires_on'], '%Y-%m-%d')
-    course.language = data['language']
+    course.language = data.get('language', course.language)
 
     course.groups_can_be_assigned_to.clear()
 
     course.save()
     for group_id in data['groups_ids']:
-        CourseGroupCanBeAssignedTo(course=course, group=auth_models.Group.objects.get(id=group_id)).save()
+        if group_id=='-2':
+            for group in auth_models.Group.objects.all():
+                cb_list = CourseGroupCanBeAssignedTo.objects.filter(course=course, group=group)
+                if not cb_list:
+                    cb = CourseGroupCanBeAssignedTo(course=course, group=group)
+                else:
+                    cb = cb_list[0]
+                    for course_cba in cb_list[1:]:
+                        course_cba.delete()
+                cb.save()
+        else:
+            CourseGroupCanBeAssignedTo(course=course, group=auth_models.Group.objects.get(id=group_id)).save()
 
     return HttpJsonOkResponse()
         
 
 @decorators.is_admin_or_superadmin
 def assign_module(request):
+
     if request.user.get_profile().is_admin:
         groups = request.user.groups.all().order_by('name')
+        users = auth_models.User.objects.filter(groups__in=groups).distinct()
     else:
         groups = auth_models.Group.objects.all().order_by('name')
+        users = auth_models.User.objects.all()
 
     return direct_to_template(request, 'content/module_assignment.html', {
         'form': forms.SearchAssignmentsForm(initial={'owner': request.user}),
-        'groups': groups
-         })     
+        'groups': groups,
+        'users': users,
+        'settings': {'SALES_PLUS': settings.SALES_PLUS}
+         })
+
+@http_decorators.require_POST    
+def preview_assignment(request):
+    data = json.loads(request.raw_post_data)
+    parsed_modules_list = ''
+    templates = [ MailTemplate.MSG_IDENT_ADD_MULTI_ASSIGNMENTS,
+                  MailTemplate.MSG_IDENT_ADD_ASSIGNMENT,
+                  MailTemplate.MSG_IDENT_ADD_ASSIGNMENT_OCL ]
+    
+    group = data.get('group', False)
+    modules = data.get('modules')
+    ocl_enabled = data.get('ocl_enabled')
+    
+    if data.get('savedTemplate'):
+        template = data.get('savedTemplate').get('content')
+        templateType = data.get('savedTemplate').get('type')
+    else:
+        template = MailTemplate.for_user(request.user,
+                    identifier=templates[(lambda: 0 if len(modules) > 1 else (lambda: 1 if ocl_enabled else 2)())()])[0]
+        template = template.content
+    
+    if modules:
+        i = 0
+        for key in modules.keys():
+            i+=1
+            if ocl_enabled:
+                ocl = MailTemplate.ONE_CLICK_LINK_SMM % (request.get_host(), int(key), '(ocl_token)')
+                if not settings.SALES_PLUS:
+                    ocl = MailTemplate.ONE_CLICK_LINK % (request.get_host(), '(ocl_token)')
+                parsed_modules_list += '%d. "%s"<br />%s<br>' % (i, modules[key], ocl,)
+            else: 
+                parsed_modules_list += '%d. "%s"<br />' % (i, modules[key],)
+
+    filledTemplate = template.replace('[groupname]', group)            
+    if len(modules) > 1:
+        filledTemplate = filledTemplate.replace('[moduleslist]', parsed_modules_list)
+    elif len(modules) == 1:
+        filledTemplate = filledTemplate.replace('[moduletitle]', modules.values()[0])
+    
+    return direct_to_template(request, 'content/dialogs/preview_assignment.html',
+                              {'notificationBody': filledTemplate}) 
 
 @decorators.is_admin_or_superadmin
 def create_module(request, id=None):
@@ -159,6 +227,42 @@ def copy_module(request, id):
 
     return redirect('content-edit_module', id=new_module.id)
 
+@decorators.login_or_token_required
+def view_module_smm(request, id=None):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('content-view_module', kwargs={'id': id}))
+
+    token = request.GET.get('token')
+    if token:
+        try:
+            one_click_link_token = OneClickLinkToken.objects.get(token=token)
+        except OneClickLinkToken.DoesNotExist, e:
+            return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+
+        if id is not None:
+            course = get_object_or_404(models.Course, pk=id)
+            if not course.is_available_for_user(one_click_link_token.user):
+                raise Http403()
+                return render_to_response()
+        
+        ctx = {'course': course,
+               'token': token,
+               'allow_login': one_click_link_token.allow_login and \
+                              not one_click_link_token.user.get_profile().is_user_plus}
+        
+        user = one_click_link_token.user
+            
+        show_sign_off_button = False
+        if module_with_track_ratio(one_click_link_token.user.id, course.id) == 1 and\
+                course.sign_off_required:
+            try:
+                course_user = CourseUser.objects.get(course=course,
+                                                     user=user)
+            except CourseUser.DoesNotExist:
+                show_sign_off_button = True
+        
+        ctx['show_sign_off_button'] = _show_sign_off_button(user, course)
+        return direct_to_template(request, 'content/module_viewer_smm.html', ctx)
 
 @auth_decorators.login_required
 def view_module(request, id=None):
@@ -167,9 +271,87 @@ def view_module(request, id=None):
         if not course.is_available_for_user(request.user):
             raise Http403
             return render_to_response()
-
+    
     ctx = {'course': course}
+    
+    show_sign_off_button = False
+    if module_with_track_ratio(request.user.id, course.id) == 1 and\
+            course.sign_off_required:
+        try:
+            course_user = CourseUser.objects.get(course=course,
+                    user=request.user)
+        except CourseUser.DoesNotExist:
+            show_sign_off_button = True
+    
+    ctx['show_sign_off_button'] = _show_sign_off_button(request.user, course)
     return direct_to_template(request, 'content/module_viewer.html', ctx)
+
+
+@decorators.login_or_token_required
+def sign_off_module(request, id):
+    course = get_object_or_404(models.Course, pk=id)
+    
+    token = request.GET.get('token')
+    if token:
+        try:
+            one_click_link_token = OneClickLinkToken.objects.get(token=token)
+        except OneClickLinkToken.DoesNotExist, e:
+            return bls_django.HttpJsonResponse({'status': 'ERROR',
+                   'error': unicode(_('User is not allowed to view this content.'))})
+            
+    if request.user.is_authenticated():
+        user = request.user
+    else:
+        user = one_click_link_token.user
+    
+    if not course.is_available_for_user(user):
+        return bls_django.HttpJsonResponse({'status': 'ERROR',
+            'error': unicode(_('User is not allowed to view this content.'))})
+
+    if course.sign_off_required:
+        if module_with_track_ratio(user.id, course.id) == 1:
+            try:
+                course_user = CourseUser.objects.get(course=course,
+                        user=user)
+            except CourseUser.DoesNotExist:
+                 course_user = CourseUser(course=course,
+                        user=user)
+            course_user.sign_off = True
+            course_user.sign_off_date = datetime.datetime.now()
+            course_user.save()
+        else:
+            return bls_django.HttpJsonResponse({'status': 'ERROR',
+                    'error': unicode(_('Module is not finished yet.'))})
+    else:
+        return bls_django.HttpJsonResponse({'status': 'ERROR',
+                'error': unicode(_('Module does not have sign off option'))})
+
+    return bls_django.HttpJsonOkResponse()
+
+
+@decorators.login_or_token_required
+def show_sign_off_button(request, id):
+    course = get_object_or_404(models.Course, pk=id)
+    token = request.GET.get('token')
+    if token:
+        try:
+            one_click_link_token = OneClickLinkToken.objects.get(token=token)
+        except OneClickLinkToken.DoesNotExist, e:
+            return bls_django.HttpJsonResponse({'status': 'ERROR',
+                   'error': unicode(_('User is not allowed to view this content.'))})
+            
+    if request.user.is_authenticated():
+        user = request.user
+    else:
+        user = one_click_link_token.user
+        
+    if not course.is_available_for_user(user):
+        return bls_django.HttpJsonResponse({'status': 'ERROR',
+            'error': unicode(_('User is not allowed to view this content.'))})
+    
+    show_button = _show_sign_off_button(user, course)
+    return bls_django.HttpJsonResponse({"status": "OK", "show": show_button})
+
 
 @decorators.is_admin_or_superadmin
 def find_files(request):
@@ -266,7 +448,7 @@ def find_files(request):
         taglist = []
         grouplist = []
         for t in file.tag_set.all():
-            taglist.append(t.name)
+            taglist.append([t.name, tagging_models.get_tag_label(t.type)])
         for group in file.groups.all():
             grouplist.append(group.name)
         usage_query = Course.objects.filter(id__in=(Segment.objects.filter(file=file).values_list('course__id')))
@@ -388,11 +570,11 @@ def save_manage_content(request):
         file.duration = data['duration']
 
     file.tag_set.clear()
-    file.tag_set.add(add_if_not_exist(file.owner.first_name + " " + file.owner.last_name, is_default=True))
+    file.tag_set.add(add_if_not_exist(file.owner.first_name + " " + file.owner.last_name, is_default=True, type=tagging_models.TYPE_OWNER))
     file.groups.clear()
     for group_id in data['selected_groups_ids']:
         file.groups.add(auth_models.Group.objects.get(id=group_id))
-        file.tag_set.add(add_if_not_exist(auth_models.Group.objects.get(id=group_id).name, is_default=True))
+        file.tag_set.add(add_if_not_exist(auth_models.Group.objects.get(id=group_id).name, is_default=True, type=tagging_models.TYPE_GROUP))
 
     bind_tags_with_file(file, data['tags_ids'], data['new_tags_names'])
     file.save()
@@ -419,7 +601,18 @@ def delete_content(request, file_id):
         return http.HttpResponseBadRequest('Admin cant remove files which are in use by active courses.')
 
     _remove_file_if_exists(settings.CONTENT_UPLOADED_DIR, file.orig_file_path)
-    _remove_file_if_exists(settings.CONTENT_AVAILABLE_DIR, file.conv_file_path)
+    
+    if file.type == File.TYPE_AUDIO:
+        for fileFormat in ConfigEntry.CONTENT_AUDIO_FORMATS:
+            filePath, fileExt = os.path.splitext(file.conv_file_path)
+            _remove_file_if_exists(settings.CONTENT_AVAILABLE_DIR, ''.join([filePath,'.',fileFormat]))
+    elif file.type == File.TYPE_VIDEO:
+        for fileFormat in ConfigEntry.CONTENT_VIDEO_FORMATS:
+            filePath, fileExt = os.path.splitext(file.conv_file_path)
+            _remove_file_if_exists(settings.CONTENT_AVAILABLE_DIR, ''.join([filePath,'.',fileFormat]))
+    else: 
+        _remove_file_if_exists(settings.CONTENT_AVAILABLE_DIR, file.conv_file_path)
+        
     _remove_file_if_exists(settings.CONTENT_THUMBNAILS_DIR, file.thumbnail_file_path)
 
     if Segment.objects.filter(file__id=file_id).count() > 0:
@@ -427,7 +620,7 @@ def delete_content(request, file_id):
         file.save()
     else:
         file.delete()
-       
+        
     return bls_django.HttpJsonOkResponse()
 
 def _remove_file_if_exists(dir_path, file_path):
@@ -536,7 +729,6 @@ def save_module(request):
         'version': 1,
         'meta': {},
         }
-
     p = models.ModuleDescrParser(request.raw_post_data, request.user)
     try:
         id = p.parse()
@@ -592,7 +784,7 @@ def active_modules_list(request):
 # TODO: If a normal user requests a module descr then we should check if it is
 #       assigned to him.
 #
-@auth_decorators.login_required
+@decorators.login_or_token_required
 @http_decorators.require_GET
 def module_descr(request, id):
     """Creates module description.
@@ -600,13 +792,34 @@ def module_descr(request, id):
 
     course = get_object_or_404(models.Course, pk=id)
 
+    user = request.user
     format = request.GET.get('format', 'json')
+    token = request.GET.get('token')
+    if token:
+        try:
+            one_click_link_token = OneClickLinkToken.objects.get(token=token)
+        except OneClickLinkToken.DoesNotExist, e:
+            return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+        
+        if one_click_link_token.expired:
+            return direct_to_template(request,
+                    'registration/login.html', {"ocl_expired": True})
+
+        if not course.is_available_for_user(one_click_link_token.user):
+            raise Http403
+            return render_to_response()
+        user = one_click_link_token.user
+
+    if not settings.SALES_PLUS:
+        course.completion_msg = ''
+
+        
     if format == 'json':
         return bls_django.HttpJsonResponse(serializers.serialize_course(
-                course, request.user, TrackingEventService()))
+                course, user, TrackingEventService(), ocl_token=token))
     elif format == 'xml':
         return http.HttpResponse(serializers.serialize_course_xml(
-                course, request.user), mimetype='application/xml')
+                course, user), mimetype='application/xml')
     return http.HttpResponseNotFound('Requested module not found.')
 
 def files_number(request):
@@ -842,10 +1055,25 @@ def load_by_segment(request, id):
 
 
 def download_segment(request, segment_id):
+    token = request.GET.get('token')
+    user = request.user
+
+    if token:
+        try:
+            one_click_link_token = OneClickLinkToken.objects.get(token=token)
+        except OneClickLinkToken.DoesNotExist, e:
+            return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+        
+        if one_click_link_token.expired:
+            return direct_to_template(request,
+                    'registration/login.html', {"ocl_expired": True})
+        if not user.is_authenticated():
+            user = one_click_link_token.user
+
     segment = get_object_or_404(Segment, id=segment_id)
     if not segment.file.is_downloadable:
         return HttpResponse(status=403, content="File is not downloadable")
-    DownloadEvent.objects.create(segment=segment, user=request.user)
+    DownloadEvent.objects.create(segment=segment, user=user)
     
     return _download_file(segment.file)
 
@@ -857,9 +1085,22 @@ def _download_file(file):
     src_file = open(file_path, 'r')
 
     response = http.HttpResponse(FileWrapper(src_file), content_type=mimetypes.guess_type(file.orig_filename))
-    response['Content-Disposition'] = "attachment; filename=\"%s\"" % file.orig_filename
+    response['Content-Disposition'] = "attachment; filename=\"%s\"" % file.orig_filename.encode("utf-8")
     response['Content-Length'] = os.path.getsize(file_path)
     return response
+
+def _show_sign_off_button(user, course):
+    if course.sign_off_required:
+        if module_with_track_ratio(user.id, course.id) == 1:
+            try:
+                course_user = CourseUser.objects.get(course=course,
+                        user=user)
+                if not course_user.sign_off:
+                    return True
+            except CourseUser.DoesNotExist:
+                return True
+
+    return False
 
 @decorators.is_admin_or_superadmin
 def rss_feeds_list(request):

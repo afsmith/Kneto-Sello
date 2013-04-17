@@ -68,10 +68,13 @@ class BaseConverter(object):
         if ext.lower() not in models.CONVERSION_EXCLUSIONS:
             return True
         return False
-
-    def _gen_tmp_path(self):
+    
+    def _gen_tmp_path(self, suffix=None):
         root = self._storage.path(settings.CONTENT_UPLOADED_DIR)
-        fd, path = tempfile.mkstemp(dir=root)
+        if suffix:
+            fd, path = tempfile.mkstemp(suffix=suffix,dir=root)
+        else:
+            fd, path = tempfile.mkstemp(dir=root)
         os.close(fd)
         return path
 
@@ -106,7 +109,6 @@ class BaseConverter(object):
             raise utils.CommandError(cmd, p.returncode, stdout)
 
         return stdout
-
 
 class BaseConverterWithTempFile(BaseConverter):
     def _initialize(self):
@@ -174,7 +176,31 @@ class MediaConverter(BaseConverterWithTempFile):
         if matched:
             result = 60*int(matched.group(1)) + int(matched.group(2)) + 1
         return result
+    
+    def _finalize(self):
+        if self._file.status == models.File.STATUS_INVALID:
+            for tmp in self._tmp:
+                os.unlink(tmp)
+        elif self._file_convertable():
+            try:
+                dstPath, dstExt = os.path.splitext(self._get_dst_path())
+                for tmp in self._tmp:
+                    tmpPath, tmpExt = os.path.splitext(tmp)
+                    tmpPath = dstPath + tmpExt
+                    if os.path.exists(tmp):
+                        os.rename(tmp, tmpPath)
+                        os.chmod(tmpPath, settings.FILE_UPLOAD_PERMISSIONS)
+            except OSError as e:
+                try:
+                    for tmp in self._tmp:
+                        os.unlink(tmp)
+                except OSError as e2:
+                    self._logger.error(
+                        'Cannot unlink temp file "%s" after conversion of "%s": %s' % (
+                        self._tmp, self._file, str(e2)))
 
+                raise ConversionError('Cannot rename "%s" to "%s": %s' % (
+                    self._tmp, self._get_dst_path(), str(e)))
 
 class ScormConverter(BaseConverter):
     """Imports given Scorm file to the Reload Scorm Player.
@@ -220,31 +246,73 @@ class ScormConverter(BaseConverter):
             os.chmod(os.path.join(dirname, file), arg)
 
 class VideoConverter(MediaConverter):
+    
+    video_quality_params = {
+        ConfigEntry.QUALITY_TYPE_HIGH: ['-b:v', '896k', '-ab', '64000', '-preset', 'slow'],
+        ConfigEntry.QUALITY_TYPE_MEDIUM: ['-b:v', '640k', '-ab', '64000', '-preset', 'slow'],
+        ConfigEntry.QUALITY_TYPE_LOW: ['-b:v', '512k', '-ab', '64000', '-preset', 'medium'],
+    }
+    
+    def _initialize(self):
+        self._tmp = list()
+        for i in range(4):
+            self._tmp.append(self._gen_tmp_path(''.join(['.',
+                                ConfigEntry.CONTENT_VIDEO_FORMATS[i]])))
 
     def _get_command_high_quality(self):
         return [
             'ffmpeg', '-i', self._get_src_path(),
-            '-f', 'flv', '-r', '25', '-mbd', '1', '-s', '856x480', '-sameq',
+            '-f', 'flv', '-r', '25', '-mbd', '1', '-vf', 'scale=trunc(oh*a/2)*2:480', '-sameq',
             '-acodec', 'libmp3lame', '-ar', '22050', '-ab', '64000',
-            '-y', self._tmp,
+            '-y', self._tmp[3],
             ]
 
     def _get_command_medium_quality(self):
         return [
             'ffmpeg', '-i', self._get_src_path(),
-            '-f', 'flv', '-r', '25', '-mbd', '1', '-s', '856x480', '-qscale', '4',
-            '-acodec', 'libmp3lame', '-ar', '22050', '-ab', '64000', '-y', self._tmp,
+            '-f', 'flv', '-r', '25', '-mbd', '1', '-vf', 'scale=trunc(oh*a/2)*2:480', '-qscale', '4',
+            '-acodec', 'libmp3lame', '-ar', '22050', '-ab', '64000', '-y', self._tmp[3],
             ]
 
     def _get_command_low_quality(self):
         return [
             'ffmpeg', '-i', self._get_src_path(),
-            '-f', 'flv', '-r', '25', '-mbd', '1', '-s', '856x480',
+            '-f', 'flv', '-r', '25', '-mbd', '1', '-vf', 'scale=trunc(oh*a/2)*2:480',
             '-acodec', 'libmp3lame', '-ar', '22050', '-ab', '64000',
-            '-vcodec', 'libx264', '-vpre', 'medium', '-y', self._tmp,
+            '-vcodec', '-preset', 'medium', 'libx264', '-y', self._tmp[3],
             ]
+        
+    def _get_command_webm(self):
+        cmd = [
+            'ffmpeg', '-i', self._get_src_path(), '-r', '25', '-mbd', '1', '-vf', 'scale=trunc(oh*a/2)*2:480', 
+            '-vcodec', 'libvpx', '-acodec', 'libvorbis', '-f', 'webm', '-g', '30', '-ar', '22050'
+            ]
+        cmd.extend(self.video_quality_params.get(get_entry_val(ConfigEntry.CONTENT_QUALITY_OF_CONTENT),
+                   self.video_quality_params.get(ConfigEntry.QUALITY_TYPE_MEDIUM)))
+        cmd.extend(['-y', self._tmp[0]])
+        return cmd
+    
+    def _get_command_ogv(self):
+        cmd = [
+            'ffmpeg', '-i', self._get_src_path(), '-r', '25', '-mbd', '1', '-vf', 'scale=trunc(oh*a/2)*2:480', 
+            '-vcodec', 'libtheora', '-acodec', 'libvorbis', '-g', '30', '-ar', '22050'
+            ]
+        cmd.extend(self.video_quality_params.get(get_entry_val(ConfigEntry.CONTENT_QUALITY_OF_CONTENT),
+                   self.video_quality_params.get(ConfigEntry.QUALITY_TYPE_MEDIUM)))
+        cmd.extend(['-y', self._tmp[1]])
+        return cmd
+    
+    def _get_command_mp4(self):
+        cmd = [
+            'ffmpeg', '-i', self._get_src_path(), '-r', '25', '-mbd', '1', '-vf', 'scale=trunc(oh*a/2)*2:480', 
+            '-vcodec', 'libx264', '-acodec', 'libfaac', '-g', '30', '-ar', '22050'
+            ]  
+        cmd.extend(self.video_quality_params.get(get_entry_val(ConfigEntry.CONTENT_QUALITY_OF_CONTENT),
+                   self.video_quality_params.get(ConfigEntry.QUALITY_TYPE_MEDIUM)))
+        cmd.extend(['-y', self._tmp[2]])
+        return cmd
 
-    def _get_command(self):
+    def _get_command_flv(self):
         return {
             ConfigEntry.QUALITY_TYPE_HIGH: self._get_command_high_quality(),
             ConfigEntry.QUALITY_TYPE_MEDIUM: self._get_command_medium_quality(),
@@ -252,17 +320,18 @@ class VideoConverter(MediaConverter):
         }.get(get_entry_val(ConfigEntry.CONTENT_QUALITY_OF_CONTENT), self._get_command_medium_quality())
 
     def _convert(self):
-#	out = super(VideoConverter, self) #AFS Hack. 
-#        out = super(VideoConverter, self)._run_command(['exiftool', self._get_src_path()])
-#
-#        rotation = out[out.index("Rotation"):].split()[2]
-
-#        if rotation == "180":
-#            tmp_path = self._gen_tmp_path() + "." + self._file.ext
-#            super(VideoConverter, self)._run_command(['ffmpeg', '-i', self._get_src_path(), '-vf', 'vflip', tmp_path])
-#            shutil.copyfile(tmp_path, self._get_src_path())
-
-        super(VideoConverter, self)._convert()
+        try:
+            self._run_command(self._get_command_webm())
+            self._run_command(self._get_command_ogv())
+            self._run_command(self._get_command_mp4())
+            self._run_command(self._get_command_flv())
+        except utils.CommandError, e:
+            self._logger.error(
+                'Conversion of file.id=%d from %s has failed (retcode = %d). %s' % (
+                    self._file.id, self._get_src_path(), e.code, e.stdout))
+            raise ConversionError('Conversion of file.id=%d from %s has failed (retcode = %d)' % (
+                    self._file.id, self._get_src_path(), e.code))
+            
         self._run_command(self._get_thumbnail_command())
         self._run_command(self._get_preview_command())
         self._file.duration=self._get_length()
@@ -275,22 +344,36 @@ class VideoConverter(MediaConverter):
         return ['ffmpeg',  '-itsoffset', '-4', '-i', self._get_src_path(), '-vcodec', 'mjpeg',
                 '-vframes', '1', '-an', '-f' , 'rawvideo', '-s',  '856x480', self._get_preview_path()]
 
-
 class AudioConverter(MediaConverter):
-    def _get_command(self):
-        """cmd = [
-            'lame', '-h', '-b', '64', '--resample', '22.05',
-            self._get_src_path(), self._tmp,
-            ]
-        """
-        cmd = [
+    
+    def _initialize(self):
+        self._tmp = list()
+        for i in range(2):
+            self._tmp.append(self._gen_tmp_path(''.join(['.',
+                                ConfigEntry.CONTENT_AUDIO_FORMATS[i]])))
+    
+    def _get_mp3_command(self):
+        return [
             'ffmpeg', '-i', self._get_src_path(), '-acodec', 'libmp3lame',
-            '-ar', '22050', '-ab', '64000', '-f', 'mp3', '-y', self._tmp
+            '-ar', '22050', '-ab', '64000', '-f', 'mp3', '-y', self._tmp[0]
         ]
-        return cmd
+
+    def _get_ogg_command(self):
+        return [
+            'ffmpeg', '-i', self._get_src_path(), '-acodec', 'libvorbis',
+            '-ar', '22050', '-ab', '64000', '-y', self._tmp[1]
+        ]
 
     def _convert(self):
-        super(AudioConverter, self)._convert()
+        try:
+            self._run_command(self._get_mp3_command())
+            self._run_command(self._get_ogg_command())
+        except utils.CommandError, e:
+            self._logger.error(
+                'Conversion of file.id=%d from %s has failed (retcode = %d). %s' % (
+                    self._file.id, self._get_src_path(), e.code, e.stdout))
+            raise ConversionError('Conversion of file.id=%d from %s has failed (retcode = %d)' % (
+                    self._file.id, self._get_src_path(), e.code))
         self._file.duration=self._get_length()
 
 class HtmlConverter(BaseConverter):

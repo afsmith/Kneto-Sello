@@ -681,6 +681,25 @@
                 closeSB();
                 blurSB();
                 break;
+            case 13: // return
+                if($selected.size() > 0) {
+                    e.preventDefault();
+                    if($sb.is(".open")) {
+                        closeSB();
+                    } else {
+                        openSB();
+                    }
+                    centerOnSelected();
+                }
+                break;
+            case 27: // esc
+                if($selected.size() > 0) {
+                    e.preventDefault();
+                    if($sb.is(".open")) {
+                        closeSB();
+                    }
+                }
+                break;
             case 35: // end
                 if($selected.size() > 0) {
                     e.preventDefault();
@@ -699,7 +718,7 @@
                 if($selected.size() > 0) {
                     if($enabled.filter(":first")[0] !== $selected[0]) {
                         e.preventDefault();
-                        //selectItem.call($enabled.eq($enabled.index($selected)-1)[0]);
+                        selectItem.call($enabled.eq($enabled.index($selected)-1)[0]);
                     }
                     centerOnSelected();
                 }
@@ -708,12 +727,12 @@
                 if($selected.size() > 0) {
                     if($enabled.filter(":last")[0] !== $selected[0]) {
                         e.preventDefault();
-                        //selectItem.call($enabled.eq($enabled.index($selected)+1)[0]);
+                        selectItem.call($enabled.eq($enabled.index($selected)+1)[0]);
                         centerOnSelected();
                     }
                 } else if($items.size() > 1) {
                     e.preventDefault();
-                    //selectItem.call($items.eq(0)[0]);
+                    selectItem.call($items.eq(0)[0]);
                 }
                 break;
             default:

@@ -25,9 +25,12 @@
             {% else %}{% if field.field.widget|type == 'Select' %}
                 <div class="inputWrapper shadow-gray selectWrapper">{{ field }}</div>
 			{% else %}{% if field.field.widget|type == 'CheckboxInput' %}
-                <div class="inputWrapperCheck shadow-gray">{{ field }}</div>                
+                <div class="inputWrapperCheck shadow-gray ">{{ field }}</div>                
+			{% else %}{% if field.field.widget|type == 'CheckboxSelectMultiple' %}
+                <div class="inputWrapperCheck shadow-gray {% if field.field.additionalClass %}{{field.field.additionalClass}}{% endif %}" style="height:auto">{{ field }}</div>                
             {% else %}
                 {{ field }}
+            {% endif %}
             {% endif %}
             {% endif %}
             {% endif %}

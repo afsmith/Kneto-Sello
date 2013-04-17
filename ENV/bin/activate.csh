@@ -7,7 +7,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelavent variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV "/opt/bls/plato-0.9.0.1250.g50123/plato-1.12.1.g32b621/ENV"
+setenv VIRTUAL_ENV "/opt/bls/plato/plato-1.30.66.g455b/ENV"
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"
