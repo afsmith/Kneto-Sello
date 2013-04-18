@@ -69,6 +69,7 @@ var t = {
 	'DURATION_MUST_CONSIST_OF_NUMBERS': 'keston täytyy sisältää numerot (0-999)',
 	'EDIT': 'Editoi',
 	'EMAIL': 'Sähköposti',
+        'EMAIL_TEMPLATE_MSG'  : 'Lisäämällä OCLn kirjoitettuasi henkilökohtaisen viestin poistat kaikki muutokset ja ne pitää tehdä uudestaan. Haluatko varmasti tehdä näin?',
 	'ERROR_OCURRED': 'Tapahtui virhe.',
 	'ERROR_OCURRED_WITHOUT_DOT': 'Tapahtui virhe',
     'ERROR_NETWORK'		  : '',

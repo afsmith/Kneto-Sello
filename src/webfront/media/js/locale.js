@@ -64,7 +64,7 @@ var t = {
     'EDIT'                : 'Edit',
     'EMAIL'               : 'E-mail',
     'EMAIL_TEMPLATE'      : 'Email template',
-    'EMAIL_TEMPLATE_MSG'  : 'After this operation you will lose all message template modification. Are you sure?',
+    'EMAIL_TEMPLATE_MSG'  : 'Adding an OCL after makeing a custom message will remove all your changes. You will have to redo them. Are you sure?',
     'ERROR_OCURRED'       : 'An error occurred.',
     'ERROR_OCURRED_WITHOUT_DOT' : 'An error occurred',
     'ERROR_NETWORK'		  : 'File not found or cannot be loaded. Please check your connection.',

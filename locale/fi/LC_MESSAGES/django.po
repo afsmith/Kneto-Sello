@@ -325,7 +325,7 @@ msgstr "Omat ryhmät"
 #: src/content/forms.py:77
 #: src/webfront/templates/assignments/admin_status.html:93
 msgid "My files"
-msgstr "Omat tiedosto"
+msgstr "Omat tiedostot"
 
 #: src/content/forms.py:79
 msgid "Inactive files"
@@ -1567,7 +1567,7 @@ msgstr "Mapita LDAP-ryhmät"
 #: src/webfront/templates/administration/admin_tabs.html:14
 #: src/webfront/templates/administration/dashboard.html:20
 msgid "Groups & Users"
-msgstr "Ryhmien &amp; käyttäjä"
+msgstr "Ryhmät &amp; käyttäjät"
 
 #: src/webfront/templates/administration/admin_tabs.html:21
 #: src/webfront/templates/administration/dashboard.html:39
@@ -1822,7 +1822,7 @@ msgstr "Julkaistu"
 
 #: src/webfront/templates/assignments/admin_status.html:95
 msgid "Latest files"
-msgstr "Muut tiedosto"
+msgstr "Muut tiedostot"
 
 #: src/webfront/templates/assignments/admin_status.html:97
 #: src/webfront/templates/assignments/admin_status.html:145
@@ -1836,7 +1836,7 @@ msgstr "Oma sisältö"
 
 #: src/webfront/templates/assignments/admin_status.html:119
 msgid "Latest content"
-msgstr "Muut sisältö"
+msgstr "Muu sisältö"
 
 #: src/webfront/templates/assignments/admin_status.html:121
 #: src/webfront/templates/content/list_modules.html:50
@@ -2110,7 +2110,7 @@ msgstr "Valitse ryhmä jolle sisältö lähetetään"
 
 #: src/webfront/templates/content/module_assignment.html:57
 msgid "Available content"
-msgstr "Käytettävissä olevat"
+msgstr "Käytettävissä sisältö"
 
 #: src/webfront/templates/content/module_assignment.html:70
 #: src/webfront/templates/content/module_assignment.html:78
