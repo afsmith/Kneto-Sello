@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-16 14:47+0300\n"
+"POT-Creation-Date: 2013-04-22 14:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -368,7 +368,7 @@ msgstr "Salli ohitus"
 
 #: src/content/forms.py:116 src/content/models.py:373
 msgid "Sign off required"
-msgstr "Kirjaudu off vaadittu"
+msgstr "Lukukuittaus vaadittu"
 
 #: src/content/forms.py:135
 msgid "Add one click link 'OCL'"
@@ -1900,7 +1900,7 @@ msgstr "Arkisto"
 #: src/webfront/templates/assignments/user_modules.html:29
 #: src/webfront/templates/content/list_modules.html:115
 msgid "-- All groups --"
-msgstr "- Kaikki ryhmät -"
+msgstr "-- Kaikki ryhmät --"
 
 #: src/webfront/templates/assignments/user_modules.html:40
 #: src/webfront/templates/assignments/user_modules.html:126
@@ -2133,6 +2133,11 @@ msgstr "Ryhmät"
 #: src/webfront/templates/content/module_assignment.html:135
 msgid "Change"
 msgstr "muutokset"
+
+#: src/webfront/templates/content/module_assignment.html:158
+#: src/webfront/templates/content/module_assignment.html:169
+msgid "-- All --"
+msgstr "-- Kaikki --"
 
 #: src/webfront/templates/content/module_assignment.html:191
 #: src/webfront/templates/content/dialogs/preview_assignment.html:7
@@ -2395,9 +2400,8 @@ msgid "OCL"
 msgstr "OCL"
 
 #: src/webfront/templates/messages/box.html:35
-#, fuzzy
 msgid "-- select module name --"
-msgstr "- Hae nimellä. -"
+msgstr "-- Valitse sisältö --"
 
 #: src/webfront/templates/messages/box.html:58
 msgid "No messages"
@@ -2503,29 +2507,32 @@ msgstr "Vanhenna nyt"
 msgid "No notes"
 msgstr "Ei merkintöjä"
 
-#: src/webfront/templates/registration/activate.html:3
+#: src/webfront/templates/registration/activate.html:4
 msgid "Activation complete"
 msgstr "Aktivointi valmis"
 
-#: src/webfront/templates/registration/activate.html:3
+#: src/webfront/templates/registration/activate.html:4
 msgid "Activation problem"
 msgstr "Aktivointi ongelma"
 
-#: src/webfront/templates/registration/activate.html:6
+#: src/webfront/templates/registration/activate.html:7
 msgid "Thanks {{ account }}, activation complete!  You may now"
 msgstr "Kiitos {{ account }},  aktivointi onnistui"
 
-#: src/webfront/templates/registration/activate.html:6
+#: src/webfront/templates/registration/activate.html:7
 msgid "using the username and password you set at registration."
 msgstr "Voit nyt kirjautua käyttämällä asettamasi käyttäjätunnus ja salasana."
 
-#: src/webfront/templates/registration/activate.html:8
+#: src/webfront/templates/registration/activate.html:9
 msgid ""
-"Oops &ndash; it seems that your activation key is invalid.  Please check the "
-"url again."
+" \n"
+"<p>\n"
+"Oops &ndash; it seems that your activation key is invalid. <br> \n"
+"Perhaps you have already activated this account by clicking on the link we "
+"sent you?<br> \n"
+"<a href=\"http://info.sello.fi\">Click here to log in</a><br>\n"
+"If that doesn't work contact kauppakeskustoimisto@sello.fi \n"
 msgstr ""
-"Woups! &ndash; näyttää siltä, että tilisi aktivointi avain on virheellinen."
-"Klikkaa alkuperäinen linkki uudelleen."
 
 #: src/webfront/templates/registration/activation_complete.html:7
 msgid "Thanks, activation complete!"
@@ -2541,34 +2548,119 @@ msgstr "Voit nyt kirjautua käyttämällä asettamasi käyttäjätunnus ja salas
 msgid "Login"
 msgstr "Kirjaudu sisään"
 
+#: src/webfront/templates/registration/activation_email.html:5
+#, python-format
+msgid ""
+"\n"
+"<html>\n"
+"<head>\n"
+"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n"
+"</head>\n"
+"<body bgcolor=\"#ffffff\">\n"
+"<img  align=\"top\" src=\"http://info.sello.fi/media/img/SELLO_2_RGB.jpeg\" "
+"alt=\"Home\">\n"
+"<hr>\n"
+"<p></p>\n"
+"<font face=\"Helvetica, Arial\">\n"
+"<p>\n"
+"<font size=\"5\"><b><i>Tervetuloa eSelloon</i></b><br></font>\n"
+"</p>\n"
+"Käyttäjätunnuksesi on:   %(username)s,<br />\n"
+"<p></p>\n"
+"<b><br /></b>\n"
+"Kauppakeskus Sellossa työskentelee yli 2000 työntekijää. Sello käyttää "
+"eSelloa jakaakseen<br> sisäistä koulutusmateriaalia Sellossa "
+"työskenteleville.<br />\n"
+"\n"
+"<p>\n"
+"Aktivoi tilisi eSelloon seuraamalla oheista linkkiä: <br>\n"
+"http://%(site_name)s%(activate_url)s\n"
+"<br><p></p><br>\n"
+"Huomaa: jos aktivointia ei tehdä 7 päivän sisällä, sinun on tehtävä "
+"rekisteröinti uudestaan. \n"
+"<br>\n"
+"<br>Mikäli yllä oleva linkki ei toimi: kopioi linkki  ja liitä se suoraan "
+"selaimen osoiteriville. <br> <br>\n"
+"Kun olet kirjautunut eSelloon, klikkaa vihreätä Play-nappia niin näet "
+"sinulle jaetun materiaalin. <br>\n"
+"Katso myös alta kuvaohje.<br>\n"
+"<img  align=\"top\" src=\"http://info.sello.fi/media/img/kneto_storyboard."
+"jpeg\" alt=\"Home\">\n"
+"</p>\n"
+"Unohditko salasanasi? Jos olet unohtanut salasanasi, saat uuden info.sello."
+"fi –osoitteesta<br>\n"
+"kohdasta PALAUTA SALASANA ja seuraamalla ohjeita.\n"
+"\n"
+"\n"
+"<hr>\n"
+"\n"
+"\n"
+"Sellon kauppakeskustoimisto<br>\n"
+"Kauppakeskus Sello - Enemmän kuin ostoksilla\n"
+"<br>\n"
+"<br>\n"
+"Puh. 010 424 6700<br>\n"
+"kauppakeskustoimisto@sello.fi\n"
+"<br>\n"
+"<br>\n"
+"Leppävaarankatu 3-9<br>\n"
+"02600 Espoo\n"
+"<br>\n"
+"<br>\n"
+"Tämä on automaattisesti lähetetty sähköpostiviesti, älä vastaa tähän "
+"sähköpostiviestiin <br />\n"
+"\n"
+"\n"
+"</body>\n"
+"\n"
+"<br />\n"
+"<br />\n"
+"\n"
+"</html>\n"
+msgstr ""
+
 #: src/webfront/templates/registration/activation_email.txt:5
 #, python-format
 msgid ""
 "\n"
-"Dear %(username)s,\n"
+"Tervetuloa eSelloon\n"
 "\n"
-"You have created an account for %(site_name)s, which has to\n"
-"be activated. To do this, please follow the following link:\n"
+"Käyttäjätunnuksesi on: %(username)s,\n"
+"\n"
+"Kauppakeskus Sellossa työskentelee yli 2000 työntekijää. Sello käyttää "
+"eSelloa jakaakseen sisäistä koulutusmateriaalia Sellossa työskenteleville.\n"
+"\n"
+"Aktivoi tilisi eSelloon seuraamalla oheista linkkiä: \n"
 "http://%(site_name)s%(activate_url)s\n"
 "\n"
-"Please do take note that if your activation does not succeed\n"
-"within %(expiration_days)s days, you will have to restart\n"
-"the activation process.\n"
+"Mikäli yllä oleva linkki ei toimi: kopioi linkki  ja liitä se suoraan "
+"selaimen osoiteriville.\n"
 "\n"
-"Best regards,\n"
-"The Kneto\n"
+"Huomaa: jos aktivointia ei tehdä 7 päivän sisällä, sinun on tehtävä "
+"rekisteröinti uudestaan. \n"
+"\n"
+"Kun olet kirjautunut eSelloon, klikkaa vihreätä Play-nappia niin näet "
+"sinulle jaetun materiaalin.\n"
+"\n"
+"Unohditko salasanasi? Jos olet unohtanut salasanasi, saat uuden info.sello."
+"fi –osoitteesta\n"
+"kohdasta PALAUTA SALASANA ja seuraamalla ohjeita.\n"
+"\n"
+"----------------------------------------------------------------------------\n"
+"Sellon kauppakeskustoimisto\n"
+"Kauppakeskus Sello - Enemmän kuin ostoksilla\n"
+"\n"
+"Puh. 010 424 6700\n"
+"kauppakeskustoimisto@sello.fi\n"
+"\n"
+"Leppävaarankatu 3-9\n"
+"02600 Espoo\n"
+"\n"
+"Tämä on automaattisesti lähetetty sähköpostiviesti, älä vastaa tähän "
+"sähköpostiviestiin\n"
+"\n"
+"\n"
 msgstr ""
-"\n"
-"Arvoisa %(username)s,\n"
-"\n"
-"Voit aktivoida tilin seuraamalla oheista linkkiä:\n"
-"http://%(site_name)s%(activate_url)s\n"
-"\n"
-"Huomaa että, että jos aktivointi ei onnistu %(expiration_days)s päivään "
-"mennessä, sinun on käynnistettävä rekisteröinti prosessi uudelleen.\n"
-"\n"
-"Ystävällisin terveisin\n"
-"Kneto\n"
 
 #: src/webfront/templates/registration/activation_email_subject.txt:29
 #, python-format
@@ -2589,7 +2681,7 @@ msgid "Log-in"
 msgstr "Sisäänkirjautuminen"
 
 #: src/webfront/templates/registration/login.html:119
-#: src/webfront/templates/registration/registration_base.html:57
+#: src/webfront/templates/registration/registration_base.html:58
 #: src/webfront/templates/registration/registration_form.html:89
 msgid "Register"
 msgstr "Rekisteröidy"
@@ -2765,6 +2857,40 @@ msgstr "Edellinen suorituskerta"
 #: src/webfront/templates/reports/reports.html:43
 msgid "Run now!"
 msgstr "Aja raportti"
+
+#~ msgid ""
+#~ "Oops &ndash; it seems that your activation key is invalid.  Please check "
+#~ "the url again."
+#~ msgstr ""
+#~ "Woups! &ndash; näyttää siltä, että tilisi aktivointi avain on "
+#~ "virheellinen.Klikkaa alkuperäinen linkki uudelleen."
+
+#~ msgid ""
+#~ "\n"
+#~ "Dear %(username)s,\n"
+#~ "\n"
+#~ "You have created an account for %(site_name)s, which has to\n"
+#~ "be activated. To do this, please follow the following link:\n"
+#~ "http://%(site_name)s%(activate_url)s\n"
+#~ "\n"
+#~ "Please do take note that if your activation does not succeed\n"
+#~ "within %(expiration_days)s days, you will have to restart\n"
+#~ "the activation process.\n"
+#~ "\n"
+#~ "Best regards,\n"
+#~ "The Kneto\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Arvoisa %(username)s,\n"
+#~ "\n"
+#~ "Voit aktivoida tilin seuraamalla oheista linkkiä:\n"
+#~ "http://%(site_name)s%(activate_url)s\n"
+#~ "\n"
+#~ "Huomaa että, että jos aktivointi ei onnistu %(expiration_days)s päivään "
+#~ "mennessä, sinun on käynnistettävä rekisteröinti prosessi uudelleen.\n"
+#~ "\n"
+#~ "Ystävällisin terveisin\n"
+#~ "Kneto\n"
 
 #~ msgid "pending mode"
 #~ msgstr "Kunnes tila"

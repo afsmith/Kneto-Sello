@@ -870,7 +870,7 @@ $(document).ready(function(){
         $('ul.allModules li span.moduleCheck input').attr('checked', false);
         $('#groupInformation').removeClass('hidden').show();
         if (group_id == -2) {
-            group_name = '-- All --';
+            group_name = t.ALL
         } else {
             group_name = app.data.groups[group_id]['name'];
         }

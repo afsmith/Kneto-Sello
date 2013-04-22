@@ -211,7 +211,7 @@ $(document).ready(function(){
         };
 
         notification_input = $(this).parent().prev().find("#id_send_email")
-        deleteUser(notification_input.attr("checked"));
+        deleteUser(notification_input.is("checked"));
         return false;
       });
       

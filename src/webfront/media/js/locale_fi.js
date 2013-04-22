@@ -207,6 +207,7 @@ var t = {
 	'USER_SHOWN': 'Käyttäjä näkyvillä',
 	'VIDEO': 'Video',
 	'YES': 'Kyllä',
+	'ALL': '-- Kaikki --',
 	'YES_GOODBYE': 'Kyllä, emailin kera.',
 	'YES_NO_GOODBYE': 'Kyllä, ilman  emailia.'
 	//'CHOOSE_TEMPLATE': 'Valitse dokumenttimalli',

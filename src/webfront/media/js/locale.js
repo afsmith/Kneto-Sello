@@ -204,6 +204,7 @@ var t = {
     'USER_REMOVED'        : 'User has been removed from the system.',
     'VIDEO'               : 'Video',
     'YES'                 : 'Yes',
+    'ALL'		  : '-- All --',
     'YES_GOODBYE'         : 'Yes, with goodbye email.',
     'YES_NO_GOODBYE'      : 'Yes, without goodbye email.'        
 }

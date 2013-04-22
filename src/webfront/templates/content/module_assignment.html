@@ -155,7 +155,7 @@
 			      </ul>
                   <ul class="result shadow-gray list groupsList hidden">
                     <li class="odd first">
-                        <span id="group_list_-2" class="group_list">-- All --</span>
+                        <span id="group_list_-2" class="group_list">{% trans "-- All --" %}</span>
                     </li>
                     {% for group in groups %}
                     <li class="{% cycle 'even' 'odd' %}{% if forloop.last %} last {% endif %}">
@@ -166,7 +166,7 @@
 			      {% if user.get_profile.is_superadmin %}
 			      <ul class="result shadow-gray list allGroupsList hidden">
                     <li class="odd first">
-                        <span id="group_list_-2" class="group_list">-- All --</span>
+                        <span id="group_list_-2" class="group_list">{% trans "-- All --" %}</span>
                     </li>
                     {% for group in groups %}
                     <li class="{% cycle 'even' 'odd' %}{% if forloop.last %} last {% endif %}">
