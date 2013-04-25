@@ -10,6 +10,7 @@ var t = {
 	'ALLOW_SKIPPING': 'Tillåt hoppande',
 	'ALL_GROUPS': '- Alla grupper -',
 	'ALL_USERS': '- Alla användare -',
+        'ALL'      : '-- Alla --',
 	'ASSIGNMENTS': 'Tilldelning',
 	'ASS_ERR_GROUP_EXISTS': 'En grupp med samma namn existerar redan. <br />Du kan grunda en grupp med nytt namn <br />eller addera valda användare till en redan existerande grupp.',
   	'ASS_NOTIFY_ERR'      : '"Skicka meddelande" måste verifieras ifall "OCL" är.',
