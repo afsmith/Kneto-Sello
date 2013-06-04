@@ -40,6 +40,7 @@ var getObjKeys = function(object) {
 };
 
 var swfobject;
+var closeSent = false;
 
 /**
  * Array.unique method. Returns an array without duplicate values.
@@ -565,7 +566,8 @@ function Ing() {
                                                     var ocl_token = Ing.findInDOM().config.ocl_token;
                                                     var download_url = value.download_url;
                                                     if (ocl_token) {
-                                                        download_url += '?token=' + ocl_token;
+														if (download_url.indexOf('?token=') < 0)
+                                                        	download_url += '?token=' + ocl_token;
                                                     }
                                                        $('#'+key).append(' <button class="segmentDownload" onclick="window.location.href=\''+download_url+'\'" title="' + t.SEGMENT_DOWNLOAD + '"></button>');
                                                    }
@@ -600,7 +602,8 @@ function Ing() {
                                                         var ocl_token = Ing.findInDOM().config.ocl_token;
                                                         var download_url = value.download_url;
                                                         if (ocl_token) {
-                                                            download_url += '?token=' + ocl_token;
+															if (download_url.indexOf('?token=') < 0)
+                                                            	download_url += '?token=' + ocl_token;
                                                         }
                                                        $('#'+key).append(' <button class="segmentDownload" onclick="window.location.href=\''+download_url+'\'" title="' + t.SEGMENT_DOWNLOAD + '"></button>');
                                                    }
@@ -641,7 +644,50 @@ function Ing() {
                             break;
                         default:
                             break;
-                    }
+                    }					
+					/* Handle click on player close button */
+					$(".close").click(function(event) {
+						event.preventDefault();
+						var closeLink = $(this);
+						if(ing.data.lastEventId) {
+							json.parent_event_id = ing.data.lastEventId;
+							ing.data.lastEventId = false;
+							ing.data.lastEvent = false;
+							json.event_type = 'LEAVING';
+							$.ajax({
+								type: 'POST',
+								url: '/tracking/events/create/?token='+app.config.ocl_token,
+								data: JSON.stringify(json),
+								timeout: 2000,
+								success: function(data) {
+									app.module.showHideSignOffButton(moduleID);
+									closeSent = true;
+									window.location.href = closeLink.attr('href');
+								},
+								async: false
+							});
+						} else {
+							ing.data.lastEvent = json;
+							window.location.href = closeLink.attr('href');
+						}
+					});
+					/* Send tracking data on exit */
+					window.onbeforeunload = function() {
+						if(!closeSent) {
+							json.parent_event_id = ing.data.lastEventId;
+							ing.data.lastEventId = false;
+							ing.data.lastEvent = false;
+							json.event_type = 'LEAVING';
+							$.ajax({
+								type: 'POST',
+								url: '/tracking/events/create/?token='+app.config.ocl_token,
+								data: JSON.stringify(json),
+								timeout: 2000,
+								success: function(data){ app.module.showHideSignOffButton(moduleID); },
+								async: false
+							});
+						}
+					}
                 } else if (ing.config.player.mode == "flash" && msg.trim() == "PLAYLIST_COMPLETE") {
                 	var msgBody,
                 		module,
@@ -834,13 +880,14 @@ function Ing() {
 	                    }
 	                }).trigger('click');
 	
-	                var TO = false;
-	                function resizeThisModal() {
-	                    $(".nyroModalCont iframe").width( $(window).width()-25 ).height( $(window).height()-115 );
-	                    $(".nyroModalCont .playerHTML").width( $(".nyroModalCont iframe").width()+25 ).height( $(".nyroModalCont iframe").height()+95 );
-	                    setTimeout("if ($.nmTop()) { $.nmTop().resize(true) }", 150);
-	                }	
+	                	
 	                currentPage = $('.playerPages').siblings('iframe').attr('src').match(/p-([0-9]+)/);
+                }
+                var TO = false;
+                function resizeThisModal() {
+                    $(".nyroModalCont iframe").width( $(window).width()-25 ).height( $(window).height()-115 );
+                    $(".nyroModalCont .playerHTML").width( $(".nyroModalCont iframe").width()+25 ).height( $(".nyroModalCont iframe").height()+95 );
+                    setTimeout("if ($.nmTop()) { $.nmTop().resize(true) }", 150);
                 }
 
                 function checkImageWidth() { //repositioning images in the iframe
@@ -1051,6 +1098,7 @@ function Ing() {
                     } else title = $('#rollerItems li.active').attr('title'); 
                     
                     if (ing.config.player.mode == "html5") {
+						app.player.enterFullScreen(document.getElementById('video'));
                     	var p = els.getObj(new els.playerHTML5({'src': url,
         						'title': title})),
 				        	id = p.attr('id'),
@@ -2558,6 +2606,7 @@ function Ing() {
                     active.click();
                 }
 
+                //parseModulesAssignment();
                 Ing.findInDOM().helpers.throbber($('.'+ moduleId), 'remove');
             });
         }
@@ -4486,4 +4535,3 @@ function Ing() {
         $(this).trigger(event, args);
     }
 };
-

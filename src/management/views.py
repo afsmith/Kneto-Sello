@@ -116,7 +116,9 @@ def create_user(request):
             user.first_name = form.cleaned_data['first_name']
             user.last_name = form.cleaned_data['last_name']
             user.save()
-            user.groups.add(form.cleaned_data['group'])
+            g = form.cleaned_data['group']
+            user.groups.add(g)
+            g.groupprofile.save()
 
             profile = models.UserProfile(
                 user=user,
@@ -359,7 +361,11 @@ def delete_user(request, id):
                         send_email(recipient=user, user=request.user,
                                 msg_ident=MailTemplate.MSG_IDENT_GOODBYE)
                     Report.objects.filter(user=user).update(is_deleted=True, user=None)
+                    groups = user.groups
                     user.delete()
+                    for g in groups:
+                        g.groupprofile.save()
+
                     return bls_django.HttpJsonOkResponse()
             except User.DoesNotExist:
                 return bls_django.HttpJsonResponse({'status': 'ERROR',
@@ -559,6 +565,7 @@ def memberships(request, group_id):
             try:
                 user = User.objects.get(pk=id)
                 user.groups.add(group)
+                group.groupprofile.save()
             except User.DoesNotExist:
                 transaction.rollback()
                 response = {
@@ -574,6 +581,7 @@ def memberships(request, group_id):
             try:
                 user = User.objects.get(pk=id)
                 user.groups.remove(group)
+                group.groupprofile.save()
             except User.DoesNotExist:
                 transaction.rollback()
                 response = {
@@ -616,8 +624,11 @@ def create_group(request):
         if form.is_valid():
             group = Group(name=form.cleaned_data['name'])
             group.save()
+            (gp, created) = models.GroupProfile.objects.get_or_create(group=group)
+            gp.save()
 
             request.user.groups.add(group)
+            group.groupprofile.save()
             request.user.save()
 
             groupProfile = models.UserGroupProfile(user=request.user,

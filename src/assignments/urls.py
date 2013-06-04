@@ -20,7 +20,8 @@ urlpatterns = patterns('',
     url(r'^user/progress/$', views.user_progress, name='assignments-user_progress'),
     url(r'^module/progress/$', views.module_progress, name='assignments-module_progress'),
     url(r'^users_per_module/$', views.users_per_module, name='assignments-users_per_module'),
-    url(r'^published_modules/$', views.published_modules, name='assignments-published_modules')
+    url(r'^published_modules/$', views.published_modules, name='assignments-published_modules'),
+    url(r'^group_status/(?P<group_id>\d+)$', views.group_status, name='assignments-group_status'),
 )
 
 

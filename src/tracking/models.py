@@ -1,6 +1,6 @@
 
 from django.contrib.auth import models as auth_models
-from django.db import models
+from django.db import models, connection
 from django import http
 from content.course_states import Active, ActiveAssign, ActiveInUse
 from content.models import Segment, Course
@@ -99,10 +99,15 @@ class TrackingEventService(object):
 
 
 def segments_count(courses_with_learnt_segments, course_id):
-    for course in courses_with_learnt_segments:
-        if course.id == course_id:
-            return course.segments_count
-    return 0
+    course_outs = filter(lambda c: c.id==course_id, courses_with_learnt_segments)
+    try:
+        return course_outs[0].segments_count
+    except IndexError, e:
+        return 0
+    #for course in courses_with_learnt_segments:
+    #    if course.id == course_id:
+    #        return course.segments_count
+    #return 0
 
 def active_modules_with_track_ratio_sorted_by_last_event(user_id):
     courses_with_all_segments = Course.objects.raw("""
@@ -164,7 +169,7 @@ def active_modules_with_track_ratio(user_id, group_id):
         join content_segment segment on segment.course_id = course_group.course_id
         left join tracking_trackingevent trackingevent on trackingevent.segment_id = segment.id
             and trackingevent.event_type = 'END'
-            and trackingevent.lesson_status = 'completed'
+            and trackingevent.lesson_status = 'completed' 
             and trackingevent.participant_id = %d
         where user_group.user_id = %d
         and auth_group.id = %d
@@ -172,10 +177,13 @@ def active_modules_with_track_ratio(user_id, group_id):
         group by course_group.course_id""" % (int(user_id), int(user_id), int(group_id)))
 
     result = []
-    for course in courses_with_all_segments:
-        result.append({"id": course.id,
-                       "ip_count": course.used_ips,
-                       "ratio":(float(segments_count(courses_with_learnt_segments, course.id)) / float(course.segments_count))})
+    #for course in courses_with_all_segments:
+    def append_result(course):
+        return {"id": course.id,
+                "ip_count": course.used_ips,
+                "ratio":(float(segments_count(courses_with_learnt_segments, course.id)) / float(course.segments_count))}
+    result = map(append_result, courses_with_all_segments)
+    
 
     return result
 
@@ -190,7 +198,7 @@ def module_with_track_ratio(user_id, course_id):
         join content_segment segment on segment.course_id = course_group.course_id
         left join tracking_trackingevent trackingevent on trackingevent.segment_id = segment.id
             and trackingevent.event_type = 'END'
-            and trackingevent.lesson_status = 'completed'
+            and trackingevent.lesson_status = 'completed' 
             and trackingevent.participant_id = %d
         where user_group.user_id = %d
         and course_group.course_id = %d
@@ -200,6 +208,83 @@ def module_with_track_ratio(user_id, course_id):
         return float(segments_count(course_with_learnt_segments, course.id)) / float(segment_count)
     else:
         return 0
+
+
+def module_with_page_level_track_ratio(user_id, course_id):
+    segment_count = Segment.objects.filter(course=course_id, track=0).count()
+
+    params_1 = (int(user_id), int(user_id), int(course_id))
+    learnt_segments = Course.objects.raw("""
+        SELECT course_group.course_id AS id,
+            /*COUNT(distinct trackingevent.segment_id) AS segments_count,*/
+            trackingevent.segment_id AS segment_id
+        FROM content_coursegroup course_group
+        JOIN auth_group auth_group
+            ON auth_group.id = course_group.group_id
+        JOIN auth_user_groups user_group
+            ON user_group.group_id = course_group.group_id
+        JOIN content_segment segment
+            ON segment.course_id = course_group.course_id
+        LEFT JOIN tracking_trackingevent trackingevent
+            ON trackingevent.segment_id = segment.id
+            AND trackingevent.event_type = 'END'
+            AND trackingevent.lesson_status = 'completed'
+            AND trackingevent.participant_id = %s
+        WHERE user_group.user_id = %s
+        AND course_group.course_id = %s
+        AND track = 0
+        GROUP BY course_group.course_id, trackingevent.segment_id""", params_1)
+
+    learnt_segs = []  # list of learnt segments IDs
+    for s in learnt_segments:
+        if s.segment_id > 0:
+            learnt_segs.append(str(s.segment_id))
+    total_learnt = len(learnt_segs)
+
+    additional_condition = '/**/'
+    if total_learnt > 0:
+        additional_condition = ('AND trackingevent.segment_id NOT IN (%s)'
+                                % ', '.join(learnt_segs))
+    params_2 = (int(user_id), additional_condition, int(user_id), int(course_id))
+    learning_segments = Course.objects.raw("""
+        SELECT course_group.course_id AS id,
+            trackingevent.segment_id AS segment_id,
+            MAX(trackingevent.page_number) AS page_number,
+            file.pages_num AS total_pages
+        FROM content_coursegroup course_group
+        JOIN auth_group auth_group
+            ON auth_group.id = course_group.group_id
+        JOIN auth_user_groups user_group
+            ON user_group.group_id = course_group.group_id
+        JOIN content_segment segment
+            ON segment.course_id = course_group.course_id
+        JOIN content_file file
+            ON file.id = segment.file_id
+        LEFT JOIN tracking_trackingevent trackingevent
+            ON trackingevent.segment_id = segment.id
+            AND trackingevent.event_type = 'PAGE'
+            AND trackingevent.participant_id = %d
+            %s
+        WHERE user_group.user_id = %d
+        AND course_group.course_id = %d
+        AND track = 0
+        GROUP BY course_group.course_id, trackingevent.segment_id,
+            file.pages_num""" % params_2)
+
+    learning_segs = []  # list of learning segment ratios
+    total_learning_ratio = 0
+    for s in learning_segments:
+        if s.segment_id > 0:
+            ratio = float(s.page_number) / float(s.total_pages)
+            total_learning_ratio += ratio
+            learning_segs.append(ratio)
+    total_learning = len(learning_segs)
+
+    if total_learnt > 0 or total_learning > 0:
+        return float(total_learnt + total_learning_ratio) / float(segment_count)
+    else:
+        return 0
+
 
 class ScormActivityDetails(models.Model):
 

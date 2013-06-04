@@ -17,12 +17,12 @@ $(document).ready(function() {
 //    }
 	
 	var searchDefault = $('#groupFilter').val();
-    $('#moduleFilter').focus(function() {
+    $('#moduleFilter').live('focus', function() {
     	if(searchDefault == $('#moduleFilter').val()) {
     		$('#moduleFilter').val('');
     	}
     });
-    $('#moduleFilter').blur(function() {
+    $('#moduleFilter').live('blur', function() {
     	if($('#moduleFilter').val() == '') {
     		$('#moduleFilter').val(searchDefault);
     	}
@@ -104,8 +104,14 @@ $(document).ready(function() {
     	if (!$(this).hasClass('active')) {
 	    	$('#groupsList li.active').toggleClass('active', false);
 	    	$(this).toggleClass('active', true);
-	    	$('#completionDetails').children('table:not(.hidden)').toggleClass('hidden', true);
-	    	$('#completionDetails').children('table[value=' + $(this).attr('value') + ']').toggleClass('hidden', false);
+            $.get('assignments/group_status/'+ $(this).attr('value'),
+                  [],
+                  function(data) {
+                    $('#groupDetailsWrapper').html(data);
+                    console.log(data);
+            });
+	    //	$('#completionDetails').children('table:not(.hidden)').toggleClass('hidden', true);
+	    //	$('#completionDetails').children('table[value=' + $(this).attr('value') + ']').toggleClass('hidden', false);
 	    	$('#moduleFilter').trigger('keyup');
     	}
     });
@@ -119,7 +125,7 @@ $(document).ready(function() {
 			}
 		});
 	});
-	$('#moduleFilter').keyup(function(){
+	$('#moduleFilter').live('keyup', function(){
 		$('#completionDetails table:not(.hidden)').find('.titleColumn').each(function(){
 			if($(this).text().toLowerCase().indexOf($.trim($('#moduleFilter').val().toLowerCase())) == -1 
 				&& $('#moduleFilter').val() != searchDefault){

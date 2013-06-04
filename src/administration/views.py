@@ -502,7 +502,10 @@ def add_action(data):
             if check_group_name_existence(group_name):
                 response['message'] = GROUP_EXISTS_MESSAGE%(group_name, group_dn)
             else:
-                auth_models.Group(name=group_name).save()
+                g = auth_models.Group(name=group_name)
+                g.save()
+                (gp, created) = manage_models.GroupProfile.objects.get_or_create(group=g)
+                gp.save()
 
         else:
             response['status']='ERROR'
@@ -561,7 +564,10 @@ def edit_action(data):
             if check_group_name_existence(group_name):
                 response['message'] = GROUP_EXISTS_MESSAGE%(group_name, group_dn)
             else:
-                auth_models.Group(name=group_name).save()
+                g = auth_models.Group(name=group_name)
+                g.save()
+                (gp, created) = manage_models.GroupProfile.objects.get_or_create(group=g)
+                gp.save()
 
         else:
             response['status']='ERROR'

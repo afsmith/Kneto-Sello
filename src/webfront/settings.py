@@ -28,11 +28,18 @@ logger.setLevel(logging.DEBUG)
 
 ##################
 
+from fnmatch import fnmatch
+class glob_list(list):
+    def __contains__(self, key):
+        for elt in self:
+            if fnmatch(key, elt): return True
+        return False
+INTERNAL_IPS = glob_list(['127.0.0.1', '192.168.*.*'])
 NAME = ''
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-DEBUG = False
-TEMPLATE_DEBUG = False
+DEBUG = True 
+TEMPLATE_DEBUG = True 
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -146,6 +153,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     # The HTTP 403 exception
     'plato_common.middleware.Http403Middleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'webfront.urls'
@@ -174,6 +182,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django_auth_ldap',
+    'debug_toolbar',
 
     # Third-party applications.
 #    'registration',
@@ -198,7 +207,23 @@ INSTALLED_APPS = (
     'self_register',
     'longerusername',
 )
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar.panels.version.VersionDebugPanel',
+    'debug_toolbar.panels.timer.TimerDebugPanel',
+    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+    'debug_toolbar.panels.headers.HeaderDebugPanel',
+#    'debug_toolbar.panels.profiling.ProfilingDebugPanel',
+    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+    'debug_toolbar.panels.sql.SQLDebugPanel',
+    'debug_toolbar.panels.template.TemplateDebugPanel',
+    'debug_toolbar.panels.cache.CacheDebugPanel',
+    'debug_toolbar.panels.signals.SignalDebugPanel',
+    'debug_toolbar.panels.logger.LoggingPanel',
+    )
 
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,
+}
 REGISTRATION_OPEN = True
 SALES_PLUS = True
 ENABLE_MODULES_SIGNOFF = True

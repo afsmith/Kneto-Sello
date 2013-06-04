@@ -27,7 +27,6 @@ from content import utils
 from messages_custom.models import MailTemplate
 from messages_custom.utils import send_email, send_message
 
-
 class OneClickLinkToken(models.Model):
 
     user = models.ForeignKey(User)
@@ -132,13 +131,16 @@ class UserProfile(models.Model):
     )
 
     user = models.OneToOneField(User, primary_key=True)
-    role = models.IntegerField(_('User role'), choices=ROLES)
+    role = models.IntegerField(_('User role'), choices=ROLES, db_index=True)
     phone = models.CharField(_('Phone number'), max_length=20, blank=True)
     language = models.CharField(_('Language'), choices=settings.LANGUAGES, max_length=7)
     ldap_user = models.BooleanField(_('User from LDAP'), default=False)
     has_card = models.BooleanField(_('Has card'), default=False)
 
     objects = UserProfileManager()
+
+    #class Meta:
+    #    index_together = [['group', 'role']]
 
     @property
     def is_superadmin(self):
@@ -189,6 +191,13 @@ class GroupProfile(models.Model):
     """
     group = models.OneToOneField(Group, primary_key=True)
     self_register_enabled = models.BooleanField()
+
+    user_count = models.IntegerField(default=0, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+
+        self.user_count = self.group.user_set.filter(userprofile__role__gt=UserProfile.ROLE_ADMIN).count()
+        super(GroupProfile, self).save(*args, **kwargs)
 
 
 def serialize_user(user):
@@ -414,6 +423,7 @@ class UserImporter(object):
                 if row['username'] and not row['first_name'] and not row['last_name'] and not row['email']:
                     if self.group not in user.groups.all():
                         user.groups.add(self.group)
+                        self.group.groupprofile.save()
                         user.save()
 
 #AFS                        self._send_add_to_group_internal_message(user)
@@ -441,6 +451,7 @@ class UserImporter(object):
                         #
                         if self.group not in user.groups.all():
                             user.groups.add(self.group)
+                            self.group.groupprofile.save()
                             user.save()
 
 #AFS                            self._send_add_to_group_internal_message(user)
@@ -490,6 +501,7 @@ class UserImporter(object):
                 user.first_name = first_name
                 user.last_name = last_name
                 user.groups.add(self.group)
+                self.group.groupprofile.save()
                 user.save()
 
                 userProfile = UserProfile(role=UserProfile.ROLE_USER, user=user, phone=phone)
@@ -579,3 +591,4 @@ class UnicodeReader:
 
     def __iter__(self):
         return self
+

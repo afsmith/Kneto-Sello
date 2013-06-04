@@ -56,6 +56,7 @@ class LDAPSynchronizer(object):
                                                         userprofile__ldap_user=True):
                 for group in user.groups.filter(name__in=LDAPGroupConfig.objects.all().values('name')):
                     user.groups.remove(group)
+                    group.groupprofile.save()
                 user.save()
                 #user.groups -=
                 #for group_conf in LDAPGroupConfig.objects.all():
@@ -95,6 +96,7 @@ class LDAPSynchronizer(object):
                                 group, _ = auth_models.Group.objects.get_or_create(name=group_config.name)
                                 #groups_set.add(group)
                                 db_user.groups.add(group)
+                                group.groupprofile.save()
 
                         #db_user.groups = groups_set
                         db_user.save()

@@ -371,8 +371,12 @@ $(document).ready(function(){
     		assigned_modules = app.data.loadedAssignments[group_id],
     		target = event.delegateTarget,
     		can_be_assigned = [];
+        Ing.findInDOM().helpers.throbber(event.delegateTarget);
 //        clear_search();
-        if (group_id < 0 && group_id != -2) return;
+        if (group_id < 0 && group_id != -2) {
+            Ing.findInDOM().helpers.throbber(event.delegateTarget, 'remove');
+            return
+        }
         $.each($(target).find('li'), function(index){
         	var id = $(this).attr('id'),
         		map_obj = app.data.map[id];
@@ -399,6 +403,7 @@ $(document).ready(function(){
             	}
             }
         });
+        Ing.findInDOM().helpers.throbber(event.delegateTarget, 'remove');
     };
     
     var showConfirmationWindow = function(backToUsers) {
@@ -870,7 +875,7 @@ $(document).ready(function(){
         $('ul.allModules li span.moduleCheck input').attr('checked', false);
         $('#groupInformation').removeClass('hidden').show();
         if (group_id == -2) {
-            group_name = t.ALL ;
+            group_name = t.ALL ; 
         } else {
             group_name = app.data.groups[group_id]['name'];
         }

@@ -42,6 +42,7 @@ from reports.models import Report
 from management.forms import OCLExpirationForm
 
 
+
 logger = logging.getLogger("assignments")
 
 """
@@ -417,44 +418,44 @@ def admin_status(request):
 
     group_data = {}
     
-    for group in groups:
+    def build_group_data(group):
         group_data[group] = {}
         group_data[group]['user_count'] = 0
         group_data[group]['admin_count'] = 0
         group_data[group]['module_ratio'] = dict()
         group_data[group]['id'] = group.id
-        group_data[group]['courses']= group.course_set.annotate(
-            segments_count=db_models.aggregates.Count("segment")).filter(
-                (Q(state_code=ActiveAssign.CODE) |
-                 Q(state_code=ActiveInUse.CODE)) &
-                ~db_models.query_utils.Q(segments_count = 0)).order_by('title')
+        #group_data[group]['courses']= group.course_set.annotate(
+        #    segments_count=db_models.aggregates.Count("segment")).filter(
+        #        (Q(state_code=ActiveAssign.CODE) |
+        #         Q(state_code=ActiveInUse.CODE)) &
+        #        ~db_models.query_utils.Q(segments_count = 0)).order_by('title')
         group_data[group]['users_data'] = []
-        for user in group.user_set.all():
-            if user.get_profile().role == manage_models.UserProfile.ROLE_USER \
-            or user.get_profile().role == manage_models.UserProfile.ROLE_USER_PLUS:
-                group_data[group]['user_count'] += 1
-                mods = active_modules_with_track_ratio(user.id, group.id)
-                if len(mods) > 0:
-                    mods.reverse()
-                    
-                for row in mods:
-                    if isinstance(group_data[group]['module_ratio'].get(row['id']), list):
-                        group_data[group]['module_ratio'][row['id']].append(float(row['ratio']))
-                    else:
-                        group_data[group]['module_ratio'][row['id']] = [float(row['ratio'])]
-
-                group_data[group]['users_data'].append([user, mods])
-            else:
-                group_data[group]['admin_count'] += 1
+#        def map_users(user):
+#            if user.get_profile().role > manage_models.UserProfile.ROLE_ADMIN:
+#                #group_data[group]['user_count'] += 1
+#                mods = active_modules_with_track_ratio(user.id, group.id)
+#                if len(mods) > 0:
+#                    mods.reverse()
+#                    
+#                for row in mods:
+#                    try:
+#                        group_data[group]['module_ratio'][row['id']].append(float(row['ratio']))
+#                    except KeyError:
+#                        group_data[group]['module_ratio'][row['id']] = [float(row['ratio'])]
+#         
+#                group_data[group]['users_data'].append([user, mods])
+#            else:
+#            #    pass
+#                group_data[group]['admin_count'] += 1
+#        #map(map_users, group.user_set.all())
+        group_data[group]['user_count'] = group.groupprofile.user_count
         
         group_data[group]['users_data'].sort(lambda x,y : cmp(x[0].last_name.lower(), y[0].last_name.lower()))
         
-        for module in group_data[group]['module_ratio']:
-            overall_ratio = 0
-            for ratio in group_data[group]['module_ratio'][module]:
-                overall_ratio += ratio
-    
-            group_data[group]['module_ratio'][module] = progress_formatter(overall_ratio / len(group_data[group]['module_ratio'][module]))
+        #for module, ratios in group_data[group]['module_ratio'].items():
+        #    group_data[group]['module_ratio'][module] = progress_formatter(sum(ratios) / len(ratios))
+
+    map(build_group_data, groups)
         
     ctx = {
         'data': group_data,
@@ -466,6 +467,42 @@ def admin_status(request):
     }
 
     return direct_to_template(request, 'assignments/admin_status.html', ctx)
+
+@decorators.is_admin_or_superadmin
+@http_decorators.require_GET
+def group_status(request, group_id):
+    group = get_object_or_404(auth_models.Group, pk=group_id)
+    group_data = {}
+    group_data[group] = {}
+    group_data[group]['users_data'] = []
+    group_data[group]['courses']= group.course_set.annotate(
+        segments_count=db_models.aggregates.Count("segment")).filter(
+            (Q(state_code=ActiveAssign.CODE) |
+                Q(state_code=ActiveInUse.CODE)) &
+            ~db_models.query_utils.Q(segments_count = 0)).order_by('title')
+
+    for user in group.user_set.all():
+        group_data[group]['module_ratio'] = {}
+        if user.get_profile().role > manage_models.UserProfile.ROLE_ADMIN:
+            mods = active_modules_with_track_ratio(user.id, group.id)
+            if len(mods) > 0:
+                mods.reverse()
+                
+            for row in mods:
+                try:
+                    group_data[group]['module_ratio'][row['id']].append(float(row['ratio']))
+                except KeyError:
+                    group_data[group]['module_ratio'][row['id']] = [float(row['ratio'])]
+    
+            group_data[group]['users_data'].append([user, mods])
+
+    group_data[group]['users_data'].sort(lambda x,y : cmp(x[0].last_name.lower(), y[0].last_name.lower()))
+
+    for module, ratios in group_data[group]['module_ratio'].items():
+        group_data[group]['module_ratio'][module] = progress_formatter(sum(ratios) / len(ratios))
+
+    return direct_to_template(request, 'assignments/group_details.html',
+                              {'data': group_data})
 
 @http_decorators.require_GET
 def module_progress(request):

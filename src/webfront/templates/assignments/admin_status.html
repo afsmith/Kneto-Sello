@@ -18,12 +18,12 @@
       </div>
     </form>
     <span class="resultHead groupName">{% trans "Group name" %}</span>
-    <span class="resultHead counter">{% trans "Recipient/Sender" %}</span>
+    <span class="resultHead counter">{% trans "Recipient" %}</span>
     <ul id="groupsList" class="result shadow-gray itemsList">
 	{% for group in my_groups %}
 	    <li value="{{ group.id }}" class="{% cycle 'odd' 'even' %}{% if forloop.first %} first{% endif %}{% if forloop.last %} last {% endif %}" type="[{% for user in data|get_value:group|get_value:"users_data" %}{{ user.0.id }}{% if not forloop.last %},{% endif %}{% endfor %}]" my_group="{{ group.is_my_group }}">
 		    <span class="groupName">{{ group.name }}</span>
-		    <span class="counter">{{ data|get_value:group|get_value:'user_count' }}/{{ data|get_value:group|get_value:'admin_count' }}</span>
+		    <span class="counter">{{ data|get_value:group|get_value:'user_count' }}</span>
 	    </li>
 	{% endfor %}
 	</ul>
@@ -32,7 +32,7 @@
 	    {% for group in groups %}
 	        <li value="{{ group.id }}" class="{% cycle 'odd' 'even' %}{% if forloop.first %} first{% endif %}{% if forloop.last %} last {% endif %}" type="[{% for user in data|get_value:group|get_value:"users_data" %}{{ user.0.id }}{% if not forloop.last %},{% endif %}{% endfor %}]" my_group="{{ group.is_my_group }}">
 	            <span class="groupName">{{ group.name }}</span>
-	            <span class="counter">{{ data|get_value:group|get_value:'user_count' }}/{{ data|get_value:group|get_value:'admin_count' }}</span>
+	            <span class="counter">{{ data|get_value:group|get_value:'user_count' }}</span>
 	        </li>
 	    {% endfor %}
 	    </ul>
@@ -44,6 +44,7 @@
 <div id="defaultLabel"><span class="innerText">{% trans "No group selected" %}</span></div>
 
 <div id="groupDetailsWrapper" class="hidden">
+    <!--
     <h1 class="fleft">{% trans "Group status" %}</h1>
     <a href="#" id="sendMessageToGroup" class="button-normal button-big-no-width fright">
       <img src="{{ MEDIA_URL }}img/blank.gif" class="postIco icon" alt="" style="display: inline;" />{% trans "To group" %}
@@ -81,6 +82,7 @@
       {% endfor %}
       </div>
     </div>
+    -->
 </div>
 
 <div class="containerEnd"></div>

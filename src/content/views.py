@@ -573,7 +573,9 @@ def save_manage_content(request):
     file.tag_set.add(add_if_not_exist(file.owner.first_name + " " + file.owner.last_name, is_default=True, type=tagging_models.TYPE_OWNER))
     file.groups.clear()
     for group_id in data['selected_groups_ids']:
-        file.groups.add(auth_models.Group.objects.get(id=group_id))
+        g = auth_models.Group.objects.get(id=group_id)
+        file.groups.add(g)
+        g.groupprofile.save()
         file.tag_set.add(add_if_not_exist(auth_models.Group.objects.get(id=group_id).name, is_default=True, type=tagging_models.TYPE_GROUP))
 
     bind_tags_with_file(file, data['tags_ids'], data['new_tags_names'])
